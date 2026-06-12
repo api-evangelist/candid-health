@@ -1,0 +1,47 @@
+specificationVersion: '0.1'
+id: candid-health-plans-pricing
+name: Candid Health Plans & Pricing
+description: >-
+  Candid Health operates on an enterprise SaaS model targeting healthcare
+  providers, digital health companies, and EHR platforms. Pricing is not
+  publicly disclosed and is customized based on claim volume, practice size,
+  and services required. Prospective customers must request a demo to obtain
+  commercial terms.
+url: https://candidhealth.com/integrations
+contact: https://candidhealth.com/
+
+plans:
+
+  - name: Enterprise / Custom
+    description: >-
+      Candid Health's primary commercial offering for healthcare providers and
+      digital health organizations. Pricing is based on claim volume, practice
+      size, and the specific RCM services and API capabilities needed.
+      Includes access to the full API suite covering eligibility, encounters,
+      patient collections, charge capture, exports, credentialing, and more.
+    type: enterprise
+    pricing: contact-sales
+    url: https://candidhealth.com/integrations
+    features:
+      - Full REST API access for all RCM workflows
+      - Claims submission and management
+      - Real-time eligibility verification (Availity, Change Healthcare)
+      - Patient collections and invoicing
+      - Charge capture and bundles
+      - Encounters management
+      - Credentialing management
+      - Exports and reporting
+      - Custom schemas and data fields
+      - Tasks and workflow automation
+      - Staging and production environments
+      - OAuth 2.0 authentication
+      - SDKs: Python, Node.js, Ruby, C#
+      - Dedicated support via support@joincandidhealth.com
+      - SLA-backed support tickets
+      - SOC 1 Type 1 certified
+
+notes:
+  - Candid Health does not publish public pricing tiers on their website.
+  - All commercial terms require contacting the Candid sales team.
+  - Demo available at candidhealth.com.
+  - contact: support@joincandidhealth.com

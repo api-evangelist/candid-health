@@ -1,0 +1,196 @@
+aid: candid-health
+name: Candid Health
+description: >-
+  Candid Health is a medical billing automation platform providing REST APIs for
+  submitting claims, checking real-time eligibility, managing encounters,
+  processing remittances, handling prior authorizations, patient collections,
+  credentialing, and full revenue cycle management for healthcare providers.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/candid-health/refs/heads/main/apis.yml
+created: 2026-06-12
+modified: 2026-06-12
+specificationVersion: '0.19'
+tags:
+  - Medical Billing
+  - Revenue Cycle Management
+  - Healthcare
+  - Claims
+  - Eligibility
+  - Prior Authorization
+  - Remittance
+  - Patient Collections
+  - Credentialing
+  - Insurance
+
+apis:
+
+  - name: Candid Health Eligibility API
+    description: >-
+      Real-time eligibility verification via Availity and Change Healthcare.
+      Supports batch eligibility checks, polling, payer search, and eligibility
+      recommendations for insurance coverage verification.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Eligibility
+      - Insurance
+      - Healthcare
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+      - type: OpenAPI
+        url: https://docs.joincandidhealth.com/openapi
+
+  - name: Candid Health Encounters API
+    description: >-
+      Create and manage professional and institutional encounter records
+      including diagnoses, service lines, encounter attachments, providers,
+      and supplemental information for claims billing.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Encounters
+      - Claims
+      - Medical Billing
+      - Healthcare
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+      - type: OpenAPI
+        url: https://docs.joincandidhealth.com/openapi
+
+  - name: Candid Health Patient Collections API
+    description: >-
+      Manage patient invoicing, payments, refunds, and accounts receivable.
+      Automates patient billing workflows and tracks outstanding balances.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Patient Collections
+      - Payments
+      - Invoicing
+      - Healthcare
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/patient-collections
+
+  - name: Candid Health Charge Capture API
+    description: >-
+      Create and manage charge capture claims and bundles for batch claim
+      processing. Enables claim creation from clinical encounters.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Claims
+      - Charge Capture
+      - Medical Billing
+      - Healthcare
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1
+
+  - name: Candid Health Exports API
+    description: >-
+      Download CSV exports of claim status changes, financial data, and
+      reporting information for revenue cycle analytics and reconciliation.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/exports/v-3
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Exports
+      - Reporting
+      - Analytics
+      - Healthcare
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/exports/v-3
+
+  - name: Candid Health Patients API
+    description: >-
+      Core patient management and search capabilities including coverages,
+      appointments, images, notes, lists, and tagging for pre-encounter workflows.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/patients/v-1
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Patients
+      - Healthcare
+      - Pre-Encounter
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/patients/v-1
+
+  - name: Candid Health Credentialing API
+    description: >-
+      Manage provider and facility credentialing spans, organization providers,
+      service facilities, contracts, payers, and fee schedules.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/api-reference/credentialing/v-2
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Credentialing
+      - Providers
+      - Healthcare
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/api-reference/credentialing/v-2
+
+  - name: Candid Health Auth API
+    description: >-
+      OAuth 2.0 client credentials token generation for authenticating API
+      access to all Candid Health REST endpoints.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.joincandidhealth.com/introduction/getting-started
+    baseURL: https://api.joincandidhealth.com
+    tags:
+      - Authentication
+      - OAuth
+      - Security
+    properties:
+      - type: Documentation
+        url: https://docs.joincandidhealth.com/introduction/getting-started
+
+common:
+
+  - type: Website
+    url: https://candidhealth.com/
+
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/
+
+  - type: GitHub
+    url: https://github.com/candidhealth
+
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/candid-health
+
+  - type: Blog
+    url: https://candidhealth.com/blog
+
+  - type: Pricing
+    url: https://candidhealth.com/integrations
+
+  - type: StatusPage
+    url: https://status.joincandidhealth.com
+
+  - type: X
+    url: https://x.com/candid_health
+
+  - type: Plans
+    url: plans/candid-health-plans-pricing.yml
+
+  - type: RateLimits
+    url: rate-limits/candid-health-rate-limits.yml
+
+  - type: FinOps
+    url: finops/candid-health-finops.yml
+
+maintainers:
+
+  - name: Kin Lane
+    email: kin@apievangelist.com

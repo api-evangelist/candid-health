@@ -1,0 +1,97 @@
+specificationVersion: '1.0'
+id: candid-health-finops
+name: Candid Health FinOps
+description: >-
+  FinOps Framework FOCUS-aligned cost and usage guidance for Candid Health API
+  consumption. Candid Health uses a custom enterprise pricing model without
+  published per-call costs. Cost management focuses on claim volume, API
+  throughput, and RCM efficiency metrics.
+url: https://candidhealth.com/integrations
+
+billing:
+  model: enterprise-contract
+  visibility: private
+  publicPricing: false
+  contactSales: https://candidhealth.com/
+  notes: >-
+    Candid Health does not publish per-API-call or per-claim pricing publicly.
+    All billing is via negotiated enterprise contracts tied to claim volume
+    and services enabled. Customers should work with their account manager
+    to understand unit economics per encounter, eligibility check, or export.
+
+costDrivers:
+
+  - name: Claim Volume
+    description: >-
+      Primary cost driver. Enterprise contracts are typically structured around
+      the number of claims or encounters submitted per month. Higher claim
+      volumes may trigger tiered pricing or volume discounts.
+    unit: claims-per-month
+    impact: high
+
+  - name: Eligibility Check Volume
+    description: >-
+      Real-time eligibility verifications via Availity and Change Healthcare
+      may carry per-transaction costs or be bundled within the contract.
+      Batch eligibility checks reduce per-verification overhead.
+    unit: verifications-per-month
+    impact: medium
+
+  - name: API Call Volume
+    description: >-
+      All API calls are rate-limited to 1000 requests per 10-second rolling
+      window per IP. High-volume integrations consuming near the rate limit
+      continuously may indicate need for architectural review.
+    unit: requests-per-month
+    impact: medium
+
+  - name: Data Exports
+    description: >-
+      CSV export volume and frequency for claims, financial reporting, and
+      reconciliation data. Large or frequent export jobs may impact
+      operational costs depending on contract terms.
+    unit: exports-per-month
+    impact: low
+
+  - name: Support Tier
+    description: >-
+      Support SLAs (ticket response times, dedicated support) may be included
+      or add-on depending on contract level. SOC 1 certified environment
+      compliance is included.
+    unit: contract-included
+    impact: low
+
+optimization:
+
+  - name: Batch Eligibility Checks
+    description: >-
+      Use the batch eligibility endpoint instead of individual checks to reduce
+      total API call volume and improve throughput efficiency.
+    impact: medium
+
+  - name: Exponential Backoff
+    description: >-
+      Leverage SDK-native exponential backoff to avoid wasted retry calls
+      and reduce unnecessary API consumption when approaching rate limits.
+    impact: medium
+
+  - name: Charge Capture Bundles
+    description: >-
+      Use charge capture bundle endpoints for batch claim processing rather
+      than individual claim submissions to reduce per-encounter API overhead.
+    impact: medium
+
+  - name: Export Scheduling
+    description: >-
+      Schedule large CSV exports during off-peak hours to minimize API
+      contention and optimize throughput for real-time workflows.
+    impact: low
+
+focus:
+  provider: Candid Health
+  serviceName: Revenue Cycle Management API
+  serviceCategory: Healthcare IT / Medical Billing SaaS
+  billingCurrency: USD
+  billingPeriod: monthly
+  invoicingMethod: contract
+  chargeModel: negotiated-enterprise

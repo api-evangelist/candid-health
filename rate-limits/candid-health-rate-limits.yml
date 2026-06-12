@@ -1,0 +1,52 @@
+specificationVersion: '0.1'
+id: candid-health-rate-limits
+name: Candid Health Rate Limits
+description: >-
+  Candid Health enforces IP-based rate limiting on all API endpoints.
+  The limit applies to all API calls regardless of endpoint or resource type.
+  The SDKs include built-in exponential backoff to handle rate-limit responses
+  automatically.
+url: https://docs.joincandidhealth.com/introduction/getting-started
+
+limits:
+
+  - name: IP-Based Request Rate Limit
+    description: >-
+      Each IP address is allowed 1000 requests within any 10-second rolling
+      window. Exceeding this limit results in an HTTP 429 (Too Many Requests)
+      response. The limit resets as older requests fall outside the 10-second
+      window.
+    scope: ip
+    requests: 1000
+    window: 10
+    windowUnit: seconds
+    httpStatus: 429
+    resetStrategy: rolling-window
+
+  - name: Exponential Backoff (SDK Default)
+    description: >-
+      All official Candid Health SDKs (Python, Node.js, Ruby, C#) implement
+      automatic exponential backoff when an HTTP 429 response is received,
+      retrying the request with increasing delays.
+    scope: sdk
+    strategy: exponential-backoff
+    triggeredBy: 429
+
+environments:
+
+  - name: Staging
+    url: https://api-staging.joincandidhealth.com
+    description: >-
+      Non-production environment for testing integrations. PHI (Protected
+      Health Information) must NOT be sent to the staging environment.
+
+  - name: Production
+    url: https://api.joincandidhealth.com
+    description: >-
+      Live production environment for all real-world API calls and PHI data.
+
+notes:
+  - Rate limits are applied per IP address, not per API key or user account.
+  - Official SDKs handle 429 responses automatically via exponential backoff.
+  - For high-volume integrations, consider IP rotation or contact support.
+  - contact: support@joincandidhealth.com
