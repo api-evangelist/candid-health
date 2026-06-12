@@ -1,0 +1,190 @@
+vocabulary:
+  name: Candid Health API Vocabulary
+  description: >-
+    Domain terminology used across the Candid Health revenue cycle management
+    and medical billing APIs.
+  url: https://docs.joincandidhealth.com/
+  version: 1.0.0
+
+terms:
+
+  - term: Encounter
+    definition: >-
+      A clinical encounter record representing a patient visit submitted for
+      billing. Contains diagnoses, service lines, providers, and subscriber
+      information needed to generate a medical claim.
+    related:
+      - ServiceLine
+      - Diagnosis
+      - BillingProvider
+
+  - term: Eligibility
+    definition: >-
+      The verification of a patient's insurance coverage for a specific
+      service or date of service. Candid supports real-time checks via Stedi
+      and Availity payer networks.
+    related:
+      - Coverage
+      - EligibilityCheck
+      - Payer
+
+  - term: Coverage
+    definition: >-
+      An insurance plan record associated with a patient, containing payer
+      information, member ID, plan details, and coverage benefits such as
+      deductibles and copays.
+    related:
+      - MemberInfo
+      - PlanMetadata
+      - BenefitType
+
+  - term: Claim
+    definition: >-
+      A medical billing claim submitted to a payer for reimbursement.
+      Generated from an encounter record and includes service lines,
+      diagnoses, and provider information in EDI 837 format.
+    related:
+      - Encounter
+      - ServiceLine
+      - Payer
+
+  - term: Patient
+    definition: >-
+      A healthcare patient record containing demographics, contact
+      information, and linkages to coverages, appointments, and encounters.
+    related:
+      - Coverage
+      - Appointment
+      - PatientAR
+
+  - term: ServiceLine
+    definition: >-
+      An individual procedure or service within an encounter, identified by
+      CPT/procedure code, quantity, unit, charge amount, and diagnosis
+      pointer references.
+    related:
+      - Encounter
+      - Diagnosis
+      - FeeSchedule
+
+  - term: Diagnosis
+    definition: >-
+      An ICD-10 or other coding system diagnosis code attached to an encounter
+      or service line. Identified by code_type (ABK for ICD-10-CM primary)
+      and code value.
+    related:
+      - Encounter
+      - ServiceLine
+
+  - term: ChargeCapture
+    definition: >-
+      A charge capture record created from a clinical event before it is
+      converted to a formal encounter for billing. Supports bulk claim
+      creation workflows.
+    related:
+      - Encounter
+      - ChargeCaptureBundle
+
+  - term: Credentialing
+    definition: >-
+      The process of verifying and enrolling providers and facilities with
+      payers. Candid manages credentialing spans, organization providers,
+      and service facility contracts.
+    related:
+      - ProviderCredentialingSpan
+      - OrganizationProvider
+      - Contract
+
+  - term: Remittance
+    definition: >-
+      Payment information received from a payer (ERA/835) detailing claim
+      adjudication, payment amounts, adjustments, denials, and write-offs.
+    related:
+      - InsuranceAdjudication
+      - WriteOff
+      - InsuranceRefund
+
+  - term: WriteOff
+    definition: >-
+      An adjustment that reduces the outstanding balance on a claim, either
+      contractual (payer adjustment) or discretionary (administrative write-off).
+    related:
+      - Remittance
+      - InsuranceAdjudication
+
+  - term: PatientAR
+    definition: >-
+      Patient accounts receivable — the outstanding balance owed by a patient
+      after insurance adjudication. Managed through patient invoices, payments,
+      and refunds.
+    related:
+      - PatientPayment
+      - PatientRefund
+      - Invoice
+
+  - term: Payer
+    definition: >-
+      An insurance company or health plan that adjudicates and pays medical
+      claims. Identified by a payer ID used for electronic claim submission
+      and eligibility verification.
+    related:
+      - Coverage
+      - Contract
+      - PayerPlanGroup
+
+  - term: NPI
+    definition: >-
+      National Provider Identifier — a unique 10-digit identification number
+      for healthcare providers required on all HIPAA standard transactions.
+    related:
+      - BillingProvider
+      - OrganizationProvider
+
+  - term: PriorAuthorization
+    definition: >-
+      Approval from a payer obtained before a service is rendered, confirming
+      the service will be covered. Referenced in encounters via prior_auth_number.
+    related:
+      - Encounter
+      - Coverage
+
+  - term: FeeSchedule
+    definition: >-
+      A payer-negotiated rate schedule specifying reimbursement amounts for
+      procedure codes. Used to match expected payment against claim adjudication.
+    related:
+      - ServiceLine
+      - Contract
+
+  - term: OAuth
+    definition: >-
+      The OAuth 2.0 client credentials flow used to authenticate API access.
+      Clients exchange client_id and client_secret for a JWT bearer token
+      valid for 5 hours.
+    related:
+      - TokenRequest
+      - TokenResponse
+
+  - term: ERA
+    definition: >-
+      Electronic Remittance Advice (ANSI X12 835) — an electronic document
+      sent by payers to providers detailing payment and adjustments for
+      submitted claims.
+    related:
+      - InsuranceAdjudication
+      - Remittance
+
+  - term: Export
+    definition: >-
+      A CSV data export of claim status changes, financial transactions,
+      or reporting data for revenue cycle analytics and reconciliation.
+    related:
+      - RevenueReporting
+
+  - term: Task
+    definition: >-
+      A workflow action item in Candid Health's task management system,
+      used to track claim follow-up, denial management, and billing operations.
+    related:
+      - Encounter
+      - Claim

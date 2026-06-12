@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "date_of_service": {
+      "type": "string",
+      "format": "date",
+      "description": "Defaults to the current date if not provided."
+    },
+    "service_type_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Defaults to HealthBenefitPlanCoverage (30) if not provided.\n<Note>Not all payers support multiple service type codes, so it is recommended to only include a single code per request.</Note>"
+    }
+  },
+  "title": "Encounter",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.joincandidhealth.com/schemas/encounter"
+}

@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "claim_id": {
+      "$ref": "#/components/schemas/type_commons:ClaimId"
+    },
+    "status": {
+      "$ref": "#/components/schemas/type_claims:ClaimStatus"
+    },
+    "clearinghouse": {
+      "type": "string"
+    },
+    "clearinghouse_claim_id": {
+      "type": "string"
+    },
+    "payer_claim_id": {
+      "type": "string"
+    },
+    "clia_number": {
+      "type": "string"
+    },
+    "service_lines": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/type_service-lines/v2:ServiceLine"
+      }
+    },
+    "eras": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/type_eras:ERA"
+      }
+    }
+  },
+  "required": [
+    "claim_id",
+    "status",
+    "service_lines",
+    "eras"
+  ],
+  "title": "Claim",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.joincandidhealth.com/schemas/claim"
+}

@@ -1,0 +1,24 @@
+{
+  "patient": {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "dateOfBirth": "1985-04-15",
+    "gender": "FEMALE",
+    "memberId": "ABC123456789"
+  },
+  "provider": {
+    "npi": "1234567890",
+    "firstName": "John",
+    "lastName": "Smith"
+  },
+  "payer": {
+    "payerId": "00019",
+    "payerName": "United Healthcare"
+  },
+  "encounter": {
+    "date_of_service": "2026-06-12",
+    "service_type_codes": [
+      "30"
+    ]
+  }
+}

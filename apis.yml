@@ -41,7 +41,7 @@ apis:
       - type: Documentation
         url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
       - type: OpenAPI
-        url: https://docs.joincandidhealth.com/openapi
+        url: openapi/candid-health-openapi.yml
 
   - name: Candid Health Encounters API
     description: >-
@@ -60,7 +60,7 @@ apis:
       - type: Documentation
         url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
       - type: OpenAPI
-        url: https://docs.joincandidhealth.com/openapi
+        url: openapi/candid-health-openapi.yml
 
   - name: Candid Health Patient Collections API
     description: >-
@@ -189,6 +189,15 @@ common:
 
   - type: FinOps
     url: finops/candid-health-finops.yml
+
+  - type: OpenAPI
+    url: openapi/candid-health-openapi.yml
+
+  - type: Vocabulary
+    url: vocabulary/candid-health-vocabulary.yml
+
+  - type: JSONLDContext
+    url: json-ld/candid-health-context.jsonld
 
 maintainers:
 

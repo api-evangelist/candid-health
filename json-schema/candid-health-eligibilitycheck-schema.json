@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "batch_id": {
+      "type": "string"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckError"
+      }
+    },
+    "request": {
+      "$ref": "#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRequest"
+    },
+    "response": {
+      "description": "Any type"
+    },
+    "parsed_response": {
+      "$ref": "#/components/schemas/type_pre-encounter/eligibilityChecks/v1:ParsedResponse"
+    },
+    "request_corrections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/type_pre-encounter/eligibilityChecks/v1:RequestCorrection"
+      }
+    }
+  },
+  "required": [
+    "response"
+  ],
+  "title": "EligibilityCheck",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.joincandidhealth.com/schemas/eligibilitycheck"
+}

@@ -1,0 +1,223 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "fhir": "http://hl7.org/fhir/",
+    "candid": "https://api.joincandidhealth.com/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Patient": {
+      "@id": "candid:Patient",
+      "@type": "@id"
+    },
+    "first_name": {
+      "@id": "schema:givenName",
+      "@type": "xsd:string"
+    },
+    "last_name": {
+      "@id": "schema:familyName",
+      "@type": "xsd:string"
+    },
+    "date_of_birth": {
+      "@id": "schema:birthDate",
+      "@type": "xsd:date"
+    },
+    "gender": {
+      "@id": "schema:gender",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "phone_numbers": {
+      "@id": "schema:telephone"
+    },
+
+    "Encounter": {
+      "@id": "candid:Encounter",
+      "@type": "@id"
+    },
+    "external_id": {
+      "@id": "candid:externalId",
+      "@type": "xsd:string"
+    },
+    "date_of_service": {
+      "@id": "candid:dateOfService",
+      "@type": "xsd:date"
+    },
+    "place_of_service_code": {
+      "@id": "candid:placeOfServiceCode",
+      "@type": "xsd:string"
+    },
+    "diagnoses": {
+      "@id": "candid:diagnoses",
+      "@container": "@set"
+    },
+    "service_lines": {
+      "@id": "candid:serviceLines",
+      "@container": "@set"
+    },
+    "patient_authorized_release": {
+      "@id": "candid:patientAuthorizedRelease",
+      "@type": "xsd:boolean"
+    },
+    "benefits_assigned_to_provider": {
+      "@id": "candid:benefitsAssignedToProvider",
+      "@type": "xsd:boolean"
+    },
+
+    "Diagnosis": {
+      "@id": "candid:Diagnosis",
+      "@type": "@id"
+    },
+    "code_type": {
+      "@id": "candid:codeType",
+      "@type": "xsd:string"
+    },
+    "code": {
+      "@id": "candid:code",
+      "@type": "xsd:string"
+    },
+
+    "ServiceLine": {
+      "@id": "candid:ServiceLine",
+      "@type": "@id"
+    },
+    "procedure_code": {
+      "@id": "candid:procedureCode",
+      "@type": "xsd:string"
+    },
+    "quantity": {
+      "@id": "candid:quantity",
+      "@type": "xsd:string"
+    },
+    "units": {
+      "@id": "candid:units",
+      "@type": "xsd:string"
+    },
+    "charge_amount_cents": {
+      "@id": "candid:chargeAmountCents",
+      "@type": "xsd:integer"
+    },
+
+    "Coverage": {
+      "@id": "candid:Coverage",
+      "@type": "@id"
+    },
+    "member_id": {
+      "@id": "candid:memberId",
+      "@type": "xsd:string"
+    },
+    "payer_id": {
+      "@id": "candid:payerId",
+      "@type": "xsd:string"
+    },
+    "payer_name": {
+      "@id": "candid:payerName",
+      "@type": "xsd:string"
+    },
+
+    "EligibilityCheck": {
+      "@id": "candid:EligibilityCheck",
+      "@type": "@id"
+    },
+    "EligibilityStatus": {
+      "@id": "candid:EligibilityStatus",
+      "@type": "@id"
+    },
+
+    "Payer": {
+      "@id": "candid:Payer",
+      "@type": "@id"
+    },
+
+    "BillingProvider": {
+      "@id": "candid:BillingProvider",
+      "@type": "@id"
+    },
+    "npi": {
+      "@id": "candid:npi",
+      "@type": "xsd:string"
+    },
+    "tax_id": {
+      "@id": "candid:taxId",
+      "@type": "xsd:string"
+    },
+    "organization_name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+
+    "ChargeCapture": {
+      "@id": "candid:ChargeCapture",
+      "@type": "@id"
+    },
+    "Task": {
+      "@id": "candid:Task",
+      "@type": "@id"
+    },
+    "FeeSchedule": {
+      "@id": "candid:FeeSchedule",
+      "@type": "@id"
+    },
+    "Contract": {
+      "@id": "candid:Contract",
+      "@type": "@id"
+    },
+    "WriteOff": {
+      "@id": "candid:WriteOff",
+      "@type": "@id"
+    },
+    "InsuranceAdjudication": {
+      "@id": "candid:InsuranceAdjudication",
+      "@type": "@id"
+    },
+    "PatientPayment": {
+      "@id": "candid:PatientPayment",
+      "@type": "@id"
+    },
+    "PatientRefund": {
+      "@id": "candid:PatientRefund",
+      "@type": "@id"
+    },
+    "Export": {
+      "@id": "candid:Export",
+      "@type": "@id"
+    },
+
+    "access_token": {
+      "@id": "candid:accessToken",
+      "@type": "xsd:string"
+    },
+    "token_type": {
+      "@id": "candid:tokenType",
+      "@type": "xsd:string"
+    },
+    "expires_in": {
+      "@id": "candid:expiresIn",
+      "@type": "xsd:integer"
+    },
+    "client_id": {
+      "@id": "candid:clientId",
+      "@type": "xsd:string"
+    },
+    "grant_type": {
+      "@id": "candid:grantType",
+      "@type": "xsd:string"
+    },
+
+    "page_token": {
+      "@id": "candid:pageToken",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updated_at": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    }
+  }
+}

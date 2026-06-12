@@ -1,0 +1,42 @@
+{
+  "external_id": "ENC-2026-001",
+  "date_of_service": "2026-06-12",
+  "patient_authorized_release": true,
+  "benefits_assigned_to_provider": true,
+  "provider_accepts_assignment": true,
+  "diagnoses": [
+    {
+      "code_type": "ABK",
+      "code": "Z00.00",
+      "name": "Encounter for general adult medical examination without abnormal findings"
+    }
+  ],
+  "place_of_service_code": "11",
+  "service_lines": [
+    {
+      "procedure_code": "99213",
+      "quantity": "1",
+      "units": "UN",
+      "charge_amount_cents": 15000,
+      "diagnosis_pointers": [
+        0
+      ]
+    }
+  ],
+  "billing_provider": {
+    "npi": "1234567890",
+    "tax_id": "123456789",
+    "first_name": "John",
+    "last_name": "Smith",
+    "organization_name": "Primary Care Clinic"
+  },
+  "subscriber_primary": {
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "date_of_birth": "1985-04-15",
+    "gender": "female",
+    "member_id": "ABC123456789",
+    "payer_id": "00019",
+    "payer_name": "United Healthcare"
+  }
+}

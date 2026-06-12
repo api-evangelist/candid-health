@@ -1,0 +1,99 @@
+{
+  "type": "object",
+  "properties": {
+    "organization_id": {
+      "$ref": "#/components/schemas/type_pre-encounter/common:OrganizationId",
+      "description": "The organization that owns this object."
+    },
+    "deactivated": {
+      "type": "boolean",
+      "description": "True if the object is deactivated.  Deactivated objects are not returned in search results but are returned in all other endpoints including scan."
+    },
+    "version": {
+      "type": "integer",
+      "description": "The version of the object. Any update to any property of an object object will create a new version."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updating_user_id": {
+      "$ref": "#/components/schemas/type_pre-encounter/common:UserId",
+      "description": "The user ID of the user who last updated the object."
+    },
+    "status": {
+      "$ref": "#/components/schemas/type_pre-encounter/coverages/v1:CoverageStatus",
+      "description": "The status indiciating if the coverage is active or not."
+    },
+    "subscriber": {
+      "$ref": "#/components/schemas/type_pre-encounter/coverages/v1:Subscriber",
+      "description": "The party who has signed-up for or 'owns' the contractual relationship to the policy or to whom the benefit of the policy for services rendered to them or their family is due."
+    },
+    "relationship": {
+      "$ref": "#/components/schemas/type_pre-encounter/common:Relationship",
+      "description": "The relationship of beneficiary (patient) to the subscriber. https://hl7.org/fhir/valueset-relationship.html"
+    },
+    "patient": {
+      "$ref": "#/components/schemas/type_pre-encounter/common:PatientId",
+      "description": "The canonical Candid patient UUID corresponding with the patient who benefits from the insurance coverage"
+    },
+    "insurance_plan": {
+      "$ref": "#/components/schemas/type_pre-encounter/coverages/v1:InsurancePlan"
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "A boolean indicating if the coverage has been verified by a user."
+    },
+    "eligibility_checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckMetadata"
+      },
+      "description": "A list of eligibility check metadata that have been initiated on this coverage."
+    },
+    "latest_eligibility_check": {
+      "$ref": "#/components/schemas/type_pre-encounter/coverages/v1:LatestEligibilityCheck",
+      "description": "The latest eligibility check metadata that has been initiated on this coverage."
+    },
+    "benefits": {
+      "$ref": "#/components/schemas/type_pre-encounter/coverages/v1:CoverageBenefits",
+      "description": "The eligibility of the patient for the coverage, manually verified by users."
+    },
+    "orcon": {
+      "type": "boolean",
+      "description": "ORCON (Originator Controlled) - When set to true, the Candid system will hide this coverage from downstream integrations. Updates made in the Candid UI will unset this flag. Defaults to false."
+    },
+    "auto_update_enabled": {
+      "type": "boolean",
+      "description": "Default to true. When set to true, the Candid system will automatically update this coverage with the latest eligibility check benefits information. Auto update behavior is also set at the eligibilityConfig org level configuration."
+    },
+    "previous_appointment_copays": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "A map of UniversalServiceIdentifier (MD_Visit, Treatment, Tests, Activity) to copay values in cents. This is used to track copay values for each service type to handle OOP max resets correctly."
+    },
+    "id": {
+      "$ref": "#/components/schemas/type_pre-encounter/common:CoverageId"
+    }
+  },
+  "required": [
+    "organization_id",
+    "deactivated",
+    "version",
+    "updated_at",
+    "updating_user_id",
+    "status",
+    "subscriber",
+    "relationship",
+    "patient",
+    "insurance_plan",
+    "verified",
+    "id"
+  ],
+  "description": "A coverage object with immutable server-owned properties.",
+  "title": "Coverage",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.joincandidhealth.com/schemas/coverage"
+}
