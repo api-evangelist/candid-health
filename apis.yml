@@ -157,6 +157,10 @@ apis:
 
 common:
 
+  - type: DomainSecurity
+    url: security/candid-health-domain-security.yml
+  - type: Authentication
+    url: authentication/candid-health-authentication.yml
   - type: Website
     url: https://candidhealth.com/
 
