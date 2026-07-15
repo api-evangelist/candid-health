@@ -157,6 +157,8 @@ apis:
 
 common:
 
+  - type: AgenticAccess
+    url: agentic-access/candid-health-agentic-access.yml
   - type: DomainSecurity
     url: security/candid-health-domain-security.yml
   - type: Authentication
