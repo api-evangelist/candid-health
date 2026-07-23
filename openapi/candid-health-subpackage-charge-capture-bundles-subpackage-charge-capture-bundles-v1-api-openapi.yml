@@ -1,0 +1,375 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+paths:
+  /api/charge_capture_claim_creation/v1/{charge_capture_claim_creation_id}:
+    get:
+      operationId: get
+      summary: Get Charge Capture Claim Creation
+      tags:
+      - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+      parameters:
+      - name: charge_capture_claim_creation_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:ChargeCaptureClaimCreationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreation'
+  /api/charge_capture_claim_creation/v1/all/summary:
+    get:
+      operationId: get-summary
+      summary: Get Charge Capture Claim Creation Summary
+      tags:
+      - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationSummary'
+  /api/charge_capture_claim_creation/v1/error/{charge_capture_bundle_error_id}:
+    patch:
+      operationId: resolve-charge-creation-error
+      summary: Mark a ClaimCreationAttempt error as resolved
+      tags:
+      - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+      parameters:
+      - name: charge_capture_bundle_error_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resolved_by:
+                  type: string
+                  description: A string, denoting who resolved the error for audit trail purposes.
+                resolution_reason:
+                  type: string
+                  description: A string denoting why or how the error was dealt with for audit trail purposes.
+  /api/charge_capture_claim_creation/v1:
+    get:
+      operationId: get-all
+      summary: Get all Charge Capture Claim Creations
+      tags:
+      - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of entities per page, defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        description: Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to descending order if not provided.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: patient_external_id
+        in: query
+        description: The patient ID from the external EMR platform for the patient
+        required: false
+        schema:
+          type: string
+      - name: claim_creation_status
+        in: query
+        description: the status of the charge capture Claim Creation, refers to whether it was able to create a claim.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationStatus'
+      - name: charge_status
+        in: query
+        description: the status of the charge captures
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_charge-capture/v1:ChargeCaptureStatus'
+      - name: charge_external_id
+        in: query
+        description: 'A client-specified unique ID to associate with this encounter;
+
+          for example, your internal encounter ID or a Dr. Chrono encounter ID.
+
+          This field should not contain PHI.'
+        required: false
+        schema:
+          type: string
+      - name: date_of_service_min
+        in: query
+        description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+          This date must be the local date in the timezone where the service occurred.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: date_of_service_max
+        in: query
+        description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+          This date must be the local date in the timezone where the service occurred.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: claim_ids
+        in: query
+        description: A list of claim IDs to filter by. This will return all charge capture claim_creations that have a resulting claim with one of the IDs in this list.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: claim_creation_ids
+        in: query
+        description: A list of Claim Creation IDs to filter by.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ChargeCaptureClaimCreationId'
+      - name: billing_provider_npis
+        in: query
+        description: A list of billing provider NPIs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: service_facility_name
+        in: query
+        description: A string to filter by. This will return all charge capture claim_creations which include one or more charges with this service facility name.
+        required: false
+        schema:
+          type: string
+      - name: primary_payer_ids
+        in: query
+        description: A list of primary payer IDs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the primary payer IDs in this list.
+        required: false
+        schema:
+          type: string
+      - name: rendering_provider_npis
+        in: query
+        description: A list of rendering provider NPIs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: rendering_provider_names
+        in: query
+        description: A list of rendering provider names to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: supervising_provider_npis
+        in: query
+        description: A list of supervising provider NPIs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: supervising_provider_names
+        in: query
+        description: A list of supervising provider names to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: claim_status
+        in: query
+        description: the status of the claim to filter by created from charge capture bundle.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_claims:ClaimStatus'
+      - name: claim_creation_category
+        in: query
+        description: A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: tags
+        in: query
+        description: A list of tags to filter by. This will return all charge captures with one of the tags.
+        required: false
+        schema:
+          type: string
+      - name: primary_payer_names
+        in: query
+        description: A list of primary payer names to filter by. This will return all charge captures with one of the names.
+        required: false
+        schema:
+          type: string
+      - name: patient_names
+        in: query
+        description: A list of patient names to filter by. This will return all charge captures with one of the names.
+        required: false
+        schema:
+          type: string
+      - name: has_charge_capture_updates
+        in: query
+        description: If true, only return claim_creations that have charge captures that have been updated since the Claim Creation has had a status of BILLED. See the updates property on ChargeCapture for more details.
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationPage'
+components:
+  schemas:
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_commons:ChargeCaptureClaimCreationId:
+      type: string
+      format: uuid
+      title: ChargeCaptureClaimCreationId
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons:UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons:EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_claims:ClaimStatus:
+      type: string
+      enum:
+      - biller_received
+      - coded
+      - submitted_to_payer
+      - missing_information
+      - not_billable
+      - waiting_for_provider
+      - era_received
+      - rejected
+      - denied
+      - paid
+      - paid_incorrectly
+      - finalized_paid
+      - finalized_denied
+      - held_by_customer
+      - era_requires_review
+      title: ClaimStatus
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

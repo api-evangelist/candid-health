@@ -1,0 +1,99 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_payers.subpackage_payers/v4 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_payers.subpackage_payers/v4
+paths:
+  /api/payers/v4/{payer_uuid}:
+    get:
+      operationId: get
+      summary: Get payer
+      tags:
+      - subpackage_payers.subpackage_payers/v4
+      parameters:
+      - name: payer_uuid
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_payers/v4:PayerUuid'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers/v4:Payer'
+  /api/payers/v4:
+    get:
+      operationId: get-all
+      summary: Get all payers
+      tags:
+      - subpackage_payers.subpackage_payers/v4
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of entities per page, defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: search_term
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers/v4:PayerPage'
+components:
+  schemas:
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

@@ -1,0 +1,156 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_exports.subpackage_exports/v3 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_exports.subpackage_exports/v3
+paths:
+  /api/exports/v3:
+    get:
+      operationId: get-exports
+      summary: Get exports
+      description: '<Warning>
+
+        API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+
+        Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+
+        </Warning>
+
+
+        Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
+
+        authenticated URL to a customer''s reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
+
+
+        **Schema changes:** Changing column order, removing columns, or changing the name of a column is considered a
+
+        [Breaking Change](../../../api-principles/breaking-changes). Adding new columns to the end of the Exports file is not considered a
+
+        Breaking Change and happens periodically. For this reason, it is important that any downstream automation or processes built on top
+
+        of Candid Health''s export files be resilient to the addition of new columns at the end of the file.
+
+
+        **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday''s file will be
+
+        available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
+
+        caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
+
+        up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
+
+        outside of these stated guarantees.'
+      tags:
+      - subpackage_exports.subpackage_exports/v3
+      parameters:
+      - name: start_date
+        in: query
+        description: 'Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.
+
+          Must be at least 1 calendar day in the past. Cannot be earlier than 2022-10-07.'
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: end_date
+        in: query
+        description: 'Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.
+
+          Must be within 30 days of start_date.'
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_exports/v3:GetExportsResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ExportDisabledError
+                  content:
+                    $ref: '#/components/schemas/type_commons:ErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnsupportedExportWindowError
+                  content:
+                    $ref: '#/components/schemas/type_commons:ErrorMessage'
+                required:
+                - errorName
+                - content
+        '503':
+          description: Error response with status 503
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - MissingDailyIncrementalExportFileError
+                  content:
+                    $ref: '#/components/schemas/type_commons:ErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons:ErrorMessage:
+      type: string
+      title: ErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

@@ -1,0 +1,806 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_encounter-providers.subpackage_encounter-providers/v2 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_encounter-providers.subpackage_encounter-providers/v2
+paths:
+  /api/encounter-providers/v2/{encounter_id}:
+    patch:
+      operationId: update-referring-provider
+      summary: Update Referring Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:ReferringProviderUpdate'
+  /api/encounter-providers/v2/{encounter_id}/initial-referring-provider:
+    patch:
+      operationId: update-initial-referring-provider
+      summary: Update Initial Referring Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:InitialReferringProviderUpdate'
+    delete:
+      operationId: delete-initial-referring-provider
+      summary: Delete Initial Referring Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/encounter-providers/v2/{encounter_id}/supervising-provider:
+    patch:
+      operationId: update-supervising-provider
+      summary: Update Supervising Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:SupervisingProviderUpdate'
+    delete:
+      operationId: delete-supervising-provider
+      summary: Delete Supervising Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/encounter-providers/v2/{service_line_id}/ordering-provider:
+    patch:
+      operationId: update-ordering-provider
+      summary: Update Ordering Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:OrderingProviderUpdate'
+    delete:
+      operationId: delete-ordering-provider
+      summary: Delete Ordering Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/encounter-providers/v2/{encounter_id}/create-referring-provider:
+    post:
+      operationId: create-referring-provider
+      summary: Create Referring Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:ReferringProvider'
+  /api/encounter-providers/v2/{encounter_id}/create-initial-referring-provider:
+    post:
+      operationId: create-initial-referring-provider
+      summary: Create Initial Referring Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:InitialReferringProvider'
+  /api/encounter-providers/v2/{encounter_id}/create-supervising-provider:
+    post:
+      operationId: create-supervising-provider
+      summary: Create Supervising Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:SupervisingProvider'
+  /api/encounter-providers/v2/{service_line_id}/create-ordering-provider:
+    post:
+      operationId: create-ordering-provider
+      summary: Create Ordering Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers/v2:EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers/v2:OrderingProvider'
+  /api/encounter-providers/v2/{encounter_id}/referring-provider:
+    delete:
+      operationId: delete-referring-provider
+      summary: Delete Referring Provider
+      tags:
+      - subpackage_encounter-providers.subpackage_encounter-providers/v2
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons:RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_commons:EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_commons:ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

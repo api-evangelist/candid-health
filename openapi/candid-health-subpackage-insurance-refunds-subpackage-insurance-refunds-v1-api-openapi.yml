@@ -1,0 +1,531 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_insurance-refunds.subpackage_insurance-refunds/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+paths:
+  /api/insurance-refunds/v1:
+    get:
+      operationId: get-multi
+      summary: Get insurance refunds
+      description: 'Returns all insurance refunds satisfying the search criteria AND whose organization_id matches
+
+        the current organization_id of the authenticated user.'
+      tags:
+      - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+      parameters:
+      - name: limit
+        in: query
+        description: Defaults to 100. The value must be greater than 0 and less than 1000.
+        required: false
+        schema:
+          type: integer
+      - name: payer_uuid
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_payers/v3:PayerUuid'
+      - name: claim_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ClaimId'
+      - name: service_line_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ServiceLineId'
+      - name: billing_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ProviderId'
+      - name: sort
+        in: query
+        description: Defaults to refund_timestamp
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefundSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to descending order if not provided.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefundsPage'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create insurance refund
+      description: 'Creates a new insurance refund record and returns the newly created `InsuranceRefund` object.
+
+        The allocations can describe whether the refund is being applied toward a specific service line,
+
+        claim, or billing provider.'
+      tags:
+      - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefund'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefundCreate'
+  /api/insurance-refunds/v1/{insurance_refund_id}:
+    get:
+      operationId: get
+      summary: Get insurance refund
+      description: 'Retrieves a previously created insurance refund by its `insurance_refund_id`.
+
+        If the refund does not exist, a `403` will be thrown.'
+      tags:
+      - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+      parameters:
+      - name: insurance_refund_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefundId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefund'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update
+      description: 'Updates the patient refund record matching the provided insurance_refund_id. If updating the refund amount,
+
+        then the allocations must be appropriately updated as well.'
+      tags:
+      - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+      parameters:
+      - name: insurance_refund_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefundId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefund'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refund_timestamp:
+                  type: string
+                  format: date-time
+                refund_note:
+                  $ref: '#/components/schemas/type_financials:NoteUpdate'
+                refund_reason:
+                  $ref: '#/components/schemas/type_financials:RefundReasonUpdate'
+    delete:
+      operationId: delete
+      summary: Delete insurance refund
+      description: 'Deletes the insurance refund record matching the provided `insurance_refund_id`.
+
+        If the matching record''s organization_id does not match the authenticated user''s
+
+        current organization_id, then a response code of `403` will be returned.'
+      tags:
+      - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+      parameters:
+      - name: insurance_refund_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_insurance-refunds/v1:InsuranceRefundId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_financials:RefundReasonUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_financials:RefundReason'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: RefundReasonUpdate
+    type_financials:RefundReason:
+      type: string
+      enum:
+      - OVERCHARGED
+      - ENTERED_IN_ERROR
+      - TRANSFER
+      title: RefundReason
+    type_commons:ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:ProviderId:
+      type: string
+      format: uuid
+      title: ProviderId
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons:UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_financials:NoteUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            type: string
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: NoteUpdate
+    type_commons:ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

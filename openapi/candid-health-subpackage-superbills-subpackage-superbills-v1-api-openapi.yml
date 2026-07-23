@@ -1,0 +1,199 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_superbills.subpackage_superbills/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_superbills.subpackage_superbills/v1
+paths:
+  /api/superbill/v1:
+    post:
+      operationId: create-superbill
+      summary: Create Superbill
+      tags:
+      - subpackage_superbills.subpackage_superbills/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_superbills/v1:SuperbillResponse'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_external_id:
+                  $ref: '#/components/schemas/type_commons:PatientExternalId'
+                  description: Empty string not allowed
+                date_range_min:
+                  type: string
+                  format: date
+                  description: Minimum (inclusive) date selected for the superbill
+                date_range_max:
+                  type: string
+                  format: date
+                  description: Maximum (inclusive) date selected for the superbill
+                pay_to_address:
+                  $ref: '#/components/schemas/type_commons:StreetAddressShortZip'
+                  description: Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
+                output_format:
+                  $ref: '#/components/schemas/type_superbills/v1:SuperbillOutputFormat'
+                  description: Output format for the superbill. Defaults to DOCX if not specified.
+                include_merged_patient_data:
+                  type: boolean
+                  description: If true will include claims from any alternative patients the given patient_external_id has.
+              required:
+              - patient_external_id
+              - date_range_min
+              - date_range_max
+components:
+  schemas:
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_commons:State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_commons:StreetAddressShortZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons:State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      title: StreetAddressShortZip
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

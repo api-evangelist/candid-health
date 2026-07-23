@@ -1,0 +1,272 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_organization-providers.subpackage_organization-providers/v3 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_organization-providers.subpackage_organization-providers/v3
+paths:
+  /api/organization-providers/v3/{organization_provider_id}:
+    get:
+      operationId: get
+      summary: Get organization provider
+      tags:
+      - subpackage_organization-providers.subpackage_organization-providers/v3
+      parameters:
+      - name: organization_provider_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderV2'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update organization provider
+      tags:
+      - subpackage_organization-providers.subpackage_organization-providers/v3
+      parameters:
+      - name: organization_provider_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderV2'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UpdatesDisabledDueToExternalSystemIntegrationError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UpdatesDisabledDueToExternalSystemIntegrationErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderUpdateV2'
+  /api/organization-providers/v3:
+    get:
+      operationId: get-multi
+      summary: Get all organization providers
+      tags:
+      - subpackage_organization-providers.subpackage_organization-providers/v3
+      parameters:
+      - name: limit
+        in: query
+        description: Limit the number of results returned. Defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: search_term
+        in: query
+        description: Filter to a name or a part of a name.
+        required: false
+        schema:
+          type: string
+      - name: npi
+        in: query
+        description: Filter to a specific NPI.
+        required: false
+        schema:
+          type: string
+      - name: is_rendering
+        in: query
+        description: Filter to only rendering providers.
+        required: false
+        schema:
+          type: boolean
+      - name: is_billing
+        in: query
+        description: Filter to only billing providers.
+        required: false
+        schema:
+          type: boolean
+      - name: organization_provider_ids
+        in: query
+        description: Filter to the provided organization provider IDs.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderId'
+      - name: page_token
+        in: query
+        description: The page token to continue paging through a previous request.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: sort
+        in: query
+        description: Defaults to PROVIDER_NAME_ASC.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderSortOptions'
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderPageV2'
+    post:
+      operationId: create
+      summary: Create organization provider
+      tags:
+      - subpackage_organization-providers.subpackage_organization-providers/v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderV2'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UpdatesDisabledDueToExternalSystemIntegrationError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UpdatesDisabledDueToExternalSystemIntegrationErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderCreateV2'
+components:
+  schemas:
+    type_commons:UpdatesDisabledDueToExternalSystemIntegrationErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UpdatesDisabledDueToExternalSystemIntegrationErrorMessage
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

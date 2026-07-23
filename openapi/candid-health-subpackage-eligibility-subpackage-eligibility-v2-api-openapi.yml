@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_eligibility.subpackage_eligibility/v2 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_eligibility.subpackage_eligibility/v2
+paths:
+  /api/eligibility/v2/availity:
+    get:
+      operationId: submit-eligibility-check-availity
+      summary: Submit encounter eligibility check (Availity)
+      description: '<Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid''s Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
+
+        For assistance with the transition, please reference the [Transitioning to Candid''s New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
+
+        **Availity has transitioned their GET endpoint to a POST endpoint. Candid has updated their pass-through integration to enable backwards compatibility for the GET endpoint so that customers do not have to immediately update their integrations.**
+
+
+        **Candid recommends integrations with the [POST endpoint](https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check-availity-post) to ensure the best possible integration experience. Given the transition, Availity’s documentation will be out of sync with this endpoint.**
+
+
+        If you''d like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
+
+
+        This API is a wrapper around Availity''s coverages API. Below are some helpful documentation links:
+
+
+        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
+
+        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
+
+
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
+
+        * Note Availity requires a free developer account to access this documentation.
+
+
+        Check connection status of Availity API and partners here:
+
+        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)'
+      tags:
+      - subpackage_eligibility.subpackage_eligibility/v2
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: submit-eligibility-check-availity-post
+      summary: Submit encounter eligibility check (Availity Post)
+      description: '<Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid''s Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
+
+        For assistance with the transition, please reference the [Transitioning to Candid''s New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
+
+        If you''d like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
+
+
+        This API is a wrapper around Availity''s coverages API. Below are some helpful documentation links:
+
+
+        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
+
+        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
+
+
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
+
+        * Note Availity requires a free developer account to access this documentation.
+
+
+        Check connection status of Availity API and partners here:
+
+        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)'
+      tags:
+      - subpackage_eligibility.subpackage_eligibility/v2
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Any type
+components:
+  schemas:
+    type_commons:RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

@@ -1,0 +1,445 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+paths:
+  /api/organization-service-facilities/v2/{organization_service_facility_id}:
+    get:
+      operationId: get
+      summary: Get organization service facility
+      tags:
+      - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+      parameters:
+      - name: organization_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacility'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update organization service facility
+      tags:
+      - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+      parameters:
+      - name: organization_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacility'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityUpdate'
+    delete:
+      operationId: delete
+      summary: Delete organization service facility
+      tags:
+      - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+      parameters:
+      - name: organization_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/organization-service-facilities/v2:
+    get:
+      operationId: get-multi
+      summary: Get all organization service facilities
+      tags:
+      - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+      parameters:
+      - name: limit
+        in: query
+        description: Limit the number of results returned. Defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: name
+        in: query
+        description: Filter to a name or a part of a name.
+        required: false
+        schema:
+          type: string
+      - name: organization_service_facility_ids
+        in: query
+        description: Filter to the provided organization service facility IDs.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+      - name: external_ids
+        in: query
+        description: Filter by one or more external_ids.
+        required: false
+        schema:
+          type: string
+      - name: place_of_service_code
+        in: query
+        description: Filter by Place of Service (POS) code.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:FacilityTypeCode'
+      - name: page_token
+        in: query
+        description: The page token to continue paging through a previous request.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityPage'
+    post:
+      operationId: create
+      summary: Create organization service facility
+      tags:
+      - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacility'
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons:RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityCreate'
+  /api/organization-service-facilities/v2/external-id/{external_id}:
+    get:
+      operationId: get-by-external-id
+      summary: Get organization service facility by external_id
+      description: 'Looks up a single organization service facility by its `external_id` field. This can be useful
+
+        for finding service facilities within Candid which are associated with service facilities in
+
+        an external system.'
+      tags:
+      - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+      parameters:
+      - name: external_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacility'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons:OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_commons:RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_commons:FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

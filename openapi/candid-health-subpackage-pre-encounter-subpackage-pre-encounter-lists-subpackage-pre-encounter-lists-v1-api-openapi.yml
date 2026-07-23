@@ -1,0 +1,177 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
+paths:
+  /lists/v1/patient:
+    get:
+      operationId: get-patient-list
+      summary: Get Patient List
+      description: Gets patients with dependent objects for patients that match the query parameters.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: sort_field
+        in: query
+        description: Defaults to patient.updatedAt.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/lists/v1:SortFieldString'
+      - name: sort_direction
+        in: query
+        description: Defaults to ascending.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:SortDirection'
+      - name: filters
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:FilterQueryString'
+      - name: include_deactivated
+        in: query
+        description: If true, includes deactivated patients in the results. Defaults to false.
+        required: false
+        schema:
+          type: boolean
+      - name: redirect_to_primary
+        in: query
+        description: If true, and filtering by mrn equals, then only return the primary version of the patient requested
+        required: false
+        schema:
+          type: boolean
+      - name: hide_alternatives
+        in: query
+        description: If true, then do not show alternative patients
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/lists/v1:PatientListPage'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /lists/v1/appointment:
+    get:
+      operationId: get-appointment-list
+      summary: Get Appointment List
+      description: Searches for appointments that match the query parameters.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
+      parameters:
+      - name: sort_field
+        in: query
+        description: Defaults to appointment.startTimestamp.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/lists/v1:SortFieldString'
+      - name: sort_direction
+        in: query
+        description: Defaults to asc.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:SortDirection'
+      - name: limit
+        in: query
+        description: Defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+      - name: filters
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:FilterQueryString'
+      - name: include_deactivated
+        in: query
+        description: If true, includes deactivated appointments in the results. Defaults to false.
+        required: false
+        schema:
+          type: boolean
+      - name: include_merged_patient_data
+        in: query
+        description: If true and a patient id is specified, then also include appointments from any alternative patients that are merged into this patient. Defaults to false.
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/lists/v1:AppointmentListPage'
+components:
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

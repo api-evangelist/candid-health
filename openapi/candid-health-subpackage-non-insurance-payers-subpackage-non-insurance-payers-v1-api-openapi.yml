@@ -1,0 +1,489 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+paths:
+  /api/non-insurance-payers/v1:
+    post:
+      operationId: create
+      summary: Create
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayer'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_non-insurance-payers/v1:CreateNonInsurancePayerRequest'
+    get:
+      operationId: get-multi
+      summary: Get Multi
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Fuzzy-match category names of non-insurance payers.
+        required: false
+        schema:
+          type: string
+      - name: categories_exact
+        in: query
+        description: 'Filter by one or more categories by name.
+
+          When multiple are present, non-insurance payers with any of the specified
+
+          categories will be matched.'
+        required: false
+        schema:
+          type: string
+      - name: clinical_trial_ids
+        in: query
+        description: 'Filter by one or more clinical trials by their `clinical_trial_id`.
+
+          When multiple are present, non-insurance payers with any of the specified
+
+          clinical trials will be matched.'
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ClinicalTrialId'
+      - name: enabled
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: sort
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerSortField'
+      - name: sort_direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: limit
+        in: query
+        description: Defaults to 100
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerPage'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/non-insurance-payers/v1/{non_insurance_payer_id}/toggle_enablement:
+    patch:
+      operationId: toggle-enablement
+      summary: Toggle Enablement
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: non_insurance_payer_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayer'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_non-insurance-payers/v1:ToggleNonInsurancePayerEnablementRequest'
+  /api/non-insurance-payers/v1/categories:
+    get:
+      operationId: get-categories
+      summary: Get non-insurance payer categories
+      description: 'Returns a paginated list of all non-insurance payer categories.
+
+
+        Non-insurance payer categories are simply strings and are not stored as a
+
+        separate object in Candid. They are created when added to at least one
+
+        non-insurance payer''s `category` field and are deleted when there are no
+
+        longer any non-insurance payers that contain them.'
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: search_term
+        in: query
+        description: Filters categories by fuzzy matching on name.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limits the maximum number of categories that will be returned. Defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        description: The page token to continue paging through a previous request.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerCategoriesPage'
+  /api/non-insurance-payers/v1/{non_insurance_payer_id}:
+    get:
+      operationId: get
+      summary: Get
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: non_insurance_payer_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId'
+      - name: organization_id
+        in: query
+        description: Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayer'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: non_insurance_payer_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayer'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerUpdateRequest'
+    delete:
+      operationId: delete
+      summary: Delete
+      tags:
+      - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+      parameters:
+      - name: non_insurance_payer_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons:OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_commons:ClinicalTrialId:
+      type: string
+      format: uuid
+      title: ClinicalTrialId
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons:UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

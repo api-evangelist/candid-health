@@ -1,0 +1,302 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_import-invoice.subpackage_import-invoice/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_import-invoice.subpackage_import-invoice/v1
+paths:
+  /api/import-invoice/v1:
+    post:
+      operationId: import-invoice
+      summary: Import Invoice
+      description: Import an existing invoice from a third party service to reflect state in Candid.
+      tags:
+      - subpackage_import-invoice.subpackage_import-invoice/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_import-invoice/v1:ImportInvoice'
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_import-invoice/v1:CreateImportInvoiceRequest'
+    get:
+      operationId: get-multi
+      summary: Get Multi
+      description: Returns all Invoices for the authenticated user's organziation with all filters applied.
+      tags:
+      - subpackage_import-invoice.subpackage_import-invoice/v1
+      parameters:
+      - name: patient_external_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PatientExternalId'
+      - name: encounter_external_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterExternalId'
+      - name: note
+        in: query
+        description: partial match supported
+        required: false
+        schema:
+          type: string
+      - name: due_date_before
+        in: query
+        description: all invoices whose due date is before this due date, not inclusive
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: due_date_after
+        in: query
+        description: all invoices whose due date is after this due date, not inclusive
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: all invoices that match any of the provided statuses
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_invoices/v2:InvoiceStatus'
+      - name: limit
+        in: query
+        description: Defaults to 100
+        required: false
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        description: Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_invoices/v2:InvoiceSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to descending order
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_import-invoice/v1:ImportInvoicesPage'
+  /api/import-invoice/v1/{invoice_id}:
+    get:
+      operationId: get
+      summary: Get
+      description: Retrieve and view an import invoice
+      tags:
+      - subpackage_import-invoice.subpackage_import-invoice/v1
+      parameters:
+      - name: invoice_id
+        in: path
+        description: InvoiceId to be returned
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:InvoiceId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_import-invoice/v1:ImportInvoice'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update
+      description: Update the information on the imported invoice
+      tags:
+      - subpackage_import-invoice.subpackage_import-invoice/v1
+      parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:InvoiceId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_import-invoice/v1:ImportInvoice'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_import-invoice/v1:ImportInvoiceUpdateRequest'
+components:
+  schemas:
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_commons:PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons:EncounterExternalId:
+      type: string
+      title: EncounterExternalId
+    type_commons:InvoiceId:
+      type: string
+      format: uuid
+      title: InvoiceId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

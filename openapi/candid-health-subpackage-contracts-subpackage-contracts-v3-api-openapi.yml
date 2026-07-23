@@ -1,0 +1,750 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_contracts.subpackage_contracts/v3 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_contracts.subpackage_contracts/v3
+paths:
+  /api/contracts/v3/{contract_id}:
+    get:
+      operationId: get
+      summary: Get contract
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractWithProvidersUnion'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    delete:
+      operationId: delete
+      summary: Delete contract
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractIsLinkedToFeeScheduleHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts/v2:ContractIsLinkedToFeeScheduleError'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update contract
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractWithProvidersUnion'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractInvalidExpirationDateHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts/v2:ContractInvalidExpirationDateError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_contracts/v3:ContractUpdateUnion'
+  /api/contracts/v3:
+    get:
+      operationId: get-multi
+      summary: Get all contracts
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: limit
+        in: query
+        description: Max number of contracts returned. Defaults to 1000. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: type
+        in: query
+        description: The type of contract
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractType'
+      - name: contracting_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractingProviderId'
+      - name: rendering_provider_ids
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:RenderingProviderid'
+      - name: payer_names
+        in: query
+        description: Filter to contracts that include any of the included payer names.
+        required: false
+        schema:
+          type: string
+      - name: states
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:State'
+      - name: contract_status
+        in: query
+        description: The status of the contract. Defaults to `pending`
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts/v2:ContractStatus'
+      - name: sort
+        in: query
+        description: Potentially sort by a contract related attribute.  Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts/v2:ContractSortField'
+      - name: sort_direction
+        in: query
+        description: Direction of sort, defaulting to desc
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractsPage'
+    post:
+      operationId: create
+      summary: Create contract
+      description: Creates a new contract within the user's current organization
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractWithProvidersUnion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_contracts/v3:ContractCreateUnion'
+  /api/contracts/v3/{contract_id}/providers:
+    get:
+      operationId: get-contract-providers
+      summary: Get contract providers
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: limit
+        in: query
+        description: Max number of providers returned per page. Defaults to 100. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractProvidersPage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: add-contract-providers
+      summary: Add providers to contract
+      description: Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:AddContractProvidersResponse'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts/v3:RenderingProviderid'
+                  description: Provider IDs to add to the contract. Max 100,000 per request.
+              required:
+              - rendering_provider_ids
+    delete:
+      operationId: remove-contract-providers
+      summary: Remove providers from contract
+      description: Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractProviderCount'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts/v3:RenderingProviderid'
+                  description: Provider IDs to remove from the contract. Max 100,000 per request.
+              required:
+              - rendering_provider_ids
+  /api/contracts/v3/{contract_id}/providers/credentialing:
+    get:
+      operationId: get-contract-provider-credentialing-spans
+      summary: Get contract provider credentialing spans
+      description: Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list.
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: limit
+        in: query
+        description: Max number of providers returned per page. Defaults to 100. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractProviderCredentialingPage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/contracts/v3/{contract_id}/service-facilities:
+    post:
+      operationId: create-contract-service-facility
+      summary: Create contract service facility
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractServiceFacility'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_facility_id:
+                  type: string
+                  format: uuid
+                  description: The UUID of the service facility
+                provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
+                  description: The providers who are authorized under the contract
+              required:
+              - service_facility_id
+              - provider_ids
+  /api/contracts/v3/{contract_id}/service-facilities/{contract_service_facility_id}:
+    patch:
+      operationId: update-contract-service-facility
+      summary: Update contract service facility
+      tags:
+      - subpackage_contracts.subpackage_contracts/v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractId'
+      - name: contract_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts/v3:ContractServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts/v3:ContractServiceFacility'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_facility_id:
+                  type: string
+                  format: uuid
+                  description: The UUID of the service facility
+                provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
+                  description: The providers who are authorized under the contract
+components:
+  schemas:
+    type_commons:State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

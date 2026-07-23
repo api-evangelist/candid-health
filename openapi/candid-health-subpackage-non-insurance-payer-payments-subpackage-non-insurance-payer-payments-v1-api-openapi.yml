@@ -1,0 +1,409 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+paths:
+  /api/non-insurance-payer-payments/v1:
+    get:
+      operationId: get-multi
+      summary: Get non-insurance payer payments
+      description: Returns all non-insurance payer payments
+      tags:
+      - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+      parameters:
+      - name: limit
+        in: query
+        description: Defaults to 100. The value must be greater than 0 and less than 1000.
+        required: false
+        schema:
+          type: integer
+      - name: non_insurance_payer_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId'
+      - name: check_number
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: invoice_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:InvoiceId'
+      - name: sort
+        in: query
+        description: Defaults to refund_timestamp
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPaymentSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to descending order if not provided.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPaymentsPage'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create non-insurance payer payment
+      tags:
+      - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPayment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPaymentCreate'
+  /api/non-insurance-payer-payments/v1/{non_insurance_payer_payment_id}:
+    get:
+      operationId: get
+      summary: Get non-insurance payer payment
+      description: Retrieves a previously created non-insurance payer payment by its `non_insurance_payer_payment_id`.
+      tags:
+      - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+      parameters:
+      - name: non_insurance_payer_payment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPaymentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPayment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update
+      tags:
+      - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+      parameters:
+      - name: non_insurance_payer_payment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPaymentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPayment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_timestamp:
+                  type: string
+                  format: date-time
+                payment_note:
+                  $ref: '#/components/schemas/type_financials:NoteUpdate'
+                invoice_id:
+                  $ref: '#/components/schemas/type_financials:InvoiceUpdate'
+    delete:
+      operationId: delete
+      summary: Delete non-insurance payer payment
+      description: Deletes the non-insurance payer payment record matching the provided `non_insurance_payer_payment_id`.
+      tags:
+      - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+      parameters:
+      - name: non_insurance_payer_payment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_non-insurance-payer-payments/v1:NonInsurancePayerPaymentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_financials:InvoiceUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons:InvoiceId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: InvoiceUpdate
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_financials:NoteUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            type: string
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: NoteUpdate
+    type_commons:InvoiceId:
+      type: string
+      format: uuid
+      title: InvoiceId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

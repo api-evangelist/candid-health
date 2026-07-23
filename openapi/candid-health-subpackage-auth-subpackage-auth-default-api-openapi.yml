@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_auth.subpackage_auth/default
+paths:
+  /api/auth/v2/token:
+    post:
+      operationId: get-token
+      summary: Get token
+      description: "<Callout intent=\"info\">\nCandid Health SDKs automatically handle authentication workflows after configuring them with the `client_id` and\n`client_secret`.\n</Callout>\n\nCandid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all\nsubsequent API requests via the `/auth/v2/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the \"Users & Credentials\" tab by your org admin.\n\nThe `/auth/v2/token` endpoint accepts both `Content-Type: application/json` and `Content-Type: application/x-www-form-urlencoded`. The request body should contain the `client_id` and `client_secret` as follows:\n\n```json\n{\n  \"client_id\": \"YOUR_CLIENT_ID\",\n  \"client_secret\": \"YOUR_CLIENT_SECRET\"\n}\n```\nor as URL-encoded form data:\n\n```\nclient_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET\n```\n\nThe bearer token is a signed [JWT](https://jwt.io/). The public key for the JWT can be found [here](https://candidhealth.auth0.com/pem) for any verification workflows.\n\nThe bearer token should be provided in the `Authorization` header for all subsequent API calls.\n\n<Callout intent=\"warning\">\nThe bearer token expires 5 hours after it has been created. After it has expired, the client will receive an \"HTTP 401\nUnauthorized\" error, at which point the client should generate a new token. It is important that tokens be reused between\nrequests; if the client attempts to generate a token too often, it will be rate-limited and will receive an `HTTP 429 Too Many Requests` error.\n</Callout>"
+      tags:
+      - subpackage_auth.subpackage_auth/default
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_auth/default:AuthGetTokenResponse'
+        '415':
+          description: Error response with status 415
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - InvalidContentTypeError
+                  content:
+                    $ref: '#/components/schemas/type_auth/default:InvalidContentTypeErrorType'
+                required:
+                - errorName
+                - content
+        '429':
+          description: Error response with status 429
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - TooManyRequestsError
+                  content:
+                    $ref: '#/components/schemas/type_auth/default:TooManyRequestsErrorType'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                  description: Your application's Client ID.
+                client_secret:
+                  type: string
+                  description: Your application's Client Secret.
+              required:
+              - client_id
+              - client_secret
+components:
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

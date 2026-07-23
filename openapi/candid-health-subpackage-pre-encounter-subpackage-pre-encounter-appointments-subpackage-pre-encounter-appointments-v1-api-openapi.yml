@@ -1,0 +1,419 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+paths:
+  /appointments/v1:
+    post:
+      operationId: create
+      summary: Create
+      description: Adds an appointment.  VersionConflictError is returned when the placer_appointment_id is already in use.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/appointments/v1:Appointment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/appointments/v1:MutableAppointment'
+  /appointments/v1/visits:
+    get:
+      operationId: get-visits
+      summary: Get Visits
+      description: 'Gets all Visits within a given time range. The return list is ordered by start_time ascending.
+
+
+        **IMPORTANT:** This endpoint requires a date filter on `appointment.startTimestamp` to ensure acceptable query performance.
+
+        Without date filtering, the query can take 50+ seconds on large datasets due to grouping and aggregation operations.
+
+
+        Example filters:
+
+        - `appointment.startTimestamp|gt|2024-01-01` - appointments after January 1, 2024
+
+        - `appointment.startTimestamp|eq|2024-12-08` - appointments on December 8, 2024
+
+        - `appointment.startTimestamp|lt|2024-12-31` - appointments before December 31, 2024
+
+
+        You can combine the date filter with other filters using commas:
+
+        - `appointment.startTimestamp|gt|2024-01-01,appointment.status|eq|PENDING`'
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: sort_field
+        in: query
+        description: Defaults to appointment.start_time.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/lists/v1:SortFieldString'
+      - name: sort_direction
+        in: query
+        description: Defaults to ascending.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:SortDirection'
+      - name: filters
+        in: query
+        description: '**Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+
+          Example: appointment.startTimestamp|gt|2024-01-01'
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:FilterQueryString'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/appointments/v1:VisitsPage'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /appointments/v1/{id}:
+    get:
+      operationId: get
+      summary: Get
+      description: Gets an appointment.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:AppointmentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/appointments/v1:Appointment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /appointments/v1/{id}/history:
+    get:
+      operationId: get-history
+      summary: Get History
+      description: Gets an appointment along with it's full history.  The return list is ordered by version ascending.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:AppointmentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/appointments/v1:Appointment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /appointments/v1/{id}/{version}:
+    put:
+      operationId: update
+      summary: Update
+      description: Updates an appointment. The path must contain the next version number to prevent race conditions. For example, if the current version of the appointment is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the appointment. Updating historic versions is not supported.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:AppointmentId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/appointments/v1:Appointment'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/appointments/v1:MutableAppointment'
+    delete:
+      operationId: deactivate
+      summary: Deactivate
+      description: Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:AppointmentId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+  /appointments/v1/updates/scan:
+    get:
+      operationId: scan
+      summary: Scan
+      description: Scans up to 100 appointment updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+      parameters:
+      - name: since
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/appointments/v1:Appointment'
+components:
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

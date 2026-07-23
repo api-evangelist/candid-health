@@ -1,0 +1,676 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+paths:
+  /patients/v1:
+    post:
+      operationId: create
+      summary: Create
+      description: Adds a patient.  VersionConflictError is returned when the patient's external ID is already in use.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: skip_duplicate_check
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/patients/v1:MutablePatient'
+    get:
+      operationId: search
+      summary: Search
+      description: Returns a list of Patients based on the search criteria.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: mrn
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: similar_name_ordering
+        in: query
+        description: A string that is used to order similar names in search results.
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+  /patients/v1/with_mrn:
+    post:
+      operationId: create-with-mrn
+      summary: Create With Mrn
+      description: Adds a patient and hydrates their MRN with a pre-existing MRN.  Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: skip_duplicate_check
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/patients/v1:MutablePatientWithMrn'
+  /patients/v1/get_multi:
+    get:
+      operationId: get-multi
+      summary: Get Multi
+      description: Searches for patients that match the query parameters.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: mrn
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+      - name: sort_field
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/patients/v1:PatientSortField'
+      - name: sort_direction
+        in: query
+        description: Defaults to ascending.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:SortDirection'
+      - name: redirect_to_primary
+        in: query
+        description: If true, then only return the primary version of any patients requested
+        required: false
+        schema:
+          type: boolean
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:PatientPage'
+  /patients/v1/search_providers:
+    get:
+      operationId: search-providers
+      summary: Search Providers
+      description: Searches for referring providers that match the query parameters.  The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: search_criteria
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/common:ExternalProvider'
+  /patients/v1/{id}:
+    get:
+      operationId: get
+      summary: Get
+      description: Gets a patient.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /patients/v1/mrn/{mrn}:
+    get:
+      operationId: get-by-mrn
+      summary: Get By Mrn
+      description: Gets a patient by mrn.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: mrn
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /patients/v1/{id}/history:
+    get:
+      operationId: get-history
+      summary: Get History
+      description: Gets a patient along with it's full history.  The return list is ordered by version ascending.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /patients/v1/{id}/snapshot:
+    get:
+      operationId: get-coverage-snapshot
+      summary: Get Coverage Snapshot
+      description: Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used to determine what the filing order was for that patient during that time. The actual data returned will always be the latest version of the patient and coverages.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+      - name: date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:PatientCoverageSnapshot'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /patients/v1/{id}/{version}:
+    put:
+      operationId: update
+      summary: Update
+      description: Updates a patient. The path must contain the next version number to prevent race conditions. For example, if the current version of the patient is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the patient. Updating historic versions is not supported.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/patients/v1:MutablePatient'
+    delete:
+      operationId: deactivate
+      summary: Deactivate
+      description: Sets a patient as deactivated.  The path must contain the most recent version plus 1 to prevent race conditions.  Deactivating historic versions is not supported.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: reactivate
+      summary: Reactivate
+      description: Removes the deactivated flag for a patient.  The path must contain the most recent version plus 1 to prevent race conditions.  Reactivating historic versions is not supported.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+  /patients/v1/updates/scan:
+    get:
+      operationId: scan
+      summary: Scan
+      description: 'Scans up to 1000 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+
+
+        **Polling Pattern:**
+
+        To continuously poll for updates without gaps:
+
+        1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)
+
+        2. The API returns 100 by default and up to 1000 patient records, sorted by `updated_at` ascending
+
+        3. Find the `updated_at` value from the last record in the response
+
+        4. Use that `updated_at` value as the `since` parameter in your next request
+
+        5. Repeat steps 2-4 to ingest updates until you receive an empty list
+
+
+        **Important Notes:**
+
+        - The `since` parameter is inclusive, so you may receive the last record from the previous batch again (you can deduplicate by ID and version)
+
+        - All patient records include `updated_at`, `id`, `version`, `deactivated`, and `updating_user` fields for tracking changes
+
+        - Timestamps have millisecond resolution for precise ordering'
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+      parameters:
+      - name: since
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: maxResults
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
+components:
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

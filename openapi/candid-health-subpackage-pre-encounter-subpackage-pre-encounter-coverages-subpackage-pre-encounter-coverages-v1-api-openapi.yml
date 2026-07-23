@@ -1,0 +1,483 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+paths:
+  /coverages/v1/:
+    post:
+      operationId: create
+      summary: Create
+      description: Creates a new Coverage. A Coverage provides the high-level identifiers and descriptors of a specific insurance plan for a specific individual - typically the information you can find on an insurance card. Additionally a coverage will include detailed benefits information covered by the specific plan for the individual.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/coverages/v1:MutableCoverage'
+    get:
+      operationId: get-multi
+      summary: Get Multi
+      description: Returns a list of Coverages based on the search criteria.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: patient_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
+  /coverages/v1//{id}/{version}:
+    put:
+      operationId: update
+      summary: Update
+      description: Updates a Coverage. The path must contain the next version number to prevent race conditions. For example, if the current version of the coverage is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the coverage. Updating historic versions is not supported.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/coverages/v1:MutableCoverage'
+  /coverages/v1//get-multi-paginated:
+    get:
+      operationId: get-multi-paginated
+      summary: Get Multi Paginated
+      description: Returns a page of Coverages based on the search criteria.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: patient_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: payer_plan_group_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+      - name: limit
+        in: query
+        description: Must be between 0 and 1000. Defaults to 100
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/coverages/v1:CoveragesPage'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /coverages/v1//{id}:
+    get:
+      operationId: get
+      summary: Get
+      description: gets a specific Coverage
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
+  /coverages/v1//{id}/history:
+    get:
+      operationId: get-history
+      summary: Get History
+      description: "Gets a coverage's history. Full history is returned if no filters are \ndefined. The return list is ordered by version, defaulting to ascending."
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: non_auto_updated_coverages_only
+        in: query
+        description: If true, only returns coverages that have NOT been auto-updated by the system.
+        required: false
+        schema:
+          type: boolean
+      - name: sort_direction
+        in: query
+        description: Defaults to ascending. Sorts by version.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:SortDirection'
+      - name: limit
+        in: query
+        description: Must be between 0 and 1000. No default.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /coverages/v1//updates/scan:
+    get:
+      operationId: scan
+      summary: Scan
+      description: 'Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+
+
+        **Polling Pattern:**
+
+        To continuously poll for updates without gaps:
+
+        1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)
+
+        2. The API returns up to 100 coverage records, sorted by `updated_at` ascending
+
+        3. Find the `updated_at` value from the last record in the response
+
+        4. Use that `updated_at` value as the `since` parameter in your next request
+
+        5. Repeat steps 2-4 to ingest updates until you receive an empty list
+
+
+        **Important Notes:**
+
+        - The `since` parameter is inclusive, so you may receive the last record from the previous batch again (you can deduplicate by ID and version)
+
+        - All coverage records include `updated_at`, `id`, `version`, `deactivated`, and `updating_user` fields for tracking changes
+
+        - Timestamps have millisecond resolution for precise ordering'
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: since
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
+  /coverages/v1//batch-update-ppg/{ppg_id}:
+    post:
+      operationId: batch-update-ppg
+      summary: Batch Update Ppg
+      description: Finds all coverages associated with the given ppg_id and updates the ppg_fields for each coverage.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: ppg_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:PayerPlanGroupId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/coverages/v1:PayerPlanGroupFields'
+  /coverages/v1//{id}/eligibility:
+    post:
+      operationId: check-eligibility
+      summary: Check Eligibility
+      description: Initiates an eligibility check. Returns the metadata of the check if successfully initiated.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckMetadata'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_code:
+                  $ref: '#/components/schemas/type_pre-encounter/coverages/v1:ServiceTypeCode'
+                date_of_service:
+                  type: string
+                  format: date
+                npi:
+                  type: string
+              required:
+              - service_code
+              - date_of_service
+              - npi
+  /coverages/v1//{id}/eligibility/{check_id}:
+    get:
+      operationId: get-eligibility
+      summary: Get Eligibility
+      description: Gets the eligibility of a patient for a specific coverage if successful.
+      tags:
+      - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+      - name: check_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/coverages/v1:CoverageEligibilityCheckResponse'
+components:
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

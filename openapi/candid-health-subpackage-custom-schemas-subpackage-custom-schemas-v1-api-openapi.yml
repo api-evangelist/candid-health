@@ -1,0 +1,301 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_custom-schemas.subpackage_custom-schemas/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_custom-schemas.subpackage_custom-schemas/v1
+paths:
+  /api/custom-schemas/v1:
+    get:
+      operationId: get-multi
+      summary: Get all custom schemas
+      description: Returns all custom schemas.
+      tags:
+      - subpackage_custom-schemas.subpackage_custom-schemas/v1
+      parameters:
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas/v1:SchemaGetMultiResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create a custom schema
+      description: 'Create custom schema with a set of typed keys. Schema keys can be referenced as inputs in user-configurable rules in the Rules
+
+        Engine, and key-value pairs can be attached to claims via the Encounters API.'
+      tags:
+      - subpackage_custom-schemas.subpackage_custom-schemas/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas/v1:Schema'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - SchemaValidationHttpFailure
+                  content:
+                    $ref: '#/components/schemas/type_custom-schemas/v1:SchemaValidationFailure'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                fields:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas/v1:SchemaField'
+              required:
+              - name
+              - fields
+  /api/custom-schemas/v1/{schema_id}:
+    get:
+      operationId: get
+      summary: Get custom schema
+      description: Return a custom schema with a given ID.
+      tags:
+      - subpackage_custom-schemas.subpackage_custom-schemas/v1
+      parameters:
+      - name: schema_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:SchemaId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas/v1:Schema'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update custom schema
+      description: Update the name, description, or keys on a preexisting schema.
+      tags:
+      - subpackage_custom-schemas.subpackage_custom-schemas/v1
+      parameters:
+      - name: schema_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:SchemaId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas/v1:Schema'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - SchemaValidationHttpFailure
+                  content:
+                    $ref: '#/components/schemas/type_custom-schemas/v1:SchemaValidationFailure'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                fields_to_add:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas/v1:SchemaField'
+                  description: A list of typed entries to add to schema. Only additive modifications are permitted.
+components:
+  schemas:
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons:SchemaId:
+      type: string
+      format: uuid
+      title: SchemaId
+    type_commons:UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

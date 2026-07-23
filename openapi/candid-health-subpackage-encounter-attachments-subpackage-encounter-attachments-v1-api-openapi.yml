@@ -1,0 +1,328 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_encounter-attachments.subpackage_encounter-attachments/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+paths:
+  /api/encounter-attachments/v1/{encounter_id}:
+    get:
+      operationId: get
+      summary: Get Encounter Attachments
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:EncounterAttachment'
+    put:
+      operationId: create
+      summary: Create Encounter Attachment
+      description: 'Uploads a file to the encounter. The file will be stored in the
+
+        encounter''s attachments. Deprecated: Use create-v2 instead.'
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-attachments/v1:AttachmentId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment_file:
+                  type: string
+                  format: binary
+                  description: 'The file for upload. The maximum file size is 25MB. The allowed mime types are:
+
+                    - application/pdf
+
+                    - image/png
+
+                    - image/jpeg
+
+                    - text/plain
+
+                    - text/csv
+
+                    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+                    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                attachment_type:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:EncounterAttachmentType'
+              required:
+              - attachment_file
+              - attachment_type
+    delete:
+      operationId: delete
+      summary: Delete Encounter Attachment
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attachment_id:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:AttachmentId'
+              required:
+              - attachment_id
+  /api/encounter-attachments/v1/{encounter_id}/v2:
+    put:
+      operationId: create-with-description
+      summary: Create Encounter Attachment V2
+      description: 'Uploads a file to the encounter. The file will be stored in the
+
+        encounter''s attachments.'
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-attachments/v1:AttachmentId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment_file:
+                  type: string
+                  format: binary
+                  description: 'The file for upload. The maximum file size is 25MB. The allowed mime types are:
+
+                    - application/pdf
+
+                    - image/png
+
+                    - image/jpeg
+
+                    - text/plain
+
+                    - text/csv
+
+                    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+                    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                attachment_type:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:EncounterAttachmentType'
+                description:
+                  type: string
+              required:
+              - attachment_file
+              - attachment_type
+  /api/encounter-attachments/v1/create-from-charge-capture-external-id:
+    post:
+      operationId: create-with-charge-capture-external-id
+      summary: Create an Attachment from a Charge Capture external ID
+      description: 'Uploads a file using an external identifier. For Charge Capture, the file will be associated with the Encounter at Encounter creation time.
+
+
+        Note: Attachments created via this endpoint are not searchable via the get endpoint until they are associated with an encounter.'
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-attachments/v1:AttachmentId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                charge_capture_external_id:
+                  type: string
+                attachment_file:
+                  type: string
+                  format: binary
+                  description: 'The file for upload. The maximum file size is 25MB. The allowed mime types are:
+
+                    - application/pdf
+
+                    - image/png
+
+                    - image/jpeg
+
+                    - text/plain
+
+                    - text/csv
+
+                    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+                    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                attachment_type:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:EncounterAttachmentType'
+                description:
+                  type: string
+              required:
+              - charge_capture_external_id
+              - attachment_file
+              - attachment_type
+  /api/encounter-attachments/v1/by-charge-capture-external-id/{charge_capture_external_id}:
+    get:
+      operationId: get-by-charge-capture-external-id
+      summary: Get Attachments by Charge Capture External ID
+      description: Returns all attachments associated with the given charge capture external ID.
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: charge_capture_external_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:ChargeCaptureAttachment'
+    delete:
+      operationId: delete-by-charge-capture-external-id
+      summary: Delete Attachment by Charge Capture External ID
+      description: Deletes an attachment associated with the given charge capture external ID.
+      tags:
+      - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+      parameters:
+      - name: charge_capture_external_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attachment_id:
+                  $ref: '#/components/schemas/type_encounter-attachments/v1:AttachmentId'
+              required:
+              - attachment_id
+components:
+  schemas:
+    type_commons:EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

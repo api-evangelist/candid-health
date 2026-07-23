@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_patient-ar.subpackage_patient-ar/v1 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_patient-ar.subpackage_patient-ar/v1
+paths:
+  /api/patient-ar/v1/inventory:
+    get:
+      operationId: list-inventory
+      summary: List Inventory Records
+      description: 'Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
+
+        The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.'
+      tags:
+      - subpackage_patient-ar.subpackage_patient-ar/v1
+      parameters:
+      - name: since
+        in: query
+        description: Timestamp to filter records since, inclusive
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: limit
+        in: query
+        description: Maximum number of records to return, default is 100
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-ar/v1:ListInventoryPagedResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: The provided filters are invalid or not supported.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - InvalidFiltersError
+                    description: The provided filters are invalid or not supported.
+                  content:
+                    $ref: '#/components/schemas/type_patient-ar/v1:InvalidFiltersErrorType'
+                    description: The provided filters are invalid or not supported.
+                required:
+                - errorName
+                - content
+  /api/patient-ar/v1/invoice-itemization/{claim_id}:
+    get:
+      operationId: itemize
+      summary: Invoice Itemization
+      description: Provides detailed itemization of invoice data for a specific claim.
+      tags:
+      - subpackage_patient-ar.subpackage_patient-ar/v1
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons:ClaimId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-ar/v1:InvoiceItemizationResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons:ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

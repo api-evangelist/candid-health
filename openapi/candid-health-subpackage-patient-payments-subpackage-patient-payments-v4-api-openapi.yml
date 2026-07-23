@@ -1,0 +1,738 @@
+openapi: 3.1.0
+info:
+  title: API Reference subpackage_auth.subpackage_auth/default subpackage_patient-payments.subpackage_patient-payments/v4 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: subpackage_patient-payments.subpackage_patient-payments/v4
+paths:
+  /api/patient-payments/v4:
+    get:
+      operationId: get-multi
+      summary: Get patient payments
+      description: 'Returns all patient payments satisfying the search criteria AND whose organization_id matches
+
+        the current organization_id of the authenticated user.'
+      tags:
+      - subpackage_patient-payments.subpackage_patient-payments/v4
+      parameters:
+      - name: limit
+        in: query
+        description: Defaults to 100. The value must be greater than 0 and less than 1000.
+        required: false
+        schema:
+          type: integer
+      - name: patient_external_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PatientExternalId'
+      - name: claim_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ClaimId'
+      - name: service_line_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ServiceLineId'
+      - name: billing_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:ProviderId'
+      - name: unattributed
+        in: query
+        description: returns payments with unattributed allocations if set to true
+        required: false
+        schema:
+          type: boolean
+      - name: invoice_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:InvoiceId'
+      - name: sources
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_financials:PatientTransactionSource'
+      - name: source_internal_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Defaults to payment_timestamp
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_patient-payments/v4:PatientPaymentSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to descending order if not provided.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons:PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-payments/v4:PatientPaymentsPage'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create patient payment
+      description: 'Creates a new patient payment record and returns the newly created PatientPayment object.
+
+        The allocations can describe whether the payment is being applied toward a specific service line,
+
+        claim, or billing provider.'
+      tags:
+      - subpackage_patient-payments.subpackage_patient-payments/v4
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-payments/v4:PatientPayment'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount_cents:
+                  type: integer
+                payment_timestamp:
+                  type: string
+                  format: date-time
+                payment_note:
+                  type: string
+                patient_external_id:
+                  $ref: '#/components/schemas/type_commons:PatientExternalId'
+                allocations:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_financials:AllocationCreate'
+                invoice:
+                  $ref: '#/components/schemas/type_commons:InvoiceId'
+                payment_method_detail:
+                  $ref: '#/components/schemas/type_patient-payments/v4:PaymentMethodDetailCreate'
+                payment_source:
+                  $ref: '#/components/schemas/type_financials:PatientPaymentCreateSource'
+                source_internal_id:
+                  type: string
+              required:
+              - amount_cents
+              - patient_external_id
+              - allocations
+  /api/patient-payments/v4/{patient_payment_id}:
+    get:
+      operationId: get
+      summary: Get patient payment
+      description: Retrieves a previously created patient payment by its `patient_payment_id`.
+      tags:
+      - subpackage_patient-payments.subpackage_patient-payments/v4
+      parameters:
+      - name: patient_payment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_patient-payments/v4:PatientPaymentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-payments/v4:PatientPayment'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update
+      description: Updates the patient payment record matching the provided patient_payment_id.
+      tags:
+      - subpackage_patient-payments.subpackage_patient-payments/v4
+      parameters:
+      - name: patient_payment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_patient-payments/v4:PatientPaymentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-payments/v4:PatientPayment'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_timestamp:
+                  type: string
+                  format: date-time
+                payment_note:
+                  $ref: '#/components/schemas/type_financials:NoteUpdate'
+                invoice:
+                  $ref: '#/components/schemas/type_financials:InvoiceUpdate'
+    delete:
+      operationId: delete
+      summary: Delete patient payment
+      description: Deletes the patient payment record matching the provided patient_payment_id.
+      tags:
+      - subpackage_patient-payments.subpackage_patient-payments/v4
+      parameters:
+      - name: patient_payment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_patient-payments/v4:PatientPaymentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons:EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons:UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_financials:InvoiceUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons:InvoiceId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: InvoiceUpdate
+    type_commons:EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons:ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_commons:ProviderId:
+      type: string
+      format: uuid
+      title: ProviderId
+    type_commons:EncounterExternalId:
+      type: string
+      title: EncounterExternalId
+    type_commons:UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_financials:NoteUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            type: string
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: NoteUpdate
+    type_commons:AppointmentId:
+      type: string
+      title: AppointmentId
+    type_commons:PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_financials:AllocationTargetCreate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - service_line_by_id
+            description: 'Discriminator value: service_line_by_id'
+          value:
+            $ref: '#/components/schemas/type_commons:ServiceLineId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - claim_by_id
+            description: 'Discriminator value: claim_by_id'
+          value:
+            $ref: '#/components/schemas/type_commons:ClaimId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - claim_by_encounter_external_id
+            description: 'Discriminator value: claim_by_encounter_external_id'
+          value:
+            $ref: '#/components/schemas/type_commons:EncounterExternalId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - billing_provider_by_id
+            description: 'Discriminator value: billing_provider_by_id'
+          value:
+            $ref: '#/components/schemas/type_commons:ProviderId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - appointment_by_id_and_patient_external_id
+            description: 'Discriminator value: appointment_by_id_and_patient_external_id'
+          appointment_id:
+            $ref: '#/components/schemas/type_commons:AppointmentId'
+          patient_external_id:
+            $ref: '#/components/schemas/type_commons:PatientExternalId'
+        required:
+        - type
+        - appointment_id
+        - patient_external_id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - unattributed
+            description: 'Discriminator value: unattributed'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      description: 'Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+
+        claim, billing provider, or is unallocated.'
+      title: AllocationTargetCreate
+    type_commons:UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons:SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_financials:PatientPaymentCreateSource:
+      type: string
+      enum:
+      - MANUAL_ENTRY
+      - PHREESIA
+      - SHERPA_HEALTH
+      description: Allowed payment sources when creating a patient payment via the API.
+      title: PatientPaymentCreateSource
+    type_commons:Date:
+      type: string
+      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+      title: Date
+    type_commons:InvoiceId:
+      type: string
+      format: uuid
+      title: InvoiceId
+    type_financials:AllocationEarmarkType:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - date_of_service
+            description: 'Discriminator value: date_of_service'
+          value:
+            $ref: '#/components/schemas/type_commons:Date'
+        required:
+        - type
+        - value
+        description: Earmark for auto-allocation to an encounter with this specific date of service
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - external_encounter_id
+            description: 'Discriminator value: external_encounter_id'
+          value:
+            $ref: '#/components/schemas/type_commons:EncounterExternalId'
+        required:
+        - type
+        - value
+        description: Earmark for auto-allocation to an encounter with this specific external ID (more specific than date of service)
+      discriminator:
+        propertyName: type
+      description: 'If enabled for your organization, defines how a patient prepayment allocation should be earmarked for future auto-allocation.
+
+        Earmarks hold the allocation until a matching encounter is created, then attempt to allocate to that encounter.
+
+        Only applicable for unattributed allocations.'
+      title: AllocationEarmarkType
+    type_commons:PageToken:
+      type: string
+      title: PageToken
+    type_financials:PatientTransactionSource:
+      type: string
+      enum:
+      - MANUAL_ENTRY
+      - CHARGEBEE
+      - SQUARE
+      - STRIPE
+      - ELATION
+      - CEDAR
+      - HEALTHIE
+      - REALLOCATION
+      - PHREESIA
+      - INSTAMED
+      - SHERPA_HEALTH
+      title: PatientTransactionSource
+    type_financials:AllocationCreate:
+      type: object
+      properties:
+        amount_cents:
+          type: integer
+        target:
+          $ref: '#/components/schemas/type_financials:AllocationTargetCreate'
+        earmark:
+          $ref: '#/components/schemas/type_financials:AllocationEarmarkType'
+          description: 'If enabled for your organization, optional earmarking configuration for patient prepayments.
+
+            When provided on unattributed allocations, holds the payment for future auto-allocation to matching encounters.'
+      required:
+      - amount_cents
+      - target
+      description: 'Allocations are portions of payments that are applied to specific resources, known as targets. Each allocation has
+
+        and amount, defined in cents, and a target.'
+      title: AllocationCreate
+    type_commons:ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication
