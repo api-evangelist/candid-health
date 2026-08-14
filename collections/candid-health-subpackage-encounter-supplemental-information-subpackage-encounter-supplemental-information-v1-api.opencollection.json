@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Encounter Supplemental Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/encounter-supplemental-information/v1/:encounter_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Encounter Supplemental Information"
+        },
+        {
+          "info": {
+            "name": "Create Encounter Supplemental Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://pre-api.joincandidhealth.com/api/encounter-supplemental-information/v1/:encounter_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Encounter Supplemental Information"
+        },
+        {
+          "info": {
+            "name": "Update Encounter Supplemental Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/encounter-supplemental-information/v1/:encounter_id/:supplemental_information_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "supplemental_information_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Encounter Supplemental Information"
+        },
+        {
+          "info": {
+            "name": "Delete Encounter Supplemental Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/encounter-supplemental-information/v1/:encounter_id/:supplemental_information_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "supplemental_information_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Encounter Supplemental Information"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

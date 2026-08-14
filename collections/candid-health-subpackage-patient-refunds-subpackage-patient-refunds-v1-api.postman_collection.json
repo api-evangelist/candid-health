@@ -1,0 +1,1398 @@
+{
+  "item": [
+    {
+      "id": "00844f30-f3a2-4b9f-b7f0-345565e7042d",
+      "name": "subpackage_patient-refunds.subpackage_patient-refunds/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cf7848f5-0d81-45b8-a60e-e629571b2da3",
+          "name": "Get patient refunds",
+          "request": {
+            "name": "Get patient refunds",
+            "description": {
+              "content": "Returns all patient refunds satisfying the search criteria AND whose organization_id matches\nthe current organization_id of the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-refunds",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_line_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "billing_provider_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "unattributed",
+                  "value": "<boolean>",
+                  "description": "returns payments with unattributed allocations if set to true"
+                },
+                {
+                  "disabled": false,
+                  "key": "invoice_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sources",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundSortField not found in the OpenAPI spec",
+                  "description": "Defaults to refund_timestamp"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending order if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "731589ee-02ac-4823-942a-d1734fbcdf16",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "24f55b5d-63e0-7c5f-90fb-d9d1ea4070cd"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "cfb77ed3-f824-be8b-dcff-1e14c8de7d14"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "31e4d076-11a3-8f39-5b75-afeefd0e2b8d"
+                    },
+                    {
+                      "key": "unattributed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "7e009897-64da-aed2-b478-464139493adc"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "INSTAMED"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba9c1406-999c-4f0d-8a5d-34a1483e4e0b",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "24f55b5d-63e0-7c5f-90fb-d9d1ea4070cd"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "cfb77ed3-f824-be8b-dcff-1e14c8de7d14"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "31e4d076-11a3-8f39-5b75-afeefd0e2b8d"
+                    },
+                    {
+                      "key": "unattributed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "7e009897-64da-aed2-b478-464139493adc"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "INSTAMED"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d7055ed-7b78-464e-b692-8cde49c1b1d8",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "24f55b5d-63e0-7c5f-90fb-d9d1ea4070cd"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "cfb77ed3-f824-be8b-dcff-1e14c8de7d14"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "31e4d076-11a3-8f39-5b75-afeefd0e2b8d"
+                    },
+                    {
+                      "key": "unattributed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "7e009897-64da-aed2-b478-464139493adc"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "INSTAMED"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dbf29176-0da5-447c-b6f9-370d1d7f7f7f",
+          "name": "Create patient refund",
+          "request": {
+            "name": "Create patient refund",
+            "description": {
+              "content": "Creates a new patient refund record and returns the newly created PatientRefund object.\nThe allocations can describe whether the refund is being applied toward a specific service line,\nclaim, or billing provider.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-refunds",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"<string>\",\n  \"allocations\": [\n    {\n      \"amount_cents\": \"<integer>\",\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"<uuid>\"\n      },\n      \"earmark\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"amount_cents\": \"<integer>\",\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"<uuid>\"\n      },\n      \"earmark\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    }\n  ],\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": \"<string>\",\n  \"invoice\": \"<uuid>\",\n  \"refund_reason\": \"<string>\",\n  \"raise_on_overdraft\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ae80f024-a6b3-4d7d-bb7b-cb845952e586",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 2826,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"c4c46399-1eb1-4d07-b310-c055a0d502af\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 1209,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"cd4c648a-d299-f7a1-c286-17171d98fe6e\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": \"<string>\",\n  \"invoice\": \"48d3ff7d-d50b-93aa-1689-d7e25fa1bcb0\",\n  \"refund_reason\": \"TRANSFER\",\n  \"raise_on_overdraft\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bda24e9a-f37e-45ba-8965-8b0bf618a6cc",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 2826,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"c4c46399-1eb1-4d07-b310-c055a0d502af\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 1209,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"cd4c648a-d299-f7a1-c286-17171d98fe6e\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": \"<string>\",\n  \"invoice\": \"48d3ff7d-d50b-93aa-1689-d7e25fa1bcb0\",\n  \"refund_reason\": \"TRANSFER\",\n  \"raise_on_overdraft\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27f03e2a-f107-4262-99a7-df7a9e0f0123",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 2826,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"c4c46399-1eb1-4d07-b310-c055a0d502af\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 1209,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"cd4c648a-d299-f7a1-c286-17171d98fe6e\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": \"<string>\",\n  \"invoice\": \"48d3ff7d-d50b-93aa-1689-d7e25fa1bcb0\",\n  \"refund_reason\": \"TRANSFER\",\n  \"raise_on_overdraft\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cfdab60e-512f-4c79-8af9-8d74456e1c3b",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 2826,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"c4c46399-1eb1-4d07-b310-c055a0d502af\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 1209,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"cd4c648a-d299-f7a1-c286-17171d98fe6e\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": \"<string>\",\n  \"invoice\": \"48d3ff7d-d50b-93aa-1689-d7e25fa1bcb0\",\n  \"refund_reason\": \"TRANSFER\",\n  \"raise_on_overdraft\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"ReallocationWouldOverdraftError\",\n  \"content\": {\n    \"messages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allocation_details\": [\n      {\n        \"allocation_target\": {\n          \"type\": \"service_line\",\n          \"service_line_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"claim_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"encounter_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"patient_paid_amount_cents\": 9750,\n        \"current_balance_cents\": 8083,\n        \"overage_amount_cents\": 7975,\n        \"error_message\": \"string\"\n      },\n      {\n        \"allocation_target\": {\n          \"type\": \"service_line\",\n          \"service_line_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"claim_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"encounter_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"patient_paid_amount_cents\": 8026,\n        \"current_balance_cents\": 9993,\n        \"overage_amount_cents\": 9494,\n        \"error_message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc407167-774d-4dc8-8a25-8ea4bb919e5f",
+          "name": "Get patient refund",
+          "request": {
+            "name": "Get patient refund",
+            "description": {
+              "content": "Retrieves a previously created patient refund by its `patient_refund_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-refunds",
+                "v1",
+                ":patient_refund_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                  "key": "patient_refund_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "93e2bdfe-3609-48ab-a890-8ba7d77a4332",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f4f6a47-f20a-47e7-aa1a-855987d2e0d8",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c52462aa-84cc-44d5-b2e0-533d46570c5f",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d75111db-23dd-4c49-8cc1-0b65b40cb695",
+          "name": "Update",
+          "request": {
+            "name": "Update",
+            "description": {
+              "content": "Updates the patient refund record matching the provided patient_refund_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-refunds",
+                "v1",
+                ":patient_refund_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                  "key": "patient_refund_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"invoice\": {\n    \"type\": \"<string>\",\n    \"value\": \"<uuid>\"\n  },\n  \"refund_reason\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d5d4199-ad12-41fb-a7aa-1c18a4b6e595",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"ef5365a4-b8d6-d599-5a37-33c533a0cec6\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"TRANSFER\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4cb7a5f9-73c6-42a4-b3ca-d80d91b074c4",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"ef5365a4-b8d6-d599-5a37-33c533a0cec6\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"TRANSFER\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5f426dd-2548-4f3f-af42-07a06f2d4a0b",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"ef5365a4-b8d6-d599-5a37-33c533a0cec6\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"TRANSFER\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0de27f6a-0f1f-496c-9457-035f8a25fffd",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"ef5365a4-b8d6-d599-5a37-33c533a0cec6\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"TRANSFER\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75c1732a-aa90-426a-90b4-8c944dd56c84",
+          "name": "Delete patient refund",
+          "request": {
+            "name": "Delete patient refund",
+            "description": {
+              "content": "Deletes the patient refund record matching the provided patient_refund_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-refunds",
+                "v1",
+                ":patient_refund_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                  "key": "patient_refund_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b9b5591-e3f7-4a02-9f36-022c783a33cd",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3ebbb1a6-f77b-4bbd-b153-ecda94ce54e3",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba325b9c-7bd9-4262-b4e8-3a4f36c32fd8",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4e2be33-9752-461e-b7ae-deb8031186e8",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-refunds",
+                    "v1",
+                    ":patient_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-refunds/v1:PatientRefundId not found in the OpenAPI spec",
+                      "key": "patient_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f56d4172-6f69-4659-9f25-ca05622f0c6d",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_patient-refunds.subpackage_patient-refunds/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

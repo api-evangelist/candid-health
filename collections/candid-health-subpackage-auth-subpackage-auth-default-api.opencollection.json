@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_auth.subpackage_auth/default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/auth/v2/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "<Callout intent=\"info\">\nCandid Health SDKs automatically handle authentication workflows after configuring them with the `client_id` and\n`client_secret`.\n</Callout>\n\nCandid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all\nsubsequent API requests via the `/auth/v2/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

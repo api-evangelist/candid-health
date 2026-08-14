@@ -1,0 +1,1519 @@
+{
+  "item": [
+    {
+      "id": "9faf5cf9-71c0-46c6-bc54-4565a16a5f90",
+      "name": "subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9c0278c0-7a99-45b1-a9cc-a0d4238178bc",
+          "name": "Create",
+          "request": {
+            "name": "Create",
+            "description": {
+              "content": "Creates a new Coverage. A Coverage provides the high-level identifiers and descriptors of a specific insurance plan for a specific individual - typically the information you can find on an insurance card. Additionally a coverage will include detailed benefits information covered by the specific plan for the individual.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fdaaa75b-1465-4ffb-b704-728f2b6a8299",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8a81ea2-fd6f-4c78-97c4-9bb9f67ec140",
+          "name": "Get Multi",
+          "request": {
+            "name": "Get Multi",
+            "description": {
+              "content": "Returns a list of Coverages based on the search criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "patient_id",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "783a0e4e-7a4a-4d22-b797-42a2e4d70508",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:Coverage not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:Coverage not found in the OpenAPI spec\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2c1bc61-32a3-4dc9-b867-3bfdf30263ed",
+          "name": "Update",
+          "request": {
+            "name": "Update",
+            "description": {
+              "content": "Updates a Coverage. The path must contain the next version number to prevent race conditions. For example, if the current version of the coverage is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the coverage. Updating historic versions is not supported.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                ":id",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                  "key": "id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "version",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "503c9a8d-1995-4322-b778-3c1fe3e99494",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40148b4c-9390-4ac7-a8c5-df7be6c11aec",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"NotFoundError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:ErrorBase4xx not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c09813c9-3ea5-4160-aba5-f9a18ff1c609",
+              "name": "Error response with status 409",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"VersionConflictError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:VersionConflictErrorBody not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45b97bec-76b4-4782-8f61-86b044c2a861",
+          "name": "Get Multi Paginated",
+          "request": {
+            "name": "Get Multi Paginated",
+            "description": {
+              "content": "Returns a page of Coverages based on the search criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                "get-multi-paginated"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "patient_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "payer_plan_group_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Must be between 0 and 1000. Defaults to 100"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bfdb2b0f-3fb3-40c9-bbd2-0cb133a1390f",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    "get-multi-paginated"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "payer_plan_group_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd173401-5b85-404d-9dbd-218652aff6c5",
+              "name": "Error response with status 400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    "get-multi-paginated"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "patient_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "payer_plan_group_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"BadRequestError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:ErrorBase4xx not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ab748b3-fdd8-4eb1-a7b4-934a31d1e72e",
+          "name": "Get",
+          "request": {
+            "name": "Get",
+            "description": {
+              "content": "gets a specific Coverage",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "90d60e6b-d470-4e83-ac92-26e74207c436",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46ed4e44-d985-4f6b-9f4e-4d78b234d2ba",
+          "name": "Get History",
+          "request": {
+            "name": "Get History",
+            "description": {
+              "content": "Gets a coverage's history. Full history is returned if no filters are \ndefined. The return list is ordered by version, defaulting to ascending.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                ":id",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "non_auto_updated_coverages_only",
+                  "value": "<boolean>",
+                  "description": "If true, only returns coverages that have NOT been auto-updated by the system."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec",
+                  "description": "Defaults to ascending. Sorts by version."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Must be between 0 and 1000. No default."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a5ecddd3-8a6a-4558-b4ea-94204dded949",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "non_auto_updated_coverages_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:Coverage not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:Coverage not found in the OpenAPI spec\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ef7fa71-b435-4269-a0b7-5c77e20947be",
+              "name": "Error response with status 400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "non_auto_updated_coverages_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"BadRequestError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:ErrorBase4xx not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e980ae5-b056-4054-b196-80277276b7e4",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "non_auto_updated_coverages_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"NotFoundError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:ErrorBase4xx not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e29cb22-c143-44dd-bd1a-96d584e06f4f",
+          "name": "Scan",
+          "request": {
+            "name": "Scan",
+            "description": {
+              "content": "Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.\n\n**Polling Pattern:**\nTo continuously poll for updates without gaps:\n1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)\n2. The API returns up to 100 coverage records, sorted by `updated_at` ascending\n3. Find the `updated_at` value from the last record in the response\n4. Use that `updated_at` value as the `since` parameter in your next request\n5. Repeat steps 2-4 to ingest updates until you receive an empty list\n\n**Important Notes:**\n- The `since` parameter is inclusive, so you may receive the last record from the previous batch again (you can deduplicate by ID and version)\n- All coverage records include `updated_at`, `id`, `version`, `deactivated`, and `updating_user` fields for tracking changes\n- Timestamps have millisecond resolution for precise ordering",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                "updates",
+                "scan"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "since",
+                  "value": "<dateTime>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "afbfef19-7f96-457d-acd3-cbaae198b7c2",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    "updates",
+                    "scan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "since",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:Coverage not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:Coverage not found in the OpenAPI spec\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bceec092-366c-4866-bb62-cb8d71c25292",
+          "name": "Batch Update Ppg",
+          "request": {
+            "name": "Batch Update Ppg",
+            "description": {
+              "content": "Finds all coverages associated with the given ppg_id and updates the ppg_fields for each coverage.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                "batch-update-ppg",
+                ":ppg_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PayerPlanGroupId not found in the OpenAPI spec",
+                  "key": "ppg_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "753f9eb5-5e58-46b9-8a6b-95368b7e5bd2",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    "batch-update-ppg",
+                    ":ppg_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PayerPlanGroupId not found in the OpenAPI spec",
+                      "key": "ppg_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "593ea6d4-5634-4ede-b027-8ff7c8db45ee",
+          "name": "Check Eligibility",
+          "request": {
+            "name": "Check Eligibility",
+            "description": {
+              "content": "Initiates an eligibility check. Returns the metadata of the check if successfully initiated.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                ":id",
+                "eligibility"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"service_code\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:ServiceTypeCode not found in the OpenAPI spec\"\n  },\n  \"date_of_service\": \"<date>\",\n  \"npi\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d4a708dd-6c0a-4dff-b611-27edb8a18b47",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"service_code\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/coverages/v1:ServiceTypeCode not found in the OpenAPI spec\"\n  },\n  \"date_of_service\": \"<date>\",\n  \"npi\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6e361556-6fef-45f2-b645-7cfb1ca68c72",
+          "name": "Get Eligibility",
+          "request": {
+            "name": "Get Eligibility",
+            "description": {
+              "content": "Gets the eligibility of a patient for a specific coverage if successful.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coverages",
+                "v1",
+                "",
+                ":id",
+                "eligibility",
+                ":check_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                  "key": "id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "check_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "137f9322-764a-4515-8551-f6768e38e5c5",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coverages",
+                    "v1",
+                    "",
+                    ":id",
+                    "eligibility",
+                    ":check_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:CoverageId not found in the OpenAPI spec",
+                      "key": "id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "check_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fc339d36-d9a4-4ae8-80ea-ce008c7e9a5d",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

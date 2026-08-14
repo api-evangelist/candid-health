@@ -1,0 +1,244 @@
+{
+  "item": [
+    {
+      "id": "fab4e836-0d36-4d73-b666-d6346b7aa972",
+      "name": "Eligibility",
+      "description": {
+        "content": "Real-time and batch insurance eligibility checks.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "314aa748-0d1d-402d-8f7c-da59bc7bb2ea",
+          "name": "Submit an encounter eligibility check.",
+          "request": {
+            "name": "Submit an encounter eligibility check.",
+            "description": {
+              "content": "Runs a real-time eligibility check against a payer to confirm active coverage and surface patient benefit detail.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility",
+                "v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payer_id\": \"<string>\",\n  \"provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"subscriber\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"service_type_codes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"date_of_service\": \"<date>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1092cb97-a332-4efb-b5f1-258ff0cb9e8c",
+              "name": "Eligibility result (270/271 response detail).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payer_id\": \"<string>\",\n  \"provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"subscriber\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"service_type_codes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"date_of_service\": \"<date>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"eligibility_check_id\": \"324dd777-0452-914f-9689-65a3b470e365\",\n  \"active_coverage\": true,\n  \"benefits\": [\n    {\n      \"name\": \"string\",\n      \"coverage_level\": \"string\",\n      \"amount_cents\": 4214\n    },\n    {\n      \"name\": \"string\",\n      \"coverage_level\": \"string\",\n      \"amount_cents\": 6838\n    }\n  ],\n  \"raw_271\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ff7a2c9-0c0e-44b4-86f0-5ac8f2c2428b",
+          "name": "Check eligibility for a stored coverage.",
+          "request": {
+            "name": "Check eligibility for a stored coverage.",
+            "description": {},
+            "url": {
+              "path": [
+                "pre-encounter",
+                "coverages",
+                "v1",
+                "check_eligibility"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payer_id\": \"<string>\",\n  \"provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"subscriber\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"service_type_codes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"date_of_service\": \"<date>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d458e1f1-fff1-4882-8350-2b4a31beb71f",
+              "name": "Eligibility result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pre-encounter",
+                    "coverages",
+                    "v1",
+                    "check_eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payer_id\": \"<string>\",\n  \"provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"subscriber\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"service_type_codes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"date_of_service\": \"<date>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"eligibility_check_id\": \"bd507bd3-b08e-3900-7425-bdaa26f47d82\",\n  \"active_coverage\": true,\n  \"benefits\": [\n    {\n      \"name\": \"string\",\n      \"coverage_level\": \"string\",\n      \"amount_cents\": 9224\n    },\n    {\n      \"name\": \"string\",\n      \"coverage_level\": \"string\",\n      \"amount_cents\": 3378\n    }\n  ],\n  \"raw_271\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5a6386a2-97e1-4eee-abad-5674f980b7a7",
+    "name": "Candid Health Auth Eligibility API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.\n\nContact Support:\n Name: Candid Health Support",
+      "type": "text/plain"
+    }
+  }
+}

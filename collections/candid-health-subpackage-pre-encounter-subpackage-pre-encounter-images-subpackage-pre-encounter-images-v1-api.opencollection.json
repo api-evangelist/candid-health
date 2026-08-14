@@ -1,0 +1,176 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Multi",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/images/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "patient_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "coverage_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "file_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patient_notes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_field",
+                "value": "",
+                "type": "query",
+                "description": "The field to order by. Defaults to updatedAt."
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "The direction to order by. Defaults to desc."
+              }
+            ]
+          },
+          "docs": "Searches for images that match the query parameters."
+        },
+        {
+          "info": {
+            "name": "Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/images/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds an image.  VersionConflictError is returned if a front or back of this coverage already exists."
+        },
+        {
+          "info": {
+            "name": "Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/images/v1/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Gets an image by imageId."
+        },
+        {
+          "info": {
+            "name": "Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://pre-api.joincandidhealth.com/images/v1/:id/:version",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an Image.  The path must contain the most recent version to prevent races."
+        },
+        {
+          "info": {
+            "name": "Deactivate",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/images/v1/:id/:version",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Sets an Image as deactivated.  The path must contain the most recent version to prevent races."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

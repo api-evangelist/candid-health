@@ -1,0 +1,1042 @@
+{
+  "item": [
+    {
+      "id": "ff55b761-1c07-44bd-ba26-17d3b1f904f3",
+      "name": "subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1711068d-ca2e-46c5-af31-e8260a0eea23",
+          "name": "Get non-insurance payer refunds refunds",
+          "request": {
+            "name": "Get non-insurance payer refunds refunds",
+            "description": {
+              "content": "Returns all non-insurance payer refunds satisfying the search criteria",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "non-insurance-payer-refunds",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "check_number",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "invoice_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundSortField not found in the OpenAPI spec",
+                  "description": "Defaults to refund_timestamp"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending order if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "00cd32aa-0125-4773-a484-44d2df557264",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "check_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "d5fc58fb-132f-2fa9-711c-15077ab2a840"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d9159a4-0f25-4c2a-aed0-b0b6cde30c69",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_non-insurance-payers/v1:NonInsurancePayerId not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "check_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "d5fc58fb-132f-2fa9-711c-15077ab2a840"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82fe2c2d-e241-4dce-9ba4-d8bc56c6f80e",
+          "name": "Create non-insurance payer refund",
+          "request": {
+            "name": "Create non-insurance payer refund",
+            "description": {
+              "content": "Creates a new non-insurance payer refund record and returns the newly created `NonInsurancePayerRefund` object.\nThe allocations can describe whether the refund is being applied toward a specific service line,\nclaim, or billing provider.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "non-insurance-payer-refunds",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "181d0b91-5793-4911-a218-8fcad302e3ed",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa7d1c72-791f-44c8-8cd0-6c4f2afd2967",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b9623c8-bae3-41a4-a723-5ce25e9310fa",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9647c3da-040d-49c5-992b-ecdac54328c9",
+          "name": "Get non-insurance payer refund",
+          "request": {
+            "name": "Get non-insurance payer refund",
+            "description": {
+              "content": "Retrieves a previously created non-insurance payer refund by its `non_insurance_payer_refund_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "non-insurance-payer-refunds",
+                "v1",
+                ":non_insurance_payer_refund_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                  "key": "non_insurance_payer_refund_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "769c9293-5762-4d34-9a5a-398b2321e311",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e91ecffc-d41e-485d-a75d-58c0d33f52ac",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "50a09595-0e44-43ef-ad93-568abb7d70b4",
+          "name": "Update",
+          "request": {
+            "name": "Update",
+            "description": {
+              "content": "Updates the non-insurance payer refund record matching the provided non_insurance_payer_refund_id. If updating the refund amount,\nthen the allocations must be appropriately updated as well.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "non-insurance-payer-refunds",
+                "v1",
+                ":non_insurance_payer_refund_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                  "key": "non_insurance_payer_refund_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"refund_reason\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"invoice_id\": {\n    \"type\": \"<string>\",\n    \"value\": \"<uuid>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f3b952dc-71a2-4d11-bec4-9e084aee222a",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"ENTERED_IN_ERROR\"\n  },\n  \"invoice_id\": {\n    \"type\": \"set\",\n    \"value\": \"1a0f84e7-123b-2281-6fd1-310ace349f55\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dca0773a-5bd4-4bc5-b544-f80dbb547d91",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"ENTERED_IN_ERROR\"\n  },\n  \"invoice_id\": {\n    \"type\": \"set\",\n    \"value\": \"1a0f84e7-123b-2281-6fd1-310ace349f55\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da2d7053-c1b3-442c-a65b-15bf64586a98",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_timestamp\": \"<dateTime>\",\n  \"refund_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"refund_reason\": {\n    \"type\": \"set\",\n    \"value\": \"ENTERED_IN_ERROR\"\n  },\n  \"invoice_id\": {\n    \"type\": \"set\",\n    \"value\": \"1a0f84e7-123b-2281-6fd1-310ace349f55\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4392d03a-23c3-4a50-bae7-d2daba6ab2db",
+          "name": "Delete non-insurance payer refund",
+          "request": {
+            "name": "Delete non-insurance payer refund",
+            "description": {
+              "content": "Deletes the non-insurance payer refund record matching the provided `non_insurance_payer_refund_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "non-insurance-payer-refunds",
+                "v1",
+                ":non_insurance_payer_refund_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                  "key": "non_insurance_payer_refund_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "868109a7-ce59-49d5-9be8-8b255e85f76c",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "31b95e02-4258-4c3d-967b-8e2c057e2240",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "978d5aab-aece-414d-b43f-2ccc3f524506",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "non-insurance-payer-refunds",
+                    "v1",
+                    ":non_insurance_payer_refund_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_non-insurance-payer-refunds/v1:NonInsurancePayerRefundId not found in the OpenAPI spec",
+                      "key": "non_insurance_payer_refund_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3613b82c-391f-4843-8a19-66bf99505cfb",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

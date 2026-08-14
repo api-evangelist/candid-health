@@ -1,0 +1,177 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_insurance-refunds.subpackage_insurance-refunds/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_insurance-refunds.subpackage_insurance-refunds/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get insurance refunds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/insurance-refunds/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+              },
+              {
+                "name": "payer_uuid",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "service_line_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "billing_provider_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to refund_timestamp"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction. Defaults to descending order if not provided."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all insurance refunds satisfying the search criteria AND whose organization_id matches\nthe current organization_id of the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Create insurance refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/insurance-refunds/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new insurance refund record and returns the newly created `InsuranceRefund` object.\nThe allocations can describe whether the refund is being applied toward a specific service line,\nclaim, or billing provider."
+        },
+        {
+          "info": {
+            "name": "Get insurance refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/insurance-refunds/v1/:insurance_refund_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "insurance_refund_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a previously created insurance refund by its `insurance_refund_id`.\nIf the refund does not exist, a `403` will be thrown."
+        },
+        {
+          "info": {
+            "name": "Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/insurance-refunds/v1/:insurance_refund_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "insurance_refund_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the patient refund record matching the provided insurance_refund_id. If updating the refund amount,\nthen the allocations must be appropriately updated as well."
+        },
+        {
+          "info": {
+            "name": "Delete insurance refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/insurance-refunds/v1/:insurance_refund_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "insurance_refund_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the insurance refund record matching the provided `insurance_refund_id`.\nIf the matching record's organization_id does not match the authenticated user's\ncurrent organization_id, then a response code of `403` will be returned."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

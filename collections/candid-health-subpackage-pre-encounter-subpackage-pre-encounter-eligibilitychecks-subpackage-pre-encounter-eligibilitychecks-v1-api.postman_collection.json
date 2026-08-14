@@ -1,0 +1,1072 @@
+{
+  "item": [
+    {
+      "id": "76091df8-3f28-434a-84ac-274e4dfc3203",
+      "name": "subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ccc5ad87-445d-4217-8ea4-599fee8065e8",
+          "name": "Post",
+          "request": {
+            "name": "Post",
+            "description": {
+              "content": "Sends real-time eligibility checks to payers through Stedi.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0884d0f7-6a51-45ee-8d3f-6412a84e6243",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "33fbed4e-b80a-4304-9d77-3dc56329fe1b",
+          "name": "Batch",
+          "request": {
+            "name": "Batch",
+            "description": {
+              "content": "Sends a batch of eligibility checks to payers through Stedi.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRequest not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRequest not found in the OpenAPI spec\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b935a4e2-3394-4094-b54d-284e2b454de0",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRequest not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRequest not found in the OpenAPI spec\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6412c700-69e1-44bb-9ecd-17ebb86956c8",
+          "name": "Poll Batch",
+          "request": {
+            "name": "Poll Batch",
+            "description": {
+              "content": "Polls the status of a batch eligibility check.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "batch",
+                ":batch_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "batch_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9fbd3f68-d262-42c0-a55c-87de9d4fbb22",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "batch",
+                    ":batch_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "batch_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be695712-5be1-456d-a12c-13a621cedbf8",
+          "name": "Payer Search",
+          "request": {
+            "name": "Payer Search",
+            "description": {
+              "content": "Searches for payers that match the query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "payer",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "913edb32-f1d5-4133-b009-7af725e209f7",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "payer",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "624242b5-9a2b-405b-9b7a-9bcb50c1b903",
+          "name": "Recommendation",
+          "request": {
+            "name": "Recommendation",
+            "description": {
+              "content": "Gets recommendation for eligibility checks based on filters. This endpoint will retrieve all the latest eligibility recommendations for each \neligibility recommendation type for the given filters. If you want to get a specific recommendation type, you can use the `type` query parameter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "recommendation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "933d6ad9-3718-41e5-9769-272c36735b9b",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "recommendation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRecommendation not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityRecommendation not found in the OpenAPI spec\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "33b3adca-c61d-4fb0-bdd0-a453493b4754",
+          "name": "Create Recommendation",
+          "request": {
+            "name": "Create Recommendation",
+            "description": {
+              "content": "Create an eligibiilty recommendation based on the request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "recommendation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6f15160-dc4b-4f1d-ab09-a11f6ce9405a",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "recommendation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2d7c8273-cedc-4489-b92a-3dc496504799",
+          "name": "Vote Recommendation",
+          "request": {
+            "name": "Vote Recommendation",
+            "description": {
+              "content": "Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "recommendation",
+                ":recommendation_id",
+                ":version",
+                "vote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "recommendation_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "version",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "75caa957-8559-4b72-9f06-9bc153f4096b",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "recommendation",
+                    ":recommendation_id",
+                    ":version",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendation_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee101689-3791-42ba-80e1-78569173e3a5",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "recommendation",
+                    ":recommendation_id",
+                    ":version",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendation_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"NotFoundError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:ErrorBase4xx not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a75b282-3947-4000-bf45-218a6ee8c323",
+              "name": "Error response with status 409",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "recommendation",
+                    ":recommendation_id",
+                    ":version",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recommendation_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"VersionConflictError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:VersionConflictErrorBody not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80f32063-62cc-4874-8d7d-d06c698bc3c9",
+          "name": "Get Multi",
+          "request": {
+            "name": "Get Multi",
+            "description": {},
+            "url": {
+              "path": [
+                "eligibility-checks",
+                "v1",
+                "get-multi",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "subscriber_member_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "payer_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "provider_npi",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "initiated_at_min",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "initiated_at_max",
+                  "value": "<dateTime>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8ceba97b-9212-466e-8184-6d73da2bc18f",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "eligibility-checks",
+                    "v1",
+                    "get-multi",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "subscriber_member_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "payer_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "provider_npi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_of_service",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "initiated_at_min",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "initiated_at_max",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "16abe6de-123f-4eb5-990a-fc58bdf25b6b",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

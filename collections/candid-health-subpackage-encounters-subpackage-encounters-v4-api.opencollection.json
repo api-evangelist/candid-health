@@ -1,0 +1,301 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_encounters.subpackage_encounters/v4 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_encounters.subpackage_encounters/v4",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all encounters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entities per page, defaults to 100."
+              },
+              {
+                "name": "claim_status",
+                "value": "",
+                "type": "query",
+                "description": "Indicates the current status of an insurance claim within the billing process."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to created_at:desc."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_of_service_min",
+                "value": "",
+                "type": "query",
+                "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-25."
+              },
+              {
+                "name": "date_of_service_max",
+                "value": "",
+                "type": "query",
+                "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-25."
+              },
+              {
+                "name": "primary_payer_names",
+                "value": "",
+                "type": "query",
+                "description": "Comma delimited string."
+              },
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Filter by any of the following fields: encounter_id, claim_id, patient external_id,\npatient date of birth, patient first name, patient last name,\nor encounter external id."
+              },
+              {
+                "name": "external_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter to an exact match on encounter external_id, if one exists."
+              },
+              {
+                "name": "diagnoses_updated_since",
+                "value": "",
+                "type": "query",
+                "description": "ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z."
+              },
+              {
+                "name": "tag_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by name of tags on encounters."
+              },
+              {
+                "name": "work_queue_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "billable_status",
+                "value": "",
+                "type": "query",
+                "description": "Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party."
+              },
+              {
+                "name": "responsible_party",
+                "value": "",
+                "type": "query",
+                "description": "Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay."
+              },
+              {
+                "name": "owner_of_next_action",
+                "value": "",
+                "type": "query",
+                "description": "The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks."
+              },
+              {
+                "name": "patient_external_id",
+                "value": "",
+                "type": "query",
+                "description": "The patient ID from the external EMR platform for the patient"
+              },
+              {
+                "name": "include_merged_patient_data",
+                "value": "",
+                "type": "query",
+                "description": "If true and patient_external_id is set, then also include the encounters of all alternative patients."
+              }
+            ]
+          },
+          "docs": "Get all encounters"
+        },
+        {
+          "info": {
+            "name": "Create professional encounter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create professional encounter"
+        },
+        {
+          "info": {
+            "name": "Get encounter",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4/:encounter_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get encounter"
+        },
+        {
+          "info": {
+            "name": "Update professional encounter",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4/:encounter_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update professional encounter"
+        },
+        {
+          "info": {
+            "name": "Create institutional or professional encounter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4/universal",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.\nNo portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,\nin any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior\nexpress, written consent of AHA."
+        },
+        {
+          "info": {
+            "name": "Create institutional or professional encounter from pre-encounter patient and appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4/create-from-pre-encounter/universal",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing\npatients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage\nof the pre-encounter service should use the standard create endpoint.\n\nThe endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects\nwhere applicable. In particular,"
+        },
+        {
+          "info": {
+            "name": "Create professional encounter from pre-encounter patient and appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4/create-from-pre-encounter",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing\npatients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage\nof the pre-encounter service should use the standard create endpoint.\n\nThe endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects\nwhere applicable. In particular,"
+        },
+        {
+          "info": {
+            "name": "Update institutional or professional encounter",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/encounters/v4/:encounter_id/universal",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.\nNo portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,\nin any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior\nexpress, written consent of AHA."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get non-insurance payer payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-payments/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+              },
+              {
+                "name": "non_insurance_payer_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "check_number",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to refund_timestamp"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction. Defaults to descending order if not provided."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all non-insurance payer payments"
+        },
+        {
+          "info": {
+            "name": "Create non-insurance payer payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-payments/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create non-insurance payer payment"
+        },
+        {
+          "info": {
+            "name": "Get non-insurance payer payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-payments/v1/:non_insurance_payer_payment_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_payment_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a previously created non-insurance payer payment by its `non_insurance_payer_payment_id`."
+        },
+        {
+          "info": {
+            "name": "Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-payments/v1/:non_insurance_payer_payment_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_payment_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update"
+        },
+        {
+          "info": {
+            "name": "Delete non-insurance payer payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-payments/v1/:non_insurance_payer_payment_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_payment_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the non-insurance payer payment record matching the provided `non_insurance_payer_payment_id`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

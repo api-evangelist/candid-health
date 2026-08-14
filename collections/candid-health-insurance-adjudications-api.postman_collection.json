@@ -1,0 +1,139 @@
+{
+  "item": [
+    {
+      "id": "ed0d85d4-58fa-4de9-a21b-3d996db8215b",
+      "name": "Insurance Adjudications",
+      "description": {
+        "content": "Retrieve ERA / 835 remittance adjudication detail.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2bc455f3-3404-4f0e-a48f-8c5d6f0b3a68",
+          "name": "Get an insurance adjudication (ERA / remit).",
+          "request": {
+            "name": "Get an insurance adjudication (ERA / remit).",
+            "description": {
+              "content": "Returns the insurance adjudication, i.e. the 835 electronic remittance advice detail for a claim including payments and adjustments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "insurance_adjudications",
+                "v1",
+                ":insurance_adjudication_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "insurance_adjudication_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0b0b8bc-6220-4ac0-8035-0461a576bbef",
+              "name": "The requested insurance adjudication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "insurance_adjudications",
+                    "v1",
+                    ":insurance_adjudication_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "insurance_adjudication_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"insurance_adjudication_id\": \"f4a8b9c5-ab94-2779-f61d-3681a77f82cf\",\n  \"payer\": {\n    \"payer_uuid\": \"60130c57-d1c7-c261-39bc-5de08cec6b82\",\n    \"payer_id\": \"string\",\n    \"payer_name\": \"string\"\n  },\n  \"claims\": [\n    {\n      \"claim_id\": \"28b62d1a-f623-c20f-d883-1e7f5714005a\",\n      \"paid_amount_cents\": 2428,\n      \"adjustments\": [\n        {\n          \"group_code\": \"string\",\n          \"reason_code\": \"string\",\n          \"amount_cents\": 2189\n        },\n        {\n          \"group_code\": \"string\",\n          \"reason_code\": \"string\",\n          \"amount_cents\": 8883\n        }\n      ]\n    },\n    {\n      \"claim_id\": \"ec1bc917-5210-9f13-c130-82cfca7b3cd5\",\n      \"paid_amount_cents\": 6698,\n      \"adjustments\": [\n        {\n          \"group_code\": \"string\",\n          \"reason_code\": \"string\",\n          \"amount_cents\": 9436\n        },\n        {\n          \"group_code\": \"string\",\n          \"reason_code\": \"string\",\n          \"amount_cents\": 6509\n        }\n      ]\n    }\n  ],\n  \"check_number\": \"string\",\n  \"paid_date\": \"1972-04-08\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "df674519-f1bf-4683-ad59-fdd1c4db498a",
+    "name": "Candid Health Auth Insurance Adjudications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.\n\nContact Support:\n Name: Candid Health Support",
+      "type": "text/plain"
+    }
+  }
+}

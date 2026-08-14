@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Insurance Adjudications API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Insurance Adjudications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an insurance adjudication (ERA / remit).",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/insurance_adjudications/v1/:insurance_adjudication_id",
+            "params": [
+              {
+                "name": "insurance_adjudication_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the insurance adjudication, i.e. the 835 electronic remittance advice detail for a claim including payments and adjustments."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

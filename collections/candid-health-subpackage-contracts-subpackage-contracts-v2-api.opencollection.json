@@ -1,0 +1,190 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_contracts.subpackage_contracts/v2 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_contracts.subpackage_contracts/v2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v2/:contract_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Organization context for cross-org access. If not provided, defaults to the requesting user's organization."
+              }
+            ]
+          },
+          "docs": "This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3."
+        },
+        {
+          "info": {
+            "name": "Update contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v2/:contract_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update contract"
+        },
+        {
+          "info": {
+            "name": "Delete contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v2/:contract_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete contract"
+        },
+        {
+          "info": {
+            "name": "Get all contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v2",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of contracts returned. Defaults to 1000. Max is 1000."
+              },
+              {
+                "name": "contracting_provider_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "rendering_provider_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payer_names",
+                "value": "",
+                "type": "query",
+                "description": "Filter to contracts that include any of the included payer names."
+              },
+              {
+                "name": "states",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "contract_status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the contract. Defaults to `pending`"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Potentially sort by a contract related attribute.  Defaults to created_at"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction of sort, defaulting to desc"
+              }
+            ]
+          },
+          "docs": "This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3."
+        },
+        {
+          "info": {
+            "name": "Create contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v2",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new contract within the user's current organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

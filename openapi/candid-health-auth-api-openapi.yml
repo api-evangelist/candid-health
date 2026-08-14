@@ -1,0 +1,73 @@
+openapi: 3.0.1
+info:
+  title: Candid Health Auth API
+  description: REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.
+  termsOfService: https://www.joincandidhealth.com
+  contact:
+    name: Candid Health Support
+    url: https://docs.joincandidhealth.com/additional-resources/support
+  version: '1.0'
+servers:
+- url: https://api.joincandidhealth.com/api
+  description: Candid Health production API
+security:
+- bearerAuth: []
+tags:
+- name: Auth
+  description: OAuth client-credentials token exchange.
+paths:
+  /auth/v2/token:
+    post:
+      operationId: getToken
+      tags:
+      - Auth
+      summary: Get an OAuth bearer token.
+      description: Exchange a client_id and client_secret for a short-lived JWT bearer access token used to authenticate all other API requests.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthGetTokenRequest'
+      responses:
+        '200':
+          description: A bearer access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthGetTokenResponse'
+        '401':
+          description: Invalid client credentials.
+components:
+  schemas:
+    AuthGetTokenRequest:
+      type: object
+      required:
+      - client_id
+      - client_secret
+      properties:
+        client_id:
+          type: string
+          description: Your application's Client ID.
+        client_secret:
+          type: string
+          description: Your application's Client Secret.
+    AuthGetTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: JWT bearer token.
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds.
+        token_type:
+          type: string
+          example: Bearer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth bearer token obtained from POST /auth/v2/token. Send as `Authorization: Bearer <access_token>`.'

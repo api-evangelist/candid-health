@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_custom-schemas.subpackage_custom-schemas/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_custom-schemas.subpackage_custom-schemas/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all custom schemas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/custom-schemas/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization."
+              }
+            ]
+          },
+          "docs": "Returns all custom schemas."
+        },
+        {
+          "info": {
+            "name": "Create a custom schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/custom-schemas/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create custom schema with a set of typed keys. Schema keys can be referenced as inputs in user-configurable rules in the Rules\nEngine, and key-value pairs can be attached to claims via the Encounters API."
+        },
+        {
+          "info": {
+            "name": "Get custom schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/custom-schemas/v1/:schema_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return a custom schema with a given ID."
+        },
+        {
+          "info": {
+            "name": "Update custom schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/custom-schemas/v1/:schema_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the name, description, or keys on a preexisting schema."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

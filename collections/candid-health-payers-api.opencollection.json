@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Payers API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all payers.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/payers/v3",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get all payers."
+        },
+        {
+          "info": {
+            "name": "Get a payer.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/payers/v3/:payer_uuid",
+            "params": [
+              {
+                "name": "payer_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a payer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

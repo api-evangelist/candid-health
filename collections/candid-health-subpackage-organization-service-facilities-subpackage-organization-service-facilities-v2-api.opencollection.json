@@ -1,0 +1,200 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization service facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-service-facilities/v2/:organization_service_facility_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organization_service_facility_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get organization service facility"
+        },
+        {
+          "info": {
+            "name": "Update organization service facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-service-facilities/v2/:organization_service_facility_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organization_service_facility_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update organization service facility"
+        },
+        {
+          "info": {
+            "name": "Delete organization service facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-service-facilities/v2/:organization_service_facility_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organization_service_facility_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete organization service facility"
+        },
+        {
+          "info": {
+            "name": "Get all organization service facilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-service-facilities/v2",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results returned. Defaults to 100."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a name or a part of a name."
+              },
+              {
+                "name": "organization_service_facility_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter to the provided organization service facility IDs."
+              },
+              {
+                "name": "external_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by one or more external_ids."
+              },
+              {
+                "name": "place_of_service_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by Place of Service (POS) code."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "The page token to continue paging through a previous request."
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization."
+              }
+            ]
+          },
+          "docs": "Get all organization service facilities"
+        },
+        {
+          "info": {
+            "name": "Create organization service facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-service-facilities/v2",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create organization service facility"
+        },
+        {
+          "info": {
+            "name": "Get organization service facility by external_id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-service-facilities/v2/external-id/:external_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "external_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Looks up a single organization service facility by its `external_id` field. This can be useful\nfor finding service facilities within Candid which are associated with service facilities in\nan external system."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

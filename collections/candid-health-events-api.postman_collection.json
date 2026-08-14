@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "5d810f5a-6fcc-4cb8-aa22-52d711e70514",
+      "name": "Events",
+      "description": {
+        "content": "Scan and retrieve billing lifecycle events.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0f5ef347-a56e-461c-96cf-8ca822de2126",
+          "name": "Scan billing lifecycle events.",
+          "request": {
+            "name": "Scan billing lifecycle events.",
+            "description": {
+              "content": "Returns events ordered by modification time, used to drive webhook-style notifications as encounters, claims, and remits change state.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "events",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "event_types",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eae2d94a-b39d-4372-8d59-5829e890c90c",
+              "name": "A page of events.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "events",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "event_types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"event_id\": \"b3059be0-0f22-f4ef-1906-7f445330993c\",\n      \"event_type\": \"string\",\n      \"resource_id\": \"419a1573-6016-f8f1-5915-c59b2da265cd\",\n      \"created_at\": \"1956-09-29T21:06:57.424Z\",\n      \"data\": {}\n    },\n    {\n      \"event_id\": \"0e8004f2-82f1-246a-8a79-e2b7a83ccbe6\",\n      \"event_type\": \"string\",\n      \"resource_id\": \"52fe628f-c386-72f0-ca8b-d32530286358\",\n      \"created_at\": \"1974-09-04T00:47:04.649Z\",\n      \"data\": {}\n    }\n  ],\n  \"page_token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c030c0f7-2fee-4f20-8708-62bb1cb40db8",
+          "name": "Get an event.",
+          "request": {
+            "name": "Get an event.",
+            "description": {},
+            "url": {
+              "path": [
+                "events",
+                "v1",
+                ":event_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "event_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8cbb9172-49dd-4b1e-b742-52f9a92a7429",
+              "name": "The requested event.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "events",
+                    "v1",
+                    ":event_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "event_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"event_id\": \"83288a4d-5946-5247-dbde-0af952a066d7\",\n  \"event_type\": \"string\",\n  \"resource_id\": \"63fd37ca-7fc8-95c0-b5c9-fb69866ebc8c\",\n  \"created_at\": \"2015-04-19T00:50:18.975Z\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e4005a4d-b211-4adf-a827-282c42c23056",
+    "name": "Candid Health Auth Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.\n\nContact Support:\n Name: Candid Health Support",
+      "type": "text/plain"
+    }
+  }
+}

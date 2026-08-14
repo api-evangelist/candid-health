@@ -1,0 +1,182 @@
+{
+  "item": [
+    {
+      "id": "de3d3f0b-b8ea-4585-a291-4306a16618bc",
+      "name": "subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "496697dc-ef69-43e7-b029-1eb7bfedff0d",
+          "name": "Get insurance adjudication",
+          "request": {
+            "name": "Get insurance adjudication",
+            "description": {
+              "content": "Retrieves a previously created insurance adjudication by its `insurance_adjudication_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "insurance-adjudications",
+                "v1",
+                ":insurance_adjudication_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_insurance-adjudications/v1:InsuranceAdjudicationId not found in the OpenAPI spec",
+                  "key": "insurance_adjudication_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "42eed9b3-3e97-49eb-80cb-49a059d5b9a3",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "insurance-adjudications",
+                    "v1",
+                    ":insurance_adjudication_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_insurance-adjudications/v1:InsuranceAdjudicationId not found in the OpenAPI spec",
+                      "key": "insurance_adjudication_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ff15d89-1536-466a-966a-32be87848639",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "insurance-adjudications",
+                    "v1",
+                    ":insurance_adjudication_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_insurance-adjudications/v1:InsuranceAdjudicationId not found in the OpenAPI spec",
+                      "key": "insurance_adjudication_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e926c2fb-8e42-4123-908b-c19749852220",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

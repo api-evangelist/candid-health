@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: Candid Health Auth Events API
+  description: REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.
+  termsOfService: https://www.joincandidhealth.com
+  contact:
+    name: Candid Health Support
+    url: https://docs.joincandidhealth.com/additional-resources/support
+  version: '1.0'
+servers:
+- url: https://api.joincandidhealth.com/api
+  description: Candid Health production API
+security:
+- bearerAuth: []
+tags:
+- name: Events
+  description: Scan and retrieve billing lifecycle events.
+paths:
+  /events/v1:
+    get:
+      operationId: scanEvents
+      tags:
+      - Events
+      summary: Scan billing lifecycle events.
+      description: Returns events ordered by modification time, used to drive webhook-style notifications as encounters, claims, and remits change state.
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: event_types
+        in: query
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A page of events.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventPage'
+  /events/v1/{event_id}:
+    get:
+      operationId: getEvent
+      tags:
+      - Events
+      summary: Get an event.
+      parameters:
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The requested event.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+components:
+  schemas:
+    EventPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        page_token:
+          type: string
+          nullable: true
+    Event:
+      type: object
+      properties:
+        event_id:
+          type: string
+          format: uuid
+        event_type:
+          type: string
+          description: e.g. claim.updated, encounter.created, remit.received.
+        resource_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        data:
+          type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth bearer token obtained from POST /auth/v2/token. Send as `Authorization: Bearer <access_token>`.'

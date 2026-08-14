@@ -1,0 +1,143 @@
+{
+  "item": [
+    {
+      "id": "4fb40d23-9c8c-47f5-a623-45e127d10b93",
+      "name": "Fee Schedules",
+      "description": {
+        "content": "Resolve contracted rates for service lines.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d83c4144-67bc-4307-88b5-d20ed552b643",
+          "name": "Get the rate that matches a service line.",
+          "request": {
+            "name": "Get the rate that matches a service line.",
+            "description": {
+              "content": "Returns the fee-schedule rate matching the dimensions of a service line, or no result when no rate matches.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fee-schedules",
+                "v3",
+                "service-line",
+                ":service_line_id",
+                "match"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "service_line_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8665549-7957-4c66-9814-05017a4c04dd",
+              "name": "The matching rate, if any.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fee-schedules",
+                    "v3",
+                    "service-line",
+                    ":service_line_id",
+                    "match"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "service_line_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"rate_id\": \"8ea59ac5-f6dd-0d66-e6d2-e82afe525583\",\n  \"rate_cents\": 5172,\n  \"matched\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "64aee984-d56d-43a6-99c8-45f5717a21a7",
+    "name": "Candid Health Auth Fee Schedules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.\n\nContact Support:\n Name: Candid Health Support",
+      "type": "text/plain"
+    }
+  }
+}

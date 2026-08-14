@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Fee Schedules API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fee Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the rate that matches a service line.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/fee-schedules/v3/service-line/:service_line_id/match",
+            "params": [
+              {
+                "name": "service_line_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the fee-schedule rate matching the dimensions of a service line, or no result when no rate matches."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

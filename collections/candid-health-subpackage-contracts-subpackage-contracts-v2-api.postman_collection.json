@@ -1,0 +1,787 @@
+{
+  "item": [
+    {
+      "id": "ea110a15-abce-4616-8b81-2b45efdc7c2c",
+      "name": "subpackage_contracts.subpackage_contracts/v2",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8175b199-9172-4115-b4bc-c833b0e7112d",
+          "name": "Get contract",
+          "request": {
+            "name": "Get contract",
+            "description": {
+              "content": "This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contracts",
+                "v2",
+                ":contract_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "organization_id",
+                  "value": "<uuid>",
+                  "description": "Organization context for cross-org access. If not provided, defaults to the requesting user's organization."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                  "key": "contract_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f815ade9-7641-4210-9898-5c12ebdc3ea1",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2",
+                    ":contract_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "organization_id",
+                      "value": "ae52444e-cb5f-e65c-13ba-74e48e6fc42e"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                      "key": "contract_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48de9798-78d0-46a0-83ff-848fdd4ee54c",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2",
+                    ":contract_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "organization_id",
+                      "value": "ae52444e-cb5f-e65c-13ba-74e48e6fc42e"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                      "key": "contract_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "285d8504-038f-482b-a0e1-571f129c8971",
+          "name": "Delete contract",
+          "request": {
+            "name": "Delete contract",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contracts",
+                "v2",
+                ":contract_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                  "key": "contract_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "58a76dd0-cc80-4f93-a2cc-607d603cdb20",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2",
+                    ":contract_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                      "key": "contract_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dfea6f3b-53ef-4512-85e8-e715f45b1c87",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2",
+                    ":contract_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                      "key": "contract_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"ContractIsLinkedToFeeScheduleHttpError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractIsLinkedToFeeScheduleError not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee6aeb13-1a24-475a-b8f3-71a075dd7f05",
+          "name": "Update contract",
+          "request": {
+            "name": "Update contract",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "contracts",
+                "v2",
+                ":contract_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                  "key": "contract_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rendering_provider_ids\": [\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    }\n  ],\n  \"effective_date\": \"<string>\",\n  \"expiration_date\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:DateUpdate not found in the OpenAPI spec\"\n  },\n  \"regions\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:RegionsUpdate not found in the OpenAPI spec\"\n  },\n  \"contract_status\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec\"\n  },\n  \"authorized_signatory\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:AuthorizedSignatoryUpdate not found in the OpenAPI spec\"\n  },\n  \"commercial_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicare_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicaid_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0aef1007-1c05-4a28-a3ab-a65931db1190",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2",
+                    ":contract_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                      "key": "contract_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"rendering_provider_ids\": [\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    }\n  ],\n  \"effective_date\": \"string\",\n  \"expiration_date\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:DateUpdate not found in the OpenAPI spec\"\n  },\n  \"regions\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:RegionsUpdate not found in the OpenAPI spec\"\n  },\n  \"contract_status\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec\"\n  },\n  \"authorized_signatory\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:AuthorizedSignatoryUpdate not found in the OpenAPI spec\"\n  },\n  \"commercial_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicare_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicaid_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30394632-3a0d-4f41-aa72-47c9d44d477a",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2",
+                    ":contract_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractId not found in the OpenAPI spec",
+                      "key": "contract_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"rendering_provider_ids\": [\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    }\n  ],\n  \"effective_date\": \"string\",\n  \"expiration_date\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:DateUpdate not found in the OpenAPI spec\"\n  },\n  \"regions\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:RegionsUpdate not found in the OpenAPI spec\"\n  },\n  \"contract_status\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec\"\n  },\n  \"authorized_signatory\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:AuthorizedSignatoryUpdate not found in the OpenAPI spec\"\n  },\n  \"commercial_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicare_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicaid_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"ContractInvalidExpirationDateHttpError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractInvalidExpirationDateError not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "337ab1d0-cac8-4460-9685-70238b486613",
+          "name": "Get all contracts",
+          "request": {
+            "name": "Get all contracts",
+            "description": {
+              "content": "This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contracts",
+                "v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Max number of contracts returned. Defaults to 1000. Max is 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_contracts/v2:ContractingProviderId not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "payer_names",
+                  "value": "<string>",
+                  "description": "Filter to contracts that include any of the included payer names."
+                },
+                {
+                  "disabled": false,
+                  "key": "states",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec",
+                  "description": "The status of the contract. Defaults to `pending`"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_contracts/v2:ContractSortField not found in the OpenAPI spec",
+                  "description": "Potentially sort by a contract related attribute.  Defaults to created_at"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Direction of sort, defaulting to desc"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b4373b75-eea3-4a7d-9cd3-710262f573e7",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractingProviderId not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "payer_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "states",
+                      "value": "NV"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_contracts/v2:ContractSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df27dcb3-6f8d-4a2e-ac12-f921b26c7e0a",
+          "name": "Create contract",
+          "request": {
+            "name": "Create contract",
+            "description": {
+              "content": "Creates a new contract within the user's current organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contracts",
+                "v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"effective_date\": \"<string>\",\n  \"regions\": {\n    \"type\": \"<string>\",\n    \"states\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"commercial_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicare_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicaid_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"contracting_provider_id\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractingProviderId not found in the OpenAPI spec\"\n  },\n  \"rendering_provider_ids\": [\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    }\n  ],\n  \"payer_uuid\": \"<uuid>\",\n  \"expiration_date\": \"<string>\",\n  \"contract_status\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec\"\n  },\n  \"authorized_signatory\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:AuthorizedSignatory not found in the OpenAPI spec\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d5603db6-4c07-40c9-a44e-3bf7b5cacb71",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contracts",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"effective_date\": \"string\",\n  \"regions\": {\n    \"type\": \"states\",\n    \"states\": [\n      \"WY\",\n      \"MN\"\n    ]\n  },\n  \"commercial_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicare_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"medicaid_insurance_types\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:InsuranceTypes not found in the OpenAPI spec\"\n  },\n  \"contracting_provider_id\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractingProviderId not found in the OpenAPI spec\"\n  },\n  \"rendering_provider_ids\": [\n    {\n      \"value\": \"reference #/components/schemas/type_contracts/v2:RenderingProviderid not found in the OpenAPI spec\"\n    }\n  ],\n  \"payer_uuid\": \"<uuid>\",\n  \"expiration_date\": \"string\",\n  \"contract_status\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:ContractStatus not found in the OpenAPI spec\"\n  },\n  \"authorized_signatory\": {\n    \"value\": \"reference #/components/schemas/type_contracts/v2:AuthorizedSignatory not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "21a3de86-1419-4899-823f-61bbad8b04e8",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_contracts.subpackage_contracts/v2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

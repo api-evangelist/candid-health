@@ -1,0 +1,1868 @@
+{
+  "item": [
+    {
+      "id": "ed24f39f-ec6c-4bfc-8099-e33c46b9b018",
+      "name": "subpackage_charge-capture.subpackage_charge-capture/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2e941d80-dff4-470a-9acd-c4266e7f10b0",
+          "name": "Create a Charge Capture",
+          "request": {
+            "name": "Create a Charge Capture",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "da2f4d54-8c64-4422-9866-6f2a08ecd981",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f09a13e-b88f-4b2e-bd78-3770522619af",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff1de62f-2ea8-42a5-8a14-20971ff1449c",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1374056-dd5b-4f15-aeed-08ec9fe26037",
+              "name": "Error response with status 409",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"ChargeExternalIdConflictError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeExternalIdConflictErrorMessage not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02f6385c-a9ab-44c9-83fc-7b3256682eb9",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dff2674a-0d64-4187-838f-9141d0dfb850",
+          "name": "Get all Charge Captures",
+          "request": {
+            "name": "Get all Charge Captures",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of entities per page, defaults to 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureSortField not found in the OpenAPI spec",
+                  "description": "Defaults to created_at"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending order if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id",
+                  "value": "<string>",
+                  "description": "The patient ID from the external EMR platform for the patient"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec",
+                  "description": "the status of the charge captures"
+                },
+                {
+                  "disabled": false,
+                  "key": "charge_external_id",
+                  "value": "<string>",
+                  "description": "A client-specified unique ID to associate with this encounter;\nfor example, your internal encounter ID or a Dr. Chrono encounter ID.\nThis field should not contain PHI."
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_min",
+                  "value": "<date>",
+                  "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_max",
+                  "value": "<date>",
+                  "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_ids",
+                  "value": "<uuid>",
+                  "description": "A list of claim IDs to filter by. This will return all charge captures that have a resulting claim with one of the IDs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_creation_ids",
+                  "value": "<uuid>",
+                  "description": "A list of Claim Creation IDs to filter by."
+                },
+                {
+                  "disabled": false,
+                  "key": "billing_provider_npis",
+                  "value": "<string>",
+                  "description": "A list of billing provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "service_facility_name",
+                  "value": "<string>",
+                  "description": "A string to filter by. This will return all charge captures with this service facility name."
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_payer_ids",
+                  "value": "<string>",
+                  "description": "A list of primary payer IDs to filter by. This will return all charge captures with one of the primary payer IDs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "rendering_provider_npis",
+                  "value": "<string>",
+                  "description": "A list of rendering provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "rendering_provider_names",
+                  "value": "<string>",
+                  "description": "A list of rendering provider names to filter by. This will return all charge captures with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "supervising_provider_npis",
+                  "value": "<string>",
+                  "description": "A list of supervising provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "supervising_provider_names",
+                  "value": "<string>",
+                  "description": "A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_creation_category",
+                  "value": "<string>",
+                  "description": "A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "A list of tags to filter by. This will return all charge captures with one of the tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_payer_names",
+                  "value": "<string>",
+                  "description": "A list of primary payer names to filter by. This will return all charge captures with one of the names."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_names",
+                  "value": "<string>",
+                  "description": "A list of patient names to filter by. This will return all charge captures with one of the names."
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude_charges_linked_to_claims",
+                  "value": "<boolean>",
+                  "description": "Whether to exclude charge captures which are part of a claim creation."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id_ranked_sort",
+                  "value": "<string>",
+                  "description": "The patient ID from the external EMR platform for the patient"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec",
+                  "description": "The charge capture status to show first"
+                },
+                {
+                  "disabled": false,
+                  "key": "charge_external_id_ranked_sort",
+                  "value": "<string>",
+                  "description": "A client-specified unique ID to associate with this encounter;\nfor example, your internal encounter ID or a Dr. Chrono encounter ID.\nThis field should not contain PHI."
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_min_ranked_sort",
+                  "value": "<date>",
+                  "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_max_ranked_sort",
+                  "value": "<date>",
+                  "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "search_term",
+                  "value": "<string>",
+                  "description": "Filter by any of the following fields: charge_id, claim_id, patient external_id,\npatient date of birth, patient first name, patient last name,\nor charge external id."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_encounters/v4:BillableStatusType not found in the OpenAPI spec",
+                  "description": "Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_encounters/v4:ResponsiblePartyType not found in the OpenAPI spec",
+                  "description": "Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_ids_ranked_sort",
+                  "value": "<uuid>",
+                  "description": "A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_creation_ids_ranked_sort",
+                  "value": "<uuid>",
+                  "description": "A list of Claim Creation IDs to show first."
+                },
+                {
+                  "disabled": false,
+                  "key": "billing_provider_npis_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of billing provider NPIs to show first. This will return all charge captures with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "service_facility_name_ranked_sort",
+                  "value": "<string>",
+                  "description": "A string to show first. This will return all charge captures with this service facility name."
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_payer_ids_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of primary payer IDs to show first. This will return all charge captures with one of the primary payer IDs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "rendering_provider_npis_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of rendering provider NPIs to show first. This will return all charge captures with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "rendering_provider_names_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of rendering provider names to show first. This will return all charge captures with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "supervising_provider_npis_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of supervising provider NPIs to show first. This will return all charge captures with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "supervising_provider_names_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of supervising provider names to show first. This will return all charge captures with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_status",
+                  "value": "<string>",
+                  "description": "the status of the claim to filter by created from charge capture bundle."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_creation_category_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of claim creation categories to sort by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "tags_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of tags. This will return all charge captures with one of the tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_payer_names_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of primary payer names to sort by. This will return all charge captures with one of the names."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_names_ranked_sort",
+                  "value": "<string>",
+                  "description": "A list of patient names to sort by. This will return all charge captures with one of the names."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55c8f967-7eaa-4bee-8deb-c111e53ab441",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "charge_external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_of_service_min",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_of_service_max",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "claim_ids",
+                      "value": "bd49b39e-332d-d4e8-7b99-97b3f803ccaa"
+                    },
+                    {
+                      "key": "claim_creation_ids",
+                      "value": "57490cad-c71b-ec82-12e7-9ebac2672cb0"
+                    },
+                    {
+                      "key": "billing_provider_npis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service_facility_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_payer_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rendering_provider_npis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rendering_provider_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "supervising_provider_npis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "supervising_provider_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "claim_creation_category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_payer_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exclude_charges_linked_to_claims",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "patient_external_id_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "charge_external_id_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_of_service_min_ranked_sort",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_of_service_max_ranked_sort",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "search_term",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_encounters/v4:BillableStatusType not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_encounters/v4:ResponsiblePartyType not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "claim_ids_ranked_sort",
+                      "value": "bd49b39e-332d-d4e8-7b99-97b3f803ccaa"
+                    },
+                    {
+                      "key": "claim_creation_ids_ranked_sort",
+                      "value": "57490cad-c71b-ec82-12e7-9ebac2672cb0"
+                    },
+                    {
+                      "key": "billing_provider_npis_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service_facility_name_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_payer_ids_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rendering_provider_npis_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rendering_provider_names_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "supervising_provider_npis_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "supervising_provider_names_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "claim_status",
+                      "value": "paid"
+                    },
+                    {
+                      "key": "claim_creation_category_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_payer_names_ranked_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_names_ranked_sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e03d6530-62bc-45c0-ba32-741e9495e434",
+          "name": "Create a Charge Capture from pre-encounter patient and appointment",
+          "request": {
+            "name": "Create a Charge Capture from pre-encounter patient and appointment",
+            "description": {
+              "content": "Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing\npatients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage\nof the pre-encounter service should use the standard create endpoint.\n\nAt encounter creation time, information from the provided patient and appointment objects will be populated\nwhere applicable. In particular, the following fields are populated from the patient and appointment objects:\n  - Patient\n  - Referring Provider\n  - Subscriber Primary\n  - Subscriber Secondary\n  - Referral Number\n  - Responsible Party\n  - Guarantor\n\nNote that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.\n\nUtilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the\nencounter has not already been submitted or adjudicated.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1",
+                "create-from-pre-encounter"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"pre_encounter_patient_id\": \"<uuid>\",\n  \"pre_encounter_appointment_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b2ead48d-3313-4433-8491-b618df193bb0",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "create-from-pre-encounter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"pre_encounter_patient_id\": \"158a3d49-7370-1d03-df20-d982385ee4a5\",\n  \"pre_encounter_appointment_ids\": [\n    \"d034e660-8cb3-aa79-d764-473add3e71a7\",\n    \"ce4f5c77-38d7-ad3e-4594-0dc9e965d65f\"\n  ],\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d70a567-85b3-48d1-b151-724aaa18dfdf",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "create-from-pre-encounter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"pre_encounter_patient_id\": \"158a3d49-7370-1d03-df20-d982385ee4a5\",\n  \"pre_encounter_appointment_ids\": [\n    \"d034e660-8cb3-aa79-d764-473add3e71a7\",\n    \"ce4f5c77-38d7-ad3e-4594-0dc9e965d65f\"\n  ],\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18994535-31f0-4775-971c-753c48e248cb",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "create-from-pre-encounter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"pre_encounter_patient_id\": \"158a3d49-7370-1d03-df20-d982385ee4a5\",\n  \"pre_encounter_appointment_ids\": [\n    \"d034e660-8cb3-aa79-d764-473add3e71a7\",\n    \"ce4f5c77-38d7-ad3e-4594-0dc9e965d65f\"\n  ],\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4eb25700-98d8-4a7d-83d2-67e9e4d680b3",
+              "name": "Error response with status 409",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "create-from-pre-encounter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"pre_encounter_patient_id\": \"158a3d49-7370-1d03-df20-d982385ee4a5\",\n  \"pre_encounter_appointment_ids\": [\n    \"d034e660-8cb3-aa79-d764-473add3e71a7\",\n    \"ce4f5c77-38d7-ad3e-4594-0dc9e965d65f\"\n  ],\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"ChargeExternalIdConflictError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeExternalIdConflictErrorMessage not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea83465f-1564-4f66-8080-cdb984aac160",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "create-from-pre-encounter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"pre_encounter_patient_id\": \"158a3d49-7370-1d03-df20-d982385ee4a5\",\n  \"pre_encounter_appointment_ids\": [\n    \"d034e660-8cb3-aa79-d764-473add3e71a7\",\n    \"ce4f5c77-38d7-ad3e-4594-0dc9e965d65f\"\n  ],\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cac8316d-df45-478d-8752-565b43da6144",
+          "name": "Update a ChargeCapturePostBilledChange",
+          "request": {
+            "name": "Update a ChargeCapturePostBilledChange",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1",
+                "changes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"charge_capture_change_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"resolved\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1033b025-36d2-4620-b1b3-27c522557270",
+              "name": "This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"charge_capture_change_ids\": [\n    \"dcb58577-be8b-f4ff-9799-7bf25be9b3bc\",\n    \"9abd00fb-eed1-63fa-27c0-616e73d7324a\"\n  ],\n  \"resolved\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCapturePostBilledChange not found in the OpenAPI spec\"\n  },\n  {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCapturePostBilledChange not found in the OpenAPI spec\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64d6598c-bb0a-43de-b4b3-192217626987",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"charge_capture_change_ids\": [\n    \"dcb58577-be8b-f4ff-9799-7bf25be9b3bc\",\n    \"9abd00fb-eed1-63fa-27c0-616e73d7324a\"\n  ],\n  \"resolved\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9db1ad7b-32fe-4fc2-93fb-b8d5d72fe6ba",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "changes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"charge_capture_change_ids\": [\n    \"dcb58577-be8b-f4ff-9799-7bf25be9b3bc\",\n    \"9abd00fb-eed1-63fa-27c0-616e73d7324a\"\n  ],\n  \"resolved\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4959d806-14ce-4421-8608-86dc46ad1600",
+          "name": "Update Charge Capture",
+          "request": {
+            "name": "Update Charge Capture",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1",
+                ":charge_capture_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "charge_capture_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "21b43b9f-1089-47bd-b20e-52f546b68a73",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    ":charge_capture_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c43ca71-e77c-438f-998a-f13f77449d7f",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    ":charge_capture_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61fe6063-195d-4b7a-87f9-f4388b04e3a5",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    ":charge_capture_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2dab2325-c451-4925-a63f-5068e7086309",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    ":charge_capture_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureData not found in the OpenAPI spec\"\n  },\n  \"charge_external_id\": \"<string>\",\n  \"ehr_source_url\": \"<string>\",\n  \"originating_system\": \"<string>\",\n  \"claim_creation_category\": \"<string>\",\n  \"patient_external_id\": \"<string>\",\n  \"status\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec\"\n  },\n  \"attachment_external_document_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"hl7_message_type\": {\n    \"value\": \"reference #/components/schemas/type_charge-capture/v1:Hl7MessageType not found in the OpenAPI spec\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd855ae3-83a4-4918-be15-6a8a203329d3",
+          "name": "Get Charge Capture",
+          "request": {
+            "name": "Get Charge Capture",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1",
+                ":charge_capture_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "charge_capture_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dd671ffa-8068-451a-af7a-05a2e6bc84d4",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    ":charge_capture_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b30bac95-5a17-4f8f-9909-12fb28d81f5c",
+          "name": "Find Charge Captures by Metadata",
+          "request": {
+            "name": "Find Charge Captures by Metadata",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_captures",
+                "v1",
+                "find-by-metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"limit\": \"<integer>\",\n  \"page_token\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9fb64fa6-ee6c-4da8-98a1-597bb675ca9b",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_captures",
+                    "v1",
+                    "find-by-metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": [\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_custom-schemas/v1:SchemaInstance not found in the OpenAPI spec\"\n    }\n  ],\n  \"limit\": \"<integer>\",\n  \"page_token\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7efdf490-28d3-4799-aee2-e575855a70c5",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_charge-capture.subpackage_charge-capture/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

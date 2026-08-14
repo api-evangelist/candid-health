@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_tasks.subpackage_tasks/v3 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_tasks.subpackage_tasks/v3",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get task actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/tasks/v3/:task_id/actions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get task actions"
+        },
+        {
+          "info": {
+            "name": "Get all tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/tasks/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 100"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Only return tasks with a status that matches one in this comma-separated list."
+              },
+              {
+                "name": "task_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "task_types",
+                "value": "",
+                "type": "query",
+                "description": "Only return tasks with a task_type that matches one in this comma-separated list."
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "Only return tasks with categories that match one in this comma-separated list."
+              },
+              {
+                "name": "updated_since",
+                "value": "",
+                "type": "query",
+                "description": "Only return tasks updated on or after this date-time"
+              },
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "query",
+                "description": "Only return tasks associated with this encounter"
+              },
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Query tasks by encounter_id, claim_id, task_id, or external_id"
+              },
+              {
+                "name": "assigned_to_id",
+                "value": "",
+                "type": "query",
+                "description": "Only return tasks assigned to this user"
+              },
+              {
+                "name": "date_of_service_min",
+                "value": "",
+                "type": "query",
+                "description": "The minimum date of service for the linked encounter"
+              },
+              {
+                "name": "date_of_service_max",
+                "value": "",
+                "type": "query",
+                "description": "The maximum date of service for the linked encounter"
+              },
+              {
+                "name": "billing_provider_npi",
+                "value": "",
+                "type": "query",
+                "description": "The NPI of the billing provider associated with the task's claim"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to updated_at:desc"
+              }
+            ]
+          },
+          "docs": "Get all tasks"
+        },
+        {
+          "info": {
+            "name": "Create task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/tasks/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create task"
+        },
+        {
+          "info": {
+            "name": "Get task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/tasks/v3/:task_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get task"
+        },
+        {
+          "info": {
+            "name": "Update task",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/tasks/v3/:task_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update task"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

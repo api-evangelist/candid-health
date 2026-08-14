@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Events API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Scan billing lifecycle events.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/events/v1",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns events ordered by modification time, used to drive webhook-style notifications as encounters, claims, and remits change state."
+        },
+        {
+          "info": {
+            "name": "Get an event.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/events/v1/:event_id",
+            "params": [
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an event."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

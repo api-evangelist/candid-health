@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Charge Capture API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Charge Capture",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all charge captures.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/charge_captures/v1",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get all charge captures."
+        },
+        {
+          "info": {
+            "name": "Create a charge capture.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/charge_captures/v1",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Captures a charge with diagnoses and service lines that later bundles into an encounter for claim assembly."
+        },
+        {
+          "info": {
+            "name": "Get a charge capture.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/charge_captures/v1/:charge_capture_id",
+            "params": [
+              {
+                "name": "charge_capture_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a charge capture."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

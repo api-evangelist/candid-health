@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_organization-providers.subpackage_organization-providers/v3 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_organization-providers.subpackage_organization-providers/v3",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-providers/v3/:organization_provider_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organization_provider_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get organization provider"
+        },
+        {
+          "info": {
+            "name": "Update organization provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-providers/v3/:organization_provider_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organization_provider_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update organization provider"
+        },
+        {
+          "info": {
+            "name": "Get all organization providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-providers/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results returned. Defaults to 100."
+              },
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a name or a part of a name."
+              },
+              {
+                "name": "npi",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a specific NPI."
+              },
+              {
+                "name": "is_rendering",
+                "value": "",
+                "type": "query",
+                "description": "Filter to only rendering providers."
+              },
+              {
+                "name": "is_billing",
+                "value": "",
+                "type": "query",
+                "description": "Filter to only billing providers."
+              },
+              {
+                "name": "organization_provider_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter to the provided organization provider IDs."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "The page token to continue paging through a previous request."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to PROVIDER_NAME_ASC."
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization."
+              }
+            ]
+          },
+          "docs": "Get all organization providers"
+        },
+        {
+          "info": {
+            "name": "Create organization provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/organization-providers/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create organization provider"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

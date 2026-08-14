@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_patient-ar.subpackage_patient-ar/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_patient-ar.subpackage_patient-ar/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Inventory Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/patient-ar/v1/inventory",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp to filter records since, inclusive"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return, default is 100"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.\nThe response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`."
+        },
+        {
+          "info": {
+            "name": "Invoice Itemization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/patient-ar/v1/invoice-itemization/:claim_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "claim_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Provides detailed itemization of invoice data for a specific claim."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

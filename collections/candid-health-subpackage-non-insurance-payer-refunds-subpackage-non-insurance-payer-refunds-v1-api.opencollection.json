@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get non-insurance payer refunds refunds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-refunds/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+              },
+              {
+                "name": "non_insurance_payer_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "check_number",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to refund_timestamp"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction. Defaults to descending order if not provided."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all non-insurance payer refunds satisfying the search criteria"
+        },
+        {
+          "info": {
+            "name": "Create non-insurance payer refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-refunds/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new non-insurance payer refund record and returns the newly created `NonInsurancePayerRefund` object.\nThe allocations can describe whether the refund is being applied toward a specific service line,\nclaim, or billing provider."
+        },
+        {
+          "info": {
+            "name": "Get non-insurance payer refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-refunds/v1/:non_insurance_payer_refund_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_refund_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a previously created non-insurance payer refund by its `non_insurance_payer_refund_id`."
+        },
+        {
+          "info": {
+            "name": "Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-refunds/v1/:non_insurance_payer_refund_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_refund_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the non-insurance payer refund record matching the provided non_insurance_payer_refund_id. If updating the refund amount,\nthen the allocations must be appropriately updated as well."
+        },
+        {
+          "info": {
+            "name": "Delete non-insurance payer refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payer-refunds/v1/:non_insurance_payer_refund_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_refund_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the non-insurance payer refund record matching the provided `non_insurance_payer_refund_id`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

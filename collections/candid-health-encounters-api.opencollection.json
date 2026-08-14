@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Encounters API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Encounters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all encounters.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/encounters/v4",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of encounters to return (1-100)."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "Opaque cursor for the next page of results."
+              },
+              {
+                "name": "patient_external_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "claim_status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_of_service_min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_of_service_max",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of encounters matching the supplied filters."
+        },
+        {
+          "info": {
+            "name": "Create a professional encounter.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/encounters/v4",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an encounter that Candid uses to generate and submit one or more insurance claims."
+        },
+        {
+          "info": {
+            "name": "Get an encounter.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/encounters/v4/:encounter_id",
+            "params": [
+              {
+                "name": "encounter_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an encounter."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

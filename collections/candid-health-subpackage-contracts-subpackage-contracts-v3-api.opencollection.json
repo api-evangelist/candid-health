@@ -1,0 +1,377 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_contracts.subpackage_contracts/v3 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_contracts.subpackage_contracts/v3",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get contract"
+        },
+        {
+          "info": {
+            "name": "Update contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update contract"
+        },
+        {
+          "info": {
+            "name": "Delete contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete contract"
+        },
+        {
+          "info": {
+            "name": "Get all contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of contracts returned. Defaults to 1000. Max is 1000."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of contract"
+              },
+              {
+                "name": "contracting_provider_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "rendering_provider_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payer_names",
+                "value": "",
+                "type": "query",
+                "description": "Filter to contracts that include any of the included payer names."
+              },
+              {
+                "name": "states",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "contract_status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the contract. Defaults to `pending`"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Potentially sort by a contract related attribute.  Defaults to created_at"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction of sort, defaulting to desc"
+              }
+            ]
+          },
+          "docs": "Get all contracts"
+        },
+        {
+          "info": {
+            "name": "Create contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new contract within the user's current organization"
+        },
+        {
+          "info": {
+            "name": "Get contract providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id/providers",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of providers returned per page. Defaults to 100. Max is 1000."
+              }
+            ]
+          },
+          "docs": "Get contract providers"
+        },
+        {
+          "info": {
+            "name": "Add providers to contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id/providers",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored."
+        },
+        {
+          "info": {
+            "name": "Remove providers from contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id/providers",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract."
+        },
+        {
+          "info": {
+            "name": "Get contract provider credentialing spans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id/providers/credentialing",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of providers returned per page. Defaults to 100. Max is 1000."
+              }
+            ]
+          },
+          "docs": "Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list."
+        },
+        {
+          "info": {
+            "name": "Create contract service facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id/service-facilities",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create contract service facility"
+        },
+        {
+          "info": {
+            "name": "Update contract service facility",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/contracts/v3/:contract_id/service-facilities/:contract_service_facility_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_service_facility_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update contract service facility"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

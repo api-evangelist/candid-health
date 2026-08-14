@@ -1,0 +1,417 @@
+{
+  "item": [
+    {
+      "id": "d2703843-76e2-4f42-9c35-af52a54efac2",
+      "name": "subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "907a5b94-d1c2-401b-9096-bd1e445f3fc0",
+          "name": "Get Patient List",
+          "request": {
+            "name": "Get Patient List",
+            "description": {
+              "content": "Gets patients with dependent objects for patients that match the query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "lists",
+                "v1",
+                "patient"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/lists/v1:SortFieldString not found in the OpenAPI spec",
+                  "description": "Defaults to patient.updatedAt."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec",
+                  "description": "Defaults to ascending."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_deactivated",
+                  "value": "<boolean>",
+                  "description": "If true, includes deactivated patients in the results. Defaults to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "redirect_to_primary",
+                  "value": "<boolean>",
+                  "description": "If true, and filtering by mrn equals, then only return the primary version of the patient requested"
+                },
+                {
+                  "disabled": false,
+                  "key": "hide_alternatives",
+                  "value": "<boolean>",
+                  "description": "If true, then do not show alternative patients"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb3e9169-7030-4487-9d2a-cc5e89b2042a",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lists",
+                    "v1",
+                    "patient"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/lists/v1:SortFieldString not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "include_deactivated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "redirect_to_primary",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "hide_alternatives",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "208a67b5-c12f-4bdf-812f-2536f5f4f210",
+              "name": "Error response with status 400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lists",
+                    "v1",
+                    "patient"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/lists/v1:SortFieldString not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "include_deactivated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "redirect_to_primary",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "hide_alternatives",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"BadRequestError\",\n  \"content\": {\n    \"value\": \"reference #/components/schemas/type_pre-encounter/common:ErrorBase4xx not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43e69def-fadd-464d-b7ee-f35e8bd7958e",
+          "name": "Get Appointment List",
+          "request": {
+            "name": "Get Appointment List",
+            "description": {
+              "content": "Searches for appointments that match the query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "lists",
+                "v1",
+                "appointment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/lists/v1:SortFieldString not found in the OpenAPI spec",
+                  "description": "Defaults to appointment.startTimestamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec",
+                  "description": "Defaults to asc."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Defaults to 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_deactivated",
+                  "value": "<boolean>",
+                  "description": "If true, includes deactivated appointments in the results. Defaults to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_merged_patient_data",
+                  "value": "<boolean>",
+                  "description": "If true and a patient id is specified, then also include appointments from any alternative patients that are merged into this patient. Defaults to false."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "88653773-f936-443a-89d0-d3d1cf0580f6",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lists",
+                    "v1",
+                    "appointment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/lists/v1:SortFieldString not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:SortDirection not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:PageToken not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_pre-encounter/common:FilterQueryString not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "include_deactivated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "include_merged_patient_data",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "de17e2d6-4846-4dac-9f9f-4a09f57247ed",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

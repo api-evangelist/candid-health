@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth Eligibility API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Eligibility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit an encounter eligibility check.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/eligibility/v2",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs a real-time eligibility check against a payer to confirm active coverage and surface patient benefit detail."
+        },
+        {
+          "info": {
+            "name": "Check eligibility for a stored coverage.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/pre-encounter/coverages/v1/check_eligibility",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check eligibility for a stored coverage."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health Auth API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an OAuth bearer token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/auth/v2/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exchange a client_id and client_secret for a short-lived JWT bearer access token used to authenticate all other API requests."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

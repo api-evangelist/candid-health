@@ -1,0 +1,181 @@
+{
+  "item": [
+    {
+      "id": "7a1c56d4-f06d-4010-aa20-c5144e7a619b",
+      "name": "subpackage_superbills.subpackage_superbills/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "27ea7b20-0d62-48dc-87a5-2587eb2ee201",
+          "name": "Create Superbill",
+          "request": {
+            "name": "Create Superbill",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "superbill",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient_external_id\": \"<string>\",\n  \"date_range_min\": \"<date>\",\n  \"date_range_max\": \"<date>\",\n  \"pay_to_address\": {\n    \"address1\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip_code\": \"<string>\",\n    \"address2\": \"<string>\",\n    \"zip_plus_four_code\": \"<string>\"\n  },\n  \"output_format\": {\n    \"value\": \"reference #/components/schemas/type_superbills/v1:SuperbillOutputFormat not found in the OpenAPI spec\"\n  },\n  \"include_merged_patient_data\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "22677560-1cf7-4c81-99a2-351f13ff988b",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "superbill",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"patient_external_id\": \"string\",\n  \"date_range_min\": \"<date>\",\n  \"date_range_max\": \"<date>\",\n  \"pay_to_address\": {\n    \"address1\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"DC\",\n    \"zip_code\": \"string\",\n    \"address2\": \"string\",\n    \"zip_plus_four_code\": \"string\"\n  },\n  \"output_format\": {\n    \"value\": \"reference #/components/schemas/type_superbills/v1:SuperbillOutputFormat not found in the OpenAPI spec\"\n  },\n  \"include_merged_patient_data\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79a97323-8924-491e-944c-20b3a6f3caea",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "superbill",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"patient_external_id\": \"string\",\n  \"date_range_min\": \"<date>\",\n  \"date_range_max\": \"<date>\",\n  \"pay_to_address\": {\n    \"address1\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"DC\",\n    \"zip_code\": \"string\",\n    \"address2\": \"string\",\n    \"zip_plus_four_code\": \"string\"\n  },\n  \"output_format\": {\n    \"value\": \"reference #/components/schemas/type_superbills/v1:SuperbillOutputFormat not found in the OpenAPI spec\"\n  },\n  \"include_merged_patient_data\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f1cf6c17-0e1e-4d22-a593-690473338286",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_superbills.subpackage_superbills/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_events.subpackage_events/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_events.subpackage_events/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/events/v1/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of events to return. Minimum value is 1, maximum is 100. Defaults to 10."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Event types to filter on. Defaults to showing all event types.\n\n| Event Type | Description |\n|------------|-------------|\n| `CandidApi.Encounter.Created` | When a new claim is created |\n| `CandidApi.Encounter.StatusUpdated` | When a claim's status has been updated |\n| `PreEncounter.Patient.Created` | When a new patient has been created |\n| `PreEncounter.Patient.Updated` | When a patient's information has been updated |\n| `PreEncounter.Coverage.Created` | When a new coverage has been created for a patient |\n| `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |\n| `PreEncounter.Tag.Created` | When a new tag has been created for a patient |\n| `PreEncounter.Tag.Updated` | When a patient's tag has been updated |"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Filters for only events created before this time (inclusive)."
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Filters for only events created after this time (inclusive)."
+              }
+            ]
+          },
+          "docs": "Scans the last 30 days of events. All results are sorted by created date, descending."
+        },
+        {
+          "info": {
+            "name": "Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/events/v1/:event_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,570 @@
+{
+  "item": [
+    {
+      "id": "08cdbd46-e018-4018-988c-27288600676b",
+      "name": "subpackage_diagnoses",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8976d3b9-a151-4650-b85f-02bf17e24c47",
+          "name": "Create diagnosis",
+          "request": {
+            "name": "Create diagnosis",
+            "description": {
+              "content": "Creates a new diagnosis for an encounter",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "diagnoses",
+                "v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code_type\": \"<string>\",\n  \"code\": \"<string>\",\n  \"encounter_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"present_on_admission_indicator\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d6f51669-3db8-4bb7-8d27-af2766f03a92",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code_type\": \"ABK\",\n  \"code\": \"<string>\",\n  \"encounter_id\": \"425909ee-90ac-8586-41c6-5dcd43d1051e\",\n  \"name\": \"<string>\",\n  \"present_on_admission_indicator\": \"NOT_APPLICABLE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code_type\": \"ABF\",\n  \"code\": \"string\",\n  \"encounter_id\": \"9eff8a8b-d5c3-ee73-ea4b-21355e6d319e\",\n  \"diagnosis_id\": \"32c7557c-cda4-1e55-d9ca-d969e0fada00\",\n  \"created_at\": \"2013-10-21T07:34:13.551Z\",\n  \"updated_at\": \"1985-12-02T08:12:54.283Z\",\n  \"name\": \"string\",\n  \"present_on_admission_indicator\": \"NOT_APPLICABLE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36bf8e85-8178-4563-a27d-85e6c100c7a1",
+          "name": "Update diagnosis",
+          "request": {
+            "name": "Update diagnosis",
+            "description": {
+              "content": "Updates the diagnosis record matching the provided `diagnosis_id`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "diagnoses",
+                "v2",
+                ":diagnosis_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "diagnosis_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"code_type\": \"<string>\",\n  \"code\": \"<string>\",\n  \"present_on_admission_indicator\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "71babb49-40c6-4a68-85dc-0afbbc053029",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2",
+                    ":diagnosis_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "diagnosis_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"code_type\": \"BJ\",\n  \"code\": \"<string>\",\n  \"present_on_admission_indicator\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code_type\": \"ABF\",\n  \"code\": \"string\",\n  \"encounter_id\": \"9eff8a8b-d5c3-ee73-ea4b-21355e6d319e\",\n  \"diagnosis_id\": \"32c7557c-cda4-1e55-d9ca-d969e0fada00\",\n  \"created_at\": \"2013-10-21T07:34:13.551Z\",\n  \"updated_at\": \"1985-12-02T08:12:54.283Z\",\n  \"name\": \"string\",\n  \"present_on_admission_indicator\": \"NOT_APPLICABLE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c088ba3f-8f7b-4e21-a37d-dbe35158219a",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2",
+                    ":diagnosis_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "diagnosis_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"code_type\": \"BJ\",\n  \"code\": \"<string>\",\n  \"present_on_admission_indicator\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"DiagnosisNotFoundHTTPError\",\n  \"content\": {\n    \"message\": \"string\",\n    \"diagnosis_id\": \"d84b748f-ce3e-74d1-3a03-2bb8d3eab0fc\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ddea1dc-3893-464c-9424-31c07a0e25c4",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2",
+                    ":diagnosis_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "diagnosis_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"code_type\": \"BJ\",\n  \"code\": \"<string>\",\n  \"present_on_admission_indicator\": \"YES\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"DisallowMultiplePrimaryDiagnosisHTTPError\",\n  \"content\": {\n    \"existing_primary_diagnosis_id\": \"2f15fb0c-78b7-f2d4-d351-6c8a86376b2d\",\n    \"new_primary_diagnosis_id\": \"0a6f599b-9d1d-353a-16a0-a018911b9b10\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c8b9510-76b9-446b-a073-f05523b70da2",
+          "name": "Delete diagnosis",
+          "request": {
+            "name": "Delete diagnosis",
+            "description": {
+              "content": "Deletes the diagnosis record associated with the provided `diagnosis_id`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "diagnoses",
+                "v2",
+                ":diagnosis_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "diagnosis_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b0416154-3571-418b-b69c-8af8ea974b12",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2",
+                    ":diagnosis_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "diagnosis_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d3717fdd-92d4-4a8e-9f5b-1b81bd4927fb",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2",
+                    ":diagnosis_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "diagnosis_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"DiagnosisNotFoundHTTPError\",\n  \"content\": {\n    \"message\": \"string\",\n    \"diagnosis_id\": \"d84b748f-ce3e-74d1-3a03-2bb8d3eab0fc\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c9bcfc8-7264-449c-a93a-980e6c94ae76",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "diagnoses",
+                    "v2",
+                    ":diagnosis_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "diagnosis_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"ServiceLinesMustHaveAtLeastOneDiagnosisHTTPError\",\n  \"content\": {\n    \"diagnosis_id\": \"df511606-38e8-c05f-d232-9b75ad6df4a2\",\n    \"service_line_id\": \"f8f83dd3-f21c-aa9a-8648-eb2e228917d1\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2317e83d-e22e-4dff-9536-97fbe819f41d",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_diagnoses API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

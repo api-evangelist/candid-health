@@ -1,0 +1,427 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_fee-schedules.subpackage_fee-schedules/v3 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_fee-schedules.subpackage_fee-schedules/v3",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/service-line/:service_line_id/match",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "service_line_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Gets the rate that matches a service line.  No result means no rate exists matching the service line's dimensions."
+        },
+        {
+          "info": {
+            "name": "Test Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/service-line/:service_line_id/match/:rate_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "service_line_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "rate_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Tests a service line against a rate to see if it matches."
+        },
+        {
+          "info": {
+            "name": "Get Multi",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of dimensions returned. Defaults to 100. Max is 100."
+              },
+              {
+                "name": "active_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payer_uuid",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "organization_billing_provider_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "states",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "zip_codes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "license_types",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "facility_type_codes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "network_types",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payer_plan_group_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cpt_code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "modifiers",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Gets a list of dimensions with their rates. The rates returned will always be the most recent versions of those rates."
+        },
+        {
+          "info": {
+            "name": "Upload a fee schedule (a collection of rates)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads a new fee schedule.\n\nEach rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n\nIf adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will\nbe returned.\n\nUse the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will\nbe saved to the system."
+        },
+        {
+          "info": {
+            "name": "Get Unique Values For Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/unique-dimension-values",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of values returned. Defaults to 1000. Max is 1000."
+              },
+              {
+                "name": "pivot_dimension",
+                "value": "",
+                "type": "query",
+                "description": "The name of the dimension to fetch unique values for."
+              },
+              {
+                "name": "payer_uuid",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "organization_billing_provider_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "states",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "zip_codes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "license_types",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "facility_type_codes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "network_types",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payer_plan_group_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cpt_code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "modifiers",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Gets unique values for a dimension based on other selection criteria. The response is a list of dimensions with your criteria and the unique values populated. This API is useful for driving pivots on dimension values."
+        },
+        {
+          "info": {
+            "name": "Get Rate History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/:rate_id/history",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "rate_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Gets every version of a rate."
+        },
+        {
+          "info": {
+            "name": "Delete a rate",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/:rate_id/:version",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "rate_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Soft deletes a rate from the system.  Only the most recent version of a rate can be deleted."
+        },
+        {
+          "info": {
+            "name": "Get Payer Thresholds Default",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/payer-threshold/default",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Gets the default payer threshold"
+        },
+        {
+          "info": {
+            "name": "Get Payer Thresholds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/payer-threshold",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payer_uuids",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Gets a list of payers and thresholds by their uuids"
+        },
+        {
+          "info": {
+            "name": "Set Payer Threshold",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/payer-threshold/:payer_uuid",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "payer_uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the threshold information for a payer"
+        },
+        {
+          "info": {
+            "name": "Hard delete rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/hard-delete",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates."
+        },
+        {
+          "info": {
+            "name": "Hard delete rates by IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/fee-schedules/v3/hard-delete-by-ids",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone. Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates endpoint with dimension filters. Returns the number of rates deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_exports.subpackage_exports/v3 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_exports.subpackage_exports/v3",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get exports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/exports/v3",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.\nMust be at least 1 calendar day in the past. Cannot be earlier than 2022-10-07."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.\nMust be within 30 days of start_date."
+              }
+            ]
+          },
+          "docs": "<Warning>\nAPI-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.\nPlease see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.\n</Warning>\n\nRetrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an\nauthenticated URL to a customer's reports with a 2min TTL. The schema for the CSV export can be foun"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

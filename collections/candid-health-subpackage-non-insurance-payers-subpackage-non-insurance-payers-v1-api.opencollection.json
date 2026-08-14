@@ -1,0 +1,260 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Multi",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Fuzzy-match category names of non-insurance payers."
+              },
+              {
+                "name": "categories_exact",
+                "value": "",
+                "type": "query",
+                "description": "Filter by one or more categories by name.\nWhen multiple are present, non-insurance payers with any of the specified\ncategories will be matched."
+              },
+              {
+                "name": "clinical_trial_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by one or more clinical trials by their `clinical_trial_id`.\nWhen multiple are present, non-insurance payers with any of the specified\nclinical trials will be matched."
+              },
+              {
+                "name": "enabled",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to 100"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization."
+              }
+            ]
+          },
+          "docs": "Get Multi"
+        },
+        {
+          "info": {
+            "name": "Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create"
+        },
+        {
+          "info": {
+            "name": "Toggle Enablement",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1/:non_insurance_payer_id/toggle_enablement",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Toggle Enablement"
+        },
+        {
+          "info": {
+            "name": "Get non-insurance payer categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1/categories",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Filters categories by fuzzy matching on name."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limits the maximum number of categories that will be returned. Defaults to 100."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "The page token to continue paging through a previous request."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all non-insurance payer categories.\n\nNon-insurance payer categories are simply strings and are not stored as a\nseparate object in Candid. They are created when added to at least one\nnon-insurance payer's `category` field and are deleted when there are no\nlonger any non-insurance payers that contain them."
+        },
+        {
+          "info": {
+            "name": "Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1/:non_insurance_payer_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "query",
+                "description": "Organization context for cross-org access. If not provided, defaults to the requesting user's organization."
+              }
+            ]
+          },
+          "docs": "Get"
+        },
+        {
+          "info": {
+            "name": "Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1/:non_insurance_payer_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update"
+        },
+        {
+          "info": {
+            "name": "Delete",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-api.joincandidhealth.com/api/non-insurance-payers/v1/:non_insurance_payer_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "non_insurance_payer_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,772 @@
+{
+  "item": [
+    {
+      "id": "0341818f-e6dc-447a-ab50-2412fef64a39",
+      "name": "subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0ac40bcc-75bb-4e36-8a57-84a6e8f9cb31",
+          "name": "Get Charge Capture Claim Creation",
+          "request": {
+            "name": "Get Charge Capture Claim Creation",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_capture_claim_creation",
+                "v1",
+                ":charge_capture_claim_creation_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "charge_capture_claim_creation_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "88df0dae-0f59-4d9d-9e78-b735ff4edd6a",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_capture_claim_creation",
+                    "v1",
+                    ":charge_capture_claim_creation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_claim_creation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d2c4e71d-798f-47b9-aee3-c25bf3067ef2",
+          "name": "Get Charge Capture Claim Creation Summary",
+          "request": {
+            "name": "Get Charge Capture Claim Creation Summary",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_capture_claim_creation",
+                "v1",
+                "all",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "53493ff6-1c37-4e97-99aa-7ceeaf08c95c",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_capture_claim_creation",
+                    "v1",
+                    "all",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cb7c9547-3cfa-4515-83f3-d3cde11c0035",
+          "name": "Mark a ClaimCreationAttempt error as resolved",
+          "request": {
+            "name": "Mark a ClaimCreationAttempt error as resolved",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_capture_claim_creation",
+                "v1",
+                "error",
+                ":charge_capture_bundle_error_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "charge_capture_bundle_error_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolved_by\": \"<string>\",\n  \"resolution_reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "73dd5885-9628-4425-b107-57388ce02456",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_capture_claim_creation",
+                    "v1",
+                    "error",
+                    ":charge_capture_bundle_error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_bundle_error_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolved_by\": \"<string>\",\n  \"resolution_reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "46128283-9ecb-4fb9-911c-82db60c8cdc2",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_capture_claim_creation",
+                    "v1",
+                    "error",
+                    ":charge_capture_bundle_error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_bundle_error_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolved_by\": \"<string>\",\n  \"resolution_reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23751413-8913-4246-84fd-508f9bcee0bf",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_capture_claim_creation",
+                    "v1",
+                    "error",
+                    ":charge_capture_bundle_error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_bundle_error_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolved_by\": \"<string>\",\n  \"resolution_reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "afcafa82-38ad-4af0-a2d1-562e27b2c216",
+          "name": "Get all Charge Capture Claim Creations",
+          "request": {
+            "name": "Get all Charge Capture Claim Creations",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "charge_capture_claim_creation",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of entities per page, defaults to 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationSortField not found in the OpenAPI spec",
+                  "description": "Defaults to created_at"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending order if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id",
+                  "value": "<string>",
+                  "description": "The patient ID from the external EMR platform for the patient"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationStatus not found in the OpenAPI spec",
+                  "description": "the status of the charge capture Claim Creation, refers to whether it was able to create a claim."
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec",
+                  "description": "the status of the charge captures"
+                },
+                {
+                  "disabled": false,
+                  "key": "charge_external_id",
+                  "value": "<string>",
+                  "description": "A client-specified unique ID to associate with this encounter;\nfor example, your internal encounter ID or a Dr. Chrono encounter ID.\nThis field should not contain PHI."
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_min",
+                  "value": "<date>",
+                  "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_max",
+                  "value": "<date>",
+                  "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_ids",
+                  "value": "<uuid>",
+                  "description": "A list of claim IDs to filter by. This will return all charge capture claim_creations that have a resulting claim with one of the IDs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_creation_ids",
+                  "value": "<uuid>",
+                  "description": "A list of Claim Creation IDs to filter by."
+                },
+                {
+                  "disabled": false,
+                  "key": "billing_provider_npis",
+                  "value": "<string>",
+                  "description": "A list of billing provider NPIs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "service_facility_name",
+                  "value": "<string>",
+                  "description": "A string to filter by. This will return all charge capture claim_creations which include one or more charges with this service facility name."
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_payer_ids",
+                  "value": "<string>",
+                  "description": "A list of primary payer IDs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the primary payer IDs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "rendering_provider_npis",
+                  "value": "<string>",
+                  "description": "A list of rendering provider NPIs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "rendering_provider_names",
+                  "value": "<string>",
+                  "description": "A list of rendering provider names to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "supervising_provider_npis",
+                  "value": "<string>",
+                  "description": "A list of supervising provider NPIs to filter by. This will return all charge capture claim_creations which include one or more charges with one of the NPIs in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "supervising_provider_names",
+                  "value": "<string>",
+                  "description": "A list of supervising provider names to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_status",
+                  "value": "<string>",
+                  "description": "the status of the claim to filter by created from charge capture bundle."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_creation_category",
+                  "value": "<string>",
+                  "description": "A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "A list of tags to filter by. This will return all charge captures with one of the tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "primary_payer_names",
+                  "value": "<string>",
+                  "description": "A list of primary payer names to filter by. This will return all charge captures with one of the names."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_names",
+                  "value": "<string>",
+                  "description": "A list of patient names to filter by. This will return all charge captures with one of the names."
+                },
+                {
+                  "disabled": false,
+                  "key": "has_charge_capture_updates",
+                  "value": "<boolean>",
+                  "description": "If true, only return claim_creations that have charge captures that have been updated since the Claim Creation has had a status of BILLED. See the updates property on ChargeCapture for more details."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "504dcb8f-61bf-40ff-bf58-c1ce140824c8",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "charge_capture_claim_creation",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationStatus not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_charge-capture/v1:ChargeCaptureStatus not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "charge_external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_of_service_min",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_of_service_max",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "claim_ids",
+                      "value": "5cbb79aa-f67a-ea74-cddc-063f2fd32dab"
+                    },
+                    {
+                      "key": "claim_creation_ids",
+                      "value": "bb184f0b-b13f-1b0b-02d3-8979f8f7f0b0"
+                    },
+                    {
+                      "key": "billing_provider_npis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "service_facility_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_payer_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rendering_provider_npis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rendering_provider_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "supervising_provider_npis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "supervising_provider_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "claim_status",
+                      "value": "era_received"
+                    },
+                    {
+                      "key": "claim_creation_category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "primary_payer_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_names",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "has_charge_capture_updates",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fe315809-72fb-406f-beb3-7542d8eefcf2",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

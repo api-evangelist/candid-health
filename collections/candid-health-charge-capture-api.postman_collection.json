@@ -1,0 +1,334 @@
+{
+  "item": [
+    {
+      "id": "e7fffa28-2f23-41d6-bb37-ee23b8eaa012",
+      "name": "Charge Capture",
+      "description": {
+        "content": "Capture charges and service lines ahead of claim assembly.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "202fb297-c40f-4006-a295-feef6aec768d",
+          "name": "Create a charge capture.",
+          "request": {
+            "name": "Create a charge capture.",
+            "description": {
+              "content": "Captures a charge with diagnoses and service lines that later bundles into an encounter for claim assembly.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "charge_captures",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"<string>\",\n  \"data\": {\n    \"external_id\": \"<string>\",\n    \"patient_authorized_release\": \"<boolean>\",\n    \"benefits_assigned_to_provider\": \"<boolean>\",\n    \"provider_accepts_assignment\": \"<boolean>\",\n    \"billable_status\": \"<string>\",\n    \"patient\": {\n      \"external_id\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"date_of_birth\": \"<date>\",\n      \"gender\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"responsible_party\": \"<string>\",\n    \"billing_provider\": {\n      \"organization_name\": \"<string>\",\n      \"npi\": \"<string>\",\n      \"tax_id\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"diagnoses\": [\n      {\n        \"code_type\": \"<string>\",\n        \"code\": \"<string>\"\n      },\n      {\n        \"code_type\": \"<string>\",\n        \"code\": \"<string>\"\n      }\n    ],\n    \"place_of_service_code\": \"<string>\",\n    \"date_of_service\": \"<date>\",\n    \"rendering_provider\": {\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"npi\": \"<string>\"\n    },\n    \"service_lines\": [\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      },\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      }\n    ]\n  },\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e2a91263-4080-48bd-9f1d-5e31d0c5d34c",
+              "name": "The created charge capture.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"data\": {\n    \"external_id\": \"<string>\",\n    \"patient_authorized_release\": \"<boolean>\",\n    \"benefits_assigned_to_provider\": \"<boolean>\",\n    \"provider_accepts_assignment\": \"<boolean>\",\n    \"billable_status\": \"<string>\",\n    \"patient\": {\n      \"external_id\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"date_of_birth\": \"<date>\",\n      \"gender\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"responsible_party\": \"<string>\",\n    \"billing_provider\": {\n      \"organization_name\": \"<string>\",\n      \"npi\": \"<string>\",\n      \"tax_id\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"diagnoses\": [\n      {\n        \"code_type\": \"ABK\",\n        \"code\": \"<string>\"\n      },\n      {\n        \"code_type\": \"ABK\",\n        \"code\": \"<string>\"\n      }\n    ],\n    \"place_of_service_code\": \"<string>\",\n    \"date_of_service\": \"<date>\",\n    \"rendering_provider\": {\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"npi\": \"<string>\"\n    },\n    \"service_lines\": [\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      },\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      }\n    ]\n  },\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"charge_capture_id\": \"5a09c114-fd82-e635-222e-7d4de6fc82a8\",\n  \"external_id\": \"string\",\n  \"status\": \"string\",\n  \"data\": {\n    \"external_id\": \"<string>\",\n    \"patient_authorized_release\": \"<boolean>\",\n    \"benefits_assigned_to_provider\": \"<boolean>\",\n    \"provider_accepts_assignment\": \"<boolean>\",\n    \"billable_status\": \"<string>\",\n    \"patient\": {\n      \"external_id\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"date_of_birth\": \"<date>\",\n      \"gender\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"responsible_party\": \"<string>\",\n    \"billing_provider\": {\n      \"organization_name\": \"<string>\",\n      \"npi\": \"<string>\",\n      \"tax_id\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"diagnoses\": [\n      {\n        \"code_type\": \"ABK\",\n        \"code\": \"<string>\"\n      },\n      {\n        \"code_type\": \"ABK\",\n        \"code\": \"<string>\"\n      }\n    ],\n    \"place_of_service_code\": \"<string>\",\n    \"date_of_service\": \"<date>\",\n    \"rendering_provider\": {\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"npi\": \"<string>\"\n    },\n    \"service_lines\": [\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      },\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cce1ea8-b374-422c-ab76-2ec8e6d13e3d",
+          "name": "Get all charge captures.",
+          "request": {
+            "name": "Get all charge captures.",
+            "description": {},
+            "url": {
+              "path": [
+                "charge_captures",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2a26d0d6-d2b0-4598-ace5-3b129abec0c0",
+              "name": "A page of charge captures.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charge_captures",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"charge_capture_id\": \"86dbc9a4-907b-2ad3-55f8-069338d4d890\",\n      \"external_id\": \"string\",\n      \"status\": \"string\",\n      \"data\": {\n        \"external_id\": \"<string>\",\n        \"patient_authorized_release\": \"<boolean>\",\n        \"benefits_assigned_to_provider\": \"<boolean>\",\n        \"provider_accepts_assignment\": \"<boolean>\",\n        \"billable_status\": \"<string>\",\n        \"patient\": {\n          \"external_id\": \"<string>\",\n          \"first_name\": \"<string>\",\n          \"last_name\": \"<string>\",\n          \"date_of_birth\": \"<date>\",\n          \"gender\": \"<string>\",\n          \"address\": {\n            \"address1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"responsible_party\": \"<string>\",\n        \"billing_provider\": {\n          \"organization_name\": \"<string>\",\n          \"npi\": \"<string>\",\n          \"tax_id\": \"<string>\",\n          \"address\": {\n            \"address1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"diagnoses\": [\n          {\n            \"code_type\": \"ABK\",\n            \"code\": \"<string>\"\n          },\n          {\n            \"code_type\": \"ABK\",\n            \"code\": \"<string>\"\n          }\n        ],\n        \"place_of_service_code\": \"<string>\",\n        \"date_of_service\": \"<date>\",\n        \"rendering_provider\": {\n          \"first_name\": \"<string>\",\n          \"last_name\": \"<string>\",\n          \"npi\": \"<string>\"\n        },\n        \"service_lines\": [\n          {\n            \"service_line_id\": \"<uuid>\",\n            \"procedure_code\": \"<string>\",\n            \"quantity\": \"<string>\",\n            \"charge_amount_cents\": \"<integer>\",\n            \"diagnosis_pointers\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"date_of_service\": \"<date>\"\n          },\n          {\n            \"service_line_id\": \"<uuid>\",\n            \"procedure_code\": \"<string>\",\n            \"quantity\": \"<string>\",\n            \"charge_amount_cents\": \"<integer>\",\n            \"diagnosis_pointers\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"date_of_service\": \"<date>\"\n          }\n        ]\n      }\n    },\n    {\n      \"charge_capture_id\": \"2edd8ed5-50a1-c0fa-733f-be0007815ac4\",\n      \"external_id\": \"string\",\n      \"status\": \"string\",\n      \"data\": {\n        \"external_id\": \"<string>\",\n        \"patient_authorized_release\": \"<boolean>\",\n        \"benefits_assigned_to_provider\": \"<boolean>\",\n        \"provider_accepts_assignment\": \"<boolean>\",\n        \"billable_status\": \"<string>\",\n        \"patient\": {\n          \"external_id\": \"<string>\",\n          \"first_name\": \"<string>\",\n          \"last_name\": \"<string>\",\n          \"date_of_birth\": \"<date>\",\n          \"gender\": \"<string>\",\n          \"address\": {\n            \"address1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"responsible_party\": \"<string>\",\n        \"billing_provider\": {\n          \"organization_name\": \"<string>\",\n          \"npi\": \"<string>\",\n          \"tax_id\": \"<string>\",\n          \"address\": {\n            \"address1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"diagnoses\": [\n          {\n            \"code_type\": \"ABK\",\n            \"code\": \"<string>\"\n          },\n          {\n            \"code_type\": \"ABK\",\n            \"code\": \"<string>\"\n          }\n        ],\n        \"place_of_service_code\": \"<string>\",\n        \"date_of_service\": \"<date>\",\n        \"rendering_provider\": {\n          \"first_name\": \"<string>\",\n          \"last_name\": \"<string>\",\n          \"npi\": \"<string>\"\n        },\n        \"service_lines\": [\n          {\n            \"service_line_id\": \"<uuid>\",\n            \"procedure_code\": \"<string>\",\n            \"quantity\": \"<string>\",\n            \"charge_amount_cents\": \"<integer>\",\n            \"diagnosis_pointers\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"date_of_service\": \"<date>\"\n          },\n          {\n            \"service_line_id\": \"<uuid>\",\n            \"procedure_code\": \"<string>\",\n            \"quantity\": \"<string>\",\n            \"charge_amount_cents\": \"<integer>\",\n            \"diagnosis_pointers\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"date_of_service\": \"<date>\"\n          }\n        ]\n      }\n    }\n  ],\n  \"page_token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7728492d-ab87-4053-953d-7db8dd3f732a",
+          "name": "Get a charge capture.",
+          "request": {
+            "name": "Get a charge capture.",
+            "description": {},
+            "url": {
+              "path": [
+                "charge_captures",
+                "v1",
+                ":charge_capture_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "charge_capture_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5fbddfc1-86f6-476f-b919-74807192ccd2",
+              "name": "The requested charge capture.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charge_captures",
+                    "v1",
+                    ":charge_capture_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "charge_capture_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"charge_capture_id\": \"5a09c114-fd82-e635-222e-7d4de6fc82a8\",\n  \"external_id\": \"string\",\n  \"status\": \"string\",\n  \"data\": {\n    \"external_id\": \"<string>\",\n    \"patient_authorized_release\": \"<boolean>\",\n    \"benefits_assigned_to_provider\": \"<boolean>\",\n    \"provider_accepts_assignment\": \"<boolean>\",\n    \"billable_status\": \"<string>\",\n    \"patient\": {\n      \"external_id\": \"<string>\",\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"date_of_birth\": \"<date>\",\n      \"gender\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"responsible_party\": \"<string>\",\n    \"billing_provider\": {\n      \"organization_name\": \"<string>\",\n      \"npi\": \"<string>\",\n      \"tax_id\": \"<string>\",\n      \"address\": {\n        \"address1\": \"<string>\",\n        \"address2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip_code\": \"<string>\"\n      }\n    },\n    \"diagnoses\": [\n      {\n        \"code_type\": \"ABK\",\n        \"code\": \"<string>\"\n      },\n      {\n        \"code_type\": \"ABK\",\n        \"code\": \"<string>\"\n      }\n    ],\n    \"place_of_service_code\": \"<string>\",\n    \"date_of_service\": \"<date>\",\n    \"rendering_provider\": {\n      \"first_name\": \"<string>\",\n      \"last_name\": \"<string>\",\n      \"npi\": \"<string>\"\n    },\n    \"service_lines\": [\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      },\n      {\n        \"service_line_id\": \"<uuid>\",\n        \"procedure_code\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"charge_amount_cents\": \"<integer>\",\n        \"diagnosis_pointers\": [\n          \"<integer>\",\n          \"<integer>\"\n        ],\n        \"date_of_service\": \"<date>\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "09b3b63c-7096-4995-a685-232ecd428f4d",
+    "name": "Candid Health Auth Charge Capture API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.\n\nContact Support:\n Name: Candid Health Support",
+      "type": "text/plain"
+    }
+  }
+}

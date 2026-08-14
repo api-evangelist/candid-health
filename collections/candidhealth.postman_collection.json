@@ -1,0 +1,536 @@
+{
+  "item": [
+    {
+      "id": "d41363cc-044e-477c-a947-a7e0b359455f",
+      "name": "Auth",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6d679f46-6450-4963-83b4-8ea64a60bc38",
+          "name": "Get an OAuth bearer token.",
+          "request": {
+            "name": "Get an OAuth bearer token.",
+            "description": {},
+            "url": {
+              "path": [
+                "auth",
+                "v2",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": \"<string>\",\n  \"client_secret\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "1f32e329-c854-4a66-a682-d08dbd86d8de",
+      "name": "Encounters",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9e961bf8-b999-4dca-88c2-d8ee1021e1a1",
+          "name": "Get all encounters.",
+          "request": {
+            "name": "Get all encounters.",
+            "description": {},
+            "url": {
+              "path": [
+                "encounters",
+                "v4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "35d80d8b-6102-4227-a461-54047a9e05a0",
+          "name": "Create a professional encounter.",
+          "request": {
+            "name": "Create a professional encounter.",
+            "description": {},
+            "url": {
+              "path": [
+                "encounters",
+                "v4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"<string>\",\n  \"patient_authorized_release\": true,\n  \"benefits_assigned_to_provider\": true,\n  \"provider_accepts_assignment\": true,\n  \"billable_status\": \"BILLABLE\",\n  \"responsible_party\": \"INSURANCE_PAY\",\n  \"place_of_service_code\": \"02\",\n  \"patient\": {},\n  \"billing_provider\": {},\n  \"diagnoses\": [],\n  \"service_lines\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "645a45a4-2255-4f7f-89d5-99c499c3a7c8",
+          "name": "Get an encounter.",
+          "request": {
+            "name": "Get an encounter.",
+            "description": {},
+            "url": {
+              "path": [
+                "encounters",
+                "v4",
+                ":encounter_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "c5587bb7-f55a-4c0e-868e-92ecee8783a5",
+      "name": "Eligibility",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ea2d9e1f-7ec8-42ff-a52b-5417c947c5f5",
+          "name": "Submit an encounter eligibility check.",
+          "request": {
+            "name": "Submit an encounter eligibility check.",
+            "description": {},
+            "url": {
+              "path": [
+                "eligibility",
+                "v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payer_id\": \"<string>\",\n  \"provider\": {},\n  \"subscriber\": {},\n  \"service_type_codes\": [\n    \"<string>\"\n  ],\n  \"date_of_service\": \"<date>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "14ac8854-e9ef-464b-a84c-1aaffa760d7f",
+          "name": "Check eligibility for a stored coverage.",
+          "request": {
+            "name": "Check eligibility for a stored coverage.",
+            "description": {},
+            "url": {
+              "path": [
+                "pre-encounter",
+                "coverages",
+                "v1",
+                "check_eligibility"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payer_id\": \"<string>\",\n  \"subscriber\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "14b376e3-e9b6-46a0-a4ee-127f67113538",
+      "name": "Charge Capture",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "df81d097-d373-40e1-8bed-75f2f4641462",
+          "name": "Create a charge capture.",
+          "request": {
+            "name": "Create a charge capture.",
+            "description": {},
+            "url": {
+              "path": [
+                "charge_captures",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"data\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "b3616649-3645-49ab-82e9-75616a9d9546",
+          "name": "Get all charge captures.",
+          "request": {
+            "name": "Get all charge captures.",
+            "description": {},
+            "url": {
+              "path": [
+                "charge_captures",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "921a8d45-d281-4ed6-b581-6189c4c5548b",
+          "name": "Get a charge capture.",
+          "request": {
+            "name": "Get a charge capture.",
+            "description": {},
+            "url": {
+              "path": [
+                "charge_captures",
+                "v1",
+                ":charge_capture_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "fdb6fca2-5889-40c3-8f5a-ceeb136db15e",
+      "name": "Payers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3321e140-32fc-4a42-a1f7-ca45244ba3f5",
+          "name": "Get all payers.",
+          "request": {
+            "name": "Get all payers.",
+            "description": {},
+            "url": {
+              "path": [
+                "payers",
+                "v3"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "eba2dd89-2cc9-4ac7-a473-5db1884b3542",
+          "name": "Get a payer.",
+          "request": {
+            "name": "Get a payer.",
+            "description": {},
+            "url": {
+              "path": [
+                "payers",
+                "v3",
+                ":payer_uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "d76c536c-6446-4b04-b3d6-75f6b87dd660",
+      "name": "Fee Schedules",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "216c60d2-eae7-4b74-b8ee-04fdf691addb",
+          "name": "Get the rate that matches a service line.",
+          "request": {
+            "name": "Get the rate that matches a service line.",
+            "description": {},
+            "url": {
+              "path": [
+                "fee-schedules",
+                "v3",
+                "service-line",
+                ":service_line_id",
+                "match"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "b91aff76-5c19-4184-b486-452c08a82dac",
+      "name": "Insurance Adjudications",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c95259ce-1151-4c87-bcd4-86743fe25bd8",
+          "name": "Get an insurance adjudication (ERA / remit).",
+          "request": {
+            "name": "Get an insurance adjudication (ERA / remit).",
+            "description": {},
+            "url": {
+              "path": [
+                "insurance_adjudications",
+                "v1",
+                ":insurance_adjudication_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "9879920d-dd0f-44ce-b8c5-7f1a95328e2f",
+      "name": "Events",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c1732287-7dff-42bc-8dc4-d2144d1b7f65",
+          "name": "Scan billing lifecycle events.",
+          "request": {
+            "name": "Scan billing lifecycle events.",
+            "description": {},
+            "url": {
+              "path": [
+                "events",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        },
+        {
+          "id": "5b034782-1336-4aa9-989c-b29fc8820b63",
+          "name": "Get an event.",
+          "request": {
+            "name": "Get an event.",
+            "description": {},
+            "url": {
+              "path": [
+                "events",
+                "v1",
+                ":event_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [],
+            "method": "GET",
+            "auth": null
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e3d7daf6-3733-4313-a82b-3a526b425ee0",
+    "name": "Candid Health API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform.\n\nContact Support:\n Name: Candid Health Support\n URL: https://docs.joincandidhealth.com/additional-resources/support",
+      "type": "text/plain"
+    }
+  }
+}

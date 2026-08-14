@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: Candid Health Auth Fee Schedules API
+  description: REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.
+  termsOfService: https://www.joincandidhealth.com
+  contact:
+    name: Candid Health Support
+    url: https://docs.joincandidhealth.com/additional-resources/support
+  version: '1.0'
+servers:
+- url: https://api.joincandidhealth.com/api
+  description: Candid Health production API
+security:
+- bearerAuth: []
+tags:
+- name: Fee Schedules
+  description: Resolve contracted rates for service lines.
+paths:
+  /fee-schedules/v3/service-line/{service_line_id}/match:
+    get:
+      operationId: getFeeScheduleMatch
+      tags:
+      - Fee Schedules
+      summary: Get the rate that matches a service line.
+      description: Returns the fee-schedule rate matching the dimensions of a service line, or no result when no rate matches.
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The matching rate, if any.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchResult'
+components:
+  schemas:
+    MatchResult:
+      type: object
+      properties:
+        rate_id:
+          type: string
+          format: uuid
+        rate_cents:
+          type: integer
+        matched:
+          type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth bearer token obtained from POST /auth/v2/token. Send as `Authorization: Bearer <access_token>`.'

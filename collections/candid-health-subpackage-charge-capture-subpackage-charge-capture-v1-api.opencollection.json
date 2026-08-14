@@ -1,0 +1,442 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_charge-capture.subpackage_charge-capture/v1 API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_charge-capture.subpackage_charge-capture/v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all Charge Captures",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entities per page, defaults to 100."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to created_at"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction. Defaults to descending order if not provided."
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "patient_external_id",
+                "value": "",
+                "type": "query",
+                "description": "The patient ID from the external EMR platform for the patient"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "the status of the charge captures"
+              },
+              {
+                "name": "charge_external_id",
+                "value": "",
+                "type": "query",
+                "description": "A client-specified unique ID to associate with this encounter;\nfor example, your internal encounter ID or a Dr. Chrono encounter ID.\nThis field should not contain PHI."
+              },
+              {
+                "name": "date_of_service_min",
+                "value": "",
+                "type": "query",
+                "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+              },
+              {
+                "name": "date_of_service_max",
+                "value": "",
+                "type": "query",
+                "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+              },
+              {
+                "name": "claim_ids",
+                "value": "",
+                "type": "query",
+                "description": "A list of claim IDs to filter by. This will return all charge captures that have a resulting claim with one of the IDs in this list."
+              },
+              {
+                "name": "claim_creation_ids",
+                "value": "",
+                "type": "query",
+                "description": "A list of Claim Creation IDs to filter by."
+              },
+              {
+                "name": "billing_provider_npis",
+                "value": "",
+                "type": "query",
+                "description": "A list of billing provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list."
+              },
+              {
+                "name": "service_facility_name",
+                "value": "",
+                "type": "query",
+                "description": "A string to filter by. This will return all charge captures with this service facility name."
+              },
+              {
+                "name": "primary_payer_ids",
+                "value": "",
+                "type": "query",
+                "description": "A list of primary payer IDs to filter by. This will return all charge captures with one of the primary payer IDs in this list."
+              },
+              {
+                "name": "rendering_provider_npis",
+                "value": "",
+                "type": "query",
+                "description": "A list of rendering provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list."
+              },
+              {
+                "name": "rendering_provider_names",
+                "value": "",
+                "type": "query",
+                "description": "A list of rendering provider names to filter by. This will return all charge captures with one of the names in this list."
+              },
+              {
+                "name": "supervising_provider_npis",
+                "value": "",
+                "type": "query",
+                "description": "A list of supervising provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list."
+              },
+              {
+                "name": "supervising_provider_names",
+                "value": "",
+                "type": "query",
+                "description": "A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list."
+              },
+              {
+                "name": "claim_creation_category",
+                "value": "",
+                "type": "query",
+                "description": "A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "A list of tags to filter by. This will return all charge captures with one of the tags."
+              },
+              {
+                "name": "primary_payer_names",
+                "value": "",
+                "type": "query",
+                "description": "A list of primary payer names to filter by. This will return all charge captures with one of the names."
+              },
+              {
+                "name": "patient_names",
+                "value": "",
+                "type": "query",
+                "description": "A list of patient names to filter by. This will return all charge captures with one of the names."
+              },
+              {
+                "name": "exclude_charges_linked_to_claims",
+                "value": "",
+                "type": "query",
+                "description": "Whether to exclude charge captures which are part of a claim creation."
+              },
+              {
+                "name": "patient_external_id_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "The patient ID from the external EMR platform for the patient"
+              },
+              {
+                "name": "status_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "The charge capture status to show first"
+              },
+              {
+                "name": "charge_external_id_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A client-specified unique ID to associate with this encounter;\nfor example, your internal encounter ID or a Dr. Chrono encounter ID.\nThis field should not contain PHI."
+              },
+              {
+                "name": "date_of_service_min_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+              },
+              {
+                "name": "date_of_service_max_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\nThis date must be the local date in the timezone where the service occurred."
+              },
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Filter by any of the following fields: charge_id, claim_id, patient external_id,\npatient date of birth, patient first name, patient last name,\nor charge external id."
+              },
+              {
+                "name": "billable_status",
+                "value": "",
+                "type": "query",
+                "description": "Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party."
+              },
+              {
+                "name": "responsible_party",
+                "value": "",
+                "type": "query",
+                "description": "Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay."
+              },
+              {
+                "name": "claim_ids_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list."
+              },
+              {
+                "name": "claim_creation_ids_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of Claim Creation IDs to show first."
+              },
+              {
+                "name": "billing_provider_npis_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of billing provider NPIs to show first. This will return all charge captures with one of the NPIs in this list."
+              },
+              {
+                "name": "service_facility_name_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A string to show first. This will return all charge captures with this service facility name."
+              },
+              {
+                "name": "primary_payer_ids_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of primary payer IDs to show first. This will return all charge captures with one of the primary payer IDs in this list."
+              },
+              {
+                "name": "rendering_provider_npis_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of rendering provider NPIs to show first. This will return all charge captures with one of the NPIs in this list."
+              },
+              {
+                "name": "rendering_provider_names_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of rendering provider names to show first. This will return all charge captures with one of the names in this list."
+              },
+              {
+                "name": "supervising_provider_npis_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of supervising provider NPIs to show first. This will return all charge captures with one of the NPIs in this list."
+              },
+              {
+                "name": "supervising_provider_names_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of supervising provider names to show first. This will return all charge captures with one of the names in this list."
+              },
+              {
+                "name": "claim_status",
+                "value": "",
+                "type": "query",
+                "description": "the status of the claim to filter by created from charge capture bundle."
+              },
+              {
+                "name": "claim_creation_category_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of claim creation categories to sort by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list."
+              },
+              {
+                "name": "tags_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of tags. This will return all charge captures with one of the tags."
+              },
+              {
+                "name": "primary_payer_names_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of primary payer names to sort by. This will return all charge captures with one of the names."
+              },
+              {
+                "name": "patient_names_ranked_sort",
+                "value": "",
+                "type": "query",
+                "description": "A list of patient names to sort by. This will return all charge captures with one of the names."
+              }
+            ]
+          },
+          "docs": "Get all Charge Captures"
+        },
+        {
+          "info": {
+            "name": "Create a Charge Capture",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Charge Capture"
+        },
+        {
+          "info": {
+            "name": "Create a Charge Capture from pre-encounter patient and appointment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1/create-from-pre-encounter",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing\npatients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage\nof the pre-encounter service should use the standard create endpoint.\n\nAt encounter creation time, information from the provided patient and appointment objects will be populated\nwhere applicable. In particular, the following fields "
+        },
+        {
+          "info": {
+            "name": "Update a ChargeCapturePostBilledChange",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1/changes",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a ChargeCapturePostBilledChange"
+        },
+        {
+          "info": {
+            "name": "Get Charge Capture",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1/:charge_capture_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "charge_capture_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Charge Capture"
+        },
+        {
+          "info": {
+            "name": "Update Charge Capture",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1/:charge_capture_id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "charge_capture_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Charge Capture"
+        },
+        {
+          "info": {
+            "name": "Find Charge Captures by Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-api.joincandidhealth.com/api/charge_captures/v1/find-by-metadata",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Find Charge Captures by Metadata"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

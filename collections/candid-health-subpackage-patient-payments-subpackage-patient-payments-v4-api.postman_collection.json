@@ -1,0 +1,1415 @@
+{
+  "item": [
+    {
+      "id": "4a61c3d9-1bb8-4a82-b8ad-e34dce24c3e7",
+      "name": "subpackage_patient-payments.subpackage_patient-payments/v4",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "26b4a09a-a39f-472f-a700-aa7804ee6bac",
+          "name": "Get patient payments",
+          "request": {
+            "name": "Get patient payments",
+            "description": {
+              "content": "Returns all patient payments satisfying the search criteria AND whose organization_id matches\nthe current organization_id of the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-payments",
+                "v4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_line_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "billing_provider_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "unattributed",
+                  "value": "<boolean>",
+                  "description": "returns payments with unattributed allocations if set to true"
+                },
+                {
+                  "disabled": false,
+                  "key": "invoice_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sources",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "source_internal_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentSortField not found in the OpenAPI spec",
+                  "description": "Defaults to payment_timestamp"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending order if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e64ff094-9299-4d0c-8b75-28185d3a156b",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "1386bbe5-74a6-c1dd-1cd6-a938792395e0"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "a74b4820-052c-e8d1-b0e3-b24ed8bd300a"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "42c4c318-2a4b-5dfb-4ae5-25858d70beae"
+                    },
+                    {
+                      "key": "unattributed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "0ec836ea-0fab-b4b7-eec3-e19f11c28750"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "SHERPA_HEALTH"
+                    },
+                    {
+                      "key": "source_internal_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d9e90a8-eb82-4a1d-a528-095c0b31b547",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "1386bbe5-74a6-c1dd-1cd6-a938792395e0"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "a74b4820-052c-e8d1-b0e3-b24ed8bd300a"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "42c4c318-2a4b-5dfb-4ae5-25858d70beae"
+                    },
+                    {
+                      "key": "unattributed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "0ec836ea-0fab-b4b7-eec3-e19f11c28750"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "SHERPA_HEALTH"
+                    },
+                    {
+                      "key": "source_internal_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b8034d2-7490-4901-8669-4db6aec2fff6",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "1386bbe5-74a6-c1dd-1cd6-a938792395e0"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "a74b4820-052c-e8d1-b0e3-b24ed8bd300a"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "42c4c318-2a4b-5dfb-4ae5-25858d70beae"
+                    },
+                    {
+                      "key": "unattributed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "invoice_id",
+                      "value": "0ec836ea-0fab-b4b7-eec3-e19f11c28750"
+                    },
+                    {
+                      "key": "sources",
+                      "value": "SHERPA_HEALTH"
+                    },
+                    {
+                      "key": "source_internal_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "256d48cc-bb79-4ae1-8a32-ea3ca265887c",
+          "name": "Create patient payment",
+          "request": {
+            "name": "Create patient payment",
+            "description": {
+              "content": "Creates a new patient payment record and returns the newly created PatientPayment object.\nThe allocations can describe whether the payment is being applied toward a specific service line,\nclaim, or billing provider.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-payments",
+                "v4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"<string>\",\n  \"allocations\": [\n    {\n      \"amount_cents\": \"<integer>\",\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"<uuid>\"\n      },\n      \"earmark\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"amount_cents\": \"<integer>\",\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"<uuid>\"\n      },\n      \"earmark\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    }\n  ],\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": \"<string>\",\n  \"invoice\": \"<uuid>\",\n  \"payment_method_detail\": {\n    \"value\": \"reference #/components/schemas/type_patient-payments/v4:PaymentMethodDetailCreate not found in the OpenAPI spec\"\n  },\n  \"payment_source\": \"<string>\",\n  \"source_internal_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8330ec5b-837a-4d9a-b3e2-cc615ad41a27",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 3996,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"fce13f3c-5408-73ee-0449-b39b68498be5\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 190,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"6a5f6ed0-c666-5ec8-9458-4f8b386d5770\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": \"<string>\",\n  \"invoice\": \"d6308efa-cc85-8450-597e-4188aade617e\",\n  \"payment_method_detail\": {\n    \"value\": \"reference #/components/schemas/type_patient-payments/v4:PaymentMethodDetailCreate not found in the OpenAPI spec\"\n  },\n  \"payment_source\": \"PHREESIA\",\n  \"source_internal_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53710dd4-23c5-442e-ac29-5d9f55625411",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 3996,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"fce13f3c-5408-73ee-0449-b39b68498be5\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 190,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"6a5f6ed0-c666-5ec8-9458-4f8b386d5770\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": \"<string>\",\n  \"invoice\": \"d6308efa-cc85-8450-597e-4188aade617e\",\n  \"payment_method_detail\": {\n    \"value\": \"reference #/components/schemas/type_patient-payments/v4:PaymentMethodDetailCreate not found in the OpenAPI spec\"\n  },\n  \"payment_source\": \"PHREESIA\",\n  \"source_internal_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4633faca-b789-4654-b044-70918680f261",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 3996,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"fce13f3c-5408-73ee-0449-b39b68498be5\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 190,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"6a5f6ed0-c666-5ec8-9458-4f8b386d5770\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": \"<string>\",\n  \"invoice\": \"d6308efa-cc85-8450-597e-4188aade617e\",\n  \"payment_method_detail\": {\n    \"value\": \"reference #/components/schemas/type_patient-payments/v4:PaymentMethodDetailCreate not found in the OpenAPI spec\"\n  },\n  \"payment_source\": \"PHREESIA\",\n  \"source_internal_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48cecec6-a45d-4487-a5cc-f4d744b3b3b9",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_cents\": \"<integer>\",\n  \"patient_external_id\": \"string\",\n  \"allocations\": [\n    {\n      \"amount_cents\": 3996,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"fce13f3c-5408-73ee-0449-b39b68498be5\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    },\n    {\n      \"amount_cents\": 190,\n      \"target\": {\n        \"type\": \"service_line_by_id\",\n        \"value\": \"6a5f6ed0-c666-5ec8-9458-4f8b386d5770\"\n      },\n      \"earmark\": {\n        \"type\": \"date_of_service\",\n        \"value\": \"string\"\n      }\n    }\n  ],\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": \"<string>\",\n  \"invoice\": \"d6308efa-cc85-8450-597e-4188aade617e\",\n  \"payment_method_detail\": {\n    \"value\": \"reference #/components/schemas/type_patient-payments/v4:PaymentMethodDetailCreate not found in the OpenAPI spec\"\n  },\n  \"payment_source\": \"PHREESIA\",\n  \"source_internal_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "84773eb3-3cf3-4d15-b5cd-9d1d763146c2",
+          "name": "Get patient payment",
+          "request": {
+            "name": "Get patient payment",
+            "description": {
+              "content": "Retrieves a previously created patient payment by its `patient_payment_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-payments",
+                "v4",
+                ":patient_payment_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                  "key": "patient_payment_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4606d064-c8b3-4271-875a-04098f880ba7",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33261d64-4194-4d70-bd0e-e6378c464be5",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ba92804-a159-485b-a478-9a5e329d2a2a",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd41892b-ccdc-4b0e-b091-975a639603c3",
+          "name": "Update",
+          "request": {
+            "name": "Update",
+            "description": {
+              "content": "Updates the patient payment record matching the provided patient_payment_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-payments",
+                "v4",
+                ":patient_payment_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                  "key": "patient_payment_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"invoice\": {\n    \"type\": \"<string>\",\n    \"value\": \"<uuid>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5ed7c877-8add-49b8-b1f9-66079273da49",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"2469460f-f2ea-560f-337e-192d0018e28a\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee250cbe-559e-4475-92f7-1e5e8ee07157",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"2469460f-f2ea-560f-337e-192d0018e28a\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef52d6be-07b6-4517-81d6-e02a101eb705",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"2469460f-f2ea-560f-337e-192d0018e28a\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d5e6554-0992-4f75-b3d2-72e20b31e389",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_timestamp\": \"<dateTime>\",\n  \"payment_note\": {\n    \"type\": \"set\",\n    \"value\": \"string\"\n  },\n  \"invoice\": {\n    \"type\": \"set\",\n    \"value\": \"2469460f-f2ea-560f-337e-192d0018e28a\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "028bb7ba-71da-4c2b-80c4-8443ef507465",
+          "name": "Delete patient payment",
+          "request": {
+            "name": "Delete patient payment",
+            "description": {
+              "content": "Deletes the patient payment record matching the provided patient_payment_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "patient-payments",
+                "v4",
+                ":patient_payment_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                  "key": "patient_payment_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "17b6a320-d192-4fee-b59a-a4e51d728367",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "efa7ea31-af2c-45a9-a4c0-f48cfc17cfaf",
+              "name": "Error response with status 403",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnauthorizedError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ff2d349-6d76-49b3-9a09-64bb8cb91d54",
+              "name": "Error response with status 404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"EntityNotFoundError\",\n  \"content\": {\n    \"id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "217751f9-a5e3-4fe3-b4b9-c7a306842895",
+              "name": "Error response with status 422",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "patient-payments",
+                    "v4",
+                    ":patient_payment_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_patient-payments/v4:PatientPaymentId not found in the OpenAPI spec",
+                      "key": "patient_payment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorName\": \"UnprocessableEntityError\",\n  \"content\": {\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f30ea074-0f17-47e0-a485-cb090bc325da",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_patient-payments.subpackage_patient-payments/v4 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

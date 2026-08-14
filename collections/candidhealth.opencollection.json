@@ -1,0 +1,264 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Candid Health API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an OAuth bearer token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/auth/v2/token",
+            "body": {
+              "type": "json",
+              "data": "{\"client_id\": \"<string>\", \"client_secret\": \"<string>\"}"
+            }
+          },
+          "docs": "Get an OAuth bearer token."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Encounters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all encounters.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/encounters/v4"
+          },
+          "docs": "Get all encounters."
+        },
+        {
+          "info": {
+            "name": "Create a professional encounter.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/encounters/v4",
+            "body": {
+              "type": "json",
+              "data": "{\"external_id\": \"<string>\", \"patient_authorized_release\": true, \"benefits_assigned_to_provider\": true, \"provider_accepts_assignment\": true, \"billable_status\": \"BILLABLE\", \"responsible_party\": \"INSURANCE_PAY\", \"place_of_service_code\": \"02\", \"patient\": {}, \"billing_provider\": {}, \"diagnoses\": [], \"service_lines\": []}"
+            }
+          },
+          "docs": "Create a professional encounter."
+        },
+        {
+          "info": {
+            "name": "Get an encounter.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/encounters/v4/:encounter_id"
+          },
+          "docs": "Get an encounter."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Eligibility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit an encounter eligibility check.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/eligibility/v2",
+            "body": {
+              "type": "json",
+              "data": "{\"payer_id\": \"<string>\", \"provider\": {}, \"subscriber\": {}, \"service_type_codes\": [\"<string>\"], \"date_of_service\": \"<date>\"}"
+            }
+          },
+          "docs": "Submit an encounter eligibility check."
+        },
+        {
+          "info": {
+            "name": "Check eligibility for a stored coverage.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/pre-encounter/coverages/v1/check_eligibility",
+            "body": {
+              "type": "json",
+              "data": "{\"payer_id\": \"<string>\", \"subscriber\": {}}"
+            }
+          },
+          "docs": "Check eligibility for a stored coverage."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Charge Capture",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a charge capture.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.joincandidhealth.com/api/charge_captures/v1",
+            "body": {
+              "type": "json",
+              "data": "{\"external_id\": \"<string>\", \"status\": \"<string>\", \"data\": {}}"
+            }
+          },
+          "docs": "Create a charge capture."
+        },
+        {
+          "info": {
+            "name": "Get all charge captures.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/charge_captures/v1"
+          },
+          "docs": "Get all charge captures."
+        },
+        {
+          "info": {
+            "name": "Get a charge capture.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/charge_captures/v1/:charge_capture_id"
+          },
+          "docs": "Get a charge capture."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all payers.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/payers/v3"
+          },
+          "docs": "Get all payers."
+        },
+        {
+          "info": {
+            "name": "Get a payer.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/payers/v3/:payer_uuid"
+          },
+          "docs": "Get a payer."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Fee Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the rate that matches a service line.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/fee-schedules/v3/service-line/:service_line_id/match"
+          },
+          "docs": "Get the rate that matches a service line."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Insurance Adjudications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an insurance adjudication (ERA / remit).",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/insurance_adjudications/v1/:insurance_adjudication_id"
+          },
+          "docs": "Get an insurance adjudication (ERA / remit)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Scan billing lifecycle events.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/events/v1"
+          },
+          "docs": "Scan billing lifecycle events."
+        },
+        {
+          "info": {
+            "name": "Get an event.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.joincandidhealth.com/api/events/v1/:event_id"
+          },
+          "docs": "Get an event."
+        }
+      ]
+    }
+  ]
+}

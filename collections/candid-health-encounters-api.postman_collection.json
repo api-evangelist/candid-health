@@ -1,0 +1,472 @@
+{
+  "item": [
+    {
+      "id": "d1987962-13f9-4b05-843b-9379819fc30f",
+      "name": "Encounters",
+      "description": {
+        "content": "Submit and manage encounters that drive claim generation.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1dfd6b98-8f9f-495d-9ad9-475e61fb4659",
+          "name": "Get all encounters.",
+          "request": {
+            "name": "Get all encounters.",
+            "description": {
+              "content": "Returns a paginated list of encounters matching the supplied filters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "encounters",
+                "v4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of encounters to return (1-100)."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>",
+                  "description": "Opaque cursor for the next page of results."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_min",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_of_service_max",
+                  "value": "<date>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c6ebf1e-6486-415b-a7ca-58176093536e",
+              "name": "A page of encounters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "encounters",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "claim_status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_of_service_min",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_of_service_max",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"encounter_id\": \"3baf33f9-5562-a597-e536-d0b3857e0589\",\n      \"external_id\": \"string\",\n      \"date_of_service\": \"2021-09-03\",\n      \"patient\": {\n        \"external_id\": \"string\",\n        \"first_name\": \"string\",\n        \"last_name\": \"string\",\n        \"date_of_birth\": \"2012-09-15\",\n        \"gender\": \"string\",\n        \"address\": {\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state\": \"string\",\n          \"zip_code\": \"string\"\n        }\n      },\n      \"billing_provider\": {\n        \"organization_name\": \"string\",\n        \"npi\": \"string\",\n        \"tax_id\": \"string\",\n        \"address\": {\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state\": \"string\",\n          \"zip_code\": \"string\"\n        }\n      },\n      \"diagnoses\": [\n        {\n          \"code_type\": \"ABK\",\n          \"code\": \"string\"\n        },\n        {\n          \"code_type\": \"ABK\",\n          \"code\": \"string\"\n        }\n      ],\n      \"service_lines\": [\n        {\n          \"service_line_id\": \"027e8d2f-e57c-cba0-ebf1-044f0dc796a8\",\n          \"procedure_code\": \"string\",\n          \"quantity\": \"string\",\n          \"charge_amount_cents\": 1627,\n          \"diagnosis_pointers\": [\n            9592,\n            5373\n          ],\n          \"date_of_service\": \"1972-01-10\"\n        },\n        {\n          \"service_line_id\": \"0752817a-23fc-56bd-d673-3999cf7a4db0\",\n          \"procedure_code\": \"string\",\n          \"quantity\": \"string\",\n          \"charge_amount_cents\": 7861,\n          \"diagnosis_pointers\": [\n            1127,\n            7990\n          ],\n          \"date_of_service\": \"1990-04-14\"\n        }\n      ],\n      \"claims\": [\n        {\n          \"claim_id\": \"00aa8767-75d0-2005-3e07-52a63a62e0fc\",\n          \"status\": \"string\",\n          \"clearinghouse_claim_id\": \"string\",\n          \"payer\": {\n            \"payer_uuid\": \"986f7deb-e51c-474e-df10-9c7d7a3fbf29\",\n            \"payer_id\": \"string\",\n            \"payer_name\": \"string\"\n          }\n        },\n        {\n          \"claim_id\": \"6d71900d-6811-7e91-b904-4237a5650f0d\",\n          \"status\": \"string\",\n          \"clearinghouse_claim_id\": \"string\",\n          \"payer\": {\n            \"payer_uuid\": \"d3bb98a9-486c-0699-087e-5954a89984f9\",\n            \"payer_id\": \"string\",\n            \"payer_name\": \"string\"\n          }\n        }\n      ],\n      \"status\": \"string\",\n      \"created_at\": \"1952-09-04T08:57:14.998Z\"\n    },\n    {\n      \"encounter_id\": \"392689d1-d977-f37b-d936-2991a1c18288\",\n      \"external_id\": \"string\",\n      \"date_of_service\": \"2008-02-29\",\n      \"patient\": {\n        \"external_id\": \"string\",\n        \"first_name\": \"string\",\n        \"last_name\": \"string\",\n        \"date_of_birth\": \"1988-08-24\",\n        \"gender\": \"string\",\n        \"address\": {\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state\": \"string\",\n          \"zip_code\": \"string\"\n        }\n      },\n      \"billing_provider\": {\n        \"organization_name\": \"string\",\n        \"npi\": \"string\",\n        \"tax_id\": \"string\",\n        \"address\": {\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state\": \"string\",\n          \"zip_code\": \"string\"\n        }\n      },\n      \"diagnoses\": [\n        {\n          \"code_type\": \"ABK\",\n          \"code\": \"string\"\n        },\n        {\n          \"code_type\": \"ABK\",\n          \"code\": \"string\"\n        }\n      ],\n      \"service_lines\": [\n        {\n          \"service_line_id\": \"9e1e8966-2126-42f8-4cfd-669a9cb9b8d7\",\n          \"procedure_code\": \"string\",\n          \"quantity\": \"string\",\n          \"charge_amount_cents\": 2287,\n          \"diagnosis_pointers\": [\n            9386,\n            2116\n          ],\n          \"date_of_service\": \"2018-12-30\"\n        },\n        {\n          \"service_line_id\": \"778d398a-cacf-924d-bc5a-e5b8ef88470e\",\n          \"procedure_code\": \"string\",\n          \"quantity\": \"string\",\n          \"charge_amount_cents\": 5006,\n          \"diagnosis_pointers\": [\n            2897,\n            5185\n          ],\n          \"date_of_service\": \"1953-07-07\"\n        }\n      ],\n      \"claims\": [\n        {\n          \"claim_id\": \"08b93b48-3fd7-bba8-d352-fab29135914c\",\n          \"status\": \"string\",\n          \"clearinghouse_claim_id\": \"string\",\n          \"payer\": {\n            \"payer_uuid\": \"3b0f3c3a-8668-e9a0-1bad-31b8a24bf895\",\n            \"payer_id\": \"string\",\n            \"payer_name\": \"string\"\n          }\n        },\n        {\n          \"claim_id\": \"5811b162-06b3-a13f-657a-f4f3d39b4df2\",\n          \"status\": \"string\",\n          \"clearinghouse_claim_id\": \"string\",\n          \"payer\": {\n            \"payer_uuid\": \"5803a2f0-b193-be40-4f8e-cad9f1cbf3dd\",\n            \"payer_id\": \"string\",\n            \"payer_name\": \"string\"\n          }\n        }\n      ],\n      \"status\": \"string\",\n      \"created_at\": \"1960-08-05T17:04:11.206Z\"\n    }\n  ],\n  \"page_token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "59e205b2-e433-436c-86bc-92584718cbf2",
+          "name": "Create a professional encounter.",
+          "request": {
+            "name": "Create a professional encounter.",
+            "description": {
+              "content": "Creates an encounter that Candid uses to generate and submit one or more insurance claims.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "encounters",
+                "v4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"<string>\",\n  \"patient_authorized_release\": \"<boolean>\",\n  \"benefits_assigned_to_provider\": \"<boolean>\",\n  \"provider_accepts_assignment\": \"<boolean>\",\n  \"billable_status\": \"<string>\",\n  \"patient\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"responsible_party\": \"<string>\",\n  \"billing_provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"diagnoses\": [\n    {\n      \"code_type\": \"<string>\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"code_type\": \"<string>\",\n      \"code\": \"<string>\"\n    }\n  ],\n  \"place_of_service_code\": \"<string>\",\n  \"date_of_service\": \"<date>\",\n  \"rendering_provider\": {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"npi\": \"<string>\"\n  },\n  \"service_lines\": [\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    },\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b01e59f-ea5f-42ed-b099-0e0e34c2aaa3",
+              "name": "The created encounter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "encounters",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"patient_authorized_release\": \"<boolean>\",\n  \"benefits_assigned_to_provider\": \"<boolean>\",\n  \"provider_accepts_assignment\": \"<boolean>\",\n  \"billable_status\": \"<string>\",\n  \"patient\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"responsible_party\": \"<string>\",\n  \"billing_provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"diagnoses\": [\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    }\n  ],\n  \"place_of_service_code\": \"<string>\",\n  \"date_of_service\": \"<date>\",\n  \"rendering_provider\": {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"npi\": \"<string>\"\n  },\n  \"service_lines\": [\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    },\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"encounter_id\": \"6a03211c-4f36-cebc-a05c-0bbe2ec9d564\",\n  \"external_id\": \"string\",\n  \"date_of_service\": \"2002-09-15\",\n  \"patient\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"billing_provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"diagnoses\": [\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    }\n  ],\n  \"service_lines\": [\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    },\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    }\n  ],\n  \"claims\": [\n    {\n      \"claim_id\": \"f781d007-f831-ac6a-f038-cc1c4d366461\",\n      \"status\": \"string\",\n      \"clearinghouse_claim_id\": \"string\",\n      \"payer\": {\n        \"payer_uuid\": \"8ae74e97-2230-eecb-3165-bfd1b1af7a28\",\n        \"payer_id\": \"string\",\n        \"payer_name\": \"string\"\n      }\n    },\n    {\n      \"claim_id\": \"687eff6e-3906-731d-fc8d-3e27c7ecafba\",\n      \"status\": \"string\",\n      \"clearinghouse_claim_id\": \"string\",\n      \"payer\": {\n        \"payer_uuid\": \"0122907b-deb1-0643-fe65-0d54b51e9d40\",\n        \"payer_id\": \"string\",\n        \"payer_name\": \"string\"\n      }\n    }\n  ],\n  \"status\": \"string\",\n  \"created_at\": \"1967-02-02T23:09:15.318Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "992388a5-e0d3-42ef-b259-fcd4a4a6c443",
+              "name": "Validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "encounters",
+                    "v4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"patient_authorized_release\": \"<boolean>\",\n  \"benefits_assigned_to_provider\": \"<boolean>\",\n  \"provider_accepts_assignment\": \"<boolean>\",\n  \"billable_status\": \"<string>\",\n  \"patient\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"responsible_party\": \"<string>\",\n  \"billing_provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"diagnoses\": [\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    }\n  ],\n  \"place_of_service_code\": \"<string>\",\n  \"date_of_service\": \"<date>\",\n  \"rendering_provider\": {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"npi\": \"<string>\"\n  },\n  \"service_lines\": [\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    },\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8a4f8b2-3f64-4290-bc9a-35adcce97e95",
+          "name": "Get an encounter.",
+          "request": {
+            "name": "Get an encounter.",
+            "description": {},
+            "url": {
+              "path": [
+                "encounters",
+                "v4",
+                ":encounter_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "encounter_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "78bd1d62-8fe9-41b5-a859-96430f1617e5",
+              "name": "The requested encounter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "encounters",
+                    "v4",
+                    ":encounter_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "encounter_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"encounter_id\": \"6a03211c-4f36-cebc-a05c-0bbe2ec9d564\",\n  \"external_id\": \"string\",\n  \"date_of_service\": \"2002-09-15\",\n  \"patient\": {\n    \"external_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"gender\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"billing_provider\": {\n    \"organization_name\": \"<string>\",\n    \"npi\": \"<string>\",\n    \"tax_id\": \"<string>\",\n    \"address\": {\n      \"address1\": \"<string>\",\n      \"address2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"zip_code\": \"<string>\"\n    }\n  },\n  \"diagnoses\": [\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"code_type\": \"ABK\",\n      \"code\": \"<string>\"\n    }\n  ],\n  \"service_lines\": [\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    },\n    {\n      \"service_line_id\": \"<uuid>\",\n      \"procedure_code\": \"<string>\",\n      \"quantity\": \"<string>\",\n      \"charge_amount_cents\": \"<integer>\",\n      \"diagnosis_pointers\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"date_of_service\": \"<date>\"\n    }\n  ],\n  \"claims\": [\n    {\n      \"claim_id\": \"f781d007-f831-ac6a-f038-cc1c4d366461\",\n      \"status\": \"string\",\n      \"clearinghouse_claim_id\": \"string\",\n      \"payer\": {\n        \"payer_uuid\": \"8ae74e97-2230-eecb-3165-bfd1b1af7a28\",\n        \"payer_id\": \"string\",\n        \"payer_name\": \"string\"\n      }\n    },\n    {\n      \"claim_id\": \"687eff6e-3906-731d-fc8d-3e27c7ecafba\",\n      \"status\": \"string\",\n      \"clearinghouse_claim_id\": \"string\",\n      \"payer\": {\n        \"payer_uuid\": \"0122907b-deb1-0643-fe65-0d54b51e9d40\",\n        \"payer_id\": \"string\",\n        \"payer_name\": \"string\"\n      }\n    }\n  ],\n  \"status\": \"string\",\n  \"created_at\": \"1967-02-02T23:09:15.318Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6480fe4c-65bd-4854-898c-cdd82f3d17c8",
+              "name": "Encounter not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "encounters",
+                    "v4",
+                    ":encounter_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "encounter_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.joincandidhealth.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1de4e5bb-c289-473c-91f8-501080a95108",
+    "name": "Candid Health Auth Encounters API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.\n\nContact Support:\n Name: Candid Health Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,707 @@
+{
+  "item": [
+    {
+      "id": "0c56805a-9d19-4e61-a3fa-e04530830656",
+      "name": "subpackage_write-offs.subpackage_write-offs/v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6cd1ff72-4df5-44d9-85c5-8ad994259a55",
+          "name": "Get all write-offs",
+          "request": {
+            "name": "Get all write-offs",
+            "description": {
+              "content": "Returns all write-offs satisfying the search criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "write-offs",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Defaults to 100. The value must be greater than 0 and less than 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "patient_external_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_payers/v3:PayerUuid not found in the OpenAPI spec"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_line_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "billing_provider_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "value",
+                  "value": "reference #/components/schemas/type_write-offs/v1:WriteOffSortField not found in the OpenAPI spec",
+                  "description": "Defaults to write_off_timestamp"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Defaults to descending order if not provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_token",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "account_types",
+                  "value": "<string>",
+                  "description": "Filters the returned values to include only the provided account types."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3068fe8a-a978-4eb2-b18e-950e2abaf19f",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "write-offs",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "patient_external_id",
+                      "value": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_payers/v3:PayerUuid not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "service_line_id",
+                      "value": "e571ca49-9416-a923-467f-6ba943b0ec9c"
+                    },
+                    {
+                      "key": "claim_id",
+                      "value": "54a9202f-01a6-b112-289a-683fde0d6bd2"
+                    },
+                    {
+                      "key": "billing_provider_id",
+                      "value": "8aedb940-6273-278c-9780-9db3a1630cec"
+                    },
+                    {
+                      "key": "value",
+                      "value": "reference #/components/schemas/type_write-offs/v1:WriteOffSortField not found in the OpenAPI spec"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "page_token",
+                      "value": "string"
+                    },
+                    {
+                      "key": "account_types",
+                      "value": "THIRD_PARTY_PAYER"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc96cee7-9bef-4be4-8d25-a705967aff6e",
+          "name": "Create write-off",
+          "request": {
+            "name": "Create write-off",
+            "description": {
+              "content": "Creates one or many write-offs applied toward a specific service line,\nclaim, or billing provider.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "write-offs",
+                "v1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"write_offs\": [\n    {\n      \"value\": \"reference #/components/schemas/type_write-offs/v1:WriteOffCreate not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_write-offs/v1:WriteOffCreate not found in the OpenAPI spec\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "47001edf-70fe-461e-9357-176242465119",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "write-offs",
+                    "v1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"write_offs\": [\n    {\n      \"value\": \"reference #/components/schemas/type_write-offs/v1:WriteOffCreate not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference #/components/schemas/type_write-offs/v1:WriteOffCreate not found in the OpenAPI spec\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec642a25-04c6-4a5d-937d-76ba51e536d6",
+          "name": "Get write-off",
+          "request": {
+            "name": "Get write-off",
+            "description": {
+              "content": "Retrieves a previously created write off by its `write_off_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "write-offs",
+                "v1",
+                ":write_off_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_write-offs/v1:WriteOffId not found in the OpenAPI spec",
+                  "key": "write_off_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4cf6349e-56e4-49f3-b1d6-70218df2752a",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "write-offs",
+                    "v1",
+                    ":write_off_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_write-offs/v1:WriteOffId not found in the OpenAPI spec",
+                      "key": "write_off_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d0f90e8b-eab5-4a34-bdb6-f70696e6e712",
+          "name": "Revert write-off",
+          "request": {
+            "name": "Revert write-off",
+            "description": {
+              "content": "Reverts a write off given a `write_off_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "write-offs",
+                "v1",
+                ":write_off_id",
+                "revert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "reference #/components/schemas/type_write-offs/v1:WriteOffId not found in the OpenAPI spec",
+                  "key": "write_off_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d7537c10-86be-4439-973a-1f6e55f6e799",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "write-offs",
+                    "v1",
+                    ":write_off_id",
+                    "revert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "reference #/components/schemas/type_write-offs/v1:WriteOffId not found in the OpenAPI spec",
+                      "key": "write_off_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6daf2412-91bc-47e2-aa6e-98aa6271c89b",
+          "name": "Revert Insurance Balance Adjustment",
+          "request": {
+            "name": "Revert Insurance Balance Adjustment",
+            "description": {
+              "content": "Reverts an Insurance Balance Adjustment given an `adjustment_id`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "write-offs",
+                "v1",
+                ":adjustment_id",
+                "revert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "adjustment_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "573ebf69-9818-47a5-927a-3eaafd6a682a",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "write-offs",
+                    "v1",
+                    ":adjustment_id",
+                    "revert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "adjustment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52659713-8810-42fd-a9e1-92185bc6e996",
+          "name": "Revert ERA-originated Insurance Balance Adjustment",
+          "request": {
+            "name": "Revert ERA-originated Insurance Balance Adjustment",
+            "description": {
+              "content": "Reverts an ERA-originated Insurance Balance Adjustment given an `adjustment_id`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "write-offs",
+                "v1",
+                ":adjustment_id",
+                "revert-era-originated"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "adjustment_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dabb0ad7-8186-43f1-8f3a-8fa0bd975b29",
+              "name": "Response with status 200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "write-offs",
+                    "v1",
+                    ":adjustment_id",
+                    "revert-era-originated"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "adjustment_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth authentication",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"25f2e7bf-4354-7f1d-b2ed-2a4acf167fd1\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pre-api.joincandidhealth.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6005d7a8-4e5f-4221-a301-688a5a7af97f",
+    "name": "API Reference subpackage_auth.subpackage_auth/default subpackage_write-offs.subpackage_write-offs/v1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}
