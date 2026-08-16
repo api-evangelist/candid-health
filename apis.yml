@@ -21,7 +21,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/candid-health.png
 url: https://raw.githubusercontent.com/api-evangelist/candid-health/refs/heads/main/apis.yml
 created: 2026-06-12
-modified: 2026-06-12
+modified: 2026-08-15
 specificationVersion: '0.19'
 tags:
 - Medical Billing
@@ -82,7 +82,7 @@ apis:
     notes, lists, and tagging for pre-encounter workflows.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.joincandidhealth.com/api-reference/patients/v-1
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - Patients
   - Healthcare
@@ -652,7 +652,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
     API from Candid Health — 6 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
   properties:
@@ -668,7 +668,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
     API from Candid Health — 9 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
   properties:
@@ -684,7 +684,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
     API from Candid Health — 7 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/eligibilitychecks.subpackage_pre-encounter/eligibilitychecks/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
   properties:
@@ -700,7 +700,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
     API from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
   properties:
@@ -716,7 +716,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
     API from Candid Health — 2 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
   properties:
@@ -732,7 +732,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
     API from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
   properties:
@@ -748,7 +748,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
     API from Candid Health — 4 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/organizationexternalproviders.subpackage_pre-encounter/organizationexternalproviders/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
   properties:
@@ -764,7 +764,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
     API from Candid Health — 10 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
   properties:
@@ -780,7 +780,7 @@ apis:
   description: The subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
     API from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
+  baseURL: https://pre-api.joincandidhealth.com
   tags:
   - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
   properties:
@@ -1058,8 +1058,6 @@ common:
   url: https://www.linkedin.com/company/candid-health
 - type: Blog
   url: https://candidhealth.com/blog
-- type: Pricing
-  url: https://candidhealth.com/integrations
 - type: StatusPage
   url: https://status.joincandidhealth.com
 - type: X
@@ -1076,12 +1074,6 @@ common:
   url: vocabulary/candid-health-vocabulary.yml
 - type: JSONLDContext
   url: json-ld/candid-health-context.jsonld
-- type: AgenticAccess
-  url: agentic-access/candid-health-agentic-access.yml
-- type: DomainSecurity
-  url: security/candid-health-domain-security.yml
-- type: Authentication
-  url: authentication/candid-health-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/candidhealth
 - type: LinkedIn
@@ -1090,24 +1082,73 @@ common:
   url: https://www.joincandidhealth.com
 - type: Documentation
   url: https://docs.joincandidhealth.com
-- type: Plans
-  url: plans/candid-health-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/candid-health-rate-limits.yml
-- type: FinOps
-  url: finops/candid-health-finops.yml
-- type: AgenticAccess
-  url: agentic-access/candid-health-agentic-access.yml
-- type: DomainSecurity
-  url: security/candid-health-domain-security.yml
-- type: Authentication
-  url: authentication/candid-health-authentication.yml
-- type: Plans
-  url: plans/candid-health-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/candid-health-rate-limits.yml
-- type: FinOps
-  url: finops/candid-health-finops.yml
+- type: Packages
+  url: packages/candid-health-packages.yml
+- type: SDKs
+  url: packages/candid-health-packages.yml
+- type: WellKnown
+  url: well-known/candid-health-well-known.yml
+- type: APICatalog
+  url: https://docs.joincandidhealth.com/.well-known/api-catalog
+- type: MCPServer
+  url: mcp/candid-health-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/candid-health-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/candid-health-llms.txt
+- type: Overlay
+  url: overlays/candid-health-original-overlay.yaml
+- type: Conformance
+  url: conformance/candid-health-conformance.yml
+- type: Compliance
+  url: conformance/candid-health-conformance.yml
+- type: TrustCenter
+  url: security/candid-health-trust-center.yml
+- type: ErrorCatalog
+  url: errors/candid-health-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/candid-health-lifecycle.yml
+- type: Deprecation
+  url: https://docs.joincandidhealth.com/api-principles/breaking-changes
+- type: Conventions
+  url: conventions/candid-health-conventions.yml
+- type: DataModel
+  url: data-model/candid-health-data-model.yml
+- type: Sandbox
+  url: sandbox/candid-health-sandbox.yml
+- type: Components
+  url: components/candid-health-components.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Examples
+  url: examples/candid-health-encounter-create-example.json
+- type: JSONSchema
+  url: json-schema/candid-health-encounter-schema.json
+- type: Rules
+  url: rules/candid-health-jsonschema-spectral-rules.yml
+- type: Portal
+  url: https://docs.joincandidhealth.com/
+- type: DeveloperPortal
+  url: https://docs.joincandidhealth.com/
+- type: APIReference
+  url: https://docs.joincandidhealth.com/api-reference
+- type: GettingStarted
+  url: https://docs.joincandidhealth.com/introduction/getting-started
+- type: Support
+  url: https://docs.joincandidhealth.com/additional-resources/support
+- type: HelpCenter
+  url: https://support.joincandidhealth.com/hc/en-us
+- type: Login
+  url: https://app.joincandidhealth.com/
+- type: TermsOfService
+  url: https://candidhealth.com/terms-of-use
+- type: PrivacyPolicy
+  url: https://candidhealth.com/privacy-policy
 maintainers:
 - name: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-15'
+  status: enriched
+  artifacts_added: 11
+  pass: local-v1
