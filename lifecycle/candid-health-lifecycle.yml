@@ -1,0 +1,151 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.joincandidhealth.com/api-principles/development-lifecycle
+name: Candid Health API Lifecycle
+description: >-
+  Candid Health publishes a written endpoint lifecycle (beta / available / deprecated),
+  a written breaking-change definition, and an operational status page with per-service
+  components. What it does NOT publish is a dated changelog, a sunset timetable, or
+  RFC 8594 Deprecation/Sunset headers — deprecation notice is delivered by email to an
+  opt-in list, which means an automated client cannot detect an upcoming break.
+docs:
+  - https://docs.joincandidhealth.com/api-principles/development-lifecycle
+  - https://docs.joincandidhealth.com/api-principles/breaking-changes
+  - https://docs.joincandidhealth.com/api-principles/design-principles
+
+versioning:
+  scheme: path-segment
+  pattern: /<resource>/v<N>
+  parallel_versions_live: true
+  examples:
+    - resource: encounters
+      versions: [v4]
+    - resource: contracts
+      versions: [v2, v3]
+    - resource: payers
+      versions: [v3, v4]
+    - resource: patient-payments
+      versions: [v3, v4]
+    - resource: credentialing
+      versions: [v2]
+    - resource: eligibility
+      versions: [v1, v2]
+  note: >-
+    A new version is added alongside the old one rather than replacing it. Candid does
+    not publish a retirement date for any superseded version, so old versions accumulate.
+
+endpoint_states:
+  - state: beta
+    guarantee: none
+    description: Usable, but subject to breaking changes without notice.
+  - state: available
+    guarantee: strong
+    description: >-
+      Supported and reliable. Breaking changes only in rare cases when no other option
+      exists.
+  - state: deprecated
+    guarantee: best-effort
+    description: >-
+      Still callable. Support is case-by-case and Candid will generally recommend a
+      newer endpoint. No removal date is published.
+
+endpoint_state_default: available
+endpoint_state_signalling: >-
+  Endpoint state is shown in the human documentation. It is NOT expressed in the
+  OpenAPI — the `deprecated: true` flag appears on zero of the 251 operations, so a
+  machine reading the spec cannot tell a deprecated endpoint from an available one.
+
+deprecation_policy:
+  published: true
+  url: https://docs.joincandidhealth.com/api-principles/breaking-changes
+  notice_channel: email
+  notice_mechanism: >-
+    An opt-in breaking-changes mailing list. Callers ask support@joincandidhealth.com
+    to be added. There is no feed, no webhook and no header.
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  notice_period: not specified
+  breaking_change_definition:
+    breaking:
+      - A request-shape schema change that makes a previously valid request invalid.
+      - A response-shape schema change that makes a previously valid response parser invalid.
+      - Removing a required field from a response shape.
+      - Changing the data type of a field.
+      - Removing an enum or union member from a REQUEST shape.
+    non_breaking:
+      - Adding a new field to an existing response shape.
+      - Making a required request field optional.
+      - Removing an optional field from a response shape.
+      - Adding enum or union members to request and response shapes.
+      - Removing enum or union members from RESPONSE shapes.
+    consumer_obligation: >-
+      Clients must handle unknown enum and union members gracefully — Candid's own
+      conventions page requires an `_other` branch on every union.
+  historical_record: >-
+    Candid states breaking changes are documented "in the Breaking Changes page in our
+    API documentation along with a date". No such dated page is reachable from the
+    public documentation index (llms.txt lists only the policy page), and
+    docs.joincandidhealth.com/changelog returns 404.
+
+changelog:
+  published: false
+  probed:
+    - url: https://docs.joincandidhealth.com/changelog
+      status: 404
+    - url: https://docs.joincandidhealth.com/changelog/llms.txt
+      status: 404
+    - url: https://docs.joincandidhealth.com/api-reference/breaking-changes.md
+      status: 404
+  proxy_signal: >-
+    The four official SDKs are versioned in lockstep and released together
+    (1.30.0 on 2026-08-01), so SDK release history on GitHub is the closest available
+    substitute for an API changelog.
+  observed_drift:
+    window: 2026-06-12 to 2026-08-14
+    added_paths: 12
+    added_operations: 13
+    detail: >-
+      Comparing the June harvest of the published OpenAPI with the same document today,
+      Candid added the whole patient-merge/v1 service (5 operations), organization-provider
+      attachments (3), eligibility-checks insurance-discovery and coordination-of-benefits,
+      appointments visit counts, and the patient eligibility-timeline. Nothing was removed.
+      None of it was announced anywhere a machine could read.
+
+status_page:
+  url: https://status.joincandidhealth.com
+  provider: Atlassian Statuspage
+  page_id: dp8trndq5jj1
+  api: https://status.joincandidhealth.com/api/v2/summary.json
+  machine_readable: true
+  components:
+    - API
+    - Encounters & Coded Encounters APIs
+    - Change Healthcare Eligibility API
+    - Availity Eligibility API
+    - App
+    - Exports
+    - ERA processing pipeline
+    - Claim Submission
+    - Reports
+  observed:
+    checked: '2026-08-14'
+    indicator: none
+    description: All Systems Operational
+  note: >-
+    The component list is the clearest public statement of Candid's clearinghouse
+    dependencies — Change Healthcare and Availity each get their own eligibility
+    component, and ERA processing and claim submission are tracked separately from
+    the API itself.
+
+sla:
+  published: false
+  note: >-
+    No public SLA or uptime commitment. Candid's plans page references SLA-backed
+    support tickets under enterprise agreements; terms are not disclosed publicly.
+
+support:
+  email: support@joincandidhealth.com
+  docs: https://docs.joincandidhealth.com/additional-resources/support
+  knowledge_base: https://support.joincandidhealth.com/hc/en-us
+  sales: https://www.joincandidhealth.com/contact/sales

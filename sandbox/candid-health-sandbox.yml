@@ -1,0 +1,172 @@
+generated: '2026-08-15'
+method: searched
+source: https://docs.joincandidhealth.com/introduction/candid-environments
+name: Candid Health Sandbox and Test Data
+description: >-
+  Candid Health runs a full Staging/Sandbox environment that mirrors production
+  host-for-host, with separate credentials per environment. It is a real sandbox,
+  not a mock: claims are accepted but never submitted to a payer and therefore
+  never adjudicated, and eligibility checks are routed to the clearinghouse test
+  API instead of a live payer. Candid publishes a set of verbatim mock eligibility
+  request bodies with fixed payer ids, member ids and an NPI that trigger named
+  success and failure scenarios. PHI is prohibited in Sandbox.
+docs:
+  - https://docs.joincandidhealth.com/introduction/candid-environments
+  - https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/mocking-eligibility-checks
+
+separation:
+  model: separate-environment-hosts
+  key_prefixes: none
+  note: >-
+    Candid does NOT distinguish test from live by key prefix (no sk_test_ / sk_live_
+    equivalent). The environment is selected by HOSTNAME, and each environment issues
+    its own client_id / client_secret pair. Presenting staging credentials to the
+    production host — or the reverse — fails authentication. There is no way to tell
+    from a credential alone which environment it belongs to.
+  credentials:
+    issued_per_environment: true
+    obtained_from: Candid implementation team
+    self_serve: false
+
+environments:
+  - name: Production
+    api: https://api.joincandidhealth.com
+    pre_encounter: https://pre-api.joincandidhealth.com
+    phi_allowed: true
+    adjudicates: true
+  - name: Staging / Sandbox
+    api: https://api-staging.joincandidhealth.com
+    pre_encounter: https://pre-api-staging.joincandidhealth.com
+    phi_allowed: false
+    adjudicates: false
+    rule: 'PHI is not allowed in Sandbox. Use fake data when testing.'
+    substitution: >-
+      Documentation examples are written against the production domain. To run them in
+      Sandbox, replace `api` with `api-staging` in the host — everything else is identical.
+  - name: CandidSandbox (declared in OpenAPI servers[])
+    api: https://sandbox-api.joincandidhealth.com
+    pre_encounter: https://sandbox-pre-api.joincandidhealth.com
+    documented: false
+    note: >-
+      The published OpenAPI declares sandbox-api / sandbox-pre-api and staging-api /
+      staging-pre-api server entries alongside http://localhost:4000 and
+      http://localhost:5050. Only api-staging / pre-api-staging is documented on the
+      environments page; the sandbox-* pair appears to be an internal Fern environment
+      name that leaked into the public spec. Do not assume it is reachable.
+
+behaviour_differences:
+  - surface: Claims / encounters
+    behaviour: >-
+      Claims created in Sandbox will not be submitted to a payer and therefore are never
+      adjudicated. The full create/validate path runs; nothing leaves the building.
+  - surface: Eligibility checks
+    behaviour: >-
+      Sandbox eligibility is served by Stedi's Test API rather than a live payer
+      connection, so responses are sample data. Production eligibility routes through
+      Change Healthcare and Availity (both tracked as separate status-page components).
+  - surface: ERA / remittance
+    behaviour: >-
+      With no adjudication there is no real 835 return, so insurance-adjudication and
+      remittance flows cannot be exercised end-to-end in Sandbox.
+
+mock_eligibility_requests:
+  source: https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/mocking-eligibility-checks
+  upstream: https://www.stedi.com/docs/api-reference/healthcare/mock-requests-eligibility-checks
+  endpoint: POST /eligibility-checks/v1
+  note: >-
+    Values below are copied verbatim from Candid's published mocking page. They are
+    fabricated test identities supplied by the vendor, not real member data.
+  fixed_values:
+    provider_npi: '1999999984'
+    service_type_codes: ['30']
+  payers:
+    - payer_id: '60054'
+      payer: Aetna
+    - payer_id: '87726'
+      payer: UHC / AAA
+    - payer_id: BAD_PAYER_ID
+      payer: none — forces a Stedi 400
+  scenarios:
+    - scenario: Aetna with dependent
+      payer_id: '60054'
+      member_id: AETNA9wcSu
+      subscriber: John Doe
+      dependent: Jordan Doe, dob 2001-07-14
+      expect: successful eligibility response with dependent coverage
+    - scenario: Aetna with subscriber only
+      payer_id: '60054'
+      member_id: AETNA12345
+      subscriber: Jane Doe, dob 2004-04-04
+      expect: successful eligibility response, subscriber only
+    - scenario: AAA 42 payer unreachable
+      payer_id: '87726'
+      member_id: UHCAAA42
+      subscriber: Jane Doe, dob 2001-01-01
+      expect: payer unreachable
+    - scenario: AAA 43 invalid — missing provider id
+      payer_id: '87726'
+      member_id: UHCAAA43
+      subscriber: Jane Doe, dob 1970-01-01
+      expect: invalid / missing provider identifier
+    - scenario: AAA 72 invalid — missing subscriber insured id
+      payer_id: '87726'
+      member_id: UHCAAA72
+      subscriber: John Doe, dob 1990-01-01
+      expect: invalid / missing subscriber insured id
+    - scenario: AAA 73 invalid — missing subscriber insured name
+      payer_id: '87726'
+      member_id: UHCAAA73
+      subscriber: John Doe, dob 1990-01-01
+      expect: invalid / missing subscriber insured name
+    - scenario: AAA 75 subscriber insured not found
+      payer_id: '87726'
+      member_id: UHCAAA75
+      subscriber: Jane Doe, dob 1990-01-01
+      expect: subscriber / insured not found
+    - scenario: AAA 79 invalid participant id
+      payer_id: '87726'
+      member_id: UHCAAA79
+      subscriber: John Doe, dob 1970-01-01
+      expect: invalid participant identifier
+    - scenario: Stedi error with code 400
+      payer_id: BAD_PAYER_ID
+      member_id: AETNA12345
+      subscriber: Jane Doe, dob '20040404'
+      expect: HTTP 400 from the clearinghouse
+      note: >-
+        The date_of_birth in this fixture is deliberately unhyphenated (20040404) —
+        it is part of what makes the request bad. Reproduce it exactly.
+
+other_test_tooling:
+  - name: Fee schedule test match
+    operation: GET /api/fee-schedules/v3/service-line/{service_line_id}/test-match
+    docs: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/test-match
+    note: >-
+      Dry-run a service line against the configured fee schedules and see which rate
+      would match, without billing. The nearest thing Candid has to a fixture harness
+      on the billing side.
+
+not_published:
+  test_clocks: false
+  time_simulation: false
+  event_triggers: false
+  test_card_numbers: n/a
+  note: >-
+    Candid publishes no time-travel / test-clock mechanism and no way to force a claim
+    through an artificial adjudication cycle. There is no published fixture for the
+    835/ERA return path, which is the hardest part of a revenue-cycle integration to
+    test and the biggest gap in this sandbox.
+
+x-evidence:
+  - url: https://docs.joincandidhealth.com/introduction/candid-environments.md
+    http_status: 200
+  - url: https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/mocking-eligibility-checks.md
+    http_status: 200
+  - url: https://api-staging.joincandidhealth.com/
+    http_status: 404
+    note: Host resolves and answers; the bare root is not a documented endpoint.
+
+cross_links:
+  conventions: conventions/candid-health-conventions.yml
+  authentication: authentication/candid-health-authentication.yml
+  errors: errors/candid-health-problem-types.yml

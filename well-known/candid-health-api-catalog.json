@@ -1,0 +1,19 @@
+{
+    "linkset": [
+        {
+            "anchor": "https://docs.joincandidhealth.com/api-reference",
+            "service-desc": [
+                {
+                    "href": "https://docs.joincandidhealth.com/openapi/api-reference.yaml",
+                    "type": "application/yaml"
+                }
+            ],
+            "service-doc": [
+                {
+                    "href": "https://docs.joincandidhealth.com/api-reference",
+                    "type": "text/html"
+                }
+            ]
+        }
+    ]
+}

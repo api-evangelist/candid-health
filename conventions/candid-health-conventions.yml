@@ -1,0 +1,221 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.joincandidhealth.com/api-principles/conventions
+name: Candid Health API Conventions
+description: >-
+  Cross-cutting runtime semantics for the Candid Health REST API, taken from
+  Candid's own API Principles pages and cross-checked against the 251 operations
+  in the published OpenAPI. Candid documents its conventions unusually well for a
+  healthcare vendor — pagination, union evolution, decimal handling and breaking-change
+  policy are all written down — but it publishes NO idempotency mechanism, which is
+  the single largest gap for an automated claims integration.
+docs:
+  - https://docs.joincandidhealth.com/api-principles/conventions
+  - https://docs.joincandidhealth.com/api-principles/design-principles
+  - https://docs.joincandidhealth.com/api-principles/breaking-changes
+  - https://docs.joincandidhealth.com/api-principles/development-lifecycle
+  - https://docs.joincandidhealth.com/introduction/candid-environments
+
+authentication:
+  style: oauth2-client-credentials
+  token_endpoint: https://api.joincandidhealth.com/api/auth/v2/token
+  header: 'Authorization: Bearer <token>'
+  token_format: JWT (Auth0-issued)
+  token_lifetime: 5 hours
+  public_key: https://candidhealth.auth0.com/pem
+  reuse_required: true
+  note: >-
+    Tokens MUST be cached and reused. Minting a token per request triggers
+    HTTP 429 TooManyRequestsError on the token endpoint itself.
+  detail: authentication/candid-health-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    "idempot" appears zero times in the 1.3 MB OpenAPI and zero times across the
+    303-line llms.txt documentation index. No Idempotency-Key parameter is declared
+    on any of the 251 operations.
+  substitutes:
+    - mechanism: client-supplied external ids
+      fields:
+        - external_id (Encounter)
+        - charge_external_id (ChargeCapture)
+        - patient_external_id
+        - encounter_external_id
+      behavior: >-
+        Uniqueness is enforced server-side. A duplicate create returns HTTP 409
+        (ChargeExternalIdConflictError, EntityConflictError) rather than replaying
+        the original response. This deduplicates but does NOT make a retry safe:
+        the caller cannot distinguish "already created by my earlier attempt" from
+        "created by a different process" without a follow-up read.
+    - mechanism: optimistic concurrency on pre-encounter writes
+      behavior: >-
+        Pre-encounter updates carry a {version} path segment; a stale version returns
+        409 VersionConflictError. This protects against lost updates, not against
+        duplicate creates.
+  note: >-
+    Because there is no idempotency key, a retried POST /api/encounters/v4 that
+    timed out mid-flight can create a second claim. Candid's guidance is to set
+    external_id on every create and treat 409 as "already exists".
+
+pagination:
+  style: cursor
+  request_params:
+    - name: page_token
+      in: query
+      note: Opaque PageToken. Present on 40 operations.
+    - name: limit
+      in: query
+      note: Present on 39 operations.
+  response_envelope: ResourcePage
+  response_fields:
+    - items
+    - next_page_token
+    - prev_page_token
+  bidirectional: true
+  sorting:
+    - sort
+    - sort_field
+    - sort_direction
+  incremental_sync:
+    endpoints: '*/updates/scan'
+    param: since
+    note: >-
+      Pre-encounter services expose a /updates/scan endpoint taking a `since`
+      timestamp — the intended mechanism for keeping a downstream store in sync,
+      and the closest thing Candid has to a change feed.
+
+error_envelope:
+  format: vendor-discriminated-envelope
+  rfc9457: false
+  media_type: application/json
+  discriminator: errorName
+  shape: '{ errorName: <enum string>, content: <typed object|array> }'
+  catalog: errors/candid-health-problem-types.yml
+  note: Branch on errorName, not on the HTTP status — 404 alone carries three distinct named errors.
+
+rate_limiting:
+  scope: per-IP
+  limit: 1000 requests
+  window: 10 seconds (rolling)
+  exhaustion_status: 429
+  response_headers: none published
+  retry_after: not declared in the OpenAPI
+  sdk_behavior: All four official SDKs implement exponential backoff on 429 automatically.
+  detail: rate-limits/candid-health-rate-limits.yml
+  note: >-
+    Per-IP rather than per-key is unusual and matters at scale: every tenant behind
+    one NAT egress shares the same bucket, and no X-RateLimit-* or RateLimit-* header
+    is returned, so a client cannot see how much budget remains before it 429s.
+
+versioning:
+  style: path-segment
+  examples:
+    - /api/encounters/v4
+    - /api/patient-payments/v4
+    - /api/tasks/v3
+    - /eligibility-checks/v1
+  parallel_versions: true
+  note: >-
+    Versions run in parallel rather than superseding — contracts/v2 and contracts/v3,
+    payers/v3 and payers/v4, patient-payments/v3 and v4 are all live simultaneously.
+  lifecycle_states:
+    - beta
+    - available
+    - deprecated
+  detail: lifecycle/candid-health-lifecycle.yml
+
+type_conventions:
+  branding:
+    description: >-
+      Candid brands string and UUID types (EncounterExternalId, PageToken, Decimal)
+      as distinct aliases. They serialize as plain JSON strings on the wire; the typed
+      SDKs surface them as the branded type.
+  decimals:
+    representation: string
+    type: Decimal
+    reason: Avoids floating-point imprecision on money. Parsed into Python Decimal server-side.
+    note: Money is otherwise carried as integer cents (charge_amount_cents).
+  unions:
+    discriminator: type
+    note: >-
+      Union discriminant is the `type` field unless otherwise specified. Candid
+      explicitly requires clients to handle an `_other` case gracefully, because
+      ADDING a union member is defined as non-breaking.
+  enums:
+    note: >-
+      Adding enum members to requests and responses is non-breaking; REMOVING a member
+      from a response shape is also declared non-breaking. Only removing a member from a
+      REQUEST shape is breaking. Clients must be permissive readers.
+
+field_expansion:
+  supported: false
+  note: No expand/fields/include parameters are declared. Responses are fixed shape.
+
+metadata:
+  supported: false
+  note: >-
+    No generic metadata bag. Candid instead offers custom-schemas/v1 — organization-defined
+    key/value schemas attached to encounters, validated server-side (SchemaValidationHttpFailure).
+
+request_tracing:
+  request_id_header: none published
+  note: >-
+    No X-Request-Id / correlation header is documented or declared in the spec. Support
+    escalations are keyed on endpoint plus timestamp, which is the main observability gap.
+
+environments:
+  - name: Production
+    api: https://api.joincandidhealth.com
+    pre_encounter: https://pre-api.joincandidhealth.com
+  - name: Staging / Sandbox
+    api: https://api-staging.joincandidhealth.com
+    pre_encounter: https://pre-api-staging.joincandidhealth.com
+    phi_allowed: false
+
+environments_note: >-
+  Credentials are environment-scoped — a staging client_id/client_secret pair fails
+  against production and vice versa. Two host FAMILIES exist per environment: the
+  pre-encounter services answer on pre-api*, everything else on api*.
+environments_detail: sandbox/candid-health-sandbox.yml
+
+events_and_notifications:
+  webhooks:
+    supported: false
+    on_roadmap: false
+    evidence: >-
+      Candid states plainly that it does not offer webhooks today and that they are not on
+      the roadmap; the Events API is the answer to "much of what customers want to use
+      webhooks for". Confirmed against the spec: zero `webhooks:` blocks, zero callback
+      objects across the 251 operations.
+    source: https://support.joincandidhealth.com/hc/en-us
+  asyncapi:
+    published: false
+    probed:
+      - url: https://docs.joincandidhealth.com/asyncapi.yaml
+        status: 404
+    note: >-
+      No AsyncAPI document exists and none is asserted on Candid's behalf. This is a
+      genuine absence of an event surface, not a gap in the harvest.
+  substitute:
+    mechanism: poll
+    endpoints:
+      - GET /api/events/v1 (scanEvents) — billing lifecycle events, ordered by modification time
+      - GET /api/events/v1/{event_id} (getEvent)
+      - '*/updates/scan?since= — pre-encounter incremental sync'
+    filters: [event_types, limit, page_token]
+    completion_signal: none — batch operations are polled too (eligibility poll-batch)
+    consequence: >-
+      Every downstream integration is a durable cursor plus a loop. Delivery is
+      at-least-once by construction after any crash, and the caller owns deduplication —
+      which lands on the same weakness as the create path, since Candid publishes no
+      idempotency key either.
+
+cross_links:
+  errors: errors/candid-health-problem-types.yml
+  lifecycle: lifecycle/candid-health-lifecycle.yml
+  authentication: authentication/candid-health-authentication.yml
+  rate_limits: rate-limits/candid-health-rate-limits.yml
+  data_model: data-model/candid-health-data-model.yml
+  sandbox: sandbox/candid-health-sandbox.yml

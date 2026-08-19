@@ -1,0 +1,188 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Candid Health
+  version: 1.0.0
+extends: openapi/_original/candid-health-openapi.yml
+x-generated: '2026-08-15'
+x-method: generated
+x-source: >-
+  Derived from the artifacts in this repo — conventions/, authentication/,
+  rate-limits/, errors/, lifecycle/, sandbox/, conformance/ — each of which was
+  searched from Candid's own documentation. This overlay adds the runtime semantics
+  Candid documents in prose but does not express in its OpenAPI. It never mutates
+  the harvested spec.
+actions:
+
+  - target: $.info
+    description: >-
+      Name the document and its owner. The published spec ships info.title
+      "API Reference" with no contact, licence or terms, which makes it
+      unattributable once it is downloaded away from docs.joincandidhealth.com.
+    update:
+      x-apievangelist-provider: candid-health
+      x-apievangelist-enriched: '2026-08-15'
+      x-provider-name: Candid Health
+      x-provider-website: https://candidhealth.com/
+      x-documentation: https://docs.joincandidhealth.com/
+      x-published-spec:
+        json: https://docs.joincandidhealth.com/openapi.json
+        yaml: https://docs.joincandidhealth.com/openapi.yaml
+        api_catalog: https://docs.joincandidhealth.com/.well-known/api-catalog
+
+  - target: $.info
+    description: >-
+      Record the authentication mechanism the spec does not describe. The spec declares
+      OAuthScheme as plain `http bearer`, so nothing in the document tells a client where
+      the token comes from or how long it lives.
+    update:
+      x-authentication:
+        grant: client_credentials
+        token_endpoint: https://api.joincandidhealth.com/api/auth/v2/token
+        token_format: JWT (Auth0-issued)
+        token_lifetime_hours: 5
+        public_key: https://candidhealth.auth0.com/pem
+        scopes: none
+        credentials_are_environment_scoped: true
+        token_reuse_required: true
+        note: >-
+          Minting a token per request triggers HTTP 429 on the token endpoint itself.
+          Cache and reuse the token for its full lifetime.
+        detail: authentication/candid-health-authentication.yml
+
+  - target: $.info
+    description: Publish the rate limit, which appears nowhere in the spec.
+    update:
+      x-rate-limit:
+        scope: per-ip
+        limit: 1000
+        window_seconds: 10
+        strategy: rolling-window
+        exhaustion_status: 429
+        response_headers: none
+        retry_after: not sent
+        note: >-
+          Per-IP rather than per-key: every tenant behind one NAT egress shares a bucket,
+          and no RateLimit-* header is returned, so remaining budget is unobservable.
+        detail: rate-limits/candid-health-rate-limits.yml
+
+  - target: $.info
+    description: >-
+      Publish the error envelope. Every 4xx/5xx response in the spec is typed, but the
+      shared branching rule — read errorName, not the status code — is documented only in prose.
+    update:
+      x-error-envelope:
+        format: vendor-discriminated-envelope
+        media_type: application/json
+        rfc9457: false
+        discriminator: errorName
+        shape: '{ errorName: <single-value enum string>, content: <typed object|array> }'
+        note: >-
+          Branch on errorName. HTTP 404 alone carries three distinct named errors across
+          the 251 operations.
+        catalog: errors/candid-health-problem-types.yml
+
+  - target: $.info
+    description: >-
+      State plainly that there is no idempotency contract. This is the single most
+      consequential absence for an automated claims integration and the spec is silent on it.
+    update:
+      x-idempotency:
+        supported: false
+        header: null
+        substitute: client-supplied external_id / charge_external_id on create
+        duplicate_behaviour: >-
+          HTTP 409 (EncounterExternalIdUniquenessError, ChargeExternalIdConflictError,
+          EntityConflictError) — the original response is NOT replayed.
+        risk: >-
+          A POST /api/encounters/v4 that times out mid-flight can create a second claim.
+          Always set external_id and treat 409 as "already exists", then read back.
+        detail: conventions/candid-health-conventions.yml
+
+  - target: $.info
+    description: Publish the pagination contract as machine-readable metadata.
+    update:
+      x-pagination:
+        style: cursor
+        request_params: [page_token, limit]
+        response_envelope: ResourcePage
+        response_fields: [items, next_page_token, prev_page_token]
+        bidirectional: true
+        incremental_sync:
+          endpoints: '*/updates/scan'
+          param: since
+
+  - target: $.info
+    description: >-
+      Publish the lifecycle model. The spec carries `deprecated: true` on zero of its 251
+      operations even though Candid documents a three-state endpoint lifecycle in its docs,
+      so a machine reading the spec cannot tell a deprecated endpoint from a supported one.
+    update:
+      x-lifecycle:
+        versioning: path-segment
+        parallel_versions_live: true
+        states: [beta, available, deprecated]
+        state_expressed_in_spec: false
+        sunset_header: false
+        deprecation_header: false
+        notice_channel: email opt-in list
+        policy: https://docs.joincandidhealth.com/api-principles/breaking-changes
+        status_page: https://status.joincandidhealth.com
+        detail: lifecycle/candid-health-lifecycle.yml
+
+  - target: $.servers
+    description: >-
+      Annotate the server list. The published spec mixes two host families, four
+      environment names and two localhost entries with no machine-readable indication of
+      which is production or which service family answers on which host.
+    update:
+      x-server-guidance:
+        production:
+          core: https://api.joincandidhealth.com
+          pre_encounter: https://pre-api.joincandidhealth.com
+        sandbox:
+          core: https://api-staging.joincandidhealth.com
+          pre_encounter: https://pre-api-staging.joincandidhealth.com
+          phi_allowed: false
+        host_split: >-
+          Pre-encounter services (patients, coverages, appointments, eligibility-checks,
+          images, lists, notes, tags) answer on pre-api*; every other service answers on api*.
+        undocumented_entries:
+          - https://sandbox-api.joincandidhealth.com
+          - https://sandbox-pre-api.joincandidhealth.com
+          - https://staging-api.joincandidhealth.com
+          - https://staging-pre-api.joincandidhealth.com
+          - http://localhost:4000
+          - http://localhost:5050
+        note: >-
+          Only the api / api-staging and pre-api / pre-api-staging pairs are documented on
+          the environments page. The remaining six entries are internal generator
+          environments that leaked into the public document; two of them are non-routable.
+        detail: sandbox/candid-health-sandbox.yml
+
+  - target: $.components.securitySchemes.OAuthScheme
+    description: >-
+      Keep the declared type intact (an overlay must not break the contract) but attach the
+      OAuth facts, so a reader of the scheme can find the token endpoint.
+    update:
+      x-oauth2-equivalent:
+        flow: clientCredentials
+        tokenUrl: https://api.joincandidhealth.com/api/auth/v2/token
+        scopes: {}
+        note: >-
+          Declared as `http bearer` in the published spec. The grant really is OAuth 2.0
+          client credentials (RFC 6749 §4.4); declaring it as an oauth2 securityScheme with
+          a clientCredentials flow would let generated clients acquire tokens automatically.
+
+  - target: $.info
+    description: Record the standards posture measured in conformance/.
+    update:
+      x-conformance:
+        healthcare: [X12 837, X12 835, X12 270/271, NPI, CPT/HCPCS, ICD-10]
+        fhir: false
+        compliance: [SOC 2 Type 2, SOC 2 Type 1, SOC 1 Type 1, HIPAA BAA]
+        rfc9727_api_catalog: true
+        rfc9457_problem_details: false
+        rfc8594_sunset: false
+        rfc9116_security_txt: false
+        webhooks: false
+        detail: conformance/candid-health-conformance.yml

@@ -1,4 +1,29 @@
 specificationVersion: '0.1'
+generated: '2026-08-15'
+method: searched
+source: https://candidhealth.com/request-a-demo
+plan_count: 0
+published_pricing: false
+pricing_note: >-
+  Candid Health publishes NO plans, no price list and no public tier structure. Every
+  route on the marketing site ends at "request a demo" or "contact sales"; the pricing
+  paths were probed and do not exist. The single entry below is the one commercial motion
+  Candid actually offers — an enterprise agreement priced on claim volume — recorded so the
+  absence is legible rather than silent. Do not read it as a published plan.
+probed:
+  - url: https://candidhealth.com/pricing
+    status: 404
+  - url: https://www.joincandidhealth.com/pricing
+    status: 301
+    note: >-
+      The legacy pricing URL still resolves, but only as a 301 to the marketing homepage
+      on the new brand domain. There is no pricing page behind it — the redirect IS the
+      answer.
+  - url: https://candidhealth.com/request-a-demo
+    status: 200
+  - url: https://docs.joincandidhealth.com/introduction/getting-started
+    status: 200
+    note: No self-serve signup. Credentials are issued by Candid's implementation team.
 id: candid-health-plans-pricing
 name: Candid Health Plans & Pricing
 description: >-

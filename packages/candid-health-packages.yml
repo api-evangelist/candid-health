@@ -1,0 +1,108 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.joincandidhealth.com/introduction/getting-started
+name: Candid Health Packages
+description: >-
+  First-party Candid Health client libraries. Candid generates all four API SDKs
+  from its OpenAPI definition with Fern (github.com/candidhealth/fern), which is
+  why Python, Node, Ruby and .NET all ship the same version number on the same
+  day. A separate React component library (Vitals) is published under the
+  @candidhealth npm scope and is pre-1.0.
+docs: https://docs.joincandidhealth.com/introduction/getting-started
+package_count: 5
+official_count: 5
+
+packages:
+
+  - name: candidhealth
+    registry: npm
+    language: JavaScript/TypeScript
+    official: true
+    version: 1.30.0
+    published: '2026-08-01'
+    license: Apache-2.0
+    url: https://www.npmjs.com/package/candidhealth
+    repository: https://github.com/candidhealth/candid-node
+    install: npm install candidhealth
+    releases: 171
+    source: https://registry.npmjs.org/candidhealth
+    note: >-
+      Node.JS SDK for the Candid API. Fern-generated. Handles the OAuth client
+      credentials token exchange and exponential backoff on HTTP 429 internally.
+
+  - name: candidhealth
+    registry: pypi
+    language: Python
+    official: true
+    version: 1.30.0
+    published: '2026-08-01'
+    license: Apache-2.0
+    url: https://pypi.org/project/candidhealth/
+    repository: https://github.com/candidhealth/candid-python
+    install: pip install candidhealth
+    requires_python: '>=3.8,<4.0'
+    source: https://pypi.org/pypi/candidhealth/json
+    note: Python SDK for the Candid API. Fern-generated.
+
+  - name: candidhealth
+    registry: rubygems
+    language: Ruby
+    official: true
+    version: 1.30.0
+    published: '2026-08-01'
+    url: https://rubygems.org/gems/candidhealth
+    repository: https://github.com/candidhealth/candid-ruby
+    install: gem install candidhealth
+    releases: 128
+    source: https://rubygems.org/api/v1/versions/candidhealth.json
+    note: Ruby SDK for the Candid API. Fern-generated. Requires Ruby 2.7+.
+
+  - name: Candid.Net
+    registry: nuget
+    language: C#/.NET
+    official: true
+    version: 1.30.0
+    published: '2026-08-01'
+    url: https://www.nuget.org/packages/Candid.Net
+    repository: https://github.com/candidhealth/candid-csharp
+    install: dotnet add package Candid.Net
+    source: https://api.nuget.org/v3/registration5-semver1/candid.net/index.json
+    note: .NET SDK for the Candid API. Fern-generated.
+
+  - name: '@candidhealth/react-vitals'
+    registry: npm
+    language: JavaScript/TypeScript
+    official: true
+    version: 1.0.0-alpha.18
+    published: '2026-07-27'
+    url: https://www.npmjs.com/package/@candidhealth/react-vitals
+    install: npm install @candidhealth/react-vitals
+    releases: 18
+    source: https://registry.npmjs.org/@candidhealth%2Freact-vitals
+    note: >-
+      Vitals, Candid Health's system-level React UI component library. This is a
+      UI kit, not an API client — it is catalogued in components/ as well. Still
+      pre-1.0 (alpha channel); the demo app is github.com/candidhealth/react-vitals-sandbox.
+
+registries_checked:
+  - registry: npm
+    result: hit
+  - registry: pypi
+    result: hit
+  - registry: rubygems
+    result: hit
+  - registry: nuget
+    result: hit
+  - registry: pkg.go.dev / proxy.golang.org
+    result: miss
+    note: No first-party Go SDK. proxy.golang.org returned 404 for github.com/candidhealth/candid-go.
+  - registry: Maven Central
+    result: miss
+    note: No first-party Java SDK published; Candid documents Python, TypeScript, Ruby and .NET only.
+  - registry: crates.io / Packagist
+    result: not-published
+
+notes:
+  - All four API SDKs released 1.30.0 on 2026-08-01 — the generator publishes them in lockstep, so SDK currency tracks the API directly.
+  - Candid's docs state that if your language is not supported you should call the REST endpoints directly.
+  - Exponential backoff on HTTP 429 is implemented inside every official SDK.

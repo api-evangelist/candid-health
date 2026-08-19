@@ -9,8 +9,7 @@ paths:
       summary: Post
       description: Sends real-time eligibility checks to payers through Stedi.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -36,8 +35,7 @@ paths:
       summary: Batch
       description: Sends a batch of eligibility checks to payers through Stedi.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -65,8 +63,7 @@ paths:
       summary: Poll Batch
       description: Polls the status of a batch eligibility check.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: batch_id
           in: path
@@ -97,8 +94,7 @@ paths:
       summary: Payer Search
       description: Searches for payers that match the query parameters.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: page_size
           in: query
@@ -139,8 +135,7 @@ paths:
         eligibility recommendation type for the given filters. If you want to get a specific recommendation type, you
         can use the `type` query parameter.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: filters
           in: query
@@ -167,8 +162,7 @@ paths:
       summary: Create Recommendation
       description: Create an eligibiilty recommendation based on the request.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -197,8 +191,7 @@ paths:
         race conditions. For example, if the current version of the recommendation is n, you will need to send a request
         to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: recommendation_id
           in: path
@@ -265,8 +258,7 @@ paths:
       operationId: get-multi
       summary: Get Multi
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
+        - v1
       parameters:
         - name: page_token
           in: query
@@ -323,13 +315,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckPage'
+  /eligibility-checks/v1/insurance-discovery:
+    post:
+      operationId: insurance-discovery
+      summary: Insurance Discovery
+      description: |-
+        Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
+        Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+      tags:
+        - v1
+      parameters:
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryRequest'
+  /eligibility-checks/v1/coordination-of-benefits:
+    post:
+      operationId: coordination-of-benefits
+      summary: Coordination Of Benefits
+      description: |-
+        Sends a coordination of benefits check through Stedi to determine whether a patient has
+        coverage overlap across multiple payers and, if so, which payer is primary.
+        Medicare and Medicare Advantage plans are not supported.
+      tags:
+        - v1
+      parameters:
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CoordinationOfBenefitsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CoordinationOfBenefitsRequest'
   /appointments/v1:
     post:
       operationId: create
       summary: Create
       description: Adds an appointment.  VersionConflictError is returned when the placer_appointment_id is already in use.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -383,7 +432,7 @@ paths:
               $ref: '#/components/schemas/type_pre-encounter/appointments/v1:MutableAppointment'
   /appointments/v1/visits:
     get:
-      operationId: get-visits
+      operationId: get_visits
       summary: Get Visits
       description: >-
         Gets all Visits within a given time range. The return list is ordered by start_time ascending.
@@ -409,7 +458,7 @@ paths:
 
         - `appointment.startTimestamp|gt|2024-01-01,appointment.status|eq|PENDING`
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: page_token
           in: query
@@ -470,13 +519,65 @@ paths:
                 required:
                   - errorName
                   - content
+  /appointments/v1/visits/counts:
+    get:
+      operationId: get_counts
+      summary: Get Counts
+      description: |-
+        Gets aggregate counts for the visits matching the given filters.
+
+        The counts respect all provided filters but are independent of pagination, so this can be fetched
+        once when filters change instead of on every page of `get_visits`.
+
+        **IMPORTANT:** Like `get_visits`, this endpoint requires a date filter on `appointment.startTimestamp`
+        to ensure acceptable query performance.
+      tags:
+        - v1
+      parameters:
+        - name: filters
+          in: query
+          description: |-
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
+          required: false
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/common:FilterQueryString'
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/appointments/v1:CountsResponse'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                  - errorName
+                  - content
   /appointments/v1/{id}:
     get:
       operationId: get
       summary: Get
       description: Gets an appointment.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -514,11 +615,11 @@ paths:
                   - content
   /appointments/v1/{id}/history:
     get:
-      operationId: get-history
+      operationId: get_history
       summary: Get History
       description: Gets an appointment along with it's full history.  The return list is ordered by version ascending.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -565,7 +666,7 @@ paths:
         if the current version of the appointment is n, you will need to send a request to this endpoint with
         `/{id}/n+1` to update the appointment. Updating historic versions is not supported.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -635,7 +736,7 @@ paths:
         Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate"
         the appointment and set the deactivated flag to false.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -696,7 +797,7 @@ paths:
         Scans up to 100 appointment updates.  The since query parameter is inclusive, and the result list is ordered by
         updatedAt ascending.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
+        - v1
       parameters:
         - name: since
           in: query
@@ -728,7 +829,7 @@ paths:
         plan for a specific individual - typically the information you can find on an insurance card. Additionally a
         coverage will include detailed benefits information covered by the specific plan for the individual.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -749,11 +850,11 @@ paths:
             schema:
               $ref: '#/components/schemas/type_pre-encounter/coverages/v1:MutableCoverage'
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get Multi
       description: Returns a list of Coverages based on the search criteria.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: patient_id
           in: query
@@ -784,7 +885,7 @@ paths:
         the current version of the coverage is n, you will need to send a request to this endpoint with `/{id}/n+1` to
         update the coverage. Updating historic versions is not supported.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -848,11 +949,11 @@ paths:
               $ref: '#/components/schemas/type_pre-encounter/coverages/v1:MutableCoverage'
   /coverages/v1//get-multi-paginated:
     get:
-      operationId: get-multi-paginated
+      operationId: get_multi_paginated
       summary: Get Multi Paginated
       description: Returns a page of Coverages based on the search criteria.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: patient_id
           in: query
@@ -910,7 +1011,7 @@ paths:
       summary: Get
       description: gets a specific Coverage
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -932,13 +1033,13 @@ paths:
                 $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
   /coverages/v1//{id}/history:
     get:
-      operationId: get-history
+      operationId: get_history
       summary: Get History
       description: |-
         Gets a coverage's history. Full history is returned if no filters are 
         defined. The return list is ordered by version, defaulting to ascending.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1056,7 +1157,7 @@ paths:
 
         - Timestamps have millisecond resolution for precise ordering
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: since
           in: query
@@ -1081,11 +1182,11 @@ paths:
                   $ref: '#/components/schemas/type_pre-encounter/coverages/v1:Coverage'
   /coverages/v1//batch-update-ppg/{ppg_id}:
     post:
-      operationId: batch-update-ppg
+      operationId: batch_update_ppg
       summary: Batch Update Ppg
       description: Finds all coverages associated with the given ppg_id and updates the ppg_fields for each coverage.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: ppg_id
           in: path
@@ -1108,11 +1209,11 @@ paths:
               $ref: '#/components/schemas/type_pre-encounter/coverages/v1:PayerPlanGroupFields'
   /coverages/v1//{id}/eligibility:
     post:
-      operationId: check-eligibility
+      operationId: check_eligibility
       summary: Check Eligibility
       description: Initiates an eligibility check. Returns the metadata of the check if successfully initiated.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1151,11 +1252,11 @@ paths:
                 - npi
   /coverages/v1//{id}/eligibility/{check_id}:
     get:
-      operationId: get-eligibility
+      operationId: get_eligibility
       summary: Get Eligibility
       description: Gets the eligibility of a patient for a specific coverage if successful.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1186,7 +1287,7 @@ paths:
       summary: Create
       description: Adds an image.  VersionConflictError is returned if a front or back of this coverage already exists.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -1223,11 +1324,11 @@ paths:
             schema:
               $ref: '#/components/schemas/type_pre-encounter/images/v1:MutableImage'
     get:
-      operationId: get-multi
+      operationId: getMulti
       summary: Get Multi
       description: Searches for images that match the query parameters.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
+        - v1
       parameters:
         - name: patient_id
           in: query
@@ -1282,7 +1383,7 @@ paths:
       summary: Get
       description: Gets an image by imageId.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1324,7 +1425,7 @@ paths:
       summary: Update
       description: Updates an Image.  The path must contain the most recent version to prevent races.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1391,7 +1492,7 @@ paths:
       summary: Deactivate
       description: Sets an Image as deactivated.  The path must contain the most recent version to prevent races.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1446,11 +1547,11 @@ paths:
                   - content
   /lists/v1/patient:
     get:
-      operationId: get-patient-list
+      operationId: get_patient_list
       summary: Get Patient List
       description: Gets patients with dependent objects for patients that match the query parameters.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
+        - v1
       parameters:
         - name: page_token
           in: query
@@ -1528,11 +1629,11 @@ paths:
                   - content
   /lists/v1/appointment:
     get:
-      operationId: get-appointment-list
+      operationId: get_appointment_list
       summary: Get Appointment List
       description: Searches for appointments that match the query parameters.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
+        - v1
       parameters:
         - name: sort_field
           in: query
@@ -1595,7 +1696,7 @@ paths:
       summary: Get
       description: Gets a note by NoteId.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1621,7 +1722,7 @@ paths:
       summary: Create
       description: Adds a new note.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -1647,7 +1748,7 @@ paths:
       summary: Update
       description: Updates a note. The path must contain the most recent version to prevent races.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1682,7 +1783,7 @@ paths:
       summary: Deactivate
       description: Sets a note as deactivated.  The path must contain the most recent version to prevent races.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1709,8 +1810,7 @@ paths:
       summary: Get
       description: Gets an organization external provider by ID.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1748,12 +1848,11 @@ paths:
                   - content
   /organization-external-providers/v1:
     get:
-      operationId: get-multi
+      operationId: getMulti
       summary: Get Multi
       description: Searches for organization external providers that match the query parameters.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -1817,8 +1916,7 @@ paths:
       summary: Create
       description: Creates a new organization external provider. BadRequestError is returned when the NPI is already in use.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -1865,8 +1963,7 @@ paths:
         endpoint with `/{id}/n+1` to update the provider. Updating historic versions is not supported. BadRequestError
         is returned when the NPI is already in use by another provider.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -1952,8 +2049,7 @@ paths:
         Sets an organization external provider as deactivated. The path must contain the most recent version plus 1 to
         prevent race conditions. Deactivating historic versions is not supported.
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2040,8 +2136,7 @@ paths:
 
         - Timestamps have millisecond resolution for precise ordering
       tags:
-        - >-
-          subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
+        - v1
       parameters:
         - name: since
           in: query
@@ -2070,13 +2165,280 @@ paths:
                 items:
                   $ref: >-
                     #/components/schemas/type_pre-encounter/organizationExternalProviders/v1:OrganizationExternalProvider
+  /patient-merge/v1:
+    post:
+      operationId: create
+      summary: Create
+      description: Creates a new patient merge record.
+      tags:
+        - v1
+      parameters:
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patientMerges/v1:PatientMerge'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                  - errorName
+                  - content
+        '500':
+          description: Error response with status 500
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - InternalError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase5xx'
+                required:
+                  - errorName
+                  - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter/patientMerges/v1:MutablePatientMerge'
+  /patient-merge/v1/status/{mrn_or_id}:
+    get:
+      operationId: get_status
+      summary: Get Status
+      description: >-
+        Gets the merge status for a patient by patient ID or mrn. If the provided value is a valid UUID, it will be
+        treated as a patient ID. Otherwise, it will be treated as an MRN.
+      tags:
+        - v1
+      parameters:
+        - name: mrn_or_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patientMerges/v1:PatientMergeStatus'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                  - errorName
+                  - content
+  /patient-merge/v1/all/{mrn}:
+    get:
+      operationId: get_all_by_mrn
+      summary: Get All By Mrn
+      description: Gets all patient merge records that have the given mrn.
+      tags:
+        - v1
+      parameters:
+        - name: mrn
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/patientMerges/v1:PatientMerge'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                  - errorName
+                  - content
+  /patient-merge/v1/{id}/{version}:
+    delete:
+      operationId: deactivate
+      summary: Deactivate
+      description: Deactivates a patient merge record. Path must contain next version.
+      tags:
+        - v1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/common:PatientMergeId'
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:ErrorBase4xx'
+                required:
+                  - errorName
+                  - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                      - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter/common:VersionConflictErrorBody'
+                required:
+                  - errorName
+                  - content
+  /patient-merge/v1/updates/scan:
+    get:
+      operationId: scan
+      summary: Scan
+      description: >-
+        Scans up to 1000 patient merge updates. The since query parameter is inclusive, and the result list is ordered
+        by updatedAt ascending.
+
+
+        **Polling Pattern:**
+
+        To continuously poll for updates without gaps:
+
+        1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)
+
+        2. The API returns 100 by default and up to 1000 patient merge records, sorted by `updated_at` ascending
+
+        3. Find the `updated_at` value from the last record in the response
+
+        4. Use that `updated_at` value as the `since` parameter in your next request
+
+        5. Repeat steps 2-4 to ingest updates until you receive an empty list
+
+
+        **Important Notes:**
+
+        - The `since` parameter is inclusive, so you may receive the last record from the previous batch again (you can
+        deduplicate by ID and version)
+
+        - All patient merge records include `updated_at`, `id`, `version`, `deactivated`, and `updating_user` fields for
+        tracking changes
+
+        - Timestamps have millisecond resolution for precise ordering
+      tags:
+        - v1
+      parameters:
+        - name: since
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: maxResults
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter/patientMerges/v1:PatientMerge'
   /patients/v1:
     post:
       operationId: create
       summary: Create
       description: Adds a patient.  VersionConflictError is returned when the patient's external ID is already in use.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: skip_duplicate_check
           in: query
@@ -2122,7 +2484,7 @@ paths:
       summary: Search
       description: Returns a list of Patients based on the search criteria.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: mrn
           in: query
@@ -2152,14 +2514,14 @@ paths:
                   $ref: '#/components/schemas/type_pre-encounter/patients/v1:Patient'
   /patients/v1/with_mrn:
     post:
-      operationId: create-with-mrn
+      operationId: create_with_mrn
       summary: Create With Mrn
       description: >-
         Adds a patient and hydrates their MRN with a pre-existing MRN.  Once this patient is created their MRN will not
         be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is
         returned when the patient's external ID is already in use.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: skip_duplicate_check
           in: query
@@ -2218,11 +2580,11 @@ paths:
               $ref: '#/components/schemas/type_pre-encounter/patients/v1:MutablePatientWithMrn'
   /patients/v1/get_multi:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get Multi
       description: Searches for patients that match the query parameters.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -2271,14 +2633,14 @@ paths:
                 $ref: '#/components/schemas/type_pre-encounter/patients/v1:PatientPage'
   /patients/v1/search_providers:
     get:
-      operationId: search-providers
+      operationId: search_providers
       summary: Search Providers
       description: >-
         Searches for referring providers that match the query parameters.  The search is case-insensitive, supports
         fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string,
         and the search is limited to the first 20 results.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: search_criteria
           in: query
@@ -2306,7 +2668,7 @@ paths:
       summary: Get
       description: Gets a patient.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2344,11 +2706,11 @@ paths:
                   - content
   /patients/v1/mrn/{mrn}:
     get:
-      operationId: get-by-mrn
+      operationId: get_by_mrn
       summary: Get By Mrn
       description: Gets a patient by mrn.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: mrn
           in: path
@@ -2386,11 +2748,11 @@ paths:
                   - content
   /patients/v1/{id}/history:
     get:
-      operationId: get-history
+      operationId: get_history
       summary: Get History
       description: Gets a patient along with it's full history.  The return list is ordered by version ascending.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2430,14 +2792,14 @@ paths:
                   - content
   /patients/v1/{id}/snapshot:
     get:
-      operationId: get-coverage-snapshot
+      operationId: get_coverage_snapshot
       summary: Get Coverage Snapshot
       description: >-
         Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used
         to determine what the filing order was for that patient during that time. The actual data returned will always
         be the latest version of the patient and coverages.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2479,6 +2841,57 @@ paths:
                 required:
                   - errorName
                   - content
+  /patients/v1/{id}/eligibility-timeline:
+    get:
+      operationId: get_eligibility_timeline
+      summary: Get Eligibility Timeline
+      description: Gets a patient's eligibility audit timeline, newest-first.  Org-scoped and keyset-paginated.
+      tags:
+        - v1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+        - name: event_types
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/patients/v1:EligibilityAuditEventType'
+        - name: coverage_id
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+        - name: appointment_id
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/common:AppointmentId'
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter/patients/v1:EligibilityTimelinePage'
   /patients/v1/{id}/{version}:
     put:
       operationId: update
@@ -2488,7 +2901,7 @@ paths:
         current version of the patient is n, you will need to send a request to this endpoint with `/{id}/n+1` to update
         the patient. Updating historic versions is not supported.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2557,7 +2970,7 @@ paths:
         Sets a patient as deactivated.  The path must contain the most recent version plus 1 to prevent race
         conditions.  Deactivating historic versions is not supported.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2617,7 +3030,7 @@ paths:
         Removes the deactivated flag for a patient.  The path must contain the most recent version plus 1 to prevent
         race conditions.  Reactivating historic versions is not supported.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2704,7 +3117,7 @@ paths:
 
         - Timestamps have millisecond resolution for precise ordering
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
+        - v1
       parameters:
         - name: since
           in: query
@@ -2738,7 +3151,7 @@ paths:
       summary: Get
       description: Gets a tag by TagId.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2760,11 +3173,11 @@ paths:
                 $ref: '#/components/schemas/type_pre-encounter/tags/v1:Tag'
   /tags/v1:
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get All
       description: Gets all tags. Defaults to page size of 1000.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -2794,7 +3207,7 @@ paths:
       summary: Create
       description: Adds a new tag if it does not already exist, otherwise, returns the existing tag.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -2820,7 +3233,7 @@ paths:
       summary: Update
       description: Updates a tag. The path must contain the most recent version to prevent races.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2855,7 +3268,7 @@ paths:
       summary: Deactivate
       description: Sets a tag as deactivated.  The path must contain the most recent version to prevent races.
       tags:
-        - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
+        - v1
       parameters:
         - name: id
           in: path
@@ -2878,7 +3291,7 @@ paths:
           description: Successful response
   /api/auth/v2/token:
     post:
-      operationId: get-token
+      operationId: get_token
       summary: Get token
       description: >-
         <Callout intent="info">
@@ -2944,7 +3357,7 @@ paths:
 
         </Callout>
       tags:
-        - subpackage_auth.subpackage_auth/default
+        - default
       responses:
         '200':
           description: Response with status 200
@@ -3001,11 +3414,11 @@ paths:
                 - client_secret
   /api/import-invoice/v1:
     post:
-      operationId: import-invoice
+      operationId: import_invoice
       summary: Import Invoice
       description: Import an existing invoice from a third party service to reflect state in Candid.
       tags:
-        - subpackage_import-invoice.subpackage_import-invoice/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -3058,11 +3471,11 @@ paths:
             schema:
               $ref: '#/components/schemas/type_import-invoice/v1:CreateImportInvoiceRequest'
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get Multi
-      description: Returns all Invoices for the authenticated user's organziation with all filters applied.
+      description: Returns all Invoices for the authenticated user's organization with all filters applied.
       tags:
-        - subpackage_import-invoice.subpackage_import-invoice/v1
+        - v1
       parameters:
         - name: patient_external_id
           in: query
@@ -3142,7 +3555,7 @@ paths:
       summary: Get
       description: Retrieve and view an import invoice
       tags:
-        - subpackage_import-invoice.subpackage_import-invoice/v1
+        - v1
       parameters:
         - name: invoice_id
           in: path
@@ -3184,7 +3597,7 @@ paths:
       summary: Update
       description: Update the information on the imported invoice
       tags:
-        - subpackage_import-invoice.subpackage_import-invoice/v1
+        - v1
       parameters:
         - name: invoice_id
           in: path
@@ -3236,7 +3649,7 @@ paths:
         The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests
         should not include `page_token`.
       tags:
-        - subpackage_patient-ar.subpackage_patient-ar/v1
+        - v1
       parameters:
         - name: since
           in: query
@@ -3310,7 +3723,7 @@ paths:
       summary: Invoice Itemization
       description: Provides detailed itemization of invoice data for a specific claim.
       tags:
-        - subpackage_patient-ar.subpackage_patient-ar/v1
+        - v1
       parameters:
         - name: claim_id
           in: path
@@ -3364,13 +3777,13 @@ paths:
                   - content
   /api/patient-payments/v4:
     get:
-      operationId: get-multi
+      operationId: getMulti
       summary: Get patient payments
       description: |-
         Returns all patient payments satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
       tags:
-        - subpackage_patient-payments.subpackage_patient-payments/v4
+        - v4
       parameters:
         - name: limit
           in: query
@@ -3489,7 +3902,7 @@ paths:
         The allocations can describe whether the payment is being applied toward a specific service line,
         claim, or billing provider.
       tags:
-        - subpackage_patient-payments.subpackage_patient-payments/v4
+        - v4
       parameters:
         - name: Authorization
           in: header
@@ -3579,6 +3992,14 @@ paths:
                   $ref: '#/components/schemas/type_financials:PatientPaymentCreateSource'
                 source_internal_id:
                   type: string
+                allocation_restrictions:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_financials:AllocationRestrictionCreate'
+                  description: |-
+                    Optional restrictions constraining which claims this payment's credit can be
+                    auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+                    unique. When omitted, the payment is unrestricted.
               required:
                 - amount_cents
                 - patient_external_id
@@ -3589,7 +4010,7 @@ paths:
       summary: Get patient payment
       description: Retrieves a previously created patient payment by its `patient_payment_id`.
       tags:
-        - subpackage_patient-payments.subpackage_patient-payments/v4
+        - v4
       parameters:
         - name: patient_payment_id
           in: path
@@ -3646,7 +4067,7 @@ paths:
       summary: Update
       description: Updates the patient payment record matching the provided patient_payment_id.
       tags:
-        - subpackage_patient-payments.subpackage_patient-payments/v4
+        - v4
       parameters:
         - name: patient_payment_id
           in: path
@@ -3732,7 +4153,7 @@ paths:
       summary: Delete patient payment
       description: Deletes the patient payment record matching the provided patient_payment_id.
       tags:
-        - subpackage_patient-payments.subpackage_patient-payments/v4
+        - v4
       parameters:
         - name: patient_payment_id
           in: path
@@ -3798,13 +4219,13 @@ paths:
                   - content
   /api/patient-refunds/v1:
     get:
-      operationId: get-multi
+      operationId: getMulti
       summary: Get patient refunds
       description: |-
         Returns all patient refunds satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
       tags:
-        - subpackage_patient-refunds.subpackage_patient-refunds/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -3918,7 +4339,7 @@ paths:
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
       tags:
-        - subpackage_patient-refunds.subpackage_patient-refunds/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -4004,6 +4425,15 @@ paths:
                   $ref: '#/components/schemas/type_commons:InvoiceId'
                 refund_reason:
                   $ref: '#/components/schemas/type_financials:RefundReason'
+                allocation_restrictions:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_financials:AllocationRestrictionCreate'
+                  description: |-
+                    Optional restrictions constraining which claims this refund's credit can be
+                    auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+                    unique. When omitted, the refund is unrestricted. Refunds created from an existing
+                    payment inherit that payment's restrictions instead.
                 raise_on_overdraft:
                   type: boolean
                   description: >-
@@ -4019,7 +4449,7 @@ paths:
       summary: Get patient refund
       description: Retrieves a previously created patient refund by its `patient_refund_id`.
       tags:
-        - subpackage_patient-refunds.subpackage_patient-refunds/v1
+        - v1
       parameters:
         - name: patient_refund_id
           in: path
@@ -4076,7 +4506,7 @@ paths:
       summary: Update
       description: Updates the patient refund record matching the provided patient_refund_id.
       tags:
-        - subpackage_patient-refunds.subpackage_patient-refunds/v1
+        - v1
       parameters:
         - name: patient_refund_id
           in: path
@@ -4164,7 +4594,7 @@ paths:
       summary: Delete patient refund
       description: Deletes the patient refund record matching the provided patient_refund_id.
       tags:
-        - subpackage_patient-refunds.subpackage_patient-refunds/v1
+        - v1
       parameters:
         - name: patient_refund_id
           in: path
@@ -4233,7 +4663,7 @@ paths:
       operationId: create
       summary: Create billing note
       tags:
-        - subpackage_billing-notes.subpackage_billing-notes/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -4267,7 +4697,7 @@ paths:
       operationId: delete
       summary: Delete billing note
       tags:
-        - subpackage_billing-notes.subpackage_billing-notes/v2
+        - v2
       parameters:
         - name: billing_note_id
           in: path
@@ -4335,7 +4765,7 @@ paths:
       operationId: update
       summary: Update
       tags:
-        - subpackage_billing-notes.subpackage_billing-notes/v2
+        - v2
       parameters:
         - name: billing_note_id
           in: path
@@ -4437,7 +4867,7 @@ paths:
       operationId: get
       summary: Get Charge Capture Claim Creation
       tags:
-        - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+        - v1
       parameters:
         - name: charge_capture_claim_creation_id
           in: path
@@ -4459,10 +4889,10 @@ paths:
                 $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreation'
   /api/charge_capture_claim_creation/v1/all/summary:
     get:
-      operationId: get-summary
+      operationId: getSummary
       summary: Get Charge Capture Claim Creation Summary
       tags:
-        - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -4479,10 +4909,10 @@ paths:
                 $ref: '#/components/schemas/type_charge-capture-bundles/v1:ChargeCaptureClaimCreationSummary'
   /api/charge_capture_claim_creation/v1/error/{charge_capture_bundle_error_id}:
     patch:
-      operationId: resolve-charge-creation-error
+      operationId: resolveChargeCreationError
       summary: Mark a ClaimCreationAttempt error as resolved
       tags:
-        - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+        - v1
       parameters:
         - name: charge_capture_bundle_error_id
           in: path
@@ -4545,10 +4975,10 @@ paths:
                   description: A string denoting why or how the error was dealt with for audit trail purposes.
   /api/charge_capture_claim_creation/v1:
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get all Charge Capture Claim Creations
       tags:
-        - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -4746,7 +5176,7 @@ paths:
       operationId: create
       summary: Create a Charge Capture
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -4885,10 +5315,10 @@ paths:
                 - patient_external_id
                 - status
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get all Charge Captures
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -5264,7 +5694,7 @@ paths:
 
         encounter has not already been submitted or adjudicated.
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -5401,10 +5831,10 @@ paths:
                 - status
   /api/charge_captures/v1/changes:
     patch:
-      operationId: update-post-billed-changes
+      operationId: updatePostBilledChanges
       summary: Update a ChargeCapturePostBilledChange
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -5481,7 +5911,7 @@ paths:
       operationId: update
       summary: Update Charge Capture
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: charge_capture_id
           in: path
@@ -5605,7 +6035,7 @@ paths:
       operationId: get
       summary: Get Charge Capture
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: charge_capture_id
           in: path
@@ -5627,10 +6057,10 @@ paths:
                 $ref: '#/components/schemas/type_charge-capture/v1:ChargeCapture'
   /api/charge_captures/v1/find-by-metadata:
     post:
-      operationId: find-by-metadata
+      operationId: findByMetadata
       summary: Find Charge Captures by Metadata
       tags:
-        - subpackage_charge-capture.subpackage_charge-capture/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -5673,7 +6103,7 @@ paths:
         This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts
         V3.
       tags:
-        - subpackage_contracts.subpackage_contracts/v2
+        - v2
       parameters:
         - name: contract_id
           in: path
@@ -5719,7 +6149,7 @@ paths:
       operationId: delete
       summary: Delete contract
       tags:
-        - subpackage_contracts.subpackage_contracts/v2
+        - v2
       parameters:
         - name: contract_id
           in: path
@@ -5755,7 +6185,7 @@ paths:
       operationId: update
       summary: Update contract
       tags:
-        - subpackage_contracts.subpackage_contracts/v2
+        - v2
       parameters:
         - name: contract_id
           in: path
@@ -5829,13 +6259,13 @@ paths:
                   $ref: '#/components/schemas/type_contracts/v2:InsuranceTypes'
   /api/contracts/v2:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get all contracts
       description: >-
         This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts
         V3.
       tags:
-        - subpackage_contracts.subpackage_contracts/v2
+        - v2
       parameters:
         - name: page_token
           in: query
@@ -5905,7 +6335,7 @@ paths:
       summary: Create contract
       description: Creates a new contract within the user's current organization
       tags:
-        - subpackage_contracts.subpackage_contracts/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -5980,7 +6410,7 @@ paths:
       operationId: get
       summary: Get contract
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6020,7 +6450,7 @@ paths:
       operationId: delete
       summary: Delete contract
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6056,7 +6486,7 @@ paths:
       operationId: update
       summary: Update contract
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6099,10 +6529,10 @@ paths:
               $ref: '#/components/schemas/type_contracts/v3:ContractUpdateUnion'
   /api/contracts/v3:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get all contracts
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: page_token
           in: query
@@ -6178,7 +6608,7 @@ paths:
       summary: Create contract
       description: Creates a new contract within the user's current organization
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -6200,10 +6630,10 @@ paths:
               $ref: '#/components/schemas/type_contracts/v3:ContractCreateUnion'
   /api/contracts/v3/{contract_id}/providers:
     get:
-      operationId: get-contract-providers
+      operationId: get_contract_providers
       summary: Get contract providers
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6267,13 +6697,13 @@ paths:
                   - errorName
                   - content
     post:
-      operationId: add-contract-providers
+      operationId: add_contract_providers
       summary: Add providers to contract
       description: >-
         Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently
         ignored.
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6340,13 +6770,13 @@ paths:
               required:
                 - rendering_provider_ids
     delete:
-      operationId: remove-contract-providers
+      operationId: remove_contract_providers
       summary: Remove providers from contract
       description: >-
         Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not
         currently in the contract.
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6414,13 +6844,13 @@ paths:
                 - rendering_provider_ids
   /api/contracts/v3/{contract_id}/providers/credentialing:
     get:
-      operationId: get-contract-provider-credentialing-spans
+      operationId: get_contract_provider_credentialing_spans
       summary: Get contract provider credentialing spans
       description: >-
         Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's
         contracting provider and payer. Providers with no matching spans are included with an empty list.
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6485,10 +6915,10 @@ paths:
                   - content
   /api/contracts/v3/{contract_id}/service-facilities:
     post:
-      operationId: create-contract-service-facility
+      operationId: create_contract_service_facility
       summary: Create contract service facility
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6546,10 +6976,10 @@ paths:
                 - provider_ids
   /api/contracts/v3/{contract_id}/service-facilities/{contract_service_facility_id}:
     patch:
-      operationId: update-contract-service-facility
+      operationId: update_contract_service_facility
       summary: Update contract service facility
       tags:
-        - subpackage_contracts.subpackage_contracts/v3
+        - v3
       parameters:
         - name: contract_id
           in: path
@@ -6609,10 +7039,10 @@ paths:
                   description: The providers who are authorized under the contract
   /api/provider-credentialing-span/v2/facility:
     post:
-      operationId: create-facility
+      operationId: createFacility
       summary: Create facility credentialing span
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -6674,7 +7104,9 @@ paths:
                 contracting_provider_id:
                   type: string
                   format: uuid
-                  description: The ID of the billing provider for which the service facility is covered by the credentialing span.
+                  description: >-
+                    The ID of the billing provider for which the rendering provider is covered by the credentialing
+                    span.
                 payer_uuid:
                   type: string
                   format: uuid
@@ -6700,10 +7132,10 @@ paths:
                 - contracting_provider_id
                 - payer_uuid
     get:
-      operationId: get-all-facilities
+      operationId: getAllFacilities
       summary: Get all facility credentialing spans
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: limit
           in: query
@@ -6784,10 +7216,10 @@ paths:
                   - content
   /api/provider-credentialing-span/v2/facility/{facility_credentialing_id}:
     get:
-      operationId: get-facility
+      operationId: getFacility
       summary: Get facility credentialing span
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: facility_credentialing_id
           in: path
@@ -6840,11 +7272,11 @@ paths:
                   - errorName
                   - content
     delete:
-      operationId: delete-facility
+      operationId: deleteFacility
       summary: Delete facility credentialing span
       description: Soft deletes a credentialing span rate from the system.
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: facility_credentialing_id
           in: path
@@ -6893,10 +7325,10 @@ paths:
                   - errorName
                   - content
     patch:
-      operationId: update-facility
+      operationId: updateFacility
       summary: Update facility credentialing span
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: facility_credentialing_id
           in: path
@@ -6973,7 +7405,9 @@ paths:
                 contracting_provider_id:
                   type: string
                   format: uuid
-                  description: The ID of the billing provider for which the service facility is covered by the credentialing span.
+                  description: >-
+                    The ID of the billing provider for which the rendering provider is covered by the credentialing
+                    span.
                 payer_uuid:
                   type: string
                   format: uuid
@@ -7001,7 +7435,7 @@ paths:
       operationId: create
       summary: Create provider credentialing span
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -7063,7 +7497,9 @@ paths:
                 contracting_provider_id:
                   type: string
                   format: uuid
-                  description: The ID of the billing provider for which the service facility is covered by the credentialing span.
+                  description: >-
+                    The ID of the billing provider for which the rendering provider is covered by the credentialing
+                    span.
                 payer_uuid:
                   type: string
                   format: uuid
@@ -7093,10 +7529,10 @@ paths:
                 - payer_uuid
                 - regions
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get all provider credentialing spans
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: limit
           in: query
@@ -7189,7 +7625,7 @@ paths:
       operationId: get
       summary: Get provider credentialing span
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: provider_credentialing_id
           in: path
@@ -7246,7 +7682,7 @@ paths:
       summary: Delete provider credentialing span
       description: Soft deletes a credentialing span rate from the system.
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: provider_credentialing_id
           in: path
@@ -7298,7 +7734,7 @@ paths:
       operationId: update
       summary: Update provider credentialing span
       tags:
-        - subpackage_credentialing.subpackage_credentialing/v2
+        - v2
       parameters:
         - name: provider_credentialing_id
           in: path
@@ -7375,7 +7811,9 @@ paths:
                 contracting_provider_id:
                   type: string
                   format: uuid
-                  description: The ID of the billing provider for which the service facility is covered by the credentialing span.
+                  description: >-
+                    The ID of the billing provider for which the rendering provider is covered by the credentialing
+                    span.
                 payer_uuid:
                   type: string
                   format: uuid
@@ -7401,11 +7839,11 @@ paths:
                   description: Date that the payer loaded the credentialing span into their system.
   /api/custom-schemas/v1:
     get:
-      operationId: get-multi
+      operationId: getMulti
       summary: Get all custom schemas
       description: Returns all custom schemas.
       tags:
-        - subpackage_custom-schemas.subpackage_custom-schemas/v1
+        - v1
       parameters:
         - name: organization_id
           in: query
@@ -7453,7 +7891,7 @@ paths:
 
         Engine, and key-value pairs can be attached to claims via the Encounters API.
       tags:
-        - subpackage_custom-schemas.subpackage_custom-schemas/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -7507,7 +7945,7 @@ paths:
       summary: Get custom schema
       description: Return a custom schema with a given ID.
       tags:
-        - subpackage_custom-schemas.subpackage_custom-schemas/v1
+        - v1
       parameters:
         - name: schema_id
           in: path
@@ -7564,7 +8002,7 @@ paths:
       summary: Update custom schema
       description: Update the name, description, or keys on a preexisting schema.
       tags:
-        - subpackage_custom-schemas.subpackage_custom-schemas/v1
+        - v1
       parameters:
         - name: schema_id
           in: path
@@ -7649,7 +8087,7 @@ paths:
                   description: A list of typed entries to add to schema. Only additive modifications are permitted.
   /api/eligibility/v2/availity:
     get:
-      operationId: submit-eligibility-check-availity
+      operationId: submit_eligibility_check_availity
       summary: Submit encounter eligibility check (Availity)
       description: >-
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi
@@ -7695,7 +8133,7 @@ paths:
 
         - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
       tags:
-        - subpackage_eligibility.subpackage_eligibility/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -7727,7 +8165,7 @@ paths:
                   - errorName
                   - content
     post:
-      operationId: submit-eligibility-check-availity-post
+      operationId: submit_eligibility_check_availity_post
       summary: Submit encounter eligibility check (Availity Post)
       description: >-
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi
@@ -7762,7 +8200,7 @@ paths:
 
         - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
       tags:
-        - subpackage_eligibility.subpackage_eligibility/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -7803,7 +8241,7 @@ paths:
       operationId: get
       summary: Get Encounter Attachments
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -7832,7 +8270,7 @@ paths:
         Uploads a file to the encounter. The file will be stored in the
         encounter's attachments. Deprecated: Use create-v2 instead.
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -7879,7 +8317,7 @@ paths:
       operationId: delete
       summary: Delete Encounter Attachment
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -7913,7 +8351,7 @@ paths:
         Uploads a file to the encounter. The file will be stored in the
         encounter's attachments.
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -7970,7 +8408,7 @@ paths:
         Note: Attachments created via this endpoint are not searchable via the get endpoint until they are associated
         with an encounter.
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -8019,7 +8457,7 @@ paths:
       summary: Get Attachments by Charge Capture External ID
       description: Returns all attachments associated with the given charge capture external ID.
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: charge_capture_external_id
           in: path
@@ -8046,7 +8484,7 @@ paths:
       summary: Delete Attachment by Charge Capture External ID
       description: Deletes an attachment associated with the given charge capture external ID.
       tags:
-        - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
+        - v1
       parameters:
         - name: charge_capture_external_id
           in: path
@@ -8074,10 +8512,10 @@ paths:
                 - attachment_id
   /api/encounter-providers/v2/{encounter_id}:
     patch:
-      operationId: update-referring-provider
+      operationId: update_referring_provider
       summary: Update Referring Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8138,10 +8576,10 @@ paths:
               $ref: '#/components/schemas/type_encounter-providers/v2:ReferringProviderUpdate'
   /api/encounter-providers/v2/{encounter_id}/initial-referring-provider:
     patch:
-      operationId: update-initial-referring-provider
+      operationId: update_initial_referring_provider
       summary: Update Initial Referring Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8201,10 +8639,10 @@ paths:
             schema:
               $ref: '#/components/schemas/type_encounter-providers/v2:InitialReferringProviderUpdate'
     delete:
-      operationId: delete-initial-referring-provider
+      operationId: delete_initial_referring_provider
       summary: Delete Initial Referring Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8238,10 +8676,10 @@ paths:
                   - content
   /api/encounter-providers/v2/{encounter_id}/supervising-provider:
     patch:
-      operationId: update-supervising-provider
+      operationId: update_supervising_provider
       summary: Update Supervising Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8301,10 +8739,10 @@ paths:
             schema:
               $ref: '#/components/schemas/type_encounter-providers/v2:SupervisingProviderUpdate'
     delete:
-      operationId: delete-supervising-provider
+      operationId: delete_supervising_provider
       summary: Delete Supervising Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8338,10 +8776,10 @@ paths:
                   - content
   /api/encounter-providers/v2/{service_line_id}/ordering-provider:
     patch:
-      operationId: update-ordering-provider
+      operationId: update_ordering_provider
       summary: Update Ordering Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: service_line_id
           in: path
@@ -8401,10 +8839,10 @@ paths:
             schema:
               $ref: '#/components/schemas/type_encounter-providers/v2:OrderingProviderUpdate'
     delete:
-      operationId: delete-ordering-provider
+      operationId: delete_ordering_provider
       summary: Delete Ordering Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: service_line_id
           in: path
@@ -8438,10 +8876,10 @@ paths:
                   - content
   /api/encounter-providers/v2/{encounter_id}/create-referring-provider:
     post:
-      operationId: create-referring-provider
+      operationId: create_referring_provider
       summary: Create Referring Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8518,10 +8956,10 @@ paths:
               $ref: '#/components/schemas/type_encounter-providers/v2:ReferringProvider'
   /api/encounter-providers/v2/{encounter_id}/create-initial-referring-provider:
     post:
-      operationId: create-initial-referring-provider
+      operationId: create_initial_referring_provider
       summary: Create Initial Referring Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8598,10 +9036,10 @@ paths:
               $ref: '#/components/schemas/type_encounter-providers/v2:InitialReferringProvider'
   /api/encounter-providers/v2/{encounter_id}/create-supervising-provider:
     post:
-      operationId: create-supervising-provider
+      operationId: create_supervising_provider
       summary: Create Supervising Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8678,10 +9116,10 @@ paths:
               $ref: '#/components/schemas/type_encounter-providers/v2:SupervisingProvider'
   /api/encounter-providers/v2/{service_line_id}/create-ordering-provider:
     post:
-      operationId: create-ordering-provider
+      operationId: create_ordering_provider
       summary: Create Ordering Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: service_line_id
           in: path
@@ -8758,10 +9196,10 @@ paths:
               $ref: '#/components/schemas/type_encounter-providers/v2:OrderingProvider'
   /api/encounter-providers/v2/{encounter_id}/referring-provider:
     delete:
-      operationId: delete-referring-provider
+      operationId: delete_referring_provider
       summary: Delete Referring Provider
       tags:
-        - subpackage_encounter-providers.subpackage_encounter-providers/v2
+        - v2
       parameters:
         - name: encounter_id
           in: path
@@ -8814,7 +9252,7 @@ paths:
       operationId: get
       summary: Get Encounter Supplemental Information
       tags:
-        - subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -8840,7 +9278,7 @@ paths:
       operationId: create
       summary: Create Encounter Supplemental Information
       tags:
-        - subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -8886,7 +9324,7 @@ paths:
       operationId: update
       summary: Update Encounter Supplemental Information
       tags:
-        - subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -8936,7 +9374,7 @@ paths:
       operationId: delete
       summary: Delete Encounter Supplemental Information
       tags:
-        - subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -8975,10 +9413,10 @@ paths:
                   - content
   /api/encounters/v4:
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get all encounters
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: limit
           in: query
@@ -9093,6 +9531,12 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: billing_provider_npis
+          in: query
+          description: Filter to encounters whose billing provider matches any of these NPIs.
+          required: false
+          schema:
+            $ref: '#/components/schemas/type_commons:Npi'
         - name: Authorization
           in: header
           description: OAuth authentication
@@ -9144,7 +9588,7 @@ paths:
       operationId: create
       summary: Create professional encounter
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: Authorization
           in: header
@@ -9223,7 +9667,7 @@ paths:
       operationId: get
       summary: Get encounter
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: encounter_id
           in: path
@@ -9247,7 +9691,7 @@ paths:
       operationId: update
       summary: Update professional encounter
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: encounter_id
           in: path
@@ -9330,7 +9774,7 @@ paths:
         in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
         express, written consent of AHA.
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: Authorization
           in: header
@@ -9444,7 +9888,7 @@ paths:
 
         express, written consent of AHA.
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: Authorization
           in: header
@@ -9543,7 +9987,7 @@ paths:
 
         encounter has not already been submitted or adjudicated.
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: Authorization
           in: header
@@ -9621,7 +10065,7 @@ paths:
         in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
         express, written consent of AHA.
       tags:
-        - subpackage_encounters.subpackage_encounters/v4
+        - v4
       parameters:
         - name: encounter_id
           in: path
@@ -9700,7 +10144,7 @@ paths:
       summary: Scan
       description: Scans the last 30 days of events. All results are sorted by created date, descending.
       tags:
-        - subpackage_events.subpackage_events/v1
+        - v1
       parameters:
         - name: page_token
           in: query
@@ -9728,6 +10172,8 @@ paths:
             | `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
             | `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
             | `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
+            | `CandidApi.OrganizationProvider.Created` | When a new organization provider has been created |
+            | `CandidApi.OrganizationProvider.Updated` | When an organization provider has been updated |
           required: false
           schema:
             type: string
@@ -9795,7 +10241,7 @@ paths:
       operationId: get
       summary: Get
       tags:
-        - subpackage_events.subpackage_events/v1
+        - v1
       parameters:
         - name: event_id
           in: path
@@ -9865,7 +10311,7 @@ paths:
                   - content
   /api/exports/v3:
     get:
-      operationId: get-exports
+      operationId: get_exports
       summary: Get exports
       description: >-
         <Warning>
@@ -9911,7 +10357,7 @@ paths:
 
         outside of these stated guarantees.
       tags:
-        - subpackage_exports.subpackage_exports/v3
+        - v3
       parameters:
         - name: start_date
           in: query
@@ -9994,10 +10440,10 @@ paths:
                   - content
   /api/external-payment-account-config/v1:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get Multi
       tags:
-        - subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -10025,13 +10471,13 @@ paths:
                 $ref: '#/components/schemas/type_external-payment-account-config/v1:ExternalPaymentAccountConfigPage'
   /api/fee-schedules/v3/service-line/{service_line_id}/match:
     get:
-      operationId: get-match
+      operationId: get_match
       summary: Get Match
       description: >-
         Gets the rate that matches a service line.  No result means no rate exists matching the service line's
         dimensions.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: service_line_id
           in: path
@@ -10085,11 +10531,11 @@ paths:
                   - content
   /api/fee-schedules/v3/service-line/{service_line_id}/match/{rate_id}:
     get:
-      operationId: test-match
+      operationId: test_match
       summary: Test Match
       description: Tests a service line against a rate to see if it matches.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: service_line_id
           in: path
@@ -10148,13 +10594,13 @@ paths:
                   - content
   /api/fee-schedules/v3:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get Multi
       description: >-
         Gets a list of dimensions with their rates. The rates returned will always be the most recent versions of those
         rates.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: page_token
           in: query
@@ -10237,13 +10683,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/type_fee-schedules/v3:RatesPage'
     post:
-      operationId: upload-fee-schedule
+      operationId: upload_fee_schedule
       summary: Upload a fee schedule (a collection of rates)
       description: >-
         Uploads a new fee schedule.
 
 
-        Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.
+        Each rate may either be totally new as qualified by its dimensions or a new version for an existing rate.
 
 
         If adding a new version to an existing rate, the rate must be posted with the next version number (previous
@@ -10257,7 +10703,7 @@ paths:
 
         be saved to the system.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -10309,13 +10755,13 @@ paths:
                 - rates
   /api/fee-schedules/v3/unique-dimension-values:
     get:
-      operationId: get-unique-values-for-dimension
+      operationId: get_unique_values_for_dimension
       summary: Get Unique Values For Dimension
       description: >-
         Gets unique values for a dimension based on other selection criteria. The response is a list of dimensions with
         your criteria and the unique values populated. This API is useful for driving pivots on dimension values.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: page_token
           in: query
@@ -10399,11 +10845,11 @@ paths:
                 $ref: '#/components/schemas/type_fee-schedules/v3:DimensionsPage'
   /api/fee-schedules/v3/{rate_id}/history:
     get:
-      operationId: get-rate-history
+      operationId: get_rate_history
       summary: Get Rate History
       description: Gets every version of a rate.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: rate_id
           in: path
@@ -10443,11 +10889,11 @@ paths:
                   - content
   /api/fee-schedules/v3/{rate_id}/{version}:
     delete:
-      operationId: delete-rate
+      operationId: delete_rate
       summary: Delete a rate
       description: Soft deletes a rate from the system.  Only the most recent version of a rate can be deleted.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: rate_id
           in: path
@@ -10502,11 +10948,11 @@ paths:
                   - content
   /api/fee-schedules/v3/payer-threshold/default:
     get:
-      operationId: get-payer-thresholds-default
+      operationId: get_payer_thresholds_default
       summary: Get Payer Thresholds Default
       description: Gets the default payer threshold
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -10523,11 +10969,11 @@ paths:
                 $ref: '#/components/schemas/type_fee-schedules/v3:PayerThreshold'
   /api/fee-schedules/v3/payer-threshold:
     get:
-      operationId: get-payer-thresholds
+      operationId: get_payer_thresholds
       summary: Get Payer Thresholds
       description: Gets a list of payers and thresholds by their uuids
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: payer_uuids
           in: query
@@ -10549,11 +10995,11 @@ paths:
                 $ref: '#/components/schemas/type_fee-schedules/v3:PayerThresholdsPage'
   /api/fee-schedules/v3/payer-threshold/{payer_uuid}:
     put:
-      operationId: set-payer-threshold
+      operationId: set_payer_threshold
       summary: Set Payer Threshold
       description: Sets the threshold information for a payer
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: payer_uuid
           in: path
@@ -10596,7 +11042,7 @@ paths:
               $ref: '#/components/schemas/type_fee-schedules/v3:PayerThreshold'
   /api/fee-schedules/v3/hard-delete:
     post:
-      operationId: hard-delete-rates
+      operationId: hard_delete_rates
       summary: Hard delete rates
       description: >-
         Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and
@@ -10604,7 +11050,7 @@ paths:
         number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number
         is the maximum, the caller should call this API again to continue deleting rates.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -10626,14 +11072,14 @@ paths:
               $ref: '#/components/schemas/type_fee-schedules/v3:OptionalDimensions'
   /api/fee-schedules/v3/hard-delete-by-ids:
     post:
-      operationId: hard-delete-rates-by-ids
+      operationId: hard_delete_rates_by_ids
       summary: Hard delete rates by IDs
       description: >-
         Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone.
         Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates
         endpoint with dimension filters. Returns the number of rates deleted.
       tags:
-        - subpackage_fee-schedules.subpackage_fee-schedules/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -10666,7 +11112,7 @@ paths:
       summary: Create guarantor
       description: Creates a new guarantor and returns the newly created Guarantor object.
       tags:
-        - subpackage_guarantor.subpackage_guarantor/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -10731,7 +11177,7 @@ paths:
       summary: Get guarantor
       description: Retrieves a guarantor by its `guarantor_id`.
       tags:
-        - subpackage_guarantor.subpackage_guarantor/v1
+        - v1
       parameters:
         - name: guarantor_id
           in: path
@@ -10756,7 +11202,7 @@ paths:
       summary: Update guarantor
       description: Updates a guarantor by its `guarantor_id`.
       tags:
-        - subpackage_guarantor.subpackage_guarantor/v1
+        - v1
       parameters:
         - name: guarantor_id
           in: path
@@ -10786,7 +11232,7 @@ paths:
       operationId: update
       summary: Update
       tags:
-        - subpackage_health-care-code-information.subpackage_health-care-code-information/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -10844,10 +11290,10 @@ paths:
             schema:
               $ref: '#/components/schemas/type_health-care-code-information/v1:HealthCareCodeInformationUpdate'
     get:
-      operationId: get-all-for-encounter
+      operationId: get_all_for_encounter
       summary: Get All For Encounter
       tags:
-        - subpackage_health-care-code-information.subpackage_health-care-code-information/v1
+        - v1
       parameters:
         - name: encounter_id
           in: path
@@ -10889,7 +11335,7 @@ paths:
       summary: Get insurance adjudication
       description: Retrieves a previously created insurance adjudication by its `insurance_adjudication_id`.
       tags:
-        - subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1
+        - v1
       parameters:
         - name: insurance_adjudication_id
           in: path
@@ -10927,13 +11373,13 @@ paths:
                   - content
   /api/insurance-refunds/v1:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get insurance refunds
       description: |-
         Returns all insurance refunds satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
       tags:
-        - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -11031,7 +11477,7 @@ paths:
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
       tags:
-        - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -11107,7 +11553,7 @@ paths:
         Retrieves a previously created insurance refund by its `insurance_refund_id`.
         If the refund does not exist, a `403` will be thrown.
       tags:
-        - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+        - v1
       parameters:
         - name: insurance_refund_id
           in: path
@@ -11166,7 +11612,7 @@ paths:
         Updates the patient refund record matching the provided insurance_refund_id. If updating the refund amount,
         then the allocations must be appropriately updated as well.
       tags:
-        - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+        - v1
       parameters:
         - name: insurance_refund_id
           in: path
@@ -11255,7 +11701,7 @@ paths:
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.
       tags:
-        - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+        - v1
       parameters:
         - name: insurance_refund_id
           in: path
@@ -11324,7 +11770,7 @@ paths:
       operationId: create
       summary: Medication Dispense Create
       tags:
-        - subpackage_medication-dispense.subpackage_medication-dispense/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -11378,11 +11824,11 @@ paths:
               $ref: '#/components/schemas/type_medication-dispense/v1:MedicationDispenseCreate'
   /api/non-insurance-payer-payments/v1:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get non-insurance payer payments
       description: Returns all non-insurance payer payments
       tags:
-        - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -11455,7 +11901,7 @@ paths:
       operationId: create
       summary: Create non-insurance payer payment
       tags:
-        - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -11513,7 +11959,7 @@ paths:
       summary: Get non-insurance payer payment
       description: Retrieves a previously created non-insurance payer payment by its `non_insurance_payer_payment_id`.
       tags:
-        - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+        - v1
       parameters:
         - name: non_insurance_payer_payment_id
           in: path
@@ -11553,7 +11999,7 @@ paths:
       operationId: update
       summary: Update
       tags:
-        - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+        - v1
       parameters:
         - name: non_insurance_payer_payment_id
           in: path
@@ -11623,7 +12069,7 @@ paths:
       summary: Delete non-insurance payer payment
       description: Deletes the non-insurance payer payment record matching the provided `non_insurance_payer_payment_id`.
       tags:
-        - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+        - v1
       parameters:
         - name: non_insurance_payer_payment_id
           in: path
@@ -11673,11 +12119,11 @@ paths:
                   - content
   /api/non-insurance-payer-refunds/v1:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get non-insurance payer refunds refunds
       description: Returns all non-insurance payer refunds satisfying the search criteria
       tags:
-        - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -11754,7 +12200,7 @@ paths:
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
       tags:
-        - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -11812,7 +12258,7 @@ paths:
       summary: Get non-insurance payer refund
       description: Retrieves a previously created non-insurance payer refund by its `non_insurance_payer_refund_id`.
       tags:
-        - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
+        - v1
       parameters:
         - name: non_insurance_payer_refund_id
           in: path
@@ -11857,7 +12303,7 @@ paths:
 
         then the allocations must be appropriately updated as well.
       tags:
-        - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
+        - v1
       parameters:
         - name: non_insurance_payer_refund_id
           in: path
@@ -11929,7 +12375,7 @@ paths:
       summary: Delete non-insurance payer refund
       description: Deletes the non-insurance payer refund record matching the provided `non_insurance_payer_refund_id`.
       tags:
-        - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
+        - v1
       parameters:
         - name: non_insurance_payer_refund_id
           in: path
@@ -11982,7 +12428,7 @@ paths:
       operationId: create
       summary: Create
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -12035,10 +12481,10 @@ paths:
             schema:
               $ref: '#/components/schemas/type_non-insurance-payers/v1:CreateNonInsurancePayerRequest'
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get Multi
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: name
           in: query
@@ -12150,10 +12596,10 @@ paths:
                   - content
   /api/non-insurance-payers/v1/{non_insurance_payer_id}/toggle_enablement:
     patch:
-      operationId: toggle-enablement
+      operationId: toggle_enablement
       summary: Toggle Enablement
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: non_insurance_payer_id
           in: path
@@ -12196,7 +12642,7 @@ paths:
               $ref: '#/components/schemas/type_non-insurance-payers/v1:ToggleNonInsurancePayerEnablementRequest'
   /api/non-insurance-payers/v1/categories:
     get:
-      operationId: get-categories
+      operationId: getCategories
       summary: Get non-insurance payer categories
       description: |-
         Returns a paginated list of all non-insurance payer categories.
@@ -12206,7 +12652,7 @@ paths:
         non-insurance payer's `category` field and are deleted when there are no
         longer any non-insurance payers that contain them.
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: search_term
           in: query
@@ -12244,7 +12690,7 @@ paths:
       operationId: get
       summary: Get
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: non_insurance_payer_id
           in: path
@@ -12290,7 +12736,7 @@ paths:
       operationId: update
       summary: Update
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: non_insurance_payer_id
           in: path
@@ -12351,7 +12797,7 @@ paths:
       operationId: delete
       summary: Delete
       tags:
-        - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
+        - v1
       parameters:
         - name: non_insurance_payer_id
           in: path
@@ -12388,7 +12834,7 @@ paths:
       operationId: get
       summary: Get organization provider
       tags:
-        - subpackage_organization-providers.subpackage_organization-providers/v3
+        - v3
       parameters:
         - name: organization_provider_id
           in: path
@@ -12428,7 +12874,7 @@ paths:
       operationId: update
       summary: Update organization provider
       tags:
-        - subpackage_organization-providers.subpackage_organization-providers/v3
+        - v3
       parameters:
         - name: organization_provider_id
           in: path
@@ -12487,10 +12933,10 @@ paths:
               $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderUpdateV2'
   /api/organization-providers/v3:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get all organization providers
       tags:
-        - subpackage_organization-providers.subpackage_organization-providers/v3
+        - v3
       parameters:
         - name: limit
           in: query
@@ -12565,7 +13011,7 @@ paths:
       operationId: create
       summary: Create organization provider
       tags:
-        - subpackage_organization-providers.subpackage_organization-providers/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -12601,12 +13047,129 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/type_organization-providers/v3:OrganizationProviderCreateV2'
+  /api/organization-providers/v3/{organization_provider_id}/attachments:
+    put:
+      operationId: upload_attachment
+      summary: Upload provider attachment
+      description: >-
+        Uploads a file to the provider. Accepted file types are W9, PECOS_RECORD, and BANK_LETTER_OR_VOIDED_CHECK.
+
+        Only one file per type is allowed per provider — uploading when a file of the same type already exists returns a
+        409.
+      tags:
+        - v3
+      parameters:
+        - name: organization_provider_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderId'
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment_file:
+                  type: string
+                  format: binary
+                  description: The file to upload.
+                file_type:
+                  $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentFileType'
+              required:
+                - attachment_file
+                - file_type
+    get:
+      operationId: list_attachments
+      summary: List provider attachments
+      tags:
+        - v3
+      parameters:
+        - name: organization_provider_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderId'
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachment'
+  /api/organization-providers/v3/attachments/download:
+    get:
+      operationId: download_attachment
+      summary: Download provider attachment
+      tags:
+        - v3
+      parameters:
+        - name: attachment_id
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentId'
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentResponse'
+  /api/organization-providers/v3/attachments/{attachment_id}:
+    delete:
+      operationId: delete_attachment
+      summary: Delete provider attachment
+      tags:
+        - v3
+      parameters:
+        - name: attachment_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentId'
+        - name: Authorization
+          in: header
+          description: OAuth authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
   /api/organization-service-facilities/v2/{organization_service_facility_id}:
     get:
       operationId: get
       summary: Get organization service facility
       tags:
-        - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+        - v2
       parameters:
         - name: organization_service_facility_id
           in: path
@@ -12646,7 +13209,7 @@ paths:
       operationId: update
       summary: Update organization service facility
       tags:
-        - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+        - v2
       parameters:
         - name: organization_service_facility_id
           in: path
@@ -12723,7 +13286,7 @@ paths:
       operationId: delete
       summary: Delete organization service facility
       tags:
-        - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+        - v2
       parameters:
         - name: organization_service_facility_id
           in: path
@@ -12757,10 +13320,10 @@ paths:
                   - content
   /api/organization-service-facilities/v2:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get all organization service facilities
       tags:
-        - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+        - v2
       parameters:
         - name: limit
           in: query
@@ -12823,7 +13386,7 @@ paths:
       operationId: create
       summary: Create organization service facility
       tags:
-        - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -12877,14 +13440,14 @@ paths:
               $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityCreate'
   /api/organization-service-facilities/v2/external-id/{external_id}:
     get:
-      operationId: get-by-external-id
+      operationId: get_by_external_id
       summary: Get organization service facility by external_id
       description: |-
         Looks up a single organization service facility by its `external_id` field. This can be useful
         for finding service facilities within Candid which are associated with service facilities in
         an external system.
       tags:
-        - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
+        - v2
       parameters:
         - name: external_id
           in: path
@@ -12922,11 +13485,11 @@ paths:
                   - content
   /api/payer-plan-groups/v1:
     get:
-      operationId: get-multi
-      summary: Get payer plan groups
-      description: Returns all payer plan groups matching filter criteria.
+      operationId: getMulti
+      summary: Get payer plans
+      description: Returns all payer plans matching filter criteria.
       tags:
-        - subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1
+        - v1
       parameters:
         - name: plan_group_name
           in: query
@@ -12999,7 +13562,7 @@ paths:
         - name: organization_id
           in: query
           description: >-
-            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's
+            Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's
             organization.
           required: false
           schema:
@@ -13051,10 +13614,10 @@ paths:
                   - content
     post:
       operationId: create
-      summary: Create a payer plan group
-      description: Create a payer plan group
+      summary: Create a payer plan
+      description: Create a payer plan
       tags:
-        - subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -13109,10 +13672,10 @@ paths:
   /api/payer-plan-groups/v1/{payer_plan_group_id}:
     get:
       operationId: get
-      summary: Get payer plan group
-      description: Return a plan group with a given ID.
+      summary: Get payer plan
+      description: Return a payer plan with a given ID.
       tags:
-        - subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1
+        - v1
       parameters:
         - name: payer_plan_group_id
           in: path
@@ -13166,10 +13729,10 @@ paths:
                   - content
     put:
       operationId: update
-      summary: Update payer plan group
-      description: Update any of the fields on a payer plan group
+      summary: Update payer plan
+      description: Update any of the fields on a payer plan
       tags:
-        - subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1
+        - v1
       parameters:
         - name: payer_plan_group_id
           in: path
@@ -13244,10 +13807,10 @@ paths:
               $ref: '#/components/schemas/type_payer-plan-groups/v1:MutablePayerPlanGroup'
     patch:
       operationId: deactivate
-      summary: Delete payer plan group
-      description: Marks the payer plan group as deactivated
+      summary: Delete payer plan
+      description: Marks the payer plan as deactivated
       tags:
-        - subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1
+        - v1
       parameters:
         - name: payer_plan_group_id
           in: path
@@ -13304,7 +13867,7 @@ paths:
       operationId: get
       summary: Get payer
       tags:
-        - subpackage_payers.subpackage_payers/v3
+        - v3
       parameters:
         - name: payer_uuid
           in: path
@@ -13326,10 +13889,10 @@ paths:
                 $ref: '#/components/schemas/type_payers/v3:Payer'
   /api/payers/v3:
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get all payers
       tags:
-        - subpackage_payers.subpackage_payers/v3
+        - v3
       parameters:
         - name: limit
           in: query
@@ -13365,7 +13928,7 @@ paths:
       operationId: get
       summary: Get payer
       tags:
-        - subpackage_payers.subpackage_payers/v4
+        - v4
       parameters:
         - name: payer_uuid
           in: path
@@ -13387,10 +13950,10 @@ paths:
                 $ref: '#/components/schemas/type_payers/v4:Payer'
   /api/payers/v4:
     get:
-      operationId: get-all
+      operationId: getAll
       summary: Get all payers
       tags:
-        - subpackage_payers.subpackage_payers/v4
+        - v4
       parameters:
         - name: limit
           in: query
@@ -13426,7 +13989,7 @@ paths:
       operationId: create
       summary: Create Service Line
       tags:
-        - subpackage_service-lines.subpackage_service-lines/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -13483,7 +14046,7 @@ paths:
       operationId: create-universal
       summary: Create Professional or Institutional Service Line
       tags:
-        - subpackage_service-lines.subpackage_service-lines/v2
+        - v2
       parameters:
         - name: Authorization
           in: header
@@ -13540,7 +14103,7 @@ paths:
       operationId: update-universal
       summary: Update service line for encounter that may be institutional or professional.
       tags:
-        - subpackage_service-lines.subpackage_service-lines/v2
+        - v2
       parameters:
         - name: service_line_id
           in: path
@@ -13618,7 +14181,7 @@ paths:
       operationId: update
       summary: Update Service Line
       tags:
-        - subpackage_service-lines.subpackage_service-lines/v2
+        - v2
       parameters:
         - name: service_line_id
           in: path
@@ -13695,7 +14258,7 @@ paths:
       operationId: delete
       summary: Delete Service Line
       tags:
-        - subpackage_service-lines.subpackage_service-lines/v2
+        - v2
       parameters:
         - name: service_line_id
           in: path
@@ -13761,10 +14324,10 @@ paths:
                   - content
   /api/superbill/v1:
     post:
-      operationId: create-superbill
+      operationId: create_superbill
       summary: Create Superbill
       tags:
-        - subpackage_superbills.subpackage_superbills/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -13829,10 +14392,10 @@ paths:
                 - date_range_max
   /api/tasks/v3/{task_id}/actions:
     get:
-      operationId: get-actions
+      operationId: get_actions
       summary: Get task actions
       tags:
-        - subpackage_tasks.subpackage_tasks/v3
+        - v3
       parameters:
         - name: task_id
           in: path
@@ -13854,10 +14417,10 @@ paths:
                 $ref: '#/components/schemas/type_tasks/v3:TaskActions'
   /api/tasks/v3:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get all tasks
       tags:
-        - subpackage_tasks.subpackage_tasks/v3
+        - v3
       parameters:
         - name: limit
           in: query
@@ -13982,7 +14545,7 @@ paths:
       operationId: create
       summary: Create task
       tags:
-        - subpackage_tasks.subpackage_tasks/v3
+        - v3
       parameters:
         - name: Authorization
           in: header
@@ -14007,7 +14570,7 @@ paths:
       operationId: get
       summary: Get task
       tags:
-        - subpackage_tasks.subpackage_tasks/v3
+        - v3
       parameters:
         - name: task_id
           in: path
@@ -14063,7 +14626,7 @@ paths:
       operationId: update
       summary: Update task
       tags:
-        - subpackage_tasks.subpackage_tasks/v3
+        - v3
       parameters:
         - name: task_id
           in: path
@@ -14138,11 +14701,11 @@ paths:
               $ref: '#/components/schemas/type_tasks/v3:TaskUpdateV3'
   /api/write-offs/v1:
     get:
-      operationId: get-multi
+      operationId: get_multi
       summary: Get all write-offs
       description: Returns all write-offs satisfying the search criteria.
       tags:
-        - subpackage_write-offs.subpackage_write-offs/v1
+        - v1
       parameters:
         - name: limit
           in: query
@@ -14218,7 +14781,7 @@ paths:
         Creates one or many write-offs applied toward a specific service line,
         claim, or billing provider.
       tags:
-        - subpackage_write-offs.subpackage_write-offs/v1
+        - v1
       parameters:
         - name: Authorization
           in: header
@@ -14251,7 +14814,7 @@ paths:
       summary: Get write-off
       description: Retrieves a previously created write off by its `write_off_id`.
       tags:
-        - subpackage_write-offs.subpackage_write-offs/v1
+        - v1
       parameters:
         - name: write_off_id
           in: path
@@ -14277,7 +14840,7 @@ paths:
       summary: Revert write-off
       description: Reverts a write off given a `write_off_id`.
       tags:
-        - subpackage_write-offs.subpackage_write-offs/v1
+        - v1
       parameters:
         - name: write_off_id
           in: path
@@ -14303,7 +14866,7 @@ paths:
       summary: Revert Insurance Balance Adjustment
       description: Reverts an Insurance Balance Adjustment given an `adjustment_id`
       tags:
-        - subpackage_write-offs.subpackage_write-offs/v1
+        - v1
       parameters:
         - name: adjustment_id
           in: path
@@ -14329,7 +14892,7 @@ paths:
       summary: Revert ERA-originated Insurance Balance Adjustment
       description: Reverts an ERA-originated Insurance Balance Adjustment given an `adjustment_id`
       tags:
-        - subpackage_write-offs.subpackage_write-offs/v1
+        - v1
       parameters:
         - name: adjustment_id
           in: path
@@ -14355,7 +14918,7 @@ paths:
       summary: Create diagnosis
       description: Creates a new diagnosis for an encounter
       tags:
-        - subpackage_diagnoses
+        - diagnoses
       parameters:
         - name: Authorization
           in: header
@@ -14381,7 +14944,7 @@ paths:
       summary: Update diagnosis
       description: Updates the diagnosis record matching the provided `diagnosis_id`
       tags:
-        - subpackage_diagnoses
+        - diagnoses
       parameters:
         - name: diagnosis_id
           in: path
@@ -14477,7 +15040,7 @@ paths:
       summary: Delete diagnosis
       description: Deletes the diagnosis record associated with the provided `diagnosis_id`
       tags:
-        - subpackage_diagnoses
+        - diagnoses
       parameters:
         - name: diagnosis_id
           in: path
@@ -15455,6 +16018,18 @@ components:
             type:
               type: string
               enum:
+                - MEDICAID_MANAGED_CARE
+              description: 'Discriminator value: MEDICAID_MANAGED_CARE'
+            payload:
+              $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:MedicareAdvantageRecommendationPayload'
+          required:
+            - type
+            - payload
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
                 - COORDINATION_OF_BENEFITS
               description: 'Discriminator value: COORDINATION_OF_BENEFITS'
             payload:
@@ -15628,6 +16203,477 @@ components:
       required:
         - message
       title: VersionConflictErrorBody
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryProvider:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The provider's National Provider Identifier (NPI).
+      required:
+        - npi
+      description: Information about the provider requesting the insurance discovery check.
+      title: InsuranceDiscoveryProvider
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryGender:
+      type: string
+      enum:
+        - M
+        - F
+      title: InsuranceDiscoveryGender
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryAddress:
+      type: object
+      properties:
+        address_1:
+          type: string
+        address_2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postal_code:
+          type: string
+        country_code:
+          type: string
+      description: The patient's address. Providing a zip code improves the probability of finding matching coverage.
+      title: InsuranceDiscoveryAddress
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoverySubscriber:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The subscriber's first name.
+        last_name:
+          type: string
+          description: The subscriber's last name.
+        middle_name:
+          type: string
+          description: The subscriber's middle name or initial.
+        date_of_birth:
+          type: string
+          description: The subscriber's date of birth, formatted as YYYYMMDD.
+        ssn:
+          type: string
+          description: The subscriber's Social Security Number (SSN). Full SSN is preferred, but even the last 4 digits can help.
+        gender:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryGender'
+        address:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryAddress'
+      required:
+        - first_name
+        - last_name
+      description: |-
+        Demographic information for the patient when they are the health plan subscriber.
+        Providing as much information as possible improves the probability of finding matching coverage.
+        SSN and address (especially zip code) are strongly recommended.
+      title: InsuranceDiscoverySubscriber
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryDependent:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The dependent's first name.
+        last_name:
+          type: string
+          description: The dependent's last name.
+        middle_name:
+          type: string
+          description: The dependent's middle name or initial.
+        date_of_birth:
+          type: string
+          description: The dependent's date of birth, formatted as YYYYMMDD.
+        ssn:
+          type: string
+          description: The dependent's Social Security Number (SSN).
+        gender:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryGender'
+        address:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryAddress'
+      required:
+        - first_name
+        - last_name
+      description: >-
+        Demographic information for the patient when they are a dependent on a health plan.
+
+        If you only have the dependent's information, identify them in the subscriber object instead and leave this
+        empty.
+      title: InsuranceDiscoveryDependent
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryEncounter:
+      type: object
+      properties:
+        date_of_service:
+          type: string
+          description: A single date of service, formatted as YYYYMMDD.
+        beginning_date_of_service:
+          type: string
+          description: The beginning date of service, formatted as YYYYMMDD.
+        end_date_of_service:
+          type: string
+          description: The end date of service, formatted as YYYYMMDD.
+      description: |-
+        The date range for the service. If not specified, Stedi defaults to the current date.
+        You can specify either a single date_of_service or a beginning_date_of_service and end_date_of_service.
+      title: InsuranceDiscoveryEncounter
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryRequest:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryProvider'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoverySubscriber'
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryDependent'
+        encounter:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryEncounter'
+      required:
+        - provider
+        - subscriber
+      description: An object representing the data for an insurance discovery request.
+      title: InsuranceDiscoveryRequest
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryStatus:
+      type: string
+      enum:
+        - PENDING
+        - COMPLETE
+      description: The status of the insurance discovery check.
+      title: InsuranceDiscoveryStatus
+    type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryResponse:
+      type: object
+      properties:
+        discovery_id:
+          type: string
+          description: A unique ID for this insurance discovery check.
+        status:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:InsuranceDiscoveryStatus'
+          description: >-
+            The status of the discovery check. COMPLETE means items are populated. PENDING means the check is still in
+            progress.
+        items:
+          type: array
+          items:
+            description: Any type
+          description: |-
+            An array of potential coverage matches for the patient. Only populated when status is COMPLETE.
+            Each item is a raw passthrough of Stedi's deeply nested coverage-match object (provider, subscriber, 
+            payer, plan, and benefits details).
+        coverages_found:
+          type: integer
+          description: The number of potential coverage matches found. 0 if no matching coverage was found.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckErrorDetails'
+      description: An object representing the data for an insurance discovery response.
+      title: InsuranceDiscoveryResponse
+    type_pre-encounter/eligibilityChecks/v1:CobProvider:
+      type: object
+      properties:
+        organization_name:
+          type: string
+          description: The provider's business name. Required if the provider is an organization.
+        first_name:
+          type: string
+          description: The provider's first name. Required if the provider is an individual.
+        last_name:
+          type: string
+          description: The provider's last name. Required if the provider is an individual.
+        npi:
+          type: string
+          description: The provider's National Provider Identifier (NPI).
+      required:
+        - npi
+      description: |-
+        Information about the entity requesting the COB check.
+        Provide either organization_name (for organizations) or first_name and last_name (for individuals), plus npi.
+      title: CobProvider
+    type_pre-encounter/eligibilityChecks/v1:CobSubscriber:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The subscriber's first name.
+        last_name:
+          type: string
+          description: The subscriber's last name.
+        date_of_birth:
+          type: string
+          description: The subscriber's date of birth.
+        member_id:
+          type: string
+          description: The member ID for the subscriber's insurance policy.
+        ssn:
+          type: string
+          description: The subscriber's Social Security Number (SSN).
+      required:
+        - first_name
+        - last_name
+        - date_of_birth
+      description: |-
+        The primary policyholder for the insurance plan or a dependent with a unique member ID.
+        You must provide at least one of member_id or ssn.
+      title: CobSubscriber
+    type_pre-encounter/eligibilityChecks/v1:CobDependent:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The dependent's first name.
+        last_name:
+          type: string
+          description: The dependent's last name.
+        date_of_birth:
+          type: string
+          description: The dependent's date of birth.
+        ssn:
+          type: string
+          description: The dependent's Social Security Number (SSN).
+      required:
+        - first_name
+        - last_name
+        - date_of_birth
+      description: |-
+        A dependent for which you want to check coordination of benefits.
+        If the dependent has their own member ID, include their information in the subscriber object instead.
+      title: CobDependent
+    type_pre-encounter/eligibilityChecks/v1:CobEncounter:
+      type: object
+      properties:
+        date_of_service:
+          type: string
+          description: The date of service. Defaults to the current date if not specified.
+        beginning_date_of_service:
+          type: string
+          description: The beginning date of service. If included, end_date_of_service is also required.
+        end_date_of_service:
+          type: string
+          description: The end date of service. If included, beginning_date_of_service is also required.
+      description: |-
+        Information about the encounter for the COB check.
+        Service dates must be within the past 2 years and must not be in the future.
+      title: CobEncounter
+    type_pre-encounter/eligibilityChecks/v1:CoordinationOfBenefitsRequest:
+      type: object
+      properties:
+        trading_partner_service_id:
+          type: string
+          description: |-
+            The Payer ID. Each check must be for a participating health plan for which the patient has coverage.
+            Medicare and Medicare Advantage plans are not supported.
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobProvider'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobSubscriber'
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobDependent'
+        encounter:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobEncounter'
+      required:
+        - trading_partner_service_id
+        - provider
+        - subscriber
+        - encounter
+      description: An object representing the data for a coordination of benefits request.
+      title: CoordinationOfBenefitsRequest
+    type_pre-encounter/eligibilityChecks/v1:CobResponseProvider:
+      type: object
+      properties:
+        provider_name:
+          type: string
+          description: The provider's last name. Applies to providers that are an individual.
+        provider_first_name:
+          type: string
+          description: The provider's first name. Applies to providers that are an individual.
+        provider_org_name:
+          type: string
+          description: The provider's organization name.
+        npi:
+          type: string
+          description: The provider's National Provider Identifier (NPI).
+        aaa_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckErrorDetails'
+          description: AAA errors specifying reasons for rejection and recommended follow-up actions.
+      description: Information about the entity that submitted the original COB request.
+      title: CobResponseProvider
+    type_pre-encounter/eligibilityChecks/v1:CobAddress:
+      type: object
+      properties:
+        address_1:
+          type: string
+        address_2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          description: |-
+            The US state or Canadian province code. Kept as a string rather than an enum because,
+            per Stedi, payers may sometimes return non-compliant values.
+        postal_code:
+          type: string
+        country_code:
+          type: string
+        country_sub_division_code:
+          type: string
+      description: A patient's address as returned in a coordination of benefits response.
+      title: CobAddress
+    type_pre-encounter/eligibilityChecks/v1:CobResponseSubscriber:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: The member ID for the subscriber's insurance policy.
+        first_name:
+          type: string
+        last_name:
+          type: string
+        middle_name:
+          type: string
+        gender:
+          type: string
+          description: The subscriber's gender. Typically `F` - Female, `M` - Male, or `U` - Unknown.
+        date_of_birth:
+          type: string
+        ssn:
+          type: string
+        group_number:
+          type: string
+          description: The group number associated with the subscriber's insurance policy.
+        birth_sequence_number:
+          type: string
+          description: Birth order when there are multiple births associated with the provided birth date.
+        address:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobAddress'
+        aaa_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckErrorDetails'
+          description: AAA errors specifying reasons for rejection and recommended follow-up actions.
+      description: Information about the primary policyholder for the insurance plan listed in the COB request.
+      title: CobResponseSubscriber
+    type_pre-encounter/eligibilityChecks/v1:CobResponseDependent:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: The member ID for the subscriber's insurance policy.
+        first_name:
+          type: string
+        last_name:
+          type: string
+        middle_name:
+          type: string
+        gender:
+          type: string
+          description: The dependent's gender. Typically `F` - Female, `M` - Male, or `U` - Unknown.
+        date_of_birth:
+          type: string
+        ssn:
+          type: string
+        group_number:
+          type: string
+          description: The group number associated with the subscriber's insurance policy.
+        relation_to_subscriber:
+          type: string
+          description: The name of the relation_to_subscriber_code. For example, `Child` when the code is `19`.
+        relation_to_subscriber_code:
+          type: string
+          description: |-
+            The dependent's relationship to the subscriber. For example `01` - Spouse, `19` - Child,
+            `20` - Employee, `21` - Unknown, `39` - Organ Donor, `40` - Cadaver Donor,
+            `53` - Life Partner, or `G8` - Other Relationship.
+        birth_sequence_number:
+          type: string
+          description: Birth order when there are multiple births associated with the provided birth date.
+        address:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobAddress'
+        aaa_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckErrorDetails'
+          description: AAA errors specifying reasons for rejection and recommended follow-up actions.
+      description: Information about the dependent listed in the original COB request.
+      title: CobResponseDependent
+    type_pre-encounter/eligibilityChecks/v1:CobPayer:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The payer's name, such as `CIGNA`.
+        payer_identification:
+          type: string
+          description: The trading_partner_service_id (Payer ID) used to identify the payer in the COB request.
+      description: Information about the payer listed in the COB request.
+      title: CobPayer
+    type_pre-encounter/eligibilityChecks/v1:CobPlanDateInformation:
+      type: object
+      properties:
+        plan_begin:
+          type: string
+          description: When the patient's health plan coverage begins.
+        plan_end:
+          type: string
+          description: When the patient's health plan coverage ends.
+      description: Dates associated with the patient's health plan coverage.
+      title: CobPlanDateInformation
+    type_pre-encounter/eligibilityChecks/v1:Cob:
+      type: object
+      properties:
+        classification:
+          type: string
+          description: |-
+            The classification for the discovered benefits. One of: `CobInstanceExistsPrimacyDetermined`,
+            `CobInstanceExistsPrimacyUndetermined`, `CoverageOverlapNoBenefitOverlap`,
+            `CoverageOverlapExistsNotSubjectToCob`, or `MemberFoundNoCob`.
+        instance_exists:
+          type: boolean
+          description: If true, the COB response contains at least one coordination of benefits instance.
+        primacy_determined:
+          type: boolean
+          description: If true, Stedi was able to determine the primary payer for the patient.
+        coverage_overlap:
+          type: boolean
+          description: If true, the patient has active coverage with two or more payers during the service date.
+        benefit_overlap:
+          type: boolean
+          description: If true, the patient has active coverage from two or more payers for the same service type code.
+      description: |-
+        An overview of the COB response. Indicates whether there is a coverage overlap, whether that
+        overlap creates a coordination of benefits instance, and whether Stedi was able to identify
+        payer primacy (when a COB instance exists).
+      title: Cob
+    type_pre-encounter/eligibilityChecks/v1:CoordinationOfBenefitsResponse:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobResponseProvider'
+          description: Information about the provider who submitted the COB request.
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobResponseSubscriber'
+          description: Information about the primary policyholder.
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobResponseDependent'
+          description: Information about the dependent listed in the COB request.
+        payer:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobPayer'
+          description: Information about the payer listed in the COB request.
+        plan_date_information:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:CobPlanDateInformation'
+          description: Date information for the plan.
+        benefits_information:
+          type: array
+          items:
+            description: Any type
+          description: Raw passthrough of Stedi's benefits information (coverage, service types, related entities, etc.).
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:EligibilityCheckErrorDetails'
+        coordination_of_benefits:
+          $ref: '#/components/schemas/type_pre-encounter/eligibilityChecks/v1:Cob'
+          description: Overview of the COB response including whether coverage overlap exists and payer primacy.
+      description: An object representing the data for a coordination of benefits response.
+      title: CoordinationOfBenefitsResponse
     type_pre-encounter/appointments/v1:AppointmentStatus:
       type: string
       enum:
@@ -15657,6 +16703,13 @@ components:
         The reason an appointment is NOT_READY. Only set when status is NOT_READY. All values except MANUAL are set by
         the automated eligibility check; MANUAL is set by staff via the API.
       title: NotReadyReason
+    type_pre-encounter/appointments/v1:ReadySource:
+      type: string
+      enum:
+        - MANUAL
+        - MACHINE
+      description: Indicates how this appointment's status was marked as READY - MANUAL or MACHINE.
+      title: ReadySource
     type_pre-encounter/appointments/v1:UniversalServiceIdentifier:
       type: string
       enum:
@@ -15824,6 +16877,14 @@ components:
           $ref: '#/components/schemas/type_pre-encounter/common:CanonicalProviderId'
         fax:
           type: string
+        other_fax_numbers:
+          type: array
+          items:
+            type: string
+        emails:
+          type: array
+          items:
+            type: string
         service_facilities:
           type: array
           items:
@@ -15860,7 +16921,12 @@ components:
           $ref: '#/components/schemas/type_pre-encounter/appointments/v1:NotReadyReason'
           description: >-
             The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise.
-            MANUAL is the only value that may be set via the API.
+            It is not recommended to change this value manually via API.
+        ready_source:
+          $ref: '#/components/schemas/type_pre-encounter/appointments/v1:ReadySource'
+          description: >-
+            The method that set the appointment status to READY. It is not recommended to change this value manually via
+            API. Must only be set when the status is READY or CHECKED_IN, it is cleared otherwise.
         service_duration:
           type: integer
           description: The requested length of time allotted for the appointment. The units are in minutes.
@@ -15878,6 +16944,9 @@ components:
           type: integer
         estimated_patient_responsibility_cents:
           type: integer
+          description: >-
+            The estimated amount the patient will be responsible for paying at the time of service. This does not
+            include the copay.
         patient_deposit_cents:
           type: integer
         appointment_details:
@@ -15951,7 +17020,12 @@ components:
           $ref: '#/components/schemas/type_pre-encounter/appointments/v1:NotReadyReason'
           description: >-
             The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise.
-            MANUAL is the only value that may be set via the API.
+            It is not recommended to change this value manually via API.
+        ready_source:
+          $ref: '#/components/schemas/type_pre-encounter/appointments/v1:ReadySource'
+          description: >-
+            The method that set the appointment status to READY. It is not recommended to change this value manually via
+            API. Must only be set when the status is READY or CHECKED_IN, it is cleared otherwise.
         service_duration:
           type: integer
           description: The requested length of time allotted for the appointment. The units are in minutes.
@@ -15969,6 +17043,9 @@ components:
           type: integer
         estimated_patient_responsibility_cents:
           type: integer
+          description: >-
+            The estimated amount the patient will be responsible for paying at the time of service. This does not
+            include the copay.
         patient_deposit_cents:
           type: integer
         appointment_details:
@@ -16307,7 +17384,6 @@ components:
           description: When set, specifies the service facility for which this authorization applies.
         dx_codes:
           type: array
-          uniqueItems: true
           items:
             type: string
           description: >-
@@ -16635,6 +17711,11 @@ components:
         - ENTERED_IN_ERROR
       description: enum to represent the statuses defined at https://build.fhir.org/valueset-fm-status.html
       title: CoverageStatus
+    type_pre-encounter/common:PayerPlanGroupId:
+      type: string
+      format: uuid
+      description: The unique identifier for a PayerPlanGroup in the database
+      title: PayerPlanGroupId
     type_pre-encounter/appointments/v1:Visit:
       type: object
       properties:
@@ -16653,6 +17734,14 @@ components:
           $ref: '#/components/schemas/type_pre-encounter/coverages/v1:CoverageStatus'
         secondary_coverage_status:
           $ref: '#/components/schemas/type_pre-encounter/coverages/v1:CoverageStatus'
+        primary_payer_name:
+          type: string
+        primary_payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:PayerPlanGroupId'
+        secondary_payer_name:
+          type: string
+        secondary_payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:PayerPlanGroupId'
       required:
         - patient_id
         - organization_id
@@ -16678,6 +17767,14 @@ components:
         - total
         - items
       title: VisitsPage
+    type_pre-encounter/appointments/v1:CountsResponse:
+      type: object
+      properties:
+        not_ready_reason_counts:
+          type: object
+          additionalProperties:
+            type: integer
+      title: CountsResponse
     type_pre-encounter/coverages/v1:Subscriber:
       type: object
       properties:
@@ -16799,11 +17896,6 @@ components:
         - WU
       description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
       title: InsuranceTypeCode
-    type_pre-encounter/common:PayerPlanGroupId:
-      type: string
-      format: uuid
-      description: The unique identifier for a PayerPlanGroup in the database
-      title: PayerPlanGroupId
     type_pre-encounter/coverages/v1:CarveOutType:
       type: string
       enum:
@@ -17508,6 +18600,15 @@ components:
         - total
         - items
       title: AppointmentListPage
+    type_pre-encounter/notes/v1:NoteType:
+      type: string
+      enum:
+        - GENERAL
+        - ELIGIBILITY
+      description: >-
+        Distinguishes what a note is about. `GENERAL` = a plain patient note; `ELIGIBILITY` = a note regarding the
+        patient's eligibility.
+      title: NoteType
     type_pre-encounter/notes/v1:Note:
       type: object
       properties:
@@ -17530,6 +18631,9 @@ components:
           description: The user ID of the user who last updated the object.
         value:
           type: string
+        type:
+          $ref: '#/components/schemas/type_pre-encounter/notes/v1:NoteType'
+          description: Defaults to GENERAL when omitted.
         author_email:
           type: string
         author_name:
@@ -17555,6 +18659,9 @@ components:
       properties:
         value:
           type: string
+        type:
+          $ref: '#/components/schemas/type_pre-encounter/notes/v1:NoteType'
+          description: Defaults to GENERAL when omitted.
         author_email:
           type: string
         author_name:
@@ -17719,8 +18826,20 @@ components:
           type: string
         phone_number:
           type: string
+        other_phone_numbers:
+          type: array
+          items:
+            type: string
         fax_number:
           type: string
+        other_fax_numbers:
+          type: array
+          items:
+            type: string
+        emails:
+          type: array
+          items:
+            type: string
         license_type:
           $ref: '#/components/schemas/type_pre-encounter/organizationExternalProviders/v1:LicenseType'
         addresses:
@@ -17781,8 +18900,20 @@ components:
           type: string
         phone_number:
           type: string
+        other_phone_numbers:
+          type: array
+          items:
+            type: string
         fax_number:
           type: string
+        other_fax_numbers:
+          type: array
+          items:
+            type: string
+        emails:
+          type: array
+          items:
+            type: string
         license_type:
           $ref: '#/components/schemas/type_pre-encounter/organizationExternalProviders/v1:LicenseType'
         addresses:
@@ -17794,6 +18925,114 @@ components:
         - types
       description: An object representing an organization-level external provider.
       title: MutableOrganizationExternalProvider
+    type_pre-encounter/patientMerges/v1:MutablePatientMerge:
+      type: object
+      properties:
+        alternative_patient_mrn:
+          type: string
+          description: The MRN of the patient that was merged.
+        primary_patient_mrn:
+          type: string
+          description: The MRN of the patient that is getting a patient merged into them.
+      required:
+        - alternative_patient_mrn
+        - primary_patient_mrn
+      description: An object representing a patient merge mapping.
+      title: MutablePatientMerge
+    type_pre-encounter/common:PatientMergeId:
+      type: string
+      description: The unique identifier for a PatientMerge record.
+      title: PatientMergeId
+    type_pre-encounter/patientMerges/v1:PatientMerge:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:OrganizationId'
+          description: The organization that owns this object.
+        deactivated:
+          type: boolean
+          description: >-
+            True if the object is deactivated.  Deactivated objects are not returned in search results but are returned
+            in all other endpoints including scan.
+        version:
+          type: integer
+          description: The version of the object. Any update to any property of an object object will create a new version.
+        updated_at:
+          type: string
+          format: date-time
+        updating_user_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:UserId'
+          description: The user ID of the user who last updated the object.
+        alternative_patient_mrn:
+          type: string
+          description: The MRN of the patient that was merged.
+        primary_patient_mrn:
+          type: string
+          description: The MRN of the patient that is getting a patient merged into them.
+        id:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientMergeId'
+      required:
+        - organization_id
+        - deactivated
+        - version
+        - updated_at
+        - updating_user_id
+        - alternative_patient_mrn
+        - primary_patient_mrn
+        - id
+      description: A PatientMerge object with immutable server-owned properties.
+      title: PatientMerge
+    type_pre-encounter/common:ErrorBase5xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+        - message
+      title: ErrorBase5xx
+    type_pre-encounter/patientMerges/v1:PatientMergeStatus:
+      oneOf:
+        - type: object
+          properties:
+            merge_status:
+              type: string
+              enum:
+                - none
+              description: 'Discriminator value: none'
+          required:
+            - merge_status
+        - type: object
+          properties:
+            merge_status:
+              type: string
+              enum:
+                - alternative
+              description: 'Discriminator value: alternative'
+            primary_mrn:
+              type: string
+          required:
+            - merge_status
+            - primary_mrn
+        - type: object
+          properties:
+            merge_status:
+              type: string
+              enum:
+                - primary
+              description: 'Discriminator value: primary'
+            alternative_mrns:
+              type: array
+              items:
+                type: string
+          required:
+            - merge_status
+            - alternative_mrns
+      discriminator:
+        propertyName: merge_status
+      description: The merge status of a patient.
+      title: PatientMergeStatus
     type_pre-encounter/patients/v1:MutablePatient:
       type: object
       properties:
@@ -18003,6 +19242,69 @@ components:
         - patient
         - coverages_for_related_causes
       title: PatientCoverageSnapshot
+    type_pre-encounter/patients/v1:EligibilityAuditEventType:
+      type: string
+      enum:
+        - APPOINTMENT_STATUS_CHANGED
+        - APPOINTMENT_WORK_QUEUE_CHANGED
+        - APPOINTMENT_COPAY_UPDATED
+        - COVERAGE_CREATED
+        - COVERAGE_UPDATED
+        - ELIG_CHECK_COMPLETED
+      title: EligibilityAuditEventType
+    type_pre-encounter/patients/v1:EligibilityTimelineEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        event_type:
+          $ref: '#/components/schemas/type_pre-encounter/patients/v1:EligibilityAuditEventType'
+        patient_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:PatientId'
+        coverage_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:CoverageId'
+        appointment_id:
+          $ref: '#/components/schemas/type_pre-encounter/common:AppointmentId'
+        timestamp:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+        user_name:
+          type: string
+          description: Actor display name; "Candid Health" for automated writes.
+        payload:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: Event-type-specific payload.
+      required:
+        - id
+        - event_type
+        - patient_id
+        - timestamp
+        - user_id
+        - user_name
+        - payload
+      description: A single eligibility audit event.
+      title: EligibilityTimelineEvent
+    type_pre-encounter/patients/v1:EligibilityTimelinePage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter/common:PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter/patients/v1:EligibilityTimelineEvent'
+      required:
+        - total
+        - items
+      title: EligibilityTimelinePage
     type_pre-encounter/tags/v1:Tag:
       type: object
       properties:
@@ -18479,6 +19781,10 @@ components:
         message:
           type: string
       title: UnauthorizedErrorMessage
+    type_organization-service-facilities/v2:OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
     type_patient-ar/v1:PatientPaymentAllocation:
       type: object
       properties:
@@ -18620,6 +19926,9 @@ components:
         patient_balance_cents:
           type: integer
           description: The total patient balance in cents for the claim. Negative values indicate a credit balance.
+        organization_service_facility_id:
+          $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+          description: The organization service facility ID from the claim's encounter.
         claim_level_patient_payments:
           $ref: '#/components/schemas/type_patient-ar/v1:PatientPaymentInfo'
         service_line_itemization:
@@ -18870,6 +20179,8 @@ components:
               enum:
                 - card
               description: 'Discriminator value: card'
+            authorization_number:
+              type: string
           required:
             - type
         - type: object
@@ -18976,6 +20287,19 @@ components:
         - state
         - zip_code
       title: StreetAddressShortZip
+    type_commons:Npi:
+      type: string
+      title: Npi
+    type_patient-payments/v4:PaymentMethodProviderInfo:
+      type: object
+      properties:
+        npi:
+          $ref: '#/components/schemas/type_commons:Npi'
+        first_name:
+          type: string
+        last_name:
+          type: string
+      title: PaymentMethodProviderInfo
     type_patient-payments/v4:PaymentMethodDetail:
       type: object
       properties:
@@ -18983,6 +20307,8 @@ components:
           $ref: '#/components/schemas/type_patient-payments/v4:PaymentMethod'
         collected_at_address:
           $ref: '#/components/schemas/type_commons:StreetAddressShortZip'
+        provider_info:
+          $ref: '#/components/schemas/type_patient-payments/v4:PaymentMethodProviderInfo'
       required:
         - payment_method
       title: PaymentMethodDetail
@@ -19169,6 +20495,8 @@ components:
               enum:
                 - card
               description: 'Discriminator value: card'
+            authorization_number:
+              type: string
           required:
             - type
         - type: object
@@ -19186,10 +20514,6 @@ components:
       discriminator:
         propertyName: type
       title: PaymentMethodCreate
-    type_organization-service-facilities/v2:OrganizationServiceFacilityId:
-      type: string
-      format: uuid
-      title: OrganizationServiceFacilityId
     type_patient-payments/v4:PaymentMethodDetailCreate:
       type: object
       properties:
@@ -19199,6 +20523,8 @@ components:
           $ref: '#/components/schemas/type_commons:StreetAddressShortZip'
         organization_service_facility_id:
           $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+        provider_info:
+          $ref: '#/components/schemas/type_patient-payments/v4:PaymentMethodProviderInfo'
       required:
         - payment_method
       title: PaymentMethodDetailCreate
@@ -19210,6 +20536,29 @@ components:
         - SHERPA_HEALTH
       description: Allowed payment sources when creating a patient payment via the API.
       title: PatientPaymentCreateSource
+    type_financials:AllocationRestrictionType:
+      type: string
+      enum:
+        - billing_provider_npi
+        - service_facility_id
+      description: The dimension along which a payment's auto-allocation can be restricted.
+      title: AllocationRestrictionType
+    type_financials:AllocationRestrictionCreate:
+      type: object
+      properties:
+        restriction_type:
+          $ref: '#/components/schemas/type_financials:AllocationRestrictionType'
+        restriction_value:
+          type: string
+          description: For billing_provider_npi, the NPI. For service_facility_id, the organization service facility ID.
+      required:
+        - restriction_type
+        - restriction_value
+      description: |-
+        Constrains which claims a payment's credit can be auto-allocated to. Restrictions of the same
+        restriction_type are OR'd together (any value may match); different restriction_types are AND'd
+        (every type present must match). A payment with no restrictions can be allocated to any claim.
+      title: AllocationRestrictionCreate
     type_financials:NoteUpdate:
       oneOf:
         - type: object
@@ -19797,9 +21146,6 @@ components:
         - procedure
         - time_in_appointment
       title: NoteCategory
-    type_commons:Npi:
-      type: string
-      title: Npi
     type_encounters/v4:ClinicalNoteOptional:
       type: object
       properties:
@@ -19891,6 +21237,7 @@ components:
     type_commons:ReportTransmissionCode:
       type: string
       enum:
+        - AA
         - BM
         - EL
         - FX
@@ -20211,12 +21558,12 @@ components:
         emr_payer_crosswalk:
           $ref: '#/components/schemas/type_commons:EmrPayerCrosswalk'
           description: >-
-            Set to PAYER_PLAN_GROUP to use Payer Plan Groups for automatic payer resolution. See Payer Information
+            Set to PAYER_PLAN_GROUP to use Payer Plans for automatic payer resolution. See Payer Information
             documentation for details.
         payer_plan_group_name:
           type: string
           description: >-
-            When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan group name here. See Payer
+            When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan name here. See Payer
             Information documentation for details.
       title: InsuranceCardCreateOptional
     type_individual:SubscriberCreateOptional:
@@ -20431,6 +21778,7 @@ components:
         - '62'
         - '63'
         - '66'
+        - '73'
         - '74'
         - '76'
         - '77'
@@ -21428,6 +22776,9 @@ components:
         - AuD
         - ATC
         - LAT
+        - OTA
+        - LSSP
+        - SLPA
       title: LicenseType
     type_encounter-providers/v2:TreatingProviderUpdateWithOptionalAddress:
       type: object
@@ -23305,6 +24656,9 @@ components:
               $ref: '#/components/schemas/type_commons:State'
             provider_number:
               type: string
+            organization_service_facility_id:
+              $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+              description: When set, this identifier applies only to the given service facility.
           required:
             - type
             - state
@@ -23320,6 +24674,9 @@ components:
               $ref: '#/components/schemas/type_commons:State'
             provider_number:
               type: string
+            organization_service_facility_id:
+              $ref: '#/components/schemas/type_organization-service-facilities/v2:OrganizationServiceFacilityId'
+              description: When set, this identifier applies only to the given service facility.
           required:
             - type
             - state
@@ -25361,7 +26718,7 @@ components:
         - TARGET_PROFESSIONAL
         - TARGET_INSTITUTIONAL
       description: |-
-        Used to describe the currently expected target form for this encounter.  This effects what
+        Used to describe the currently expected target form for this encounter.  This affects what
         validations and queues the form is processed under.  Before submission,
         this value will be required by some rules or user intervention.  It can be changed
         at any time, although doing so may incur other rules.
@@ -25457,6 +26814,10 @@ components:
       type: string
       format: uuid
       title: InsuranceCardId
+    type_payers/v4:PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
     type_insurance-cards/v2:InsuranceCard:
       type: object
       properties:
@@ -25490,6 +26851,8 @@ components:
           type: string
         image_url_back:
           type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers/v4:PayerUuid'
       required:
         - insurance_card_id
         - member_id
@@ -26062,7 +27425,7 @@ components:
         submission_expectation:
           $ref: '#/components/schemas/type_encounters/v4:EncounterSubmissionExpectation'
           description: >-
-            Describes the currently expected target form for this encounter.  This effects what validations and queues
+            Describes the currently expected target form for this encounter.  This affects what validations and queues
             the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.
         type_of_bill:
           $ref: '#/components/schemas/type_x12/v1:TypeOfBillComposite'
@@ -26452,12 +27815,12 @@ components:
         emr_payer_crosswalk:
           $ref: '#/components/schemas/type_commons:EmrPayerCrosswalk'
           description: >-
-            Set to PAYER_PLAN_GROUP to use Payer Plan Groups for automatic payer resolution. See Payer Information
+            Set to PAYER_PLAN_GROUP to use Payer Plans for automatic payer resolution. See Payer Information
             documentation for details.
         payer_plan_group_name:
           type: string
           description: >-
-            When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan group name here. See Payer
+            When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan name here. See Payer
             Information documentation for details.
       required:
         - member_id
@@ -27587,7 +28950,7 @@ components:
       discriminator:
         propertyName: type
       description: |-
-        A type of bill can either be seen as a compositio of structured parts, or as a literal string.
+        A type of bill can either be seen as a composition of structured parts, or as a literal string.
         This union represents the potential to express a type of bill either as one of those two shapes.
         Passing a string, this update will be seen as a complete 4 digit code, along with a padding code 0, that
         should match a valid composition.
@@ -27924,7 +29287,7 @@ components:
           $ref: '#/components/schemas/type_encounters/v4:EncounterSubmissionExpectation'
           description: >-
             Describes the currently expected target form for this encounter.  This can change later, but it orients this
-            encounter in the pipeline and effects reporting.
+            encounter in the pipeline and affects reporting.
         attending_provider:
           $ref: '#/components/schemas/type_encounter-providers/v2:RenderingProvider'
           description: >-
@@ -28772,7 +30135,7 @@ components:
         submission_expectation:
           $ref: '#/components/schemas/type_encounters/v4:EncounterSubmissionExpectation'
           description: >-
-            Describes the currently expected target form for this encounter.  This effects what validations and queues
+            Describes the currently expected target form for this encounter.  This affects what validations and queues
             the form is processed under.
         rendering_provider:
           $ref: '#/components/schemas/type_encounter-providers/v2:RenderingProvider'
@@ -30220,7 +31583,7 @@ components:
         submission_expectation:
           $ref: '#/components/schemas/type_encounters/v4:EncounterSubmissionExpectation'
           description: >-
-            Describes the currently expected target form for this encounter.  This effects what validations and queues
+            Describes the currently expected target form for this encounter.  This affects what validations and queues
             the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.
       title: UniversalEncounterUpdate
     type_encounters/v4:EncounterUpdate:
@@ -30856,7 +32219,7 @@ components:
         - value
         - match
         - explanation
-      description: Match information for a payer plan group
+      description: Match information for a payer plan
       title: MatchPayerPlanGroups
     type_fee-schedules/v3:DimensionMatch:
       type: object
@@ -30984,7 +32347,7 @@ components:
         - is_deactivated
       description: >-
         A rate value in cents for a specific time range.  Rate entries can be deactivated, which is set by using the
-        deelte_rate endpoint.  Deactivated rate entries are not considered when matching against service lines.
+        delete_rate endpoint.  Deactivated rate entries are not considered when matching against service lines.
       title: RateEntry
     type_fee-schedules/v3:Rate:
       type: object
@@ -31139,7 +32502,7 @@ components:
               type: integer
               description: >-
                 New versions of rates must indicate the exact version they modify. When the system attempts to save this
-                new version, if the latest version in the system does not equal this previos_version, the request will
+                new version, if the latest version in the system does not equal this previous_version, the request will
                 be rejected with a EntityConflictError.
             entries:
               type: array
@@ -33619,21 +34982,27 @@ components:
           description: Whether the provider can be used to bill services.
         first_name:
           type: string
-          description: The first name of the provider, if the provider is an individual.
+          description: >-
+            The first name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when
+            provider_type is ORGANIZATION.
         last_name:
           type: string
-          description: The last name of the provider, if the provider is an individual.
+          description: >-
+            The last name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type
+            is ORGANIZATION.
         organization_name:
           type: string
-          description: The name of the provider, if the provider is an organization.
+          description: >-
+            The name of the provider. Required when provider_type is ORGANIZATION. Must not be set when provider_type is
+            INDIVIDUAL.
         provider_type:
           $ref: '#/components/schemas/type_organization-providers/v2:ProviderType'
           description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
         tax_id:
           type: string
           description: >-
-            If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9
-            form completed during contracting.
+            Required when is_billing is true. If the provider has a contract with insurance, this must be the same tax
+            ID given to the payer on an IRS W-9 form completed during contracting.
         taxonomy_code:
           type: string
           description: A code designating classification and specialization.
@@ -33804,6 +35173,42 @@ components:
             $ref: '#/components/schemas/type_identifiers:UpdatableIdentifier'
           description: Provider's qualifications (medicare provider number, medicaid provider number, etc.)
       title: OrganizationProviderUpdateV2
+    type_organization-providers/v3:ProviderAttachmentFileType:
+      type: string
+      enum:
+        - W9
+        - PECOS_RECORD
+        - BANK_LETTER_OR_VOIDED_CHECK
+      title: ProviderAttachmentFileType
+    type_organization-providers/v3:ProviderAttachmentId:
+      type: string
+      format: uuid
+      title: ProviderAttachmentId
+    type_organization-providers/v3:ProviderAttachment:
+      type: object
+      properties:
+        provider_attachment_id:
+          $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentId'
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers/v2:OrganizationProviderId'
+        file_name:
+          type: string
+        file_type:
+          $ref: '#/components/schemas/type_organization-providers/v3:ProviderAttachmentFileType'
+      required:
+        - provider_attachment_id
+        - organization_provider_id
+        - file_name
+        - file_type
+      title: ProviderAttachment
+    type_organization-providers/v3:ProviderAttachmentResponse:
+      type: object
+      properties:
+        signed_download_url:
+          type: string
+      required:
+        - signed_download_url
+      title: ProviderAttachmentResponse
     type_organization-service-facilities/v2:OrganizationServiceFacilityPage:
       type: object
       properties:
@@ -33967,6 +35372,8 @@ components:
           $ref: '#/components/schemas/type_payers/v3:Payer'
         is_active:
           type: boolean
+        organization_id:
+          $ref: '#/components/schemas/type_commons:OrganizationId'
       required:
         - plan_group_name
         - payer_uuid
@@ -33974,6 +35381,7 @@ components:
         - payer_plan_group_id
         - payer
         - is_active
+        - organization_id
       title: PayerPlanGroup
     type_payer-plan-groups/v1:PayerPlanGroupPage:
       type: object
@@ -34028,10 +35436,6 @@ components:
       required:
         - items
       title: PayerPage
-    type_payers/v4:PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
     type_payers/v4:PrimaryPayerIds:
       type: object
       properties:
@@ -34063,6 +35467,10 @@ components:
         - WORKERS_COMP
         - OTHER_GOVERNMENT
         - AUTO_TPL
+        - LIEN
+        - HUMANA
+        - MOLINA
+        - OTHER_FACILITY
       title: PayerCategory
     type_payers/v4:PayerIds:
       type: object
@@ -34371,7 +35779,14 @@ components:
             A 4 digit code that specifies facility department or type of service arrangement for institutional service
             line items (837i). This code is not required for professional claim billing (837p).
         procedure_code:
-          type: string
+          type:
+            - string
+            - 'null'
+          description: >-
+            Pass `null` to create the service line as uncoded, which is valid for institutional (837i) claims that bill
+            by
+
+            revenue code rather than a CPT/HCPCS code.
         prior_authorization_number:
           type: string
           description: >-
@@ -34419,10 +35834,17 @@ components:
         units:
           $ref: '#/components/schemas/type_commons:ServiceLineUnits'
         procedure_code:
-          type: string
+          type:
+            - string
+            - 'null'
           description: >-
             If `procedure_code` is updated, and `charge_amount_cents` is not, then `charge_amount_cents` will be set by
             the system.
+
+            Pass `null` to uncode the service line, which is valid for institutional (837i) claims that bill by revenue
+            code
+
+            rather than a CPT/HCPCS code.
         quantity:
           $ref: '#/components/schemas/type_commons:Decimal'
           description: |-
@@ -34525,10 +35947,17 @@ components:
         units:
           $ref: '#/components/schemas/type_commons:ServiceLineUnits'
         procedure_code:
-          type: string
+          type:
+            - string
+            - 'null'
           description: >-
             If `procedure_code` is updated, and `charge_amount_cents` is not, then `charge_amount_cents` will be set by
             the system.
+
+            Pass `null` to uncode the service line, which is valid for institutional (837i) claims that bill by revenue
+            code
+
+            rather than a CPT/HCPCS code.
         quantity:
           $ref: '#/components/schemas/type_commons:Decimal'
           description: |-
@@ -34831,11 +36260,16 @@ components:
         - pending_manual_remit_posting
         - incorrect_referring_provider_info
         - payer_configuration_error
+        - downcoding_review
       title: TaskCategory
     type_pipeline-commons:ConfigurableRuleId:
       type: string
       format: uuid
       title: ConfigurableRuleId
+    type_pipeline-commons:RuleId:
+      type: string
+      format: uuid
+      title: RuleId
     type_tasks/v3:Task:
       type: object
       properties:
@@ -34887,6 +36321,8 @@ components:
           $ref: '#/components/schemas/type_tasks/commons:TaskCategory'
         configurable_rule_id:
           $ref: '#/components/schemas/type_pipeline-commons:ConfigurableRuleId'
+        persisted_rule_id:
+          $ref: '#/components/schemas/type_pipeline-commons:RuleId'
       required:
         - task_id
         - encounter_id

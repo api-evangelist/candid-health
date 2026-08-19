@@ -1,0 +1,221 @@
+generated: '2026-08-15'
+method: searched
+source: >-
+  https://candidhealth.com/blog/candid-health-successfully-completed-type-2-soc-2-examination-with-an-unqualified-opinion,
+  https://docs.joincandidhealth.com/api-principles/conventions,
+  openapi/_original/candid-health-openapi.yml
+name: Candid Health Conformance
+description: >-
+  What Candid Health actually conforms to, separated into three honest buckets: audited
+  compliance programs it publishes proof of, healthcare data standards it demonstrably
+  implements underneath the REST surface, and web/API RFCs it does or does not follow.
+  The headline is the split — Candid's HEALTHCARE conformance is strong (X12 837/835/270/271
+  are the substrate of every operation, HIPAA governs the data by contract, SOC 2 Type 2 and
+  SOC 1 Type 1 are both published with named auditors) while its API-RFC conformance is thin:
+  no RFC 9457 errors, no RFC 8594 sunset headers, no RFC 8414 authorization-server metadata,
+  no RFC 9116 security.txt, no RFC 6750 scopes. It answers the RFC that matters least
+  (RFC 9727 api-catalog) and skips the ones an automated client needs most.
+docs:
+  - https://docs.joincandidhealth.com/api-principles/conventions
+  - https://docs.joincandidhealth.com/api-principles/breaking-changes
+  - https://candidhealth.com/blog
+
+compliance_programs:
+  - id: soc2-type2
+    name: SOC 2 Type 2
+    conforms: true
+    criteria: [Security, Availability, Confidentiality]
+    period: 2025-01-15 to 2025-04-15
+    opinion: unqualified
+    auditor: AssurancePoint, LLC
+    evidence: https://candidhealth.com/blog/candid-health-successfully-completed-type-2-soc-2-examination-with-an-unqualified-opinion
+  - id: soc2-type1
+    name: SOC 2 Type 1
+    conforms: true
+    opinion: unqualified
+    auditor: AssurancePoint, LLC
+    evidence: https://candidhealth.com/blog/candid-health-successfully-completed-type-1-soc-2-examination-with-an-unqualified-opinion
+  - id: soc1-type1
+    name: SOC 1 Type 1
+    conforms: true
+    as_of: '2025-12-31'
+    opinion: clean
+    auditor: AssurancePoint, LLC
+    scope: >-
+      Claims and Payment Interface Processing, Invalid Claims and Interface Error Handling,
+      Account Balances, Billing, Data Communications, Logical Access, Change Management.
+    cadence: annual (stated intent)
+    evidence: https://candidhealth.com/blog/candid-health-achieves-type-1-soc-1-certification-with-clean-auditor-opinion
+    note: >-
+      SOC 1 is the report an RCM vendor's customers' AUDITORS ask for, because Candid's
+      controls sit inside its customers' revenue recognition. Publishing one is a
+      stronger signal for this category than SOC 2 alone.
+  - id: hipaa
+    name: HIPAA / HITECH
+    conforms: true
+    basis: contractual
+    evidence: >-
+      Candid's privacy policy states it "does not govern our use of Protected Health
+      Information subject to the Health Insurance Portability and Accountability Act of
+      1996" — PHI is governed by Business Associate Agreements with each customer. The
+      Sandbox environment explicitly prohibits PHI, which is a HIPAA minimum-necessary control.
+    urls:
+      - https://candidhealth.com/privacy-policy
+      - https://docs.joincandidhealth.com/introduction/candid-environments
+    note: >-
+      HIPAA is not a certification; there is no certifying body. What is verifiable is that
+      Candid signs BAAs and segregates PHI by environment. Third-party attestation directories
+      list Candid as HIPAA-verified, but those are vendor seals, not audits.
+  - id: iso-27001
+    conforms: false
+    evidence: Not claimed anywhere on candidhealth.com or in the newsroom.
+  - id: hitrust
+    conforms: false
+    evidence: Not claimed. Notable for a healthcare vendor at this stage; many payers ask for it.
+  - id: pci-dss
+    conforms: false
+    evidence: >-
+      Not claimed. Candid handles patient payments but records external payment account
+      config (external-payment-account-config/v1) rather than card data, which is consistent
+      with pushing PCI scope to a payment processor.
+  - id: fedramp
+    conforms: false
+
+healthcare_standards:
+  - id: x12-837
+    name: ASC X12N 837 professional / institutional claim
+    conforms: true
+    evidence: >-
+      837 appears 355 times in the published OpenAPI. Encounter and service-line schemas are
+      a typed projection of 837 loops and segments (claim frequency codes, billable status,
+      responsible party, place-of-service).
+  - id: x12-835
+    name: ASC X12N 835 electronic remittance advice
+    conforms: true
+    evidence: >-
+      The insurance-adjudications/v1 service returns ERA / 835 adjudication detail; the status
+      page tracks an "ERA processing pipeline" component in its own right.
+  - id: x12-270-271
+    name: ASC X12N 270/271 eligibility inquiry and response
+    conforms: true
+    evidence: >-
+      eligibility/v2 and eligibility-checks/v1 model 270/271 semantics; coverage schemas cite
+      X12 element numbers directly (e.g. "X12 008010 Element 1365" for service type codes).
+  - id: x12-vocabulary
+    name: X12 code sets surfaced as typed enums
+    conforms: true
+    evidence: >-
+      Service type codes, insurance type codes, coverage levels and network types are exposed
+      as named enums carrying their X12 element provenance in the description, rather than as
+      free strings. This is the single best thing about Candid's contract.
+  - id: nucc-cms-code-sets
+    name: NPI / CPT / HCPCS / ICD-10 code sets
+    conforms: true
+    evidence: NPI referenced 94 times, ICD-10 20 times, CPT 5 times across the spec.
+  - id: fhir
+    name: HL7 FHIR
+    conforms: false
+    evidence: >-
+      Zero FHIR resource shapes. The 6 lowercase "fhir" matches in the spec are incidental
+      substrings, not resource definitions. Candid is an X12/EDI-native platform with a
+      proprietary REST projection; it is not a FHIR server and does not claim to be. Relevant
+      because a provider integrating Candid alongside an EHR will need to map, not passthrough.
+  - id: da-vinci-crd-dtr-pas
+    conforms: false
+    evidence: No FHIR base, so none of the Da Vinci prior-authorization IGs apply.
+  - id: carin-blue-button
+    conforms: false
+
+api_standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: >-
+      openapi/_original/candid-health-openapi.yml is OpenAPI 3.1.0, published at
+      docs.joincandidhealth.com/openapi.json and openapi.yaml, 171 paths / 251 operations /
+      805 component schemas. Generated and kept in sync by Fern.
+  - id: rfc9727-api-catalog
+    name: RFC 9727 API catalog (/.well-known/api-catalog)
+    conforms: true
+    evidence: >-
+      docs.joincandidhealth.com/.well-known/api-catalog returns 200 with
+      application/linkset+json and a correct profile parameter, anchoring the API reference
+      with a service-desc link to the OpenAPI. Saved at well-known/candid-health-api-catalog.json.
+  - id: oauth2-client-credentials
+    name: OAuth 2.0 client credentials (RFC 6749 §4.4)
+    conforms: partial
+    evidence: >-
+      POST /api/auth/v2/token exchanges client_id + client_secret for a 5-hour Auth0-issued
+      JWT presented as a bearer token. The grant is real, but the OpenAPI declares the scheme
+      as plain `http bearer` (OAuthScheme), not as `oauth2` with a clientCredentials flow — so
+      a machine reading the spec cannot discover the token endpoint. Zero occurrences of
+      "oauth2" or "clientCredentials" in the spec.
+  - id: rfc6750-bearer-scopes
+    conforms: false
+    evidence: >-
+      No scopes are issued or documented. A token is all-or-nothing over the whole tenant,
+      which is why scopes/ is intentionally absent from this repo rather than empty.
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 on every Candid host.
+  - id: openid-connect-discovery
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on every Candid host.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Zero occurrences of application/problem+json. Candid returns a Fern-style discriminated
+      envelope { errorName, content } on application/json. Catalogued in
+      errors/candid-health-problem-types.yml.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: >-
+      No Sunset or Deprecation header. Deprecation notice is delivered by email to an opt-in
+      list, so an automated client cannot detect an upcoming break.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on candidhealth.com, joincandidhealth.com and docs.
+  - id: rfc6585-429
+    name: HTTP 429 Too Many Requests
+    conforms: partial
+    evidence: >-
+      429 is returned on exhaustion (1000 requests per 10s rolling window, per IP), but no
+      RateLimit-* / X-RateLimit-* headers and no Retry-After are published, so a client cannot
+      see its remaining budget.
+  - id: idempotency-key
+    conforms: false
+    evidence: >-
+      Zero occurrences of "idempot" across the 1.3 MB OpenAPI. Client-supplied external_id
+      fields deduplicate by returning 409 rather than replaying the original response.
+  - id: cursor-pagination
+    conforms: true
+    evidence: >-
+      Consistent opaque page_token + limit on 40 operations, returning a ResourcePage envelope
+      with next_page_token / prev_page_token. Bidirectional.
+  - id: webhooks
+    conforms: false
+    evidence: >-
+      Candid ships no webhooks and states they are not on the roadmap; the events/v1 scan
+      endpoint (polling, ordered by modification time, filterable by event_types) is the
+      substitute. No AsyncAPI document exists, and none is asserted here.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: >-
+      A live anonymous MCP server at docs.joincandidhealth.com/_mcp/server, protocol version
+      2025-06-18, answering tools/list with one documentation-search tool. Documentation only —
+      no business operation is reachable through it. See mcp/candid-health-tool-crosswalk.yml.
+  - id: a2a-agent-card
+    conforms: false
+    evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on every host.
+
+x-evidence:
+  - url: https://docs.joincandidhealth.com/.well-known/api-catalog
+    http_status: 200
+  - url: https://candidhealth.com/blog/candid-health-successfully-completed-type-2-soc-2-examination-with-an-unqualified-opinion
+    http_status: 200
+  - url: https://candidhealth.com/blog/candid-health-achieves-type-1-soc-1-certification-with-clean-auditor-opinion
+    http_status: 200
+  - url: https://candidhealth.com/privacy-policy
+    http_status: 200
+  - url: https://candidhealth.com/.well-known/security.txt
+    http_status: 404

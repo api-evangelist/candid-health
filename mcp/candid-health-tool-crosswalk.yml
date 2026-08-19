@@ -1,0 +1,161 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  mcp/candid-health-mcp-tools-list.json (live tools/list, 2026-08-14) bound
+  against openapi/_original/candid-health-openapi.yml
+name: Candid Health MCP-to-REST Tool Crosswalk
+description: >-
+  Binds every tool on Candid Health's live MCP server to the OpenAPI operations
+  that back it. The result is a one-sided crosswalk: the MCP server is a
+  documentation-search server, so it has zero REST bindings, and all 251 API
+  operations are REST-only. This is the honest measurement of Candid's agent
+  surface — an agent can read the docs through MCP but cannot do revenue-cycle
+  work through it.
+
+surfaces:
+  openapi:
+    path: openapi/_original/candid-health-openapi.yml
+    published_at: https://docs.joincandidhealth.com/openapi.json
+    version: 3.1.0
+    operations: 251
+    gated: false
+  mcp:
+    url: https://docs.joincandidhealth.com/_mcp/server
+    tools: 1
+    gated: false
+    note: Anonymous; tools/list answered 200 with a full inputSchema.
+  graphql:
+    present: false
+    note: Candid publishes no GraphQL endpoint.
+
+coverage:
+  mcp_tools: 1
+  rest_operations: 251
+  bound: 0
+  mcp_only: 1
+  rest_only: 251
+  mcp_tool_coverage_of_rest: 0.0
+
+crosswalk: []
+
+mcp_only:
+  - tool: searchDocs
+    reason: >-
+      Full-text search over docs.joincandidhealth.com. It is served by the Fern
+      documentation platform, not by api.joincandidhealth.com, and has no public
+      REST equivalent in the OpenAPI. Its inputSchema ({query: string}) does not
+      correspond to any operation's parameters or requestBody.
+    confidence: high
+
+rest_only_summary:
+  note: >-
+    All 251 operations are unreachable from MCP. Grouped by resource family
+    (path segment after the optional /api prefix) so the shape of the unexposed
+    surface is legible without listing every operationId.
+  families:
+    - family: contracts
+      operations: 16
+    - family: patients
+      operations: 14
+    - family: encounter-providers
+      operations: 12
+    - family: fee-schedules
+      operations: 12
+    - family: eligibility-checks
+      operations: 10
+    - family: coverages
+      operations: 10
+    - family: provider-credentialing-span
+      operations: 10
+    - family: appointments
+      operations: 8
+    - family: encounters
+      operations: 8
+    - family: organization-providers
+      operations: 8
+    - family: charge_captures
+      operations: 7
+    - family: encounter-attachments
+      operations: 7
+    - family: non-insurance-payers
+      operations: 7
+    - family: organization-external-providers
+      operations: 6
+    - family: organization-service-facilities
+      operations: 6
+    - family: write-offs
+      operations: 6
+    - family: images
+      operations: 5
+    - family: patient-merge
+      operations: 5
+    - family: tags
+      operations: 5
+    - family: patient-payments
+      operations: 5
+    - family: patient-refunds
+      operations: 5
+    - family: insurance-refunds
+      operations: 5
+    - family: non-insurance-payer-payments
+      operations: 5
+    - family: non-insurance-payer-refunds
+      operations: 5
+    - family: payer-plan-groups
+      operations: 5
+    - family: service-lines
+      operations: 5
+    - family: tasks
+      operations: 5
+    - family: notes
+      operations: 4
+    - family: import-invoice
+      operations: 4
+    - family: charge_capture_claim_creation
+      operations: 4
+    - family: custom-schemas
+      operations: 4
+    - family: encounter-supplemental-information
+      operations: 4
+    - family: payers
+      operations: 4
+    - family: billing_notes
+      operations: 3
+    - family: guarantors
+      operations: 3
+    - family: diagnoses
+      operations: 3
+    - family: lists
+      operations: 2
+    - family: patient-ar
+      operations: 2
+    - family: eligibility
+      operations: 2
+    - family: events
+      operations: 2
+    - family: health-care-code-informations
+      operations: 2
+    - family: auth
+      operations: 1
+    - family: exports
+      operations: 1
+    - family: external-payment-account-config
+      operations: 1
+    - family: insurance-adjudications
+      operations: 1
+    - family: medication-dispense
+      operations: 1
+    - family: superbill
+      operations: 1
+
+notes:
+  - >-
+    The highest-value candidates for a future API MCP server are the flows
+    Candid itself documents as the integration path: POST /api/auth/v2/token
+    (get_token), POST /api/encounters/v4 (create), POST /eligibility-checks/v1
+    (post) and POST /api/charge_captures/v1 (create). Those are named here as
+    OBSERVATION, not as a claim that any tool exists for them.
+  - >-
+    Because the REST surface is entirely OAuth-gated and carries PHI, a
+    Candid API MCP server would need per-tenant credentials — which is the most
+    likely reason the published server stops at documentation search.

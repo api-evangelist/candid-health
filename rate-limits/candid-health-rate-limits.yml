@@ -1,4 +1,23 @@
 specificationVersion: '0.1'
+generated: '2026-08-15'
+method: searched
+source: https://docs.joincandidhealth.com/introduction/getting-started
+limit_count: 1
+response_headers:
+  published: false
+  ratelimit_headers: none
+  x_ratelimit_headers: none
+  retry_after: not sent
+  note: >-
+    This is the finding that matters more than the number. Candid returns 429 on
+    exhaustion but publishes NO RateLimit-* or X-RateLimit-* headers and no Retry-After,
+    so a client has no runtime signal — it cannot see remaining budget or reset time and
+    can only discover the ceiling by hitting it. Verified against the OpenAPI: the 429
+    response declared on the token endpoint carries no headers block.
+scope_note: >-
+  The limit is enforced per IP ADDRESS, not per API key or per account. Every tenant and
+  every worker behind one NAT egress shares a single bucket, so a customer's effective
+  limit depends on their network topology rather than their contract.
 id: candid-health-rate-limits
 name: Candid Health Rate Limits
 description: >-

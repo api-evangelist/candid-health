@@ -1,0 +1,84 @@
+generated: '2026-08-14'
+method: probed
+source: https://docs.joincandidhealth.com/_mcp/server
+name: Candid Health Documentation MCP Server
+description: >-
+  Candid Health advertises a remote MCP server in its llms.txt and on every
+  documentation page footer. It is live, anonymous and answers tools/list. It is
+  a DOCUMENTATION server, not an API server: the single tool it exposes searches
+  docs.joincandidhealth.com and returns passages with source URLs. No Candid
+  business operation — creating an encounter, running an eligibility check,
+  importing an invoice — is reachable through MCP. Agents that need those must
+  call the REST API with an OAuth bearer token.
+status: published
+
+deployment:
+  mode: remote
+  endpoint: https://docs.joincandidhealth.com/_mcp/server
+  auth: none
+  verified: probed
+
+server:
+  name: fern-docs-mcp-server
+  version: 1.0.0
+  protocol_version: '2025-06-18'
+  transport: streamable-http
+  content_type: text/event-stream
+  vendor: Fern (buildwithfern.com) — hosted with the documentation site
+  capabilities:
+    tools:
+      listChanged: true
+  advertised_at:
+    - https://docs.joincandidhealth.com/llms.txt
+    - https://docs.joincandidhealth.com/api-principles/conventions.md
+
+tool_count: 1
+tools:
+  - name: searchDocs
+    title: Search docs.joincandidhealth.com Docs
+    description: >-
+      Search the documentation at https://docs.joincandidhealth.com. Returns
+      relevant doc passages with source URLs.
+    read_only: true
+    input_schema:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The search query to run against the docs
+      required:
+        - query
+      additionalProperties: false
+
+raw: mcp/candid-health-mcp-tools-list.json
+
+x-evidence:
+  fetched: '2026-08-14'
+  initialize:
+    url: https://docs.joincandidhealth.com/_mcp/server
+    method: POST
+    http_status: 200
+    server_info: fern-docs-mcp-server 1.0.0
+  tools_list:
+    url: https://docs.joincandidhealth.com/_mcp/server
+    method: POST
+    http_status: 200
+    tools_returned: 1
+  oauth_discovery:
+    - url: https://docs.joincandidhealth.com/.well-known/oauth-authorization-server
+      http_status: 404
+    - url: https://docs.joincandidhealth.com/.well-known/oauth-protected-resource
+      http_status: 404
+
+notes:
+  - >-
+    The endpoint is unauthenticated — no OAuth challenge was returned and no
+    protected-resource metadata is published, consistent with a read-only docs
+    search over a public site.
+  - >-
+    Candid names Claude Code and Cursor by name as the intended clients, so the
+    server is positioned as a developer-assistance surface rather than an agent
+    integration surface.
+  - >-
+    The gap between 1 MCP tool and 251 REST operations is recorded in
+    mcp/candid-health-tool-crosswalk.yml.

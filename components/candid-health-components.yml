@@ -1,0 +1,126 @@
+generated: '2026-08-15'
+method: searched
+source: https://vitals.joincandidhealth.com/
+name: Candid Health Vitals — React Component Library
+description: >-
+  Vitals is Candid Health's first-party, publicly published React design system.
+  It ships on npm as @candidhealth/react-vitals and documents itself in a public
+  Storybook at vitals.joincandidhealth.com, with 224 catalogued stories across 45
+  components. Read it for what it is: a UI KIT, not an embedded API surface. Unlike
+  Stripe Elements or Plaid Link there is no hosted, tokenized widget that talks to
+  the Candid API on a customer's behalf — no embedded eligibility check, no hosted
+  patient-payment collection form. Vitals renders inputs and tables; the caller still
+  wires every one of them to the REST API itself.
+docs: https://vitals.joincandidhealth.com/
+package: '@candidhealth/react-vitals'
+package_detail: packages/candid-health-packages.yml
+
+distribution:
+  registry: npm
+  name: '@candidhealth/react-vitals'
+  version: 1.0.0-alpha.18
+  published: '2026-07-27'
+  dist_tags:
+    latest: 1.0.0-alpha.18
+    alpha: 1.0.0-alpha.3
+  releases: 18
+  install: npm install @candidhealth/react-vitals
+  homepage: https://vitals.joincandidhealth.com/
+  demo_repo: https://github.com/candidhealth/react-vitals-sandbox
+  maturity: alpha
+  note: >-
+    Still pre-1.0 after 18 releases. A consumer pinning this library is pinning an
+    alpha channel, and Candid publishes no stability or deprecation commitment for it
+    (the API breaking-change policy covers the REST API, not Vitals).
+
+surface:
+  framework: React
+  language: TypeScript
+  loader: npm package import (no CDN script tag, no web components, no iframe embed)
+  hosted_surfaces: none
+  api_bound_components: none
+  component_count: 45
+  story_count: 224
+  changelog: https://vitals.joincandidhealth.com/?path=/docs/docs-changelog--docs
+  setup: https://vitals.joincandidhealth.com/?path=/docs/docs-setup--docs
+  color_palette: https://vitals.joincandidhealth.com/?path=/docs/docs-color-palette--docs
+
+families:
+  - family: Core
+    count: 29
+    components:
+      - Avatar
+      - Button
+      - Callout
+      - Card
+      - Collapsible
+      - CollapsibleSection
+      - Drawer
+      - DrawerHeader
+      - HeaderTile
+      - InputBox
+      - Label
+      - EmptyState
+      - LoadingBar
+      - LoadingState
+      - Skeleton
+      - Spinner
+      - TwoCirclesSpinner
+      - Menu
+      - Modal
+      - FullscreenModal
+      - Select
+      - MultiSelect
+      - AsyncSelect
+      - AsyncMultiSelect
+      - Stepper
+      - Switch
+      - TabGroup
+      - Text
+      - Tooltip
+  - family: Forms
+    count: 12
+    components:
+      - FormCheckbox
+      - FormDatePicker
+      - FormDollarInput
+      - FormInput
+      - FormMultiSelect
+      - FormPercentInput
+      - FormPhoneNumber
+      - FormRadioButtonGroup
+      - FormSelect
+      - FormSelectWithUnselect
+      - FormSwitch
+      - FormTextArea
+    note: >-
+      FormDollarInput and FormPercentInput are the only domain-shaped components in the
+      set — they exist because everything Candid renders is money or a rate.
+  - family: Data Display
+    count: 2
+    components:
+      - Table
+      - VirtualizedTable
+  - family: Layout
+    count: 1
+    components:
+      - PageContainer
+
+x-evidence:
+  - url: https://vitals.joincandidhealth.com/
+    http_status: 200
+  - url: https://vitals.joincandidhealth.com/index.json
+    http_status: 200
+    note: Storybook v5 index; component families and counts above are read from it, not guessed.
+  - url: https://registry.npmjs.org/@candidhealth%2Freact-vitals
+    http_status: 200
+
+notes:
+  - >-
+    Publishing a design system openly is unusual for a private RCM vendor and is the
+    clearest public artifact of Candid's own product surface, but it does not move the
+    needle on API ergonomics: an integrator building against Candid gets no client-side
+    component that speaks to the API.
+  - >-
+    The Storybook is served anonymously with no auth wall, so the component inventory
+    above is fully verifiable by anyone.

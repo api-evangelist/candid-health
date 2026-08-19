@@ -1,0 +1,389 @@
+generated: '2026-08-14'
+method: derived
+source: openapi/_original/candid-health-openapi.yml
+docs: https://docs.joincandidhealth.com/api-reference
+name: Candid Health Error Catalog
+description: 'Every distinct error shape declared across the 251 operations of Candid Health''s OpenAPI.
+  Candid does NOT use RFC 9457 problem+json. It returns a Fern-style discriminated envelope on application/json:
+  a string `errorName` that is a single-value enum per error, plus a typed `content` object. `errorName`
+  — not the HTTP status — is the value a client should branch on, because one status carries many named
+  errors (404 alone carries three).'
+format: vendor-discriminated-envelope
+rfc9457: false
+media_type: application/json
+envelope:
+  discriminator: errorName
+  shape:
+    errorName: string (single-value enum, unique per error type)
+    content: object or array — the typed payload for that error
+  note: The official SDKs surface each errorName as a distinct exception class, e.g. EncounterExternalIdUniquenessError
+    in candid-python.
+status_codes:
+  '400': 13
+  '403': 55
+  '404': 120
+  '409': 33
+  '415': 1
+  '422': 85
+  '429': 1
+  '500': 4
+  '503': 1
+error_count: 34
+errors:
+- name: EntityNotFoundError
+  status:
+  - 404
+  occurrences: 94
+  content_schema:
+  - type_commons:EntityNotFoundErrorMessage
+  example_operations:
+  - GET /api/import-invoice/v1/{invoice_id} (get)
+  - PATCH /api/import-invoice/v1/{invoice_id} (update)
+  - GET /api/patient-ar/v1/invoice-itemization/{claim_id} (itemize)
+  - POST /api/patient-payments/v4 (create)
+  remediation: The referenced Candid id does not exist in your organization. Re-read the id from the create
+    response or a list/scan endpoint; ids are not shared across organizations or environments.
+- name: UnauthorizedError
+  status:
+  - 403
+  occurrences: 54
+  content_schema:
+  - type_commons:UnauthorizedErrorMessage
+  example_operations:
+  - GET /api/patient-ar/v1/inventory (list-inventory)
+  - GET /api/patient-ar/v1/invoice-itemization/{claim_id} (itemize)
+  - GET /api/patient-payments/v4 (getMulti)
+  - POST /api/patient-payments/v4 (create)
+  remediation: The bearer token is missing, expired (tokens live 5 hours) or belongs to the other environment.
+    Re-run POST /api/auth/v2/token against the SAME host family you are calling.
+- name: UnprocessableEntityError
+  status:
+  - 422
+  occurrences: 37
+  content_schema:
+  - type_commons:UnprocessableEntityErrorMessage
+  example_operations:
+  - POST /api/import-invoice/v1 (import_invoice)
+  - GET /api/patient-payments/v4 (getMulti)
+  - POST /api/patient-payments/v4 (create)
+  - PATCH /api/patient-payments/v4/{patient_payment_id} (update)
+  remediation: The payload parsed but failed a business rule. Read content for the specific rule before
+    retrying; retrying the identical body will fail identically.
+- name: NotFoundError
+  status:
+  - 404
+  occurrences: 24
+  content_schema:
+  - common:ErrorBase4xx
+  example_operations:
+  - PUT /eligibility-checks/v1/recommendation/{recommendation_id}/{version}/vote (vote-recommendation)
+  - POST /appointments/v1 (create)
+  - GET /appointments/v1/{id} (get)
+  - GET /appointments/v1/{id}/history (get_history)
+  remediation: Pre-encounter resource not found. Pre-encounter services live on pre-api.joincandidhealth.com
+    — a 404 here often means the request went to api.joincandidhealth.com instead.
+- name: VersionConflictError
+  status:
+  - 409
+  occurrences: 16
+  content_schema:
+  - common:VersionConflictErrorBody
+  example_operations:
+  - PUT /eligibility-checks/v1/recommendation/{recommendation_id}/{version}/vote (vote-recommendation)
+  - POST /appointments/v1 (create)
+  - PUT /appointments/v1/{id}/{version} (update)
+  - DELETE /appointments/v1/{id}/{version} (deactivate)
+  remediation: Pre-encounter writes are optimistic-concurrency controlled by a {version} path segment.
+    GET the resource, take the current version, and re-issue the update.
+- name: EntityConflictError
+  status:
+  - 409
+  occurrences: 14
+  content_schema:
+  - type_commons:EntityConflictErrorMessage
+  example_operations:
+  - POST /api/import-invoice/v1 (import_invoice)
+  - POST /api/encounter-providers/v2/{encounter_id}/create-referring-provider (create_referring_provider)
+  - POST /api/encounter-providers/v2/{encounter_id}/create-initial-referring-provider (create_initial_referring_provider)
+  - POST /api/encounter-providers/v2/{encounter_id}/create-supervising-provider (create_supervising_provider)
+  remediation: A uniqueness constraint was violated. Look up the existing entity by its external id rather
+    than creating a second one.
+- name: HttpRequestValidationsError
+  status:
+  - 422
+  occurrences: 13
+  content_schema:
+  - type_commons:RequestValidationError
+  example_operations:
+  - PATCH /api/billing_notes/v2/{billing_note_id} (update)
+  - POST /api/provider-credentialing-span/v2/facility (createFacility)
+  - POST /api/provider-credentialing-span/v2 (create)
+  - PATCH /api/encounter-providers/v2/{encounter_id} (update_referring_provider)
+  remediation: One or more fields failed validation; content is an ARRAY of RequestValidationError. Fix
+    every entry — the API does not report them one at a time.
+- name: BadRequestError
+  status:
+  - 400
+  occurrences: 11
+  content_schema:
+  - common:ErrorBase4xx
+  - type_commons:BadRequestErrorMessage
+  example_operations:
+  - GET /appointments/v1/visits (get_visits)
+  - GET /appointments/v1/visits/counts (get_counts)
+  - GET /coverages/v1//get-multi-paginated (get_multi_paginated)
+  - GET /coverages/v1//{id}/history (get_history)
+  remediation: The request was malformed. Check required query parameters and path segments.
+- name: HttpRequestValidationError
+  status:
+  - 422
+  occurrences: 9
+  content_schema:
+  - type_commons:RequestValidationError
+  example_operations:
+  - GET /api/eligibility/v2/availity (submit_eligibility_check_availity)
+  - POST /api/eligibility/v2/availity (submit_eligibility_check_availity_post)
+  - PUT /api/health-care-code-informations/v1/{encounter_id} (update)
+  - PATCH /api/organization-service-facilities/v2/{organization_service_facility_id} (update)
+  remediation: A single field failed validation. content names the offending field.
+- name: InternalError
+  status:
+  - 500
+  occurrences: 4
+  content_schema:
+  - common:ErrorBase5xx
+  - type_commons:InternalErrorMessage
+  example_operations:
+  - POST /patient-merge/v1 (create)
+  - GET /api/encounters/v4 (getAll)
+  - GET /api/events/v1/ (scan)
+  - GET /api/events/v1/{event_id} (get)
+  remediation: Server-side failure. Safe to retry with backoff; if it persists, contact support@joincandidhealth.com
+    with the request time and endpoint.
+- name: PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError
+  status:
+  - 422
+  occurrences: 4
+  content_schema:
+  - v4:PayerPlanGroupPayerDoesNotMatchInsuranceCardError
+  example_operations:
+  - PATCH /api/encounters/v4/{encounter_id} (update)
+  - POST /api/encounters/v4/create-from-pre-encounter/universal (create-from-pre-encounter-patient-universal)
+  - POST /api/encounters/v4/create-from-pre-encounter (create-from-pre-encounter-patient)
+  - PATCH /api/encounters/v4/{encounter_id}/universal (update-universal)
+  remediation: The payer on the payer plan group and the payer on the insurance card disagree. Align them
+    before submitting the encounter.
+- name: ChargeExternalIdConflictError
+  status:
+  - 409
+  occurrences: 2
+  content_schema:
+  - v1:ChargeExternalIdConflictErrorMessage
+  example_operations:
+  - POST /api/charge_captures/v1 (create)
+  - POST /api/charge_captures/v1/create-from-pre-encounter (create-from-pre-encounter-patient)
+  remediation: charge_external_id must be unique. Candid uses it as the client-supplied dedupe key for
+    charge capture — treat this 409 as "already created" and fetch the existing charge.
+- name: ContractInvalidExpirationDateHttpError
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - v2:ContractInvalidExpirationDateError
+  example_operations:
+  - PATCH /api/contracts/v2/{contract_id} (update)
+  - PATCH /api/contracts/v3/{contract_id} (update)
+- name: ContractIsLinkedToFeeScheduleHttpError
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - v2:ContractIsLinkedToFeeScheduleError
+  example_operations:
+  - DELETE /api/contracts/v2/{contract_id} (delete)
+  - DELETE /api/contracts/v3/{contract_id} (delete)
+- name: DiagnosisNotFoundHTTPError
+  status:
+  - 404
+  occurrences: 2
+  content_schema:
+  - type_diagnoses:DiagnosisNotFoundError
+  example_operations:
+  - PATCH /api/diagnoses/v2/{diagnosis_id} (update)
+  - DELETE /api/diagnoses/v2/{diagnosis_id} (delete)
+  remediation: The diagnosis id does not belong to the encounter you are editing.
+- name: EncounterRenderingOrAttendingProviderRequired
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - v4:EncounterRenderingOrAttendingProviderRequiredError
+  example_operations:
+  - POST /api/encounters/v4 (create)
+  - POST /api/encounters/v4/universal (create-universal)
+  remediation: Supply a rendering provider or an attending provider on the encounter.
+- name: FailedToBuildServiceLineDimensions
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - type_commons:ErrorMessage
+  example_operations:
+  - GET /api/fee-schedules/v3/service-line/{service_line_id}/match (get_match)
+  - GET /api/fee-schedules/v3/service-line/{service_line_id}/match/{rate_id} (test_match)
+- name: OrganizationNotAuthorizedError
+  status:
+  - 400
+  occurrences: 2
+  content_schema:
+  - type_commons:OrganizationNotAuthorizedErrorMessage
+  example_operations:
+  - DELETE /api/billing_notes/v2/{billing_note_id} (delete)
+  - PATCH /api/billing_notes/v2/{billing_note_id} (update)
+  remediation: Your organization does not own the entity or is not entitled to the operation. This is
+    an authorization decision, not a bad token.
+- name: PayerPlanGroupAlreadyExistsHttpError
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - v1:PayerPlanGroupAlreadyExistsError
+  example_operations:
+  - POST /api/payer-plan-groups/v1 (create)
+  - PUT /api/payer-plan-groups/v1/{payer_plan_group_id} (update)
+- name: SchemaValidationHttpFailure
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - v1:SchemaValidationFailure
+  example_operations:
+  - POST /api/custom-schemas/v1 (create)
+  - PATCH /api/custom-schemas/v1/{schema_id} (update)
+  remediation: A custom schema (custom-schemas/v1) rejected the supplied key/value payload.
+- name: UpdatesDisabledDueToExternalSystemIntegrationError
+  status:
+  - 422
+  occurrences: 2
+  content_schema:
+  - type_commons:UpdatesDisabledDueToExternalSystemIntegrationErrorMessage
+  example_operations:
+  - PATCH /api/organization-providers/v3/{organization_provider_id} (update)
+  - POST /api/organization-providers/v3 (create)
+- name: DisallowMultiplePrimaryDiagnosisHTTPError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - type_diagnoses:DisallowMultiplePrimaryDiagnosisError
+  example_operations:
+  - PATCH /api/diagnoses/v2/{diagnosis_id} (update)
+- name: EncounterHasExistingGuarantorError
+  status:
+  - 409
+  occurrences: 1
+  content_schema:
+  - v1:EncounterHasExistingGuarantorErrorType
+  example_operations:
+  - POST /api/guarantors/v1/{encounter_id} (create)
+- name: ExportDisabledError
+  status:
+  - 403
+  occurrences: 1
+  content_schema:
+  - type_commons:ErrorMessage
+  example_operations:
+  - GET /api/exports/v3 (get_exports)
+  remediation: Exports are not enabled for your organization. This is a provisioning question for Candid
+    support, not a code fix.
+- name: FeeScheduleValidationHttpError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - v3:RateUploadWithPossibleErrors
+  example_operations:
+  - POST /api/fee-schedules/v3 (upload_fee_schedule)
+- name: InvalidContentTypeError
+  status:
+  - 415
+  occurrences: 1
+  content_schema:
+  - default:InvalidContentTypeErrorType
+  example_operations:
+  - POST /api/auth/v2/token (get_token)
+  remediation: POST /api/auth/v2/token accepts application/json or application/x-www-form-urlencoded only.
+- name: InvalidFiltersError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - v1:InvalidFiltersErrorType
+  example_operations:
+  - GET /api/patient-ar/v1/inventory (list-inventory)
+- name: InvalidTagNamesError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - v4:InvalidTagNamesErrorType
+  example_operations:
+  - POST /api/medication-dispense/v1 (create)
+- name: MissingDailyIncrementalExportFileError
+  status:
+  - 503
+  occurrences: 1
+  content_schema:
+  - type_commons:ErrorMessage
+  example_operations:
+  - GET /api/exports/v3 (get_exports)
+  remediation: The daily incremental export has not been produced yet. Retry later; this is the only 503
+    in the catalog.
+- name: ReallocationWouldOverdraftError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - type_financials:ReallocationWouldOverdraftErrorContent
+  example_operations:
+  - POST /api/patient-refunds/v1 (create)
+  remediation: The allocation would take a balance below zero. Reduce the amount or free an earmark first.
+- name: ServiceLinesMustHaveAtLeastOneDiagnosisHTTPError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - type_diagnoses:ServiceLinesMustHaveAtLeastOneDiagnosisError
+  example_operations:
+  - DELETE /api/diagnoses/v2/{diagnosis_id} (delete)
+- name: TaskUpdatedToDeprecatedStatusError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - v3:TaskUpdatedToDeprecatedStatusErrorType
+  example_operations:
+  - PATCH /api/tasks/v3/{task_id} (update)
+- name: TooManyRequestsError
+  status:
+  - 429
+  occurrences: 1
+  content_schema:
+  - default:TooManyRequestsErrorType
+  example_operations:
+  - POST /api/auth/v2/token (get_token)
+  remediation: Token generation was called too often. Cache and reuse the bearer token across requests
+    for its full 5-hour life; do not mint one per call.
+- name: UnsupportedExportWindowError
+  status:
+  - 422
+  occurrences: 1
+  content_schema:
+  - type_commons:ErrorMessage
+  example_operations:
+  - GET /api/exports/v3 (get_exports)
+notes:
+- No Retry-After header is declared anywhere in the spec, including on the 429.
+- 'Only two 5xx shapes exist: InternalError (500) and MissingDailyIncrementalExportFileError (503).'
+- The 415 and the 429 are declared on exactly one operation each — POST /api/auth/v2/token.
+- '422 is the workhorse status: 24 of the 34 named errors can return it.'

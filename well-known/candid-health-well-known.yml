@@ -1,0 +1,133 @@
+generated: '2026-08-14'
+method: probed
+source: live HTTP probes of candidhealth.com, joincandidhealth.com, api.joincandidhealth.com and docs.joincandidhealth.com
+name: Candid Health .well-known Probe
+description: >-
+  Anonymous probe of the standard /.well-known/ paths on every Candid Health
+  host named in apis.yml and in the OpenAPI servers[] block. One real document
+  was served: an RFC 9727 API catalog (application/linkset+json) on the
+  documentation host, which points at the published OpenAPI. Everything else
+  404s.
+checked: '2026-08-14'
+hits: 1
+
+probes:
+
+  - host: docs.joincandidhealth.com
+    path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
+    file: well-known/candid-health-api-catalog.json
+    document: true
+    note: >-
+      A real RFC 9727 linkset. Anchors https://docs.joincandidhealth.com/api-reference
+      with service-desc https://docs.joincandidhealth.com/openapi/api-reference.yaml
+      (application/yaml) and service-doc https://docs.joincandidhealth.com/api-reference.
+
+  - host: docs.joincandidhealth.com
+    path: /.well-known/security.txt
+    status: 404
+    document: false
+  - host: docs.joincandidhealth.com
+    path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - host: docs.joincandidhealth.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - host: docs.joincandidhealth.com
+    path: /.well-known/oauth-protected-resource
+    status: 404
+    document: false
+  - host: docs.joincandidhealth.com
+    path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - host: docs.joincandidhealth.com
+    path: /.well-known/agent.json
+    status: 404
+    document: false
+
+  - host: api.joincandidhealth.com
+    path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - host: api.joincandidhealth.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - host: api.joincandidhealth.com
+    path: /.well-known/agent-card.json
+    status: 404
+    document: false
+
+  - host: candidhealth.com
+    path: /.well-known/security.txt
+    status: 404
+    document: false
+  - host: candidhealth.com
+    path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - host: candidhealth.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - host: candidhealth.com
+    path: /.well-known/agent-card.json
+    status: 404
+    document: false
+
+  - host: joincandidhealth.com
+    path: /.well-known/security.txt
+    status: 404
+    document: false
+
+  - host: app.joincandidhealth.com
+    path: /.well-known/agent-card.json
+    status: 200
+    document: false
+    checked: '2026-08-15'
+    note: >-
+      FALSE POSITIVE — the application SPA answers 200 with its index.html
+      (<!doctype html>) for every unknown path. Not an agent card. Rejected.
+  - host: vitals.joincandidhealth.com
+    path: /.well-known/agent-card.json
+    status: 200
+    document: false
+    checked: '2026-08-15'
+    note: >-
+      FALSE POSITIVE — the Vitals Storybook answers 200 with its own index.html
+      ("storybook - Storybook") for every unknown path. Not an agent card. Rejected.
+  - host: docs.joincandidhealth.com
+    path: /AGENTS.md
+    status: 200
+    document: false
+    checked: '2026-08-15'
+    note: >-
+      SOFT 404 — text/plain body reading "# Page Not Found". The Fern docs platform
+      returns 200 for unknown paths. No provider-published agent instructions exist.
+  - host: api.joincandidhealth.com
+    path: /openapi.json
+    status: 404
+    document: false
+    checked: '2026-08-15'
+    note: >-
+      Contract-discovery probe of the API HOST ROOT (STEP 0b). /swagger.json, /api-docs
+      and /graphql also 404 there; pre-api.joincandidhealth.com/openapi.json returns 403.
+      The only published machine-readable contract is on the docs host, at
+      docs.joincandidhealth.com/openapi.json — reachable and 200.
+
+notes:
+  - >-
+    The api-catalog is served by the Fern-hosted documentation platform, not by
+    the API host. It is nonetheless a genuine machine-readable pointer to Candid's
+    own OpenAPI and is the only /.well-known/ document the company serves.
+  - >-
+    No security.txt on any host, so no SecurityTxt pointer is emitted and no
+    vulnerability-disclosure contact could be discovered this way.
+  - >-
+    The OAuth token endpoint is a plain POST to /api/auth/v2/token; Candid does not
+    publish OAuth 2.0 Authorization Server Metadata (RFC 8414) or OpenID discovery,
+    even though the tokens are Auth0-issued JWTs.
