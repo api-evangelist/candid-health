@@ -70,6 +70,11 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/exports/v-3
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Export
+  - Reporting
+  - Analytics
+  - Healthcare
+  tags_raw:
   - Exports
   - Reporting
   - Analytics
@@ -110,6 +115,9 @@ apis:
   humanURL: https://docs.joincandidhealth.com/introduction/getting-started
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Authentication
+  - Security
+  tags_raw:
   - Authentication
   - OAuth
   - Security
@@ -152,7 +160,8 @@ apis:
     Health — 4 operation(s) for subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
   properties:
   - type: OpenAPI
@@ -241,7 +250,8 @@ apis:
   description: The subpackage_diagnoses API from Candid Health — 2 operation(s) for subpackage_diagnoses.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_diagnoses
   properties:
   - type: OpenAPI
@@ -271,7 +281,8 @@ apis:
     Health — 4 operation(s) for subpackage_encounter-attachments.subpackage_encounter-attachments/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
   properties:
   - type: OpenAPI
@@ -286,7 +297,8 @@ apis:
     — 9 operation(s) for subpackage_encounter-providers.subpackage_encounter-providers/v2.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_encounter-providers.subpackage_encounter-providers/v2
   properties:
   - type: OpenAPI
@@ -302,7 +314,8 @@ apis:
     API from Candid Health — 2 operation(s) for subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
   properties:
   - type: OpenAPI
@@ -363,7 +376,8 @@ apis:
     API from Candid Health — 1 operation(s) for subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1
   properties:
   - type: OpenAPI
@@ -409,7 +423,8 @@ apis:
     API from Candid Health — 1 operation(s) for subpackage_health-care-code-information.subpackage_health-care-code-information/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_health-care-code-information.subpackage_health-care-code-information/v1
   properties:
   - type: OpenAPI
@@ -439,7 +454,8 @@ apis:
     Health — 1 operation(s) for subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1
   properties:
   - type: OpenAPI
@@ -469,7 +485,8 @@ apis:
     — 1 operation(s) for subpackage_medication-dispense.subpackage_medication-dispense/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_medication-dispense.subpackage_medication-dispense/v1
   properties:
   - type: OpenAPI
@@ -485,7 +502,8 @@ apis:
     API from Candid Health — 2 operation(s) for subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
   properties:
   - type: OpenAPI
@@ -501,7 +519,8 @@ apis:
     from Candid Health — 2 operation(s) for subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
   properties:
   - type: OpenAPI
@@ -516,7 +535,8 @@ apis:
     Health — 4 operation(s) for subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
   properties:
   - type: OpenAPI
@@ -531,7 +551,8 @@ apis:
     Health — 2 operation(s) for subpackage_organization-providers.subpackage_organization-providers/v3.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_organization-providers.subpackage_organization-providers/v3
   properties:
   - type: OpenAPI
@@ -547,7 +568,8 @@ apis:
     API from Candid Health — 3 operation(s) for subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
   properties:
   - type: OpenAPI
@@ -653,7 +675,8 @@ apis:
     API from Candid Health — 6 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
   properties:
   - type: OpenAPI
@@ -669,7 +692,8 @@ apis:
     API from Candid Health — 9 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
   properties:
   - type: OpenAPI
@@ -685,7 +709,8 @@ apis:
     API from Candid Health — 7 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/eligibilitychecks.subpackage_pre-encounter/eligibilitychecks/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
   properties:
   - type: OpenAPI
@@ -701,7 +726,8 @@ apis:
     API from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
   properties:
   - type: OpenAPI
@@ -717,7 +743,8 @@ apis:
     API from Candid Health — 2 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
   properties:
   - type: OpenAPI
@@ -733,7 +760,8 @@ apis:
     API from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
   properties:
   - type: OpenAPI
@@ -749,7 +777,8 @@ apis:
     API from Candid Health — 4 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/organizationexternalproviders.subpackage_pre-encounter/organizationexternalproviders/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
   properties:
   - type: OpenAPI
@@ -765,7 +794,8 @@ apis:
     API from Candid Health — 10 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
   properties:
   - type: OpenAPI
@@ -781,7 +811,8 @@ apis:
     API from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1.
   humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   baseURL: https://pre-api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
   properties:
   - type: OpenAPI
@@ -919,6 +950,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
   baseURL: https://api.joincandidhealth.com/api
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
