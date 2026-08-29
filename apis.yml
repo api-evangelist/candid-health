@@ -1234,6 +1234,9 @@ apis:
   - type: OpenAPI
     url: openapi/candid-health-charge-capture-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/candid-health-capability-edges.yml
+  name: Candid Health Business Capability Map
 - type: AgenticAccess
   url: agentic-access/candid-health-agentic-access.yml
 - type: DomainSecurity

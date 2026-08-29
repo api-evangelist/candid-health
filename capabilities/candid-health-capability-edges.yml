@@ -1,0 +1,85 @@
+slug: candid-health
+provider: Candid Health
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: subpackage_patient-ar.subpackage_patient-ar/v1
+  spec_file: candid-health-subpackage-patient-ar-subpackage-patient-ar-v1-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.85
+  evidence: GET /api/patient-ar/v1/inventory 'List Inventory Records'; GET /api/patient-ar/v1/invoice-itemization/{claim_id}
+    'Invoice Itemization'
+  reason: '''AR'' here is patient accounts receivable: listing outstanding receivable inventory and itemising
+    invoices per claim. Squarely Accounts Receivable Management; ''inventory'' is a homograph for the
+    AR work queue, not stock.'
+- tag: subpackage_patient-payments.subpackage_patient-payments/v4
+  spec_file: candid-health-subpackage-patient-payments-subpackage-patient-payments-v4-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.85
+  evidence: POST /api/patient-payments/v4 'Create patient payment'; schemas type_financials_AllocationCreate,
+    type_financials_InvoiceUpdate, type_commons_ClaimId
+  reason: Capture of patient payments and their allocation against invoices, claims and service lines
+    — customer collections and cash application within receivables.
+- tag: subpackage_patient-refunds.subpackage_patient-refunds/v1
+  spec_file: candid-health-subpackage-patient-refunds-subpackage-patient-refunds-v1-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.8
+  evidence: POST /api/patient-refunds/v1 'Create patient refund'; type_financials_RefundReason, type_financials_AllocationTarget
+  reason: Refunds to patients with reallocation against claims/service lines and overdraft checks — receivables
+    adjustment and cash application accounting.
+- tag: subpackage_import-invoice.subpackage_import-invoice/v1
+  spec_file: candid-health-subpackage-import-invoice-subpackage-import-invoice-v1-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: POST /api/import-invoice/v1 'Import Invoice'; schemas type_commons_InvoiceId, type_commons_PatientExternalId
+  reason: Operations create, retrieve and update invoices tied to patients/encounters — customer invoicing
+    and receivables records, i.e. Accounts Receivable Management. Not subscription billing (no plans,
+    metering or recurring charges).
+- tag: subpackage_insurance-refunds.subpackage_insurance-refunds/v1
+  spec_file: candid-health-subpackage-insurance-refunds-subpackage-insurance-refunds-v1-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: POST /api/insurance-refunds/v1 'Create insurance refund'; schemas type_financials_RefundReason,
+    type_commons_ClaimId
+  reason: Financial transactions adjusting amounts received against claims (refunds to payers) — part
+    of receivables/cash-application accounting rather than any clinical or subscription capability.
+- tag: subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
+  spec_file: candid-health-subpackage-non-insurance-payer-payments-subpackage-non-insurance-payer-payments-v1-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: POST /api/non-insurance-payer-payments/v1 'Create non-insurance payer payment'; schemas type_financials_InvoiceUpdate,
+    type_commons_InvoiceId
+  reason: Recording of payments received from non-insurance payers against invoices — cash receipt and
+    application against receivables.
+- tag: subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
+  spec_file: candid-health-subpackage-non-insurance-payer-refunds-subpackage-non-insurance-payer-refunds-v1-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: POST /api/non-insurance-payer-refunds/v1 'Create non-insurance payer refund'; type_financials_RefundReason,
+    type_financials_InvoiceUpdate
+  reason: Refund transactions against invoices for non-insurance payers — adjustments within receivables/cash
+    application accounting.
