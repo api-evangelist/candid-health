@@ -1,0 +1,145 @@
+openapi: 3.2.0
+info:
+  title: Candid Health Auth Eligibility API
+  description: REST API for Candid Health, an autonomous medical-billing and revenue-cycle management platform. Submit encounters and claims, run eligibility checks, capture charges, look up payers and fee schedules, retrieve insurance adjudications (ERAs / remits), and scan billing lifecycle events. All requests are authenticated with an OAuth bearer token obtained from the auth token endpoint.
+  termsOfService: https://www.joincandidhealth.com
+  contact:
+    name: Candid Health Support
+    url: https://docs.joincandidhealth.com/additional-resources/support
+  version: '1.0'
+servers:
+- url: https://api.joincandidhealth.com/api
+  description: Candid Health production API
+security:
+- bearerAuth: []
+tags:
+- name: Eligibility
+  description: Real-time and batch insurance eligibility checks.
+paths:
+  /eligibility/v2:
+    post:
+      operationId: submitEligibilityCheck
+      tags:
+      - Eligibility
+      summary: Submit an encounter eligibility check.
+      description: Runs a real-time eligibility check against a payer to confirm active coverage and surface patient benefit detail.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EligibilityCheckRequest'
+      responses:
+        '200':
+          description: Eligibility result (270/271 response detail).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EligibilityCheckResponse'
+  /pre-encounter/coverages/v1/check_eligibility:
+    post:
+      operationId: checkCoverageEligibility
+      tags:
+      - Eligibility
+      summary: Check eligibility for a stored coverage.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EligibilityCheckRequest'
+      responses:
+        '200':
+          description: Eligibility result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EligibilityCheckResponse'
+components:
+  schemas:
+    EligibilityCheckResponse:
+      type: object
+      properties:
+        eligibility_check_id:
+          type: string
+          format: uuid
+        active_coverage:
+          type: boolean
+        benefits:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              coverage_level:
+                type: string
+              amount_cents:
+                type: integer
+        raw_271:
+          type: object
+          description: Raw 271 eligibility response payload.
+    EligibilityCheckRequest:
+      type: object
+      properties:
+        payer_id:
+          type: string
+        provider:
+          $ref: '#/components/schemas/BillingProvider'
+        subscriber:
+          $ref: '#/components/schemas/Patient'
+        service_type_codes:
+          type: array
+          items:
+            type: string
+        date_of_service:
+          type: string
+          format: date
+    Address:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type:
+          - string
+          - 'null'
+        city:
+          type: string
+        state:
+          type: string
+        zip_code:
+          type: string
+    Patient:
+      type: object
+      properties:
+        external_id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        gender:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+    BillingProvider:
+      type: object
+      properties:
+        organization_name:
+          type: string
+        npi:
+          type: string
+        tax_id:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'OAuth bearer token obtained from POST /auth/v2/token. Send as `Authorization: Bearer <access_token>`.'

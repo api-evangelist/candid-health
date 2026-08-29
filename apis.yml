@@ -142,1097 +142,228 @@ apis:
   properties:
   - type: Documentation
     url: https://docs.joincandidhealth.com/introduction/getting-started
-- aid: candid-health:candid-health-subpackage-auth-subpackage-auth-default-api
-  name: Candid Health subpackage_auth.subpackage_auth/default API
-  description: >-
-    The subpackage_auth.subpackage_auth/default API from Candid Health — 1 operation(s) for subpackage_auth.subpackage_auth/default.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_auth.subpackage_auth/default
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-auth-subpackage-auth-default-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-billing-notes-subpackage-billing-notes-v2-api
-  name: Candid Health subpackage_billing-notes.subpackage_billing-notes/v2 API
-  description: >-
-    The subpackage_billing-notes.subpackage_billing-notes/v2 API from Candid Health — 2 operation(s) for
-    subpackage_billing-notes.subpackage_billing-notes/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_billing-notes.subpackage_billing-notes/v2
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-billing-notes-subpackage-billing-notes-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-charge-capture-bundles-subpackage-charge-capture-bundles-v1-api
-  name: Candid Health subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1 API
-  description: >-
-    The subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1 API from Candid Health
-    — 4 operation(s) for subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_charge-capture-bundles.subpackage_charge-capture-bundles/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-charge-capture-bundles-subpackage-charge-capture-bundles-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-charge-capture-subpackage-charge-capture-v1-api
-  name: Candid Health subpackage_charge-capture.subpackage_charge-capture/v1 API
-  description: >-
-    The subpackage_charge-capture.subpackage_charge-capture/v1 API from Candid Health — 5 operation(s)
-    for subpackage_charge-capture.subpackage_charge-capture/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_charge-capture.subpackage_charge-capture/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-charge-capture-subpackage-charge-capture-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-contracts-subpackage-contracts-v2-api
-  name: Candid Health subpackage_contracts.subpackage_contracts/v2 API
-  description: >-
-    The subpackage_contracts.subpackage_contracts/v2 API from Candid Health — 2 operation(s) for subpackage_contracts.subpackage_contracts/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_contracts.subpackage_contracts/v2
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-contracts-subpackage-contracts-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-contracts-subpackage-contracts-v3-api
-  name: Candid Health subpackage_contracts.subpackage_contracts/v3 API
-  description: >-
-    The subpackage_contracts.subpackage_contracts/v3 API from Candid Health — 6 operation(s) for subpackage_contracts.subpackage_contracts/v3.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_contracts.subpackage_contracts/v3
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-contracts-subpackage-contracts-v3-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-credentialing-subpackage-credentialing-v2-api
-  name: Candid Health subpackage_credentialing.subpackage_credentialing/v2 API
-  description: >-
-    The subpackage_credentialing.subpackage_credentialing/v2 API from Candid Health — 4 operation(s) for
-    subpackage_credentialing.subpackage_credentialing/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_credentialing.subpackage_credentialing/v2
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-credentialing-subpackage-credentialing-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-custom-schemas-subpackage-custom-schemas-v1-api
-  name: Candid Health subpackage_custom-schemas.subpackage_custom-schemas/v1 API
-  description: >-
-    The subpackage_custom-schemas.subpackage_custom-schemas/v1 API from Candid Health — 2 operation(s)
-    for subpackage_custom-schemas.subpackage_custom-schemas/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_custom-schemas.subpackage_custom-schemas/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-custom-schemas-subpackage-custom-schemas-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-diagnoses-api
-  name: Candid Health subpackage_diagnoses API
-  description: >-
-    The subpackage_diagnoses API from Candid Health — 2 operation(s) for subpackage_diagnoses.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_diagnoses
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-diagnoses-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-eligibility-subpackage-eligibility-v2-api
-  name: Candid Health subpackage_eligibility.subpackage_eligibility/v2 API
-  description: >-
-    The subpackage_eligibility.subpackage_eligibility/v2 API from Candid Health — 1 operation(s) for subpackage_eligibility.subpackage_eligibility/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_eligibility.subpackage_eligibility/v2
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-eligibility-subpackage-eligibility-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-encounter-attachments-subpackage-encounter-attachments-v1-api
-  name: Candid Health subpackage_encounter-attachments.subpackage_encounter-attachments/v1 API
-  description: >-
-    The subpackage_encounter-attachments.subpackage_encounter-attachments/v1 API from Candid Health —
-    4 operation(s) for subpackage_encounter-attachments.subpackage_encounter-attachments/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_encounter-attachments.subpackage_encounter-attachments/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-encounter-attachments-subpackage-encounter-attachments-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-encounter-providers-subpackage-encounter-providers-v2-api
-  name: Candid Health subpackage_encounter-providers.subpackage_encounter-providers/v2 API
-  description: >-
-    The subpackage_encounter-providers.subpackage_encounter-providers/v2 API from Candid Health — 9 operation(s)
-    for subpackage_encounter-providers.subpackage_encounter-providers/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_encounter-providers.subpackage_encounter-providers/v2
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-encounter-providers-subpackage-encounter-providers-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-encounter-supplemental-information-subpackage-encounter-supplemental-information-v1-api
-  name: >-
-    Candid Health subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
-    API
-  description: >-
-    The subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
-    API from Candid Health — 2 operation(s) for subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_encounter-supplemental-information.subpackage_encounter-supplemental-information/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-encounter-supplemental-information-subpackage-encounter-supplemental-information-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-encounters-subpackage-encounters-v4-api
-  name: Candid Health subpackage_encounters.subpackage_encounters/v4 API
-  description: >-
-    The subpackage_encounters.subpackage_encounters/v4 API from Candid Health — 6 operation(s) for subpackage_encounters.subpackage_encounters/v4.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_encounters.subpackage_encounters/v4
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-encounters-subpackage-encounters-v4-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-events-subpackage-events-v1-api
-  name: Candid Health subpackage_events.subpackage_events/v1 API
-  description: >-
-    The subpackage_events.subpackage_events/v1 API from Candid Health — 2 operation(s) for subpackage_events.subpackage_events/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_events.subpackage_events/v1
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-events-subpackage-events-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-exports-subpackage-exports-v3-api
-  name: Candid Health subpackage_exports.subpackage_exports/v3 API
-  description: >-
-    The subpackage_exports.subpackage_exports/v3 API from Candid Health — 1 operation(s) for subpackage_exports.subpackage_exports/v3.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_exports.subpackage_exports/v3
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-exports-subpackage-exports-v3-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-external-payment-account-config-subpackage-external-payment-account-config-v1-api
-  name: >-
-    Candid Health subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1
-    API
-  description: >-
-    The subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1 API from
-    Candid Health — 1 operation(s) for subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_external-payment-account-config.subpackage_external-payment-account-config/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-external-payment-account-config-subpackage-external-payment-account-config-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-fee-schedules-subpackage-fee-schedules-v3-api
-  name: Candid Health subpackage_fee-schedules.subpackage_fee-schedules/v3 API
-  description: >-
-    The subpackage_fee-schedules.subpackage_fee-schedules/v3 API from Candid Health — 11 operation(s)
-    for subpackage_fee-schedules.subpackage_fee-schedules/v3.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_fee-schedules.subpackage_fee-schedules/v3
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-fee-schedules-subpackage-fee-schedules-v3-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-guarantor-subpackage-guarantor-v1-api
-  name: Candid Health subpackage_guarantor.subpackage_guarantor/v1 API
-  description: >-
-    The subpackage_guarantor.subpackage_guarantor/v1 API from Candid Health — 2 operation(s) for subpackage_guarantor.subpackage_guarantor/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_guarantor.subpackage_guarantor/v1
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-guarantor-subpackage-guarantor-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-health-care-code-information-subpackage-health-care-code-information-v1-api
-  name: >-
-    Candid Health subpackage_health-care-code-information.subpackage_health-care-code-information/v1 API
-  description: >-
-    The subpackage_health-care-code-information.subpackage_health-care-code-information/v1 API from Candid
-    Health — 1 operation(s) for subpackage_health-care-code-information.subpackage_health-care-code-information/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_health-care-code-information.subpackage_health-care-code-information/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-health-care-code-information-subpackage-health-care-code-information-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-import-invoice-subpackage-import-invoice-v1-api
-  name: Candid Health subpackage_import-invoice.subpackage_import-invoice/v1 API
-  description: >-
-    The subpackage_import-invoice.subpackage_import-invoice/v1 API from Candid Health — 2 operation(s)
-    for subpackage_import-invoice.subpackage_import-invoice/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_import-invoice.subpackage_import-invoice/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-import-invoice-subpackage-import-invoice-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-insurance-adjudications-subpackage-insurance-adjudications-v1-api
-  name: >-
-    Candid Health subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1 API
-  description: >-
-    The subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1 API from Candid Health
-    — 1 operation(s) for subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_insurance-adjudications.subpackage_insurance-adjudications/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-insurance-adjudications-subpackage-insurance-adjudications-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-insurance-refunds-subpackage-insurance-refunds-v1-api
-  name: Candid Health subpackage_insurance-refunds.subpackage_insurance-refunds/v1 API
-  description: >-
-    The subpackage_insurance-refunds.subpackage_insurance-refunds/v1 API from Candid Health — 2 operation(s)
-    for subpackage_insurance-refunds.subpackage_insurance-refunds/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_insurance-refunds.subpackage_insurance-refunds/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-insurance-refunds-subpackage-insurance-refunds-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-medication-dispense-subpackage-medication-dispense-v1-api
-  name: Candid Health subpackage_medication-dispense.subpackage_medication-dispense/v1 API
-  description: >-
-    The subpackage_medication-dispense.subpackage_medication-dispense/v1 API from Candid Health — 1 operation(s)
-    for subpackage_medication-dispense.subpackage_medication-dispense/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_medication-dispense.subpackage_medication-dispense/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-medication-dispense-subpackage-medication-dispense-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-non-insurance-payer-payments-subpackage-non-insurance-payer-payments-v1-api
-  name: >-
-    Candid Health subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1 API
-  description: >-
-    The subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1 API from Candid
-    Health — 2 operation(s) for subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_non-insurance-payer-payments.subpackage_non-insurance-payer-payments/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-non-insurance-payer-payments-subpackage-non-insurance-payer-payments-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-non-insurance-payer-refunds-subpackage-non-insurance-payer-refunds-v1-api
-  name: >-
-    Candid Health subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1 API
-  description: >-
-    The subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1 API from Candid
-    Health — 2 operation(s) for subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_non-insurance-payer-refunds.subpackage_non-insurance-payer-refunds/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-non-insurance-payer-refunds-subpackage-non-insurance-payer-refunds-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-non-insurance-payers-subpackage-non-insurance-payers-v1-api
-  name: Candid Health subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1 API
-  description: >-
-    The subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1 API from Candid Health — 4
-    operation(s) for subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_non-insurance-payers.subpackage_non-insurance-payers/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-non-insurance-payers-subpackage-non-insurance-payers-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-organization-providers-subpackage-organization-providers-v3-api
-  name: Candid Health subpackage_organization-providers.subpackage_organization-providers/v3 API
-  description: >-
-    The subpackage_organization-providers.subpackage_organization-providers/v3 API from Candid Health
-    — 2 operation(s) for subpackage_organization-providers.subpackage_organization-providers/v3.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_organization-providers.subpackage_organization-providers/v3
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-organization-providers-subpackage-organization-providers-v3-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-organization-service-facilities-subpackage-organization-service-facilities-v2-api
-  name: >-
-    Candid Health subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
-    API
-  description: >-
-    The subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2 API from
-    Candid Health — 3 operation(s) for subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_organization-service-facilities.subpackage_organization-service-facilities/v2
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-organization-service-facilities-subpackage-organization-service-facilities-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-patient-ar-subpackage-patient-ar-v1-api
-  name: Candid Health subpackage_patient-ar.subpackage_patient-ar/v1 API
-  description: >-
-    The subpackage_patient-ar.subpackage_patient-ar/v1 API from Candid Health — 2 operation(s) for subpackage_patient-ar.subpackage_patient-ar/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_patient-ar.subpackage_patient-ar/v1
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-patient-ar-subpackage-patient-ar-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-patient-payments-subpackage-patient-payments-v4-api
-  name: Candid Health subpackage_patient-payments.subpackage_patient-payments/v4 API
-  description: >-
-    The subpackage_patient-payments.subpackage_patient-payments/v4 API from Candid Health — 2 operation(s)
-    for subpackage_patient-payments.subpackage_patient-payments/v4.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_patient-payments.subpackage_patient-payments/v4
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-patient-payments-subpackage-patient-payments-v4-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-patient-refunds-subpackage-patient-refunds-v1-api
-  name: Candid Health subpackage_patient-refunds.subpackage_patient-refunds/v1 API
-  description: >-
-    The subpackage_patient-refunds.subpackage_patient-refunds/v1 API from Candid Health — 2 operation(s)
-    for subpackage_patient-refunds.subpackage_patient-refunds/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_patient-refunds.subpackage_patient-refunds/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-patient-refunds-subpackage-patient-refunds-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-payer-plan-groups-subpackage-payer-plan-groups-v1-api
-  name: Candid Health subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1 API
-  description: >-
-    The subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1 API from Candid Health — 2 operation(s)
-    for subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_payer-plan-groups.subpackage_payer-plan-groups/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-payer-plan-groups-subpackage-payer-plan-groups-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-payers-subpackage-payers-v3-api
-  name: Candid Health subpackage_payers.subpackage_payers/v3 API
-  description: >-
-    The subpackage_payers.subpackage_payers/v3 API from Candid Health — 2 operation(s) for subpackage_payers.subpackage_payers/v3.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_payers.subpackage_payers/v3
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-payers-subpackage-payers-v3-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-payers-subpackage-payers-v4-api
-  name: Candid Health subpackage_payers.subpackage_payers/v4 API
-  description: >-
-    The subpackage_payers.subpackage_payers/v4 API from Candid Health — 2 operation(s) for subpackage_payers.subpackage_payers/v4.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_payers.subpackage_payers/v4
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-payers-subpackage-payers-v4-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-appointments-subpackage-pre-encounter-appointments-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
-    API from Candid Health — 6 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/appointments.subpackage_pre-encounter/appointments/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-appointments-subpackage-pre-encounter-appointments-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-coverages-subpackage-pre-encounter-coverages-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
-    API from Candid Health — 9 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/coverages.subpackage_pre-encounter/coverages/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-coverages-subpackage-pre-encounter-coverages-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-eligibilitychecks-subpackage-pre-encounter-eligibilitychecks-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
-    API from Candid Health — 7 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/eligibilitychecks.subpackage_pre-encounter/eligibilitychecks/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/eligibilityChecks.subpackage_pre-encounter/eligibilityChecks/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-eligibilitychecks-subpackage-pre-encounter-eligibilitychecks-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-images-subpackage-pre-encounter-images-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1 API
-    from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/images.subpackage_pre-encounter/images/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-images-subpackage-pre-encounter-images-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-lists-subpackage-pre-encounter-lists-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1 API
-    from Candid Health — 2 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/lists.subpackage_pre-encounter/lists/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-lists-subpackage-pre-encounter-lists-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-notes-subpackage-pre-encounter-notes-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1 API
-    from Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/notes.subpackage_pre-encounter/notes/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-notes-subpackage-pre-encounter-notes-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-organizationexternalproviders-subpackage-pre-encounter-organizationexternalproviders-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
-    API from Candid Health — 4 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/organizationexternalproviders.subpackage_pre-encounter/organizationexternalproviders/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/organizationExternalProviders.subpackage_pre-encounter/organizationExternalProviders/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-organizationexternalproviders-subpackage-pre-encounter-organizationexternalproviders-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-patients-subpackage-pre-encounter-patients-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
-    API from Candid Health — 10 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - >-
-    subpackage_pre-encounter.subpackage_pre-encounter/patients.subpackage_pre-encounter/patients/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-patients-subpackage-pre-encounter-patients-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: >-
-    candid-health:candid-health-subpackage-pre-encounter-subpackage-pre-encounter-tags-subpackage-pre-encounter-tags-v1-api
-  name: >-
-    Candid Health subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
-    API
-  description: >-
-    The subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1 API from
-    Candid Health — 3 operation(s) for subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://pre-api.joincandidhealth.com
-  tags: []
-  tags_raw:
-  - subpackage_pre-encounter.subpackage_pre-encounter/tags.subpackage_pre-encounter/tags/v1
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-pre-encounter-subpackage-pre-encounter-tags-subpackage-pre-encounter-tags-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-service-lines-subpackage-service-lines-v2-api
-  name: Candid Health subpackage_service-lines.subpackage_service-lines/v2 API
-  description: >-
-    The subpackage_service-lines.subpackage_service-lines/v2 API from Candid Health — 4 operation(s) for
-    subpackage_service-lines.subpackage_service-lines/v2.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_service-lines.subpackage_service-lines/v2
-  properties:
-  - type: OpenAPI
-    url: >-
-      openapi/candid-health-subpackage-service-lines-subpackage-service-lines-v2-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-superbills-subpackage-superbills-v1-api
-  name: Candid Health subpackage_superbills.subpackage_superbills/v1 API
-  description: >-
-    The subpackage_superbills.subpackage_superbills/v1 API from Candid Health — 1 operation(s) for subpackage_superbills.subpackage_superbills/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_superbills.subpackage_superbills/v1
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-superbills-subpackage-superbills-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-tasks-subpackage-tasks-v3-api
-  name: Candid Health subpackage_tasks.subpackage_tasks/v3 API
-  description: >-
-    The subpackage_tasks.subpackage_tasks/v3 API from Candid Health — 3 operation(s) for subpackage_tasks.subpackage_tasks/v3.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_tasks.subpackage_tasks/v3
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-tasks-subpackage-tasks-v3-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candid-health-subpackage-write-offs-subpackage-write-offs-v1-api
-  name: Candid Health subpackage_write-offs.subpackage_write-offs/v1 API
-  description: >-
-    The subpackage_write-offs.subpackage_write-offs/v1 API from Candid Health — 5 operation(s) for subpackage_write-offs.subpackage_write-offs/v1.
-  humanURL: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  baseURL: https://api.joincandidhealth.com
-  tags:
-  - subpackage_write-offs.subpackage_write-offs/v1
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-subpackage-write-offs-subpackage-write-offs-v1-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
-- aid: candid-health:candidhealth-eligibility-api
-  name: Candid Health Eligibility API
-  description: Real-time and batch insurance eligibility checks.
-  humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  baseURL: https://api.joincandidhealth.com/api
-  tags:
-  - Eligibility
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-eligibility-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
-  - type: PostmanCollection
-    url: collections/candidhealth.postman_collection.json
-  - type: OpenCollection
-    url: collections/candidhealth.opencollection.json
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
-  - type: APIReference
-    url: >-
-      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candidhealth-encounters-api
-  name: Candid Health Encounters API
-  description: Submit and manage encounters that drive claim generation.
-  humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  baseURL: https://api.joincandidhealth.com/api
-  tags:
-  - Encounters
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-encounters-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
-  - type: PostmanCollection
-    url: collections/candidhealth.postman_collection.json
-  - type: OpenCollection
-    url: collections/candidhealth.opencollection.json
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
-  - type: APIReference
-    url: >-
-      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candidhealth-events-api
-  name: Candid Health Events API
-  description: Scan and retrieve billing lifecycle events.
-  humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  baseURL: https://api.joincandidhealth.com/api
-  tags:
-  - Event
-  tags_raw:
-  - Events
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-events-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
-  - type: PostmanCollection
-    url: collections/candidhealth.postman_collection.json
-  - type: OpenCollection
-    url: collections/candidhealth.opencollection.json
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
-  - type: APIReference
-    url: >-
-      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candidhealth-fee-schedules-api
-  name: Candid Health Fee Schedules API
-  description: Resolve contracted rates for service lines.
-  humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  baseURL: https://api.joincandidhealth.com/api
-  tags:
-  - Fee Schedules
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-fee-schedules-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
-  - type: PostmanCollection
-    url: collections/candidhealth.postman_collection.json
-  - type: OpenCollection
-    url: collections/candidhealth.opencollection.json
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
-  - type: APIReference
-    url: >-
-      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candidhealth-insurance-adjudications-api
-  name: Candid Health Insurance Adjudications API
-  description: Retrieve ERA / 835 remittance adjudication detail.
-  humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  baseURL: https://api.joincandidhealth.com/api
-  tags:
-  - Insurance Adjudications
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-insurance-adjudications-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
-  - type: PostmanCollection
-    url: collections/candidhealth.postman_collection.json
-  - type: OpenCollection
-    url: collections/candidhealth.opencollection.json
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
-  - type: APIReference
-    url: >-
-      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candidhealth-payers-api
-  name: Candid Health Payers API
-  description: Look up insurance payers.
-  humanURL: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  baseURL: https://api.joincandidhealth.com/api
-  tags:
-  - Payers
-  properties:
-  - type: OpenAPI
-    url: openapi/candid-health-payers-api-openapi.yml
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
-  - type: PostmanCollection
-    url: collections/candidhealth.postman_collection.json
-  - type: OpenCollection
-    url: collections/candidhealth.opencollection.json
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
-  - type: APIReference
-    url: >-
-      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
-  - type: APIReference
-    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
-  - type: Documentation
-    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candid-health-auth-api
-  name: Candid Health Auth API
-  description: OAuth client-credentials token exchange.
+- aid: candid-health:candid-health-default-api
+  name: Candid Health Default API
+  description: The default API from Candid Health — 1 operation(s) for default.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - Auth
+  - default
   properties:
   - type: OpenAPI
-    url: openapi/candid-health-auth-api-openapi.yml
-- aid: candid-health:candid-health-charge-capture-api
-  name: Candid Health Charge Capture API
-  description: Capture charges and service lines ahead of claim assembly.
+    url: openapi/candid-health-default-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-diagnoses-api
+  name: Candid Health Diagnoses API
+  description: The diagnoses API from Candid Health — 2 operation(s) for diagnoses.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - Charge Capture
+  - diagnoses
   properties:
   - type: OpenAPI
-    url: openapi/candid-health-charge-capture-api-openapi.yml
+    url: openapi/candid-health-diagnoses-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-v1-api
+  name: Candid Health V1 API
+  description: The v1 API from Candid Health — 105 operation(s) for v1.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - v1
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-v1-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-v2-api
+  name: Candid Health V2 API
+  description: The v2 API from Candid Health — 25 operation(s) for v2.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - v2
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-v2-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-v3-api
+  name: Candid Health V3 API
+  description: The v3 API from Candid Health — 28 operation(s) for v3.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - v3
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-v3-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-v4-api
+  name: Candid Health V4 API
+  description: The v4 API from Candid Health — 10 operation(s) for v4.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - v4
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-v4-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
 common:
 - type: CapabilityMap
   url: capabilities/candid-health-capability-edges.yml

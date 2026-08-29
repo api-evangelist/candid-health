@@ -1,0 +1,5333 @@
+openapi: 3.2.0
+info:
+  title: Reference V3 API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: v3
+paths:
+  /api/contracts/v3/{contract_id}:
+    get:
+      operationId: get
+      summary: Get contract
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractWithProvidersUnion'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    delete:
+      operationId: delete
+      summary: Delete contract
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractIsLinkedToFeeScheduleHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts_v2_ContractIsLinkedToFeeScheduleError'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update contract
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractWithProvidersUnion'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractInvalidExpirationDateHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts_v2_ContractInvalidExpirationDateError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_contracts_v3_ContractUpdateUnion'
+  /api/contracts/v3:
+    get:
+      operationId: get_multi
+      summary: Get all contracts
+      tags:
+      - v3
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of contracts returned. Defaults to 1000. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: type
+        in: query
+        description: The type of contract
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractType'
+      - name: contracting_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractingProviderId'
+      - name: rendering_provider_ids
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+      - name: payer_names
+        in: query
+        description: Filter to contracts that include any of the included payer names.
+        required: false
+        schema:
+          type: string
+      - name: states
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_State'
+      - name: contract_status
+        in: query
+        description: The status of the contract. Defaults to `pending`
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+      - name: sort
+        in: query
+        description: Potentially sort by a contract related attribute.  Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractSortField'
+      - name: sort_direction
+        in: query
+        description: Direction of sort, defaulting to desc
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_SortDirection'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractsPage'
+    post:
+      operationId: create
+      summary: Create contract
+      description: Creates a new contract within the user's current organization
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractWithProvidersUnion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_contracts_v3_ContractCreateUnion'
+  /api/contracts/v3/{contract_id}/providers:
+    get:
+      operationId: get_contract_providers
+      summary: Get contract providers
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of providers returned per page. Defaults to 100. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractProvidersPage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: add_contract_providers
+      summary: Add providers to contract
+      description: Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_AddContractProvidersResponse'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+                  description: Provider IDs to add to the contract. Max 100,000 per request.
+              required:
+              - rendering_provider_ids
+    delete:
+      operationId: remove_contract_providers
+      summary: Remove providers from contract
+      description: Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractProviderCount'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+                  description: Provider IDs to remove from the contract. Max 100,000 per request.
+              required:
+              - rendering_provider_ids
+  /api/contracts/v3/{contract_id}/providers/credentialing:
+    get:
+      operationId: get_contract_provider_credentialing_spans
+      summary: Get contract provider credentialing spans
+      description: Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list.
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of providers returned per page. Defaults to 100. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractProviderCredentialingPage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/contracts/v3/{contract_id}/service-facilities:
+    post:
+      operationId: create_contract_service_facility
+      summary: Create contract service facility
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacility'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_facility_id:
+                  type: string
+                  format: uuid
+                  description: The UUID of the service facility
+                provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
+                  description: The providers who are authorized under the contract
+              required:
+              - service_facility_id
+              - provider_ids
+  /api/contracts/v3/{contract_id}/service-facilities/{contract_service_facility_id}:
+    patch:
+      operationId: update_contract_service_facility
+      summary: Update contract service facility
+      tags:
+      - v3
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: contract_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacility'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_facility_id:
+                  type: string
+                  format: uuid
+                  description: The UUID of the service facility
+                provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
+                  description: The providers who are authorized under the contract
+  /api/exports/v3:
+    get:
+      operationId: get_exports
+      summary: Get exports
+      description: '<Warning>
+
+        API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+
+        Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+
+        </Warning>
+
+
+        Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
+
+        authenticated URL to a customer''s reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
+
+
+        **Schema changes:** Changing column order, removing columns, or changing the name of a column is considered a
+
+        [Breaking Change](../../../api-principles/breaking-changes). Adding new columns to the end of the Exports file is not considered a
+
+        Breaking Change and happens periodically. For this reason, it is important that any downstream automation or processes built on top
+
+        of Candid Health''s export files be resilient to the addition of new columns at the end of the file.
+
+
+        **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday''s file will be
+
+        available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
+
+        caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
+
+        up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
+
+        outside of these stated guarantees.'
+      tags:
+      - v3
+      parameters:
+      - name: start_date
+        in: query
+        description: 'Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.
+
+          Must be at least 1 calendar day in the past. Cannot be earlier than 2022-10-07.'
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: end_date
+        in: query
+        description: 'Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.
+
+          Must be within 30 days of start_date.'
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_exports_v3_GetExportsResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ExportDisabledError
+                  content:
+                    $ref: '#/components/schemas/type_commons_ErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnsupportedExportWindowError
+                  content:
+                    $ref: '#/components/schemas/type_commons_ErrorMessage'
+                required:
+                - errorName
+                - content
+        '503':
+          description: Error response with status 503
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - MissingDailyIncrementalExportFileError
+                  content:
+                    $ref: '#/components/schemas/type_commons_ErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/fee-schedules/v3/service-line/{service_line_id}/match:
+    get:
+      operationId: get_match
+      summary: Get Match
+      description: Gets the rate that matches a service line.  No result means no rate exists matching the service line's dimensions.
+      tags:
+      - v3
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_MatchResult'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - FailedToBuildServiceLineDimensions
+                  content:
+                    $ref: '#/components/schemas/type_commons_ErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/fee-schedules/v3/service-line/{service_line_id}/match/{rate_id}:
+    get:
+      operationId: test_match
+      summary: Test Match
+      description: Tests a service line against a rate to see if it matches.
+      tags:
+      - v3
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+      - name: rate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_RateId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_MatchTestResult'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - FailedToBuildServiceLineDimensions
+                  content:
+                    $ref: '#/components/schemas/type_commons_ErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/fee-schedules/v3:
+    get:
+      operationId: get_multi
+      summary: Get Multi
+      description: Gets a list of dimensions with their rates. The rates returned will always be the most recent versions of those rates.
+      tags:
+      - v3
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of dimensions returned. Defaults to 100. Max is 100.
+        required: false
+        schema:
+          type: integer
+      - name: active_date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: payer_uuid
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: organization_billing_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: states
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_State'
+      - name: zip_codes
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: license_types
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+      - name: facility_type_codes
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+      - name: network_types
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_NetworkType'
+      - name: payer_plan_group_ids
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      - name: cpt_code
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: modifiers
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_ProcedureModifier'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_RatesPage'
+    post:
+      operationId: upload_fee_schedule
+      summary: Upload a fee schedule (a collection of rates)
+      description: 'Uploads a new fee schedule.
+
+
+        Each rate may either be totally new as qualified by its dimensions or a new version for an existing rate.
+
+
+        If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will
+
+        be returned.
+
+
+        Use the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will
+
+        be saved to the system.'
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - FeeScheduleValidationHttpError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_fee-schedules_v3_RateUploadWithPossibleErrors'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dry_run:
+                  type: boolean
+                rates:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_fee-schedules_v3_RateUpload'
+              required:
+              - dry_run
+              - rates
+  /api/fee-schedules/v3/unique-dimension-values:
+    get:
+      operationId: get_unique_values_for_dimension
+      summary: Get Unique Values For Dimension
+      description: Gets unique values for a dimension based on other selection criteria. The response is a list of dimensions with your criteria and the unique values populated. This API is useful for driving pivots on dimension values.
+      tags:
+      - v3
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of values returned. Defaults to 1000. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: pivot_dimension
+        in: query
+        description: The name of the dimension to fetch unique values for.
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_fee-schedules_v3_DimensionName'
+      - name: payer_uuid
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: organization_billing_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: states
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_State'
+      - name: zip_codes
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: license_types
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+      - name: facility_type_codes
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+      - name: network_types
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_NetworkType'
+      - name: payer_plan_group_ids
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      - name: cpt_code
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: modifiers
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_ProcedureModifier'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_DimensionsPage'
+  /api/fee-schedules/v3/{rate_id}/history:
+    get:
+      operationId: get_rate_history
+      summary: Get Rate History
+      description: Gets every version of a rate.
+      tags:
+      - v3
+      parameters:
+      - name: rate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_RateId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/fee-schedules/v3/{rate_id}/{version}:
+    delete:
+      operationId: delete_rate
+      summary: Delete a rate
+      description: Soft deletes a rate from the system.  Only the most recent version of a rate can be deleted.
+      tags:
+      - v3
+      parameters:
+      - name: rate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_RateId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/fee-schedules/v3/payer-threshold/default:
+    get:
+      operationId: get_payer_thresholds_default
+      summary: Get Payer Thresholds Default
+      description: Gets the default payer threshold
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+  /api/fee-schedules/v3/payer-threshold:
+    get:
+      operationId: get_payer_thresholds
+      summary: Get Payer Thresholds
+      description: Gets a list of payers and thresholds by their uuids
+      tags:
+      - v3
+      parameters:
+      - name: payer_uuids
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_PayerThresholdsPage'
+  /api/fee-schedules/v3/payer-threshold/{payer_uuid}:
+    put:
+      operationId: set_payer_threshold
+      summary: Set Payer Threshold
+      description: Sets the threshold information for a payer
+      tags:
+      - v3
+      parameters:
+      - name: payer_uuid
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+  /api/fee-schedules/v3/hard-delete:
+    post:
+      operationId: hard_delete_rates
+      summary: Hard delete rates
+      description: Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates.
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_fee-schedules_v3_OptionalDimensions'
+  /api/fee-schedules/v3/hard-delete-by-ids:
+    post:
+      operationId: hard_delete_rates_by_ids
+      summary: Hard delete rates by IDs
+      description: Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone. Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates endpoint with dimension filters. Returns the number of rates deleted.
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate_ids:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_commons_RateId'
+              required:
+              - rate_ids
+  /api/organization-providers/v3/{organization_provider_id}:
+    get:
+      operationId: get
+      summary: Get organization provider
+      tags:
+      - v3
+      parameters:
+      - name: organization_provider_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update organization provider
+      tags:
+      - v3
+      parameters:
+      - name: organization_provider_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UpdatesDisabledDueToExternalSystemIntegrationError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UpdatesDisabledDueToExternalSystemIntegrationErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderUpdateV2'
+  /api/organization-providers/v3:
+    get:
+      operationId: get_multi
+      summary: Get all organization providers
+      tags:
+      - v3
+      parameters:
+      - name: limit
+        in: query
+        description: Limit the number of results returned. Defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: search_term
+        in: query
+        description: Filter to a name or a part of a name.
+        required: false
+        schema:
+          type: string
+      - name: npi
+        in: query
+        description: Filter to a specific NPI.
+        required: false
+        schema:
+          type: string
+      - name: is_rendering
+        in: query
+        description: Filter to only rendering providers.
+        required: false
+        schema:
+          type: boolean
+      - name: is_billing
+        in: query
+        description: Filter to only billing providers.
+        required: false
+        schema:
+          type: boolean
+      - name: organization_provider_ids
+        in: query
+        description: Filter to the provided organization provider IDs.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: page_token
+        in: query
+        description: The page token to continue paging through a previous request.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: sort
+        in: query
+        description: Defaults to PROVIDER_NAME_ASC.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderSortOptions'
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderPageV2'
+    post:
+      operationId: create
+      summary: Create organization provider
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UpdatesDisabledDueToExternalSystemIntegrationError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UpdatesDisabledDueToExternalSystemIntegrationErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderCreateV2'
+  /api/organization-providers/v3/{organization_provider_id}/attachments:
+    put:
+      operationId: upload_attachment
+      summary: Upload provider attachment
+      description: 'Uploads a file to the provider. Accepted file types are W9, PECOS_RECORD, and BANK_LETTER_OR_VOIDED_CHECK.
+
+        Only one file per type is allowed per provider — uploading when a file of the same type already exists returns a 409.'
+      tags:
+      - v3
+      parameters:
+      - name: organization_provider_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment_file:
+                  type: string
+                  format: binary
+                  description: The file to upload.
+                file_type:
+                  $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentFileType'
+              required:
+              - attachment_file
+              - file_type
+    get:
+      operationId: list_attachments
+      summary: List provider attachments
+      tags:
+      - v3
+      parameters:
+      - name: organization_provider_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachment'
+  /api/organization-providers/v3/attachments/download:
+    get:
+      operationId: download_attachment
+      summary: Download provider attachment
+      tags:
+      - v3
+      parameters:
+      - name: attachment_id
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentResponse'
+  /api/organization-providers/v3/attachments/{attachment_id}:
+    delete:
+      operationId: delete_attachment
+      summary: Delete provider attachment
+      tags:
+      - v3
+      parameters:
+      - name: attachment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/payers/v3/{payer_uuid}:
+    get:
+      operationId: get
+      summary: Get payer
+      tags:
+      - v3
+      parameters:
+      - name: payer_uuid
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers_v3_Payer'
+  /api/payers/v3:
+    get:
+      operationId: getAll
+      summary: Get all payers
+      tags:
+      - v3
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of entities per page, defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: search_term
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers_v3_PayerPage'
+  /api/tasks/v3/{task_id}/actions:
+    get:
+      operationId: get_actions
+      summary: Get task actions
+      tags:
+      - v3
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_TaskId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_TaskActions'
+  /api/tasks/v3:
+    get:
+      operationId: get_multi
+      summary: Get all tasks
+      tags:
+      - v3
+      parameters:
+      - name: limit
+        in: query
+        description: Defaults to 100
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: status
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+      - name: statuses
+        in: query
+        description: Only return tasks with a status that matches one in this comma-separated list.
+        required: false
+        schema:
+          type: string
+      - name: task_type
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_tasks_commons_TaskType'
+      - name: task_types
+        in: query
+        description: Only return tasks with a task_type that matches one in this comma-separated list.
+        required: false
+        schema:
+          type: string
+      - name: categories
+        in: query
+        description: Only return tasks with categories that match one in this comma-separated list.
+        required: false
+        schema:
+          type: string
+      - name: updated_since
+        in: query
+        description: Only return tasks updated on or after this date-time
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: encounter_id
+        in: query
+        description: Only return tasks associated with this encounter
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: search_term
+        in: query
+        description: Query tasks by encounter_id, claim_id, task_id, or external_id
+        required: false
+        schema:
+          type: string
+      - name: assigned_to_id
+        in: query
+        description: Only return tasks assigned to this user
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_UserId'
+      - name: date_of_service_min
+        in: query
+        description: The minimum date of service for the linked encounter
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: date_of_service_max
+        in: query
+        description: The maximum date of service for the linked encounter
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: billing_provider_npi
+        in: query
+        description: The NPI of the billing provider associated with the task's claim
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Defaults to updated_at:desc
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_tasks_v3_TaskSortOptions'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_TaskPage'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create task
+      tags:
+      - v3
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_Task'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_tasks_v3_TaskCreateV3'
+  /api/tasks/v3/{task_id}:
+    get:
+      operationId: get
+      summary: Get task
+      tags:
+      - v3
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_TaskId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_Task'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update task
+      tags:
+      - v3
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_TaskId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_Task'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - TaskUpdatedToDeprecatedStatusError
+                  content:
+                    $ref: '#/components/schemas/type_tasks_v3_TaskUpdatedToDeprecatedStatusErrorType'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_tasks_v3_TaskUpdateV3'
+components:
+  schemas:
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_contracts_v3_ContractProviderCredentialingPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_contracts_v3_ContractProviderCredentialing'
+      required:
+      - items
+      title: ContractProviderCredentialingPage
+    type_contracts_v2_AuthorizedSignatoryUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          first_name:
+            type: string
+          last_name:
+            type: string
+          title:
+            type: string
+          email:
+            type: string
+          phone:
+            type: string
+          fax:
+            type: string
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: AuthorizedSignatoryUpdate
+    type_contracts_v3_ContractCreateUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_type:
+            $ref: '#/components/schemas/type_contracts_v3_ContractType'
+            description: The type of contract
+          contracting_provider_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractingProviderId'
+            description: The UUID of the provider under agreement to the contract
+          payer_uuid:
+            type: string
+            format: uuid
+            description: The UUID of the insurance company under agreement to the contract
+          rendering_provider_ids:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_type
+        - contracting_provider_id
+        - payer_uuid
+        - rendering_provider_ids
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_type:
+            $ref: '#/components/schemas/type_contracts_v3_ContractType'
+            description: The type of contract
+          contracting_provider_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractingProviderId'
+            description: The UUID of the provider under agreement to the contract
+          payer_uuid:
+            type: string
+            format: uuid
+            description: The UUID of the insurance company under agreement to the contract
+          contract_service_facilities:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityBase'
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_type
+        - contracting_provider_id
+        - payer_uuid
+        - contract_service_facilities
+      discriminator:
+        propertyName: type
+      title: ContractCreateUnion
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_fee-schedules_v3_DimensionName:
+      type: string
+      enum:
+      - payer_uuid
+      - organization_billing_provider_id
+      - cpt_code
+      description: The name of a dimension.
+      title: DimensionName
+    type_contracts_v3_ContractServiceFacility:
+      type: object
+      properties:
+        service_facility_id:
+          type: string
+          format: uuid
+          description: The UUID of the service facility
+        provider_ids:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+          description: The providers who are authorized under the contract
+        contract_id:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          description: The UUID of the contract
+        contract_service_facility_id:
+          $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityId'
+      required:
+      - service_facility_id
+      - provider_ids
+      - contract_id
+      - contract_service_facility_id
+      title: ContractServiceFacility
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_fee-schedules_v3_OptionalDimensions:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        organization_billing_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        states:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_State'
+        zip_codes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        license_types:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+        facility_type_codes:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+        network_types:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_NetworkType'
+        payer_plan_group_ids:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        cpt_code:
+          type: string
+        modifiers:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+      required:
+      - states
+      - zip_codes
+      - license_types
+      - facility_type_codes
+      - network_types
+      - payer_plan_group_ids
+      - modifiers
+      description: A dimensions object where all properties are optional.
+      title: OptionalDimensions
+    type_contracts_v3_ContractServiceFacilityBase:
+      type: object
+      properties:
+        service_facility_id:
+          type: string
+          format: uuid
+          description: The UUID of the service facility
+        provider_ids:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+          description: The providers who are authorized under the contract
+      required:
+      - service_facility_id
+      - provider_ids
+      title: ContractServiceFacilityBase
+    type_fee-schedules_v3_MatchTestResult:
+      type: object
+      properties:
+        dimensions:
+          $ref: '#/components/schemas/type_fee-schedules_v3_DimensionMatch'
+        threshold:
+          $ref: '#/components/schemas/type_fee-schedules_v3_ThresholdMatch'
+      required:
+      - dimensions
+      - threshold
+      title: MatchTestResult
+    type_fee-schedules_v3_PayerThresholdsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        payer_thresholds:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+      required:
+      - payer_thresholds
+      title: PayerThresholdsPage
+    type_fee-schedules_v3_MatchLicenseType:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for rendering provider license type
+      title: MatchLicenseType
+    type_identifiers_IdentifierCreate:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/type_commons_DateRangeOptionalEnd'
+        identifier_code:
+          $ref: '#/components/schemas/type_identifiers_IdentifierCode'
+        identifier_value:
+          $ref: '#/components/schemas/type_identifiers_IdentifierValue'
+      required:
+      - identifier_code
+      - identifier_value
+      title: IdentifierCreate
+    type_contracts_v3_RenderingProviderid:
+      type: string
+      format: uuid
+      title: RenderingProviderid
+    type_credentialing_v2_ProviderCredentialingSpan:
+      type: object
+      properties:
+        contracting_provider:
+          $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+          description: The practice location at which the rendering provider is covered by the credentialing span.
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+          description: The payer doing the credentialing.
+        start_date:
+          type: string
+          format: date
+          description: Start date of the credentialing span.
+        end_date:
+          type: string
+          format: date
+          description: End date of the credentialing span.
+        submitted_date:
+          type: string
+          format: date
+          description: Date that the credential paperwork was submitted.
+        credentialing_status:
+          $ref: '#/components/schemas/type_credentialing_v2_CredentialingSpanStatus'
+          description: Status of the credentialing span.
+        payer_loaded_date:
+          type: string
+          format: date
+          description: Date that the payer loaded the credentialing span into their system.
+        is_enabled:
+          type: boolean
+          description: Is the credentialing span enabled?
+        provider_credentialing_span_id:
+          $ref: '#/components/schemas/type_credentialing_v2_ProviderCredentialingSpanId'
+        rendering_provider:
+          $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+          description: The rendering provider covered by the credentialing span.
+        regions:
+          $ref: '#/components/schemas/type_commons_Regions'
+          description: The states covered by the credentialing span. A span may be national and cover all states.
+        medallion_payer_enrollment_id:
+          type: string
+          format: uuid
+          description: Provider ID for the related medallion payer enrollment.
+        source:
+          type: string
+          description: Source of the credentialing span.
+      required:
+      - contracting_provider
+      - payer
+      - credentialing_status
+      - is_enabled
+      - provider_credentialing_span_id
+      - rendering_provider
+      - regions
+      - source
+      title: ProviderCredentialingSpan
+    type_contracts_v2_ContractStatus:
+      type: string
+      enum:
+      - pending
+      - effective
+      - cancelled
+      title: ContractStatus
+    type_contracts_v2_InsuranceTypes:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - allApply
+            description: 'Discriminator value: allApply'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - noneApply
+            description: 'Discriminator value: noneApply'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - theseApply
+            description: 'Discriminator value: theseApply'
+          value:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_commons_InsuranceTypeCode'
+        required:
+        - type
+        - value
+      discriminator:
+        propertyName: type
+      title: InsuranceTypes
+    type_commons_RemovableDateRangeOptionalEnd:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - date_range
+            description: 'Discriminator value: date_range'
+          start_date:
+            $ref: '#/components/schemas/type_commons_Date'
+          end_date:
+            $ref: '#/components/schemas/type_commons_Date'
+        required:
+        - type
+        - start_date
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: RemovableDateRangeOptionalEnd
+    type_contracts_v2_ContractIsLinkedToFeeScheduleError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: ContractIsLinkedToFeeScheduleError
+    type_commons_NetworkType:
+      type: string
+      enum:
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - AM
+      - CH
+      - DS
+      - HM
+      - LM
+      - MA
+      - MB
+      - MC
+      - OF
+      - TV
+      - VA
+      - WC
+      - ZZ
+      - CI
+      - BL
+      title: NetworkType
+    type_identifiers_IdentifierId:
+      type: string
+      format: uuid
+      title: IdentifierId
+    type_commons_Date:
+      type: string
+      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+      title: Date
+    type_identifiers_UpdatableIdentifier:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - add
+            description: 'Discriminator value: add'
+          period:
+            $ref: '#/components/schemas/type_commons_DateRangeOptionalEnd'
+          identifier_code:
+            $ref: '#/components/schemas/type_identifiers_IdentifierCode'
+          identifier_value:
+            $ref: '#/components/schemas/type_identifiers_IdentifierValue'
+        required:
+        - type
+        - identifier_code
+        - identifier_value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - update
+            description: 'Discriminator value: update'
+          identifier_id:
+            $ref: '#/components/schemas/type_identifiers_IdentifierId'
+          identifier_code:
+            $ref: '#/components/schemas/type_identifiers_IdentifierCode'
+          identifier_value:
+            $ref: '#/components/schemas/type_identifiers_IdentifierValue'
+          period:
+            $ref: '#/components/schemas/type_commons_RemovableDateRangeOptionalEnd'
+        required:
+        - type
+        - identifier_id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+          value:
+            $ref: '#/components/schemas/type_identifiers_IdentifierId'
+        required:
+        - type
+        - value
+      discriminator:
+        propertyName: type
+      title: UpdatableIdentifier
+    type_organization-providers_v3_OrganizationProviderCreateV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
+        last_name:
+          type: string
+          description: The last name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
+        organization_name:
+          type: string
+          description: The name of the provider. Required when provider_type is ORGANIZATION. Must not be set when provider_type is INDIVIDUAL.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: Required when is_billing is true. If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          type: string
+          format: date
+          description: The employment start date for the provider.
+        employment_termination_date:
+          type: string
+          format: date
+          description: The employment termination date for the provider.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_IdentifierCreate'
+          description: A provider's qualifications such as PTAN, Medicaid Provider Id, etc.
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - qualifications
+      title: OrganizationProviderCreateV2
+    type_contracts_v3_ContractUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+      discriminator:
+        propertyName: type
+      title: ContractUnion
+    type_fee-schedules_v3_MatchResult:
+      type: object
+      properties:
+        threshold:
+          $ref: '#/components/schemas/type_fee-schedules_v3_ThresholdMatch'
+        rate_id:
+          $ref: '#/components/schemas/type_commons_RateId'
+      required:
+      - threshold
+      - rate_id
+      title: MatchResult
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_fee-schedules_v3_MatchFacilityTypeCode:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for facility type code
+      title: MatchFacilityTypeCode
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_contracts_v3_ContractServiceFacilityId:
+      type: string
+      format: uuid
+      title: ContractServiceFacilityId
+    type_pipeline-commons_ConfigurableRuleId:
+      type: string
+      format: uuid
+      title: ConfigurableRuleId
+    type_fee-schedules_v3_MatchDate:
+      type: object
+      properties:
+        value:
+          type: string
+          format: date
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for date of service
+      title: MatchDate
+    type_fee-schedules_v3_PayerThreshold:
+      type: object
+      properties:
+        upper_threshold_cents:
+          type: integer
+        lower_threshold_cents:
+          type: integer
+        disable_paid_incorrectly:
+          type: boolean
+      required:
+      - disable_paid_incorrectly
+      description: 'Rate thresholds that determine fee schedule rate matching behavior.  When a service line is adjudicated by a payer Candid determines if the payer''s
+
+        allowed amount "matches" the rate value.  If the allowed amount doesn''t equal the rate value, Candid moves the claim to a PAID_INCORRECTLY state.  These
+
+        optional thresholds allow a user to set wiggle room to avoid claims moving to PAID_INCORRECTLY and instead have them move directly to FINALIZED_PAID
+
+        when the payer''s allowed amount is greater than [rate_cents - lower_threshold_cents] and less than [rate_cents + upper_threshold_cents].
+
+
+        Additionally, a client can set disable_paid_incorrectly to avoid the PAID_INCORRECTLY claim status entirely.'
+      title: PayerThreshold
+    type_tasks_v3_TaskPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_Task'
+      required:
+      - items
+      title: TaskPage
+    type_tasks_v3_TaskNote:
+      type: object
+      properties:
+        task_note_id:
+          $ref: '#/components/schemas/type_commons_TaskNoteId'
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        author_name:
+          type: string
+        author_organization_name:
+          type: string
+      required:
+      - task_note_id
+      - text
+      - created_at
+      - author_name
+      - author_organization_name
+      title: TaskNote
+    type_organization-providers_v3_ProviderAttachmentId:
+      type: string
+      format: uuid
+      title: ProviderAttachmentId
+    type_commons_ProcedureModifier:
+      type: string
+      enum:
+      - AV
+      - AU
+      - AW
+      - AY
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '32'
+      - '33'
+      - '47'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '62'
+      - '63'
+      - '66'
+      - '73'
+      - '74'
+      - '76'
+      - '77'
+      - '78'
+      - '79'
+      - '80'
+      - '81'
+      - '82'
+      - '90'
+      - '91'
+      - '92'
+      - '93'
+      - '95'
+      - '96'
+      - '97'
+      - '99'
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+      - A8
+      - A9
+      - AA
+      - AB
+      - AD
+      - AE
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AK
+      - AM
+      - AO
+      - AP
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AZ
+      - BA
+      - BL
+      - BO
+      - BP
+      - BR
+      - BU
+      - CA
+      - CB
+      - CC
+      - CD
+      - CE
+      - CF
+      - CG
+      - CH
+      - CI
+      - CJ
+      - CK
+      - CL
+      - CM
+      - CN
+      - CR
+      - CS
+      - CT
+      - CO
+      - CQ
+      - DA
+      - E1
+      - E2
+      - E3
+      - E4
+      - EA
+      - EB
+      - EC
+      - ED
+      - EE
+      - EJ
+      - EM
+      - EP
+      - ER
+      - ET
+      - EV
+      - EX
+      - EY
+      - F1
+      - F2
+      - F3
+      - F4
+      - F5
+      - F6
+      - F7
+      - F8
+      - F9
+      - FA
+      - FB
+      - FC
+      - FP
+      - FQ
+      - FR
+      - FS
+      - FT
+      - FX
+      - FY
+      - G0
+      - G1
+      - G2
+      - G3
+      - G4
+      - G5
+      - G6
+      - G7
+      - G8
+      - G9
+      - GA
+      - GB
+      - GC
+      - GE
+      - GF
+      - GG
+      - GH
+      - GJ
+      - GK
+      - GL
+      - GM
+      - GN
+      - GO
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GV
+      - GW
+      - GX
+      - GY
+      - GZ
+      - HA
+      - HB
+      - HC
+      - HD
+      - HE
+      - HF
+      - HG
+      - HH
+      - HI
+      - HJ
+      - HK
+      - HL
+      - HM
+      - HN
+      - HO
+      - HP
+      - HQ
+      - HR
+      - HS
+      - HT
+      - HU
+      - HV
+      - HW
+      - HX
+      - HY
+      - HZ
+      - J1
+      - J2
+      - J3
+      - J4
+      - J5
+      - JA
+      - JB
+      - JC
+      - JD
+      - JE
+      - JG
+      - JW
+      - JZ
+      - K0
+      - K1
+      - K2
+      - K3
+      - K4
+      - KA
+      - KB
+      - KC
+      - KD
+      - KE
+      - KF
+      - KG
+      - KH
+      - KI
+      - KJ
+      - KK
+      - KL
+      - KM
+      - KN
+      - KO
+      - KP
+      - KQ
+      - KR
+      - KS
+      - KT
+      - KU
+      - KV
+      - KW
+      - KX
+      - KY
+      - KZ
+      - LC
+      - LD
+      - LL
+      - LM
+      - LR
+      - LS
+      - LT
+      - LU
+      - M2
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MS
+      - N1
+      - N2
+      - N3
+      - NB
+      - NR
+      - NU
+      - P1
+      - P2
+      - P3
+      - P4
+      - P5
+      - P6
+      - PA
+      - PB
+      - PC
+      - PD
+      - PI
+      - PL
+      - PM
+      - PN
+      - PO
+      - PS
+      - PT
+      - Q0
+      - Q1
+      - Q2
+      - Q3
+      - Q4
+      - Q5
+      - Q6
+      - Q7
+      - Q8
+      - Q9
+      - QA
+      - QB
+      - QC
+      - QD
+      - QE
+      - QF
+      - QG
+      - QH
+      - QJ
+      - QK
+      - QL
+      - QM
+      - QN
+      - QP
+      - QQ
+      - QR
+      - QS
+      - QT
+      - QW
+      - QX
+      - QY
+      - QZ
+      - RA
+      - RB
+      - RC
+      - RD
+      - RE
+      - RI
+      - RR
+      - RT
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SF
+      - SG
+      - SH
+      - SJ
+      - SL
+      - SM
+      - SN
+      - SQ
+      - SS
+      - ST
+      - SU
+      - SV
+      - SW
+      - SY
+      - T1
+      - T2
+      - T3
+      - T4
+      - T5
+      - T6
+      - T7
+      - T8
+      - T9
+      - TA
+      - TB
+      - TC
+      - TD
+      - TE
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TP
+      - TQ
+      - TR
+      - TS
+      - TT
+      - TU
+      - TV
+      - TW
+      - U1
+      - U2
+      - U3
+      - U4
+      - U5
+      - U6
+      - U7
+      - U8
+      - U9
+      - UA
+      - UB
+      - UC
+      - UD
+      - UE
+      - UF
+      - UG
+      - UH
+      - UJ
+      - UK
+      - UN
+      - UP
+      - UQ
+      - UR
+      - US
+      - V1
+      - V2
+      - V3
+      - W1
+      - W2
+      - W3
+      - X4
+      - XE
+      - XP
+      - XS
+      - XU
+      - XY
+      - ZZ
+      title: ProcedureModifier
+    type_commons_FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_identifiers_IdentifierCode:
+      type: string
+      enum:
+      - MCR
+      - MCD
+      title: IdentifierCode
+    type_commons_Regions:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - states
+            description: 'Discriminator value: states'
+          states:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_commons_State'
+        required:
+        - type
+        - states
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - national
+            description: 'Discriminator value: national'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: Regions
+    type_contracts_v3_ContractProviderCount:
+      type: object
+      properties:
+        provider_count:
+          type: integer
+          description: The total number of rendering providers currently associated with this contract
+      required:
+      - provider_count
+      title: ContractProviderCount
+    type_exports_v3_GetExportsResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Report name; contains date strings representing the start and end date of the export.
+        created_at:
+          type: string
+          format: date-time
+        authenticated_download_url:
+          type: string
+          description: Authenticated URL where a customer's report can be retrieved.
+        authenticated_download_url_expiration:
+          type: string
+          format: date-time
+          description: Expiration datetime of the authenticated URL. URLs expire after 2 minutes.
+      required:
+      - name
+      - created_at
+      - authenticated_download_url
+      - authenticated_download_url_expiration
+      title: GetExportsResponse
+    type_commons_DateRangeOptionalEnd:
+      type: object
+      properties:
+        start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+        end_date:
+          $ref: '#/components/schemas/type_commons_Date'
+      required:
+      - start_date
+      title: DateRangeOptionalEnd
+    type_organization-providers_v2_EmploymentStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - TERMINATED
+      title: EmploymentStatus
+    type_organization-providers_v3_ProviderAttachment:
+      type: object
+      properties:
+        provider_attachment_id:
+          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentId'
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        file_name:
+          type: string
+        file_type:
+          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentFileType'
+      required:
+      - provider_attachment_id
+      - organization_provider_id
+      - file_name
+      - file_type
+      title: ProviderAttachment
+    type_contracts_v2_ContractInvalidExpirationDateError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: ContractInvalidExpirationDateError
+    type_contracts_v3_ContractingProviderId:
+      type: string
+      format: uuid
+      title: ContractingProviderId
+    type_identifiers_IdentifierValue:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - medicare_provider_identifier
+            description: 'Discriminator value: medicare_provider_identifier'
+          state:
+            $ref: '#/components/schemas/type_commons_State'
+          provider_number:
+            type: string
+          organization_service_facility_id:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+            description: When set, this identifier applies only to the given service facility.
+        required:
+        - type
+        - state
+        - provider_number
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - medicaid_provider_identifier
+            description: 'Discriminator value: medicaid_provider_identifier'
+          state:
+            $ref: '#/components/schemas/type_commons_State'
+          provider_number:
+            type: string
+          organization_service_facility_id:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+            description: When set, this identifier applies only to the given service facility.
+        required:
+        - type
+        - state
+        - provider_number
+      discriminator:
+        propertyName: type
+      title: IdentifierValue
+    type_credentialing_v2_ProviderCredentialingSpanId:
+      type: string
+      format: uuid
+      title: ProviderCredentialingSpanId
+    type_contracts_v2_AuthorizedSignatory:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        title:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        fax:
+          type: string
+      title: AuthorizedSignatory
+    type_fee-schedules_v3_MatchPayerPlanGroups:
+      type: object
+      properties:
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for a payer plan
+      title: MatchPayerPlanGroups
+    type_fee-schedules_v3_MatchGeo:
+      type: object
+      properties:
+        zip_code:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for state or zip code
+      title: MatchGeo
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_fee-schedules_v3_DimensionMatch:
+      type: object
+      properties:
+        payer:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchPayer'
+        geography:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchGeo'
+        organization_billing_provider:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchProvider'
+        date_of_service:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchDate'
+        cpt_code:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchCptCode'
+        modifiers:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchModifiers'
+        license_type:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchLicenseType'
+        facility_type_code:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchFacilityTypeCode'
+        network_types:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchNetworkTypes'
+        payer_plan_groups:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchPayerPlanGroups'
+      required:
+      - payer
+      - geography
+      - organization_billing_provider
+      - date_of_service
+      - cpt_code
+      - modifiers
+      - license_type
+      - facility_type_code
+      - network_types
+      - payer_plan_groups
+      description: Dimension matching for a service line
+      title: DimensionMatch
+    type_organization-providers_v2_OrganizationProviderAddress:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the provider
+        address_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_AddressType'
+          description: The address type of the provider
+      required:
+      - address
+      - address_type
+      title: OrganizationProviderAddress
+    type_fee-schedules_v3_MatchProvider:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for a billing provider
+      title: MatchProvider
+    type_tasks_commons_TaskStatus:
+      type: string
+      enum:
+      - finished
+      - addressed_by_provider_group
+      - sent_to_provider_group
+      - open
+      - blocked
+      - waiting_for_review
+      - in_progress
+      title: TaskStatus
+    type_organization-providers_v2_ProviderType:
+      type: string
+      enum:
+      - INDIVIDUAL
+      - ORGANIZATION
+      title: ProviderType
+    type_fee-schedules_v3_RateEntry:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        rate_cents:
+          type: integer
+        is_deactivated:
+          type: boolean
+      required:
+      - start_date
+      - rate_cents
+      - is_deactivated
+      description: A rate value in cents for a specific time range.  Rate entries can be deactivated, which is set by using the delete_rate endpoint.  Deactivated rate entries are not considered when matching against service lines.
+      title: RateEntry
+    type_organization-providers_v2_AddressType:
+      type: string
+      enum:
+      - DEFAULT
+      title: AddressType
+    type_fee-schedules_v3_ThresholdMatch:
+      type: object
+      properties:
+        threshold:
+          $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+        rate_cents:
+          type: integer
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - threshold
+      - rate_cents
+      - match
+      - explanation
+      description: Threshold and dollar amount matching for a service line
+      title: ThresholdMatch
+    type_credentialing_v2_CredentialingSpanStatus:
+      type: string
+      enum:
+      - work_in_progress
+      - pending
+      - effective
+      - expired
+      description: Stage of a credentialing span in the credentialing workflow.
+      title: CredentialingSpanStatus
+    type_tasks_v3_TaskActionType:
+      type: string
+      enum:
+      - close_task
+      - close_task_and_reprocess
+      title: TaskActionType
+    type_pipeline-commons_RuleId:
+      type: string
+      format: uuid
+      title: RuleId
+    type_fee-schedules_v3_RateUploadWithPossibleErrors:
+      type: object
+      properties:
+        rate_upload:
+          $ref: '#/components/schemas/type_fee-schedules_v3_RateUpload'
+        existing_rate:
+          $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
+        possible_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_ValidationError'
+      required:
+      - rate_upload
+      - possible_errors
+      title: RateUploadWithPossibleErrors
+    type_fee-schedules_v3_ValidationError:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - overlapping_rate_entries
+            description: 'Discriminator value: overlapping_rate_entries'
+          message:
+            type: string
+          rate_a:
+            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+          rate_b:
+            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+        required:
+        - type
+        - message
+        - rate_a
+        - rate_b
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - version_conflict
+            description: 'Discriminator value: version_conflict'
+          entity_name:
+            type: string
+        required:
+        - type
+        - entity_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - organization_provider_not_found
+            description: 'Discriminator value: organization_provider_not_found'
+          id:
+            type: string
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - duplicate_rate
+            description: 'Discriminator value: duplicate_rate'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - empty_entries
+            description: 'Discriminator value: empty_entries'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_plan_group_not_found
+            description: 'Discriminator value: payer_plan_group_not_found'
+          id:
+            type: string
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_plan_group_does_not_match_rate_payer
+            description: 'Discriminator value: payer_plan_group_does_not_match_rate_payer'
+          rate_payer_uuid:
+            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          payer_plan_group_payer_uuid:
+            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        required:
+        - type
+        - rate_payer_uuid
+        - payer_plan_group_payer_uuid
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_plan_group_network_type_mutual_exclusion
+            description: 'Discriminator value: payer_plan_group_network_type_mutual_exclusion'
+          entity_name:
+            type: string
+        required:
+        - type
+        - entity_name
+      discriminator:
+        propertyName: type
+      title: ValidationError
+    type_organization-providers_v2_OrganizationProviderSortOptions:
+      type: string
+      enum:
+      - provider_name:asc
+      - provider_name:desc
+      - npi:asc
+      - npi:desc
+      title: OrganizationProviderSortOptions
+    type_tasks_v3_TaskSortOptions:
+      type: string
+      enum:
+      - updated_at:asc
+      - updated_at:desc
+      - patient_name:asc
+      - patient_name:desc
+      - patient_external_id:asc
+      - patient_external_id:desc
+      - payer_name:asc
+      - payer_name:desc
+      - payer_id:asc
+      - payer_id:desc
+      - status:asc
+      - status:desc
+      - task_type:asc
+      - task_type:desc
+      - category:asc
+      - category:desc
+      - agg_updated_at:asc
+      - agg_updated_at:desc
+      - date_of_service:asc
+      - date_of_service:desc
+      - blocks_claim_submission:asc
+      - blocks_claim_submission:desc
+      title: TaskSortOptions
+    type_fee-schedules_v3_Dimensions:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        organization_billing_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        states:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_State'
+        zip_codes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        license_types:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+        facility_type_codes:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+        network_types:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_NetworkType'
+        payer_plan_group_ids:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        cpt_code:
+          type: string
+        modifiers:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+      required:
+      - payer_uuid
+      - organization_billing_provider_id
+      - states
+      - zip_codes
+      - license_types
+      - facility_type_codes
+      - network_types
+      - payer_plan_group_ids
+      - cpt_code
+      - modifiers
+      description: Dimension values that qualify a rate. For the optional dimensions, a null value signifies "all apply". For set-type dimensions, an empty set signifies "all apply". Only one of, but not both, of `network_types` and `payer_plan_group_id` may be populated.
+      title: Dimensions
+    type_organization-providers_v2_OrganizationProvider:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        ptan:
+          type: string
+          description: The Provider Transaction Access Number for the provider.
+        medicaid_provider_id:
+          type: string
+          description: The medicaid provider ID for the provider.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+          description: Auto-generated ID set on creation
+        employment_status:
+          $ref: '#/components/schemas/type_organization-providers_v2_EmploymentStatus'
+          description: The employment status for the provider.
+        employment_start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment start date for the provider.
+        employment_termination_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment termination date for the provider.
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - organization_provider_id
+      - employment_status
+      title: OrganizationProvider
+    type_contracts_v3_ContractId:
+      type: string
+      format: uuid
+      title: ContractId
+    type_tasks_v3_TaskUpdateV3:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+        assignee_user_id:
+          $ref: '#/components/schemas/type_commons_UserId'
+        blocks_claim_submission:
+          type: boolean
+      title: TaskUpdateV3
+    type_contracts_v3_ContractWithProvidersUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+          rendering_provider_ids:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              format: uuid
+            description: 'Deprecated. Use the dedicated providers endpoints to manage rendering providers
+
+              (GET/POST/DELETE /api/contracts/v3/{contract_id}/providers).
+
+              This field returns a maximum of 4,000 IDs'
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+        - rendering_provider_ids
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+          contract_service_facilities:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacility'
+            description: The service facilities under contract
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+        - contract_service_facilities
+      discriminator:
+        propertyName: type
+      title: ContractWithProvidersUnion
+    type_commons_ErrorMessage:
+      type: string
+      title: ErrorMessage
+    type_contracts_v2_RegionsUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons_Regions'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: RegionsUpdate
+    type_organization-providers_v3_ProviderAttachmentResponse:
+      type: object
+      properties:
+        signed_download_url:
+          type: string
+      required:
+      - signed_download_url
+      title: ProviderAttachmentResponse
+    type_contracts_v3_ContractUpdateUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_contracts_v2_DateUpdate'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_contracts_v2_RegionsUpdate'
+            description: 'If present, the contract''s rendering providers will be patched to this exact
+
+              value, overriding what was set before.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatoryUpdate'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          rendering_provider_ids:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+            description: 'Deprecated. Use the dedicated providers endpoints to manage rendering providers
+
+              (GET/POST/DELETE /api/contracts/v3/{contract_id}/providers).
+
+              Attempting to set this property will raise an error if the contract already has more than 4,000 rendering providers.'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_contracts_v2_DateUpdate'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_contracts_v2_RegionsUpdate'
+            description: 'If present, the contract''s rendering providers will be patched to this exact
+
+              value, overriding what was set before.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatoryUpdate'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          contract_service_facility_ids:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityId'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: ContractUpdateUnion
+    type_contracts_v3_ContractProvidersPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+      required:
+      - items
+      title: ContractProvidersPage
+    type_fee-schedules_v3_RatesPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        rates:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
+      required:
+      - rates
+      title: RatesPage
+    type_contracts_v3_AddContractProvidersResponse:
+      type: object
+      properties:
+        provider_count:
+          type: integer
+          description: The total number of rendering providers currently associated with this contract after the operation
+        added_count:
+          type: integer
+          description: The number of rendering providers that were newly added to the contract
+        ignored_count:
+          type: integer
+          description: The number of rendering provider IDs that were already associated with the contract and thus ignored
+      required:
+      - provider_count
+      - added_count
+      - ignored_count
+      title: AddContractProvidersResponse
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_contracts_v3_ContractsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_contracts_v3_ContractUnion'
+      required:
+      - items
+      title: ContractsPage
+    type_commons_UserId:
+      type: string
+      format: uuid
+      title: UserId
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_tasks_v3_TaskActions:
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_TaskAction'
+      required:
+      - actions
+      title: TaskActions
+    type_fee-schedules_v3_MatchModifiers:
+      type: object
+      properties:
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for procedure modifiers
+      title: MatchModifiers
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_fee-schedules_v3_MatchNetworkTypes:
+      type: object
+      properties:
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_NetworkType'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for network types
+      title: MatchNetworkTypes
+    type_contracts_v3_ContractType:
+      type: string
+      enum:
+      - professional
+      - institutional
+      title: ContractType
+    type_tasks_v3_TaskCreateV3:
+      type: object
+      properties:
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        task_type:
+          $ref: '#/components/schemas/type_tasks_commons_TaskType'
+        description:
+          type: string
+        blocks_claim_submission:
+          type: boolean
+        assignee_user_id:
+          $ref: '#/components/schemas/type_commons_UserId'
+        category:
+          $ref: '#/components/schemas/type_tasks_commons_TaskCategory'
+        work_queue_id:
+          $ref: '#/components/schemas/type_commons_WorkQueueId'
+      required:
+      - encounter_id
+      - task_type
+      - description
+      - work_queue_id
+      title: TaskCreateV3
+    type_fee-schedules_v3_Rate:
+      type: object
+      properties:
+        rate_id:
+          $ref: '#/components/schemas/type_commons_RateId'
+        dimensions:
+          $ref: '#/components/schemas/type_fee-schedules_v3_Dimensions'
+          description: The dimension values that distinguish this rate from others.
+        version:
+          type: integer
+          description: The version of this rate in the system.
+        updated_at:
+          type: string
+          format: date
+        updated_by:
+          $ref: '#/components/schemas/type_commons_UserId'
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+      required:
+      - rate_id
+      - dimensions
+      - version
+      - updated_at
+      - updated_by
+      - entries
+      description: A comprehensive rate including the current rate value and all values for historic time ranges. The time ranges specified by each RateEntry are disjoint.  A rate must always have at least one entry.
+      title: Rate
+    type_organization-providers_v3_OrganizationProviderUpdateV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment start date for the provider.
+        employment_termination_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment termination date for the provider.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_UpdatableIdentifier'
+          description: Provider's qualifications (medicare provider number, medicaid provider number, etc.)
+      title: OrganizationProviderUpdateV2
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_commons_UpdatesDisabledDueToExternalSystemIntegrationErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UpdatesDisabledDueToExternalSystemIntegrationErrorMessage
+    type_contracts_v3_ContractProviderCredentialing:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+        credentialing_spans:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_credentialing_v2_ProviderCredentialingSpan'
+      required:
+      - provider
+      - credentialing_spans
+      description: A rendering provider with their credentialing spans scoped to the contract's contracting provider and payer.
+      title: ContractProviderCredentialing
+    type_commons_TaskId:
+      type: string
+      format: uuid
+      title: TaskId
+    type_contracts_v2_ContractSortField:
+      type: string
+      enum:
+      - created_at
+      - payer_name
+      - payer_id
+      - billing_provider_name
+      - effective_date
+      - contract_status
+      title: ContractSortField
+    type_tasks_v3_TaskActionExecutionMethod:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - close_task
+            description: 'Discriminator value: close_task'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: TaskActionExecutionMethod
+    type_identifiers_Identifier:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/type_commons_DateRangeOptionalEnd'
+        identifier_code:
+          $ref: '#/components/schemas/type_identifiers_IdentifierCode'
+        identifier_value:
+          $ref: '#/components/schemas/type_identifiers_IdentifierValue'
+        identifier_id:
+          $ref: '#/components/schemas/type_identifiers_IdentifierId'
+      required:
+      - identifier_code
+      - identifier_value
+      - identifier_id
+      title: Identifier
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_fee-schedules_v3_MatchCptCode:
+      type: object
+      properties:
+        value:
+          type: string
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for a CPT code
+      title: MatchCptCode
+    type_payers_v3_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_id:
+          type: string
+          description: The primary national payer ID of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        availity_payer_name:
+          type: string
+          description: The name of the payer as it appears in Availity.
+        availity_claims_payer_id:
+          type: string
+          description: The ID of the payer as it appears in Availity.
+        availity_eligibility_id:
+          type: string
+          description: The eligibility ID of the payer as it appears in Availity.
+        availity_remittance_payer_id:
+          type: string
+          description: The remittance ID of the payer as it appears in Availity.
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_id
+      - payer_name
+      title: Payer
+    type_fee-schedules_v3_DimensionsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_OptionalDimensions'
+      required:
+      - dimensions
+      title: DimensionsPage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_tasks_v3_TaskAction:
+      type: object
+      properties:
+        display_name:
+          type: string
+        execution_method:
+          $ref: '#/components/schemas/type_tasks_v3_TaskActionExecutionMethod'
+        type:
+          $ref: '#/components/schemas/type_tasks_v3_TaskActionType'
+      required:
+      - display_name
+      - execution_method
+      - type
+      title: TaskAction
+    type_contracts_v2_DateUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons_Date'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: DateUpdate
+    type_commons_InsuranceTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '41'
+      - '42'
+      - '43'
+      - '47'
+      - AP
+      - C1
+      - CO
+      - CP
+      - D
+      - DB
+      - E
+      - EP
+      - FF
+      - GP
+      - HA
+      - HB
+      - HD
+      - HG
+      - HM
+      - HN
+      - HP
+      - HS
+      - IN
+      - IP
+      - LC
+      - LD
+      - LI
+      - LT
+      - M
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MH
+      - MI
+      - MJ
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MR
+      - MT
+      - MV
+      - OA
+      - OT
+      - PE
+      - PL
+      - PP
+      - PR
+      - PS
+      - QM
+      - RP
+      - SP
+      - TF
+      - U
+      - WC
+      - WU
+      description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
+      title: InsuranceTypeCode
+    type_organization-providers_v2_OrganizationProviderId:
+      type: string
+      format: uuid
+      title: OrganizationProviderId
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_tasks_v3_TaskAssignment:
+      type: object
+      properties:
+        task_assignment_id:
+          $ref: '#/components/schemas/type_commons_TaskAssignmentId'
+        assignee_user_id:
+          $ref: '#/components/schemas/type_commons_UserId'
+      required:
+      - task_assignment_id
+      title: TaskAssignment
+    type_commons_WorkQueueId:
+      type: string
+      title: WorkQueueId
+    type_fee-schedules_v3_RateUpload:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - new_rate
+            description: 'Discriminator value: new_rate'
+          dimensions:
+            $ref: '#/components/schemas/type_fee-schedules_v3_Dimensions'
+          entries:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+        required:
+        - type
+        - dimensions
+        - entries
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - new_version
+            description: 'Discriminator value: new_version'
+          rate_id:
+            $ref: '#/components/schemas/type_commons_RateId'
+          previous_version:
+            type: integer
+            description: New versions of rates must indicate the exact version they modify. When the system attempts to save this new version, if the latest version in the system does not equal this previous_version, the request will be rejected with a EntityConflictError.
+          entries:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+        required:
+        - type
+        - rate_id
+        - previous_version
+        - entries
+      discriminator:
+        propertyName: type
+      title: RateUpload
+    type_fee-schedules_v3_MatchPayer:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for a payer
+      title: MatchPayer
+    type_tasks_v3_TaskUpdatedToDeprecatedStatusErrorType:
+      type: object
+      properties:
+        deprecated_status:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+      title: TaskUpdatedToDeprecatedStatusErrorType
+    type_organization-providers_v3_OrganizationProviderPageV2:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+      required:
+      - items
+      title: OrganizationProviderPageV2
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_organization-providers_v3_ProviderAttachmentFileType:
+      type: string
+      enum:
+      - W9
+      - PECOS_RECORD
+      - BANK_LETTER_OR_VOIDED_CHECK
+      title: ProviderAttachmentFileType
+    type_commons_TaskAssignmentId:
+      type: string
+      format: uuid
+      title: TaskAssignmentId
+    type_tasks_v3_Task:
+      type: object
+      properties:
+        task_id:
+          $ref: '#/components/schemas/type_commons_TaskId'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        task_type:
+          $ref: '#/components/schemas/type_tasks_commons_TaskType'
+        description:
+          type: string
+        blocks_claim_submission:
+          type: boolean
+        external_id:
+          type: string
+        patient_name:
+          type: string
+        patient_external_id:
+          type: string
+        payer_name:
+          type: string
+        payer_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_TaskNote'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+          description: The time of most recent update to the task only
+        agg_updated_at:
+          type: string
+          format: date-time
+          description: The time of most recent update to the task or any of its notes
+        date_of_service:
+          type: string
+          format: date
+        assignments:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_TaskAssignment'
+        category:
+          $ref: '#/components/schemas/type_tasks_commons_TaskCategory'
+        configurable_rule_id:
+          $ref: '#/components/schemas/type_pipeline-commons_ConfigurableRuleId'
+        persisted_rule_id:
+          $ref: '#/components/schemas/type_pipeline-commons_RuleId'
+      required:
+      - task_id
+      - encounter_id
+      - task_type
+      - description
+      - blocks_claim_submission
+      - external_id
+      - patient_name
+      - patient_external_id
+      - status
+      - notes
+      - created_at
+      - updated_at
+      - agg_updated_at
+      - date_of_service
+      - assignments
+      title: Task
+    type_tasks_commons_TaskCategory:
+      type: string
+      enum:
+      - other
+      - provider_credentialing
+      - authorization_required
+      - inactive_coverage
+      - unknown_eligibility_or_patient_not_found
+      - incorrect_member_id
+      - documentation_addendum_request
+      - coordination_of_benefits
+      - missing_or_incorrect_gender
+      - incorrect_date_of_birth
+      - incorrect_payer
+      - incorrect_name
+      - invalid_diagnosis_code
+      - non_covered_diagnosis_codes
+      - information_requested_from_patient
+      - incorrect_rendering_provider_info
+      - missing_or_incorrect_modifier
+      - coding_frequency_error
+      - incorrect_patient_address
+      - multiple_em_claims
+      - missing_or_incorrect_charge_amount
+      - medical_records_request
+      - provider_enrollment_or_contracting
+      - missing_or_incorrect_group_number
+      - missing_diagnosis_codes
+      - missing_patient_authorization
+      - incorrect_billing_provider_info
+      - incorrect_procedure_code
+      - incorrect_quantity
+      - incorrect_place_of_service_code
+      - incorrect_service_facility_info
+      - incorrect_date_of_service
+      - missing_or_incorrect_ndc
+      - patient_collections
+      - submit_to_secondary
+      - transient_server_error
+      - missing_remittance_enrollment
+      - missing_claims_enrollment
+      - held_by_customer
+      - pending_manual_remit_posting
+      - incorrect_referring_provider_info
+      - payer_configuration_error
+      - downcoding_review
+      title: TaskCategory
+    type_payers_v3_PayerPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+      required:
+      - items
+      title: PayerPage
+    type_commons_TaskNoteId:
+      type: string
+      format: uuid
+      title: TaskNoteId
+    type_tasks_commons_TaskType:
+      type: string
+      enum:
+      - CUSTOMER_DATA_REQUEST
+      - CLAIM_SUBMISSION_RUN_VALIDATIONS_FAILURE
+      - CLAIM_SUBMISSION_SUBMIT_CLAIM_FAILURE
+      - CLAIM_SUBMISSION_TRANSFORM_FAILURE
+      - CODE_CLAIM
+      - CODE_CLAIM_REVIEW
+      - ELIGIBILITY
+      - CLAIM_FOLLOW_UP
+      - REJECTION_RESOLUTION
+      - PAYER_CONFIGURATION_ERROR
+      - DENIAL_RESOLUTION
+      - MISSING_ENROLLMENT
+      - CHARGE_CAPTURE_UPDATE
+      title: TaskType
+    type_organization-providers_v2_LicenseType:
+      type: string
+      enum:
+      - MD
+      - NP
+      - PA
+      - LMFT
+      - LCPC
+      - LCSW
+      - PMHNP
+      - FNP
+      - LPCC
+      - DO
+      - RD
+      - SLP
+      - APRN
+      - LPC
+      - PHD
+      - PSYD
+      - LMSW
+      - LMHC
+      - OTHER_MASTERS
+      - BCBA
+      - UNKNOWN
+      - RPH
+      - PHT
+      - LAC
+      - LMT
+      - DC
+      - ND
+      - MA
+      - PT
+      - IBCLC
+      - RN
+      - DPT
+      - LCMHC
+      - CNM
+      - RNFA
+      - ACSW
+      - APC
+      - BCABA
+      - BHA
+      - OD
+      - DPM
+      - DA
+      - DDS
+      - DEH
+      - DMD
+      - PTA
+      - LCADC
+      - LCAT
+      - LCMHCS
+      - LCMHCA
+      - LCSWA
+      - LICSW
+      - LISW
+      - LMFTS
+      - LMFTA
+      - LPCI
+      - LSCSW
+      - MHCA
+      - MHT
+      - RBT
+      - RCSWI
+      - RHMCI
+      - LPN
+      - OTD
+      - OMS
+      - MFTA
+      - APCC
+      - DNP
+      - AGNPBC
+      - ANP
+      - FNPPP
+      - LCSWR
+      - ALC
+      - RMFTI
+      - LAMFT
+      - LPCA
+      - LSWI
+      - CSW
+      - CPC
+      - LGMFT
+      - LLPC
+      - PLPC
+      - PLMFT
+      - LMHCA
+      - CIT
+      - CT
+      - MFT
+      - LSW
+      - PLMHP
+      - PCMSW
+      - LMHP
+      - OTR/L
+      - RPA
+      - COTA
+      - CRNP
+      - SLP-CF
+      - NP-C
+      - PA-C
+      - AMFT
+      - CDN
+      - CGC
+      - CNS
+      - MDPHD
+      - AuD
+      - ATC
+      - LAT
+      - OTA
+      - LSSP
+      - SLPA
+      title: LicenseType
+    type_organization-providers_v3_OrganizationProviderV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          type: string
+          format: date
+          description: The employment start date for the provider.
+        employment_termination_date:
+          type: string
+          format: date
+          description: The employment termination date for the provider.
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+          description: Auto-generated ID set on creation.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_Identifier'
+          description: Qualification given to a provider (PTAN, Medicaid Provider Id etc.).
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - organization_provider_id
+      - qualifications
+      title: OrganizationProviderV2
+    type_commons_RateId:
+      type: string
+      format: uuid
+      title: RateId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication
