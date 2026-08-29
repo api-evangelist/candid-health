@@ -19,19 +19,19 @@ edges:
   capability_id_l1: BC-2870
   capability_name: Medical Coding Management
   confidence: 0.75
-  evidence: POST /api/diagnoses/v2 "Create diagnosis"; schemas type_diagnoses_DiagnosisTypeCode, type_commons_ServiceLineId,
-    type_diagnoses_DisallowMultiplePrimaryDiagnosisError
-  reason: Diagnosis codes attached to encounters and service lines on a medical billing automation platform
-    — this is diagnosis coding feeding claim production, i.e. medical coding within revenue cycle, not
-    clinical care documentation.
+  evidence: POST /api/diagnoses/v2 create Create diagnosis; schemas type_diagnoses_DiagnosisTypeCode,
+    type_diagnoses_DisallowMultiplePrimaryDiagnosisError, type_commons_ServiceLineId
+  reason: On this medical-billing platform, diagnoses are diagnosis codes attached to encounters and service
+    lines with primary/secondary type codes — i.e. coding of encounters for claim production, matching
+    Medical Coding Management rather than clinical documentation.
 - tag: v4
   spec_file: candid-health-v4-api-openapi.yml
   capability_id: BC-2870
   capability_id_l1: BC-2870
   capability_name: Healthcare Revenue Cycle Management
   confidence: 0.72
-  evidence: POST /api/patient-payments/v4 "Create patient payment"; POST /api/encounters/v4 "Create professional
-    encounter"; POST /api/encounters/v4/universal "Create institutional or professional encounter"
-  reason: Version-bucket tag combining patient payment posting with billable encounter creation on a medical
-    billing platform — clearly provider revenue cycle; L2 left null because it spans patient financial
-    services and encounter/charge capture.
+  evidence: POST /api/patient-payments/v4 create Create patient payment; POST /api/encounters/v4/universal
+    Create institutional or professional encounter
+  reason: Version tag combining patient payment posting (patient financial services) with professional/institutional
+    encounter creation carrying service lines and diagnosis codes for billing. Clearly provider revenue
+    cycle at L1; spans several L2s so none asserted.
