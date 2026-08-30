@@ -147,7 +147,8 @@ apis:
   description: The default API from Candid Health — 1 operation(s) for default.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
-  tags:
+  tags: []
+  tags_raw:
   - default
   properties:
   - type: OpenAPI
@@ -185,6 +186,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Diagnoses
+  tags_raw:
   - diagnoses
   properties:
   - type: OpenAPI
@@ -259,6 +262,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - V2
+  tags_raw:
   - v2
   properties:
   - type: OpenAPI
@@ -296,6 +301,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - V3
+  tags_raw:
   - v3
   properties:
   - type: OpenAPI
@@ -333,6 +340,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - V4
+  tags_raw:
   - v4
   properties:
   - type: OpenAPI
