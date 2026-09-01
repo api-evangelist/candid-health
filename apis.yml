@@ -262,7 +262,7 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - V2
+  - v2
   tags_raw:
   - v2
   properties:
@@ -301,7 +301,7 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - V3
+  - v3
   tags_raw:
   - v3
   properties:
