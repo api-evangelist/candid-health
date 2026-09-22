@@ -35,6 +35,10 @@ url: https://raw.githubusercontent.com/api-evangelist/candid-health/refs/heads/m
 created: 2026-06-12
 modified: 2026-08-15
 specificationVersion: '0.23'
+x-docs-platform: fern
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-21
+x-docs-hosting: vercel
 tags:
 - Medical Billing
 - Revenue Cycle Management
