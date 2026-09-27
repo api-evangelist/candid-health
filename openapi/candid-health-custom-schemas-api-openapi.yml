@@ -1,0 +1,396 @@
+openapi: 3.2.0
+info:
+  title: Reference Custom Schemas API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Custom Schemas
+paths:
+  /api/custom-schemas/v1:
+    get:
+      operationId: getMulti
+      summary: Get all custom schemas
+      description: Returns all custom schemas.
+      tags:
+      - Custom Schemas
+      parameters:
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas_v1_SchemaGetMultiResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create a custom schema
+      description: 'Create custom schema with a set of typed keys. Schema keys can be referenced as inputs in user-configurable rules in the Rules
+
+        Engine, and key-value pairs can be attached to claims via the Encounters API.'
+      tags:
+      - Custom Schemas
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - SchemaValidationHttpFailure
+                  content:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaValidationFailure'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                fields:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
+              required:
+              - name
+              - fields
+  /api/custom-schemas/v1/{schema_id}:
+    get:
+      operationId: get
+      summary: Get custom schema
+      description: Return a custom schema with a given ID.
+      tags:
+      - Custom Schemas
+      parameters:
+      - name: schema_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update custom schema
+      description: Update the name, description, or keys on a preexisting schema.
+      tags:
+      - Custom Schemas
+      parameters:
+      - name: schema_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - SchemaValidationHttpFailure
+                  content:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaValidationFailure'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                fields_to_add:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
+                  description: A list of typed entries to add to schema. Only additive modifications are permitted.
+components:
+  schemas:
+    type_commons_Primitive:
+      type: string
+      enum:
+      - BOOLEAN
+      - DOUBLE
+      - INTEGER
+      - STRING
+      description: 'The BOOLEAN and STRING primitives respectively map to the `boolean` and `string` JSON data types.
+
+        The DOUBLE and INTEGER primitives must be written as a JSON `number` type.'
+      title: Primitive
+    type_custom-schemas_v1_SchemaValidationFailure:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaValidationError'
+      required:
+      - errors
+      title: SchemaValidationFailure
+    type_custom-schemas_v1_SchemaGetMultiResponse:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
+      required:
+      - schemas
+      title: SchemaGetMultiResponse
+    type_custom-schemas_v1_SchemaValidationError:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - schema_name_already_exists
+            description: 'Discriminator value: schema_name_already_exists'
+          name:
+            type: string
+          id:
+            $ref: '#/components/schemas/type_commons_SchemaId'
+        required:
+        - type
+        - name
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - key_name_already_exists
+            description: 'Discriminator value: key_name_already_exists'
+          key:
+            type: string
+          value_type:
+            $ref: '#/components/schemas/type_commons_Primitive'
+        required:
+        - type
+        - key
+        - value_type
+      discriminator:
+        propertyName: type
+      title: SchemaValidationError
+    type_commons_SchemaId:
+      type: string
+      format: uuid
+      title: SchemaId
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_custom-schemas_v1_SchemaField:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          $ref: '#/components/schemas/type_commons_Primitive'
+      required:
+      - key
+      - type
+      title: SchemaField
+    type_custom-schemas_v1_Schema:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+        name:
+          type: string
+        description:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
+      required:
+      - id
+      - name
+      - fields
+      title: Schema
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

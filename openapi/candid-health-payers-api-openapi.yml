@@ -1,0 +1,452 @@
+openapi: 3.2.0
+info:
+  title: Reference Payers API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Payers
+paths:
+  /api/payers/v3/{payer_uuid}:
+    get:
+      operationId: get
+      summary: Get payer
+      tags:
+      - Payers
+      parameters:
+      - name: payer_uuid
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers_v3_Payer'
+  /api/payers/v3:
+    get:
+      operationId: getAll
+      summary: Get all payers
+      tags:
+      - Payers
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of entities per page, defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: search_term
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers_v3_PayerPage'
+  /api/payers/v4/{payer_uuid}:
+    get:
+      operationId: getApiPayersV4ByPayerUuid
+      summary: Get payer
+      tags:
+      - Payers
+      parameters:
+      - name: payer_uuid
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_payers_v4_PayerUuid'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers_v4_Payer'
+      x-operation-id-source: normalized
+      x-operation-id-original: get
+  /api/payers/v4:
+    get:
+      operationId: getApiPayersV4
+      summary: Get all payers
+      tags:
+      - Payers
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of entities per page, defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: search_term
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payers_v4_PayerPage'
+      x-operation-id-source: normalized
+      x-operation-id-original: getAll
+components:
+  schemas:
+    type_payers_v3_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_id:
+          type: string
+          description: The primary national payer ID of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        availity_payer_name:
+          type: string
+          description: The name of the payer as it appears in Availity.
+        availity_claims_payer_id:
+          type: string
+          description: The ID of the payer as it appears in Availity.
+        availity_eligibility_id:
+          type: string
+          description: The eligibility ID of the payer as it appears in Availity.
+        availity_remittance_payer_id:
+          type: string
+          description: The remittance ID of the payer as it appears in Availity.
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_id
+      - payer_name
+      title: Payer
+    type_payers_v4_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_payers_v3_PayerPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+      required:
+      - items
+      title: PayerPage
+    type_payers_v4_PayerIds:
+      type: object
+      properties:
+        claims_payer_id:
+          type: string
+          description: The payer ID for claim submission
+        eligibility_payer_id:
+          type: string
+          description: The payer ID for eligibility
+        remittance_payer_id:
+          type: string
+          description: The payer ID for remittance
+      title: PayerIds
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_payers_v4_PayerPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payers_v4_Payer'
+      required:
+      - items
+      title: PayerPage
+    type_payers_v4_SupportState:
+      type: string
+      enum:
+      - NOT_SUPPORTED
+      - SUPPORTED_ENROLLMENT_NOT_REQUIRED
+      - SUPPORTED_ENROLLMENT_REQUIRED
+      title: SupportState
+    type_payers_v4_PrimaryPayerIds:
+      type: object
+      properties:
+        claims_payer_id:
+          type: string
+          description: The payer ID for claim submission
+        eligibility_payer_id:
+          type: string
+          description: The payer ID for eligibility
+        remittance_payer_id:
+          type: string
+          description: The payer ID for remittance
+      required:
+      - claims_payer_id
+      title: PrimaryPayerIds
+    type_payers_v4_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v4_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_ids:
+          $ref: '#/components/schemas/type_payers_v4_PrimaryPayerIds'
+          description: The primary national payer IDs of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        payer_category:
+          $ref: '#/components/schemas/type_payers_v4_PayerCategory'
+          description: The category of the payer.
+        alternate_payer_names:
+          type: array
+          items:
+            type: string
+          description: The alternate display names of the payer.
+        clearinghouse_payer_info:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_payers_v4_ClearinghousePayerInfo'
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        alternate_payer_addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_ids
+      - payer_name
+      - alternate_payer_names
+      - clearinghouse_payer_info
+      - alternate_payer_addresses
+      title: Payer
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_payers_v4_ClearinghousePayerInfo:
+      type: object
+      properties:
+        payer_name:
+          type: string
+          description: The clearinghouse display name of the payer.
+        professional_payer_ids:
+          $ref: '#/components/schemas/type_payers_v4_PayerIds'
+          description: Payer IDs for professional claims
+        institutional_payer_ids:
+          $ref: '#/components/schemas/type_payers_v4_PayerIds'
+          description: Payer IDs for institutional claims
+        professional_claims_support:
+          $ref: '#/components/schemas/type_payers_v4_SupportState'
+          description: The support state for claims submission
+        institutional_claims_support:
+          $ref: '#/components/schemas/type_payers_v4_SupportState'
+          description: The support state for institutional claims submission
+        eligibility_support:
+          $ref: '#/components/schemas/type_payers_v4_SupportState'
+          description: The support state for eligibility
+        remittance_support:
+          $ref: '#/components/schemas/type_payers_v4_SupportState'
+          description: The support state for remittance
+        claim_attachment_support:
+          $ref: '#/components/schemas/type_payers_v4_SupportState'
+          description: The support state for claim attachment submission
+      required:
+      - payer_name
+      - professional_payer_ids
+      - institutional_payer_ids
+      - professional_claims_support
+      - institutional_claims_support
+      - eligibility_support
+      - remittance_support
+      - claim_attachment_support
+      title: ClearinghousePayerInfo
+    type_payers_v4_PayerCategory:
+      type: string
+      enum:
+      - BCBS
+      - AETNA_AFFILIATED
+      - CIGNA_AFFILIATED
+      - UNITED_AFFILIATED
+      - MEDICARE
+      - NON_TRADITIONAL_MEDICARE
+      - MEDICAID
+      - HOSPICE
+      - SNF
+      - TRICARE
+      - WORKERS_COMP
+      - OTHER_GOVERNMENT
+      - AUTO_TPL
+      - LIEN
+      - HUMANA
+      - MOLINA
+      - OTHER_FACILITY
+      title: PayerCategory
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

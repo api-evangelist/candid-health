@@ -234,16 +234,16 @@ apis:
     url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candid-health-v1-api
-  name: Candid Health V1 API
-  description: The v1 API from Candid Health — 105 operation(s) for v1.
+- aid: candid-health:candid-health-appointments-api
+  name: Candid Health Appointments API
+  description: The Appointments API from Candid Health — 7 operation(s) for appointments.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - v1
+  - Appointments
   properties:
   - type: OpenAPI
-    url: openapi/candid-health-v1-api-openapi.yml
+    url: openapi/candid-health-appointments-api-openapi.yml
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   - type: Documentation
@@ -271,18 +271,16 @@ apis:
     url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candid-health-v2-api
-  name: Candid Health V2 API
-  description: The v2 API from Candid Health — 25 operation(s) for v2.
+- aid: candid-health:candid-health-billing-notes-api
+  name: Candid Health Billing Notes API
+  description: The Billing Notes API from Candid Health — 2 operation(s) for billing notes.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - v2
-  tags_raw:
-  - v2
+  - Billing Notes
   properties:
   - type: OpenAPI
-    url: openapi/candid-health-v2-api-openapi.yml
+    url: openapi/candid-health-billing-notes-api-openapi.yml
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   - type: Documentation
@@ -310,18 +308,18 @@ apis:
     url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candid-health-v3-api
-  name: Candid Health V3 API
-  description: The v3 API from Candid Health — 28 operation(s) for v3.
+- aid: candid-health:candid-health-charge-capture-claim-creation-api
+  name: Candid Health Charge Capture Claim Creation API
+  description: >-
+    The Charge Capture Claim Creation API from Candid Health — 4 operation(s) for charge capture claim
+    creation.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - v3
-  tags_raw:
-  - v3
+  - Charge Capture Claim Creation
   properties:
   - type: OpenAPI
-    url: openapi/candid-health-v3-api-openapi.yml
+    url: openapi/candid-health-charge-capture-claim-creation-api-openapi.yml
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   - type: Documentation
@@ -349,18 +347,1550 @@ apis:
     url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
-- aid: candid-health:candid-health-v4-api
-  name: Candid Health V4 API
-  description: The v4 API from Candid Health — 10 operation(s) for v4.
+- aid: candid-health:candid-health-charge-captures-api
+  name: Candid Health Charge Captures API
+  description: The Charge Captures API from Candid Health — 5 operation(s) for charge captures.
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
-  - V4
-  tags_raw:
-  - v4
+  - Charge Captures
   properties:
   - type: OpenAPI
-    url: openapi/candid-health-v4-api-openapi.yml
+    url: openapi/candid-health-charge-captures-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-contracts-api
+  name: Candid Health Contracts API
+  description: The Contracts API from Candid Health — 8 operation(s) for contracts.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Contracts
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-contracts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-coverages-api
+  name: Candid Health Coverages API
+  description: The Coverages API from Candid Health — 9 operation(s) for coverages.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Coverages
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-coverages-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-custom-schemas-api
+  name: Candid Health Custom Schemas API
+  description: The Custom Schemas API from Candid Health — 2 operation(s) for custom schemas.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Custom Schemas
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-custom-schemas-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-eligibility-api
+  name: Candid Health Eligibility API
+  description: The Eligibility API from Candid Health — 1 operation(s) for eligibility.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Eligibility
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-eligibility-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-eligibility-checks-api
+  name: Candid Health Eligibility Checks API
+  description: The Eligibility Checks API from Candid Health — 9 operation(s) for eligibility checks.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Eligibility Checks
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-eligibility-checks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-encounter-attachments-api
+  name: Candid Health Encounter Attachments API
+  description: >-
+    The Encounter Attachments API from Candid Health — 4 operation(s) for encounter attachments.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Encounter Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-encounter-attachments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-encounter-providers-api
+  name: Candid Health Encounter Providers API
+  description: The Encounter Providers API from Candid Health — 9 operation(s) for encounter providers.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Encounter Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-encounter-providers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-encounter-supplemental-information-api
+  name: Candid Health Encounter Supplemental Information API
+  description: >-
+    The Encounter Supplemental Information API from Candid Health — 2 operation(s) for encounter supplemental
+    information.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Encounter Supplemental Information
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-encounter-supplemental-information-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-encounters-api
+  name: Candid Health Encounters API
+  description: The Encounters API from Candid Health — 6 operation(s) for encounters.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Encounters
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-encounters-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-events-api
+  name: Candid Health Events API
+  description: The Events API from Candid Health — 2 operation(s) for events.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-events-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-exports-api
+  name: Candid Health Exports API
+  description: The Exports API from Candid Health — 1 operation(s) for exports.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-exports-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-external-payment-account-config-api
+  name: Candid Health External Payment Account Config API
+  description: >-
+    The External Payment Account Config API from Candid Health — 1 operation(s) for external payment account
+    config.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - External Payment Account Config
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-external-payment-account-config-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-fee-schedules-api
+  name: Candid Health Fee Schedules API
+  description: The Fee Schedules API from Candid Health — 11 operation(s) for fee schedules.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Fee Schedules
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-fee-schedules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-guarantors-api
+  name: Candid Health Guarantors API
+  description: The Guarantors API from Candid Health — 2 operation(s) for guarantors.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Guarantors
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-guarantors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-health-care-code-informations-api
+  name: Candid Health Health Care Code Informations API
+  description: >-
+    The Health Care Code Informations API from Candid Health — 1 operation(s) for health care code informations.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Health Care Code Informations
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-health-care-code-informations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-images-api
+  name: Candid Health Images API
+  description: The Images API from Candid Health — 3 operation(s) for images.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-images-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-import-invoice-api
+  name: Candid Health Import Invoice API
+  description: The Import Invoice API from Candid Health — 2 operation(s) for import invoice.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Import Invoice
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-import-invoice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-insurance-adjudications-api
+  name: Candid Health Insurance Adjudications API
+  description: >-
+    The Insurance Adjudications API from Candid Health — 1 operation(s) for insurance adjudications.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Insurance Adjudications
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-insurance-adjudications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-insurance-refunds-api
+  name: Candid Health Insurance Refunds API
+  description: The Insurance Refunds API from Candid Health — 2 operation(s) for insurance refunds.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Insurance Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-insurance-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-lists-api
+  name: Candid Health Lists API
+  description: The Lists API from Candid Health — 2 operation(s) for lists.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-lists-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-medication-dispense-api
+  name: Candid Health Medication Dispense API
+  description: The Medication Dispense API from Candid Health — 1 operation(s) for medication dispense.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Medication Dispense
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-medication-dispense-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-non-insurance-payer-payments-api
+  name: Candid Health Non Insurance Payer Payments API
+  description: >-
+    The Non Insurance Payer Payments API from Candid Health — 2 operation(s) for non insurance payer payments.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Non Insurance Payer Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-non-insurance-payer-payments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-non-insurance-payer-refunds-api
+  name: Candid Health Non Insurance Payer Refunds API
+  description: >-
+    The Non Insurance Payer Refunds API from Candid Health — 2 operation(s) for non insurance payer refunds.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Non Insurance Payer Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-non-insurance-payer-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-non-insurance-payers-api
+  name: Candid Health Non Insurance Payers API
+  description: >-
+    The Non Insurance Payers API from Candid Health — 4 operation(s) for non insurance payers.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Non Insurance Payers
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-non-insurance-payers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-notes-api
+  name: Candid Health Notes API
+  description: The Notes API from Candid Health — 3 operation(s) for notes.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Notes
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-notes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-organization-external-providers-api
+  name: Candid Health Organization External Providers API
+  description: >-
+    The Organization External Providers API from Candid Health — 4 operation(s) for organization external
+    providers.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Organization External Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-organization-external-providers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-organization-providers-api
+  name: Candid Health Organization Providers API
+  description: >-
+    The Organization Providers API from Candid Health — 5 operation(s) for organization providers.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Organization Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-organization-providers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-organization-service-facilities-api
+  name: Candid Health Organization Service Facilities API
+  description: >-
+    The Organization Service Facilities API from Candid Health — 3 operation(s) for organization service
+    facilities.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Organization Service Facilities
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-organization-service-facilities-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-patient-ar-api
+  name: Candid Health Patient Ar API
+  description: The Patient Ar API from Candid Health — 2 operation(s) for patient ar.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Patient Ar
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-patient-ar-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-patient-merge-api
+  name: Candid Health Patient Merge API
+  description: The Patient Merge API from Candid Health — 5 operation(s) for patient merge.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Patient Merge
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-patient-merge-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-patient-payments-api
+  name: Candid Health Patient Payments API
+  description: The Patient Payments API from Candid Health — 2 operation(s) for patient payments.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Patient Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-patient-payments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-patient-refunds-api
+  name: Candid Health Patient Refunds API
+  description: The Patient Refunds API from Candid Health — 2 operation(s) for patient refunds.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Patient Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-patient-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-patients-api
+  name: Candid Health Patients API
+  description: The Patients API from Candid Health — 11 operation(s) for patients.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Patients
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-patients-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-payer-plan-groups-api
+  name: Candid Health Payer Plan Groups API
+  description: The Payer Plan Groups API from Candid Health — 2 operation(s) for payer plan groups.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Payer Plan Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-payer-plan-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-payers-api
+  name: Candid Health Payers API
+  description: The Payers API from Candid Health — 4 operation(s) for payers.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Payers
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-payers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-provider-credentialing-span-api
+  name: Candid Health Provider Credentialing Span API
+  description: >-
+    The Provider Credentialing Span API from Candid Health — 4 operation(s) for provider credentialing
+    span.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Provider Credentialing Span
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-provider-credentialing-span-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-service-lines-api
+  name: Candid Health Service Lines API
+  description: The Service Lines API from Candid Health — 4 operation(s) for service lines.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Service Lines
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-service-lines-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-superbill-api
+  name: Candid Health Superbill API
+  description: The Superbill API from Candid Health — 1 operation(s) for superbill.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Superbill
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-superbill-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-tags-api
+  name: Candid Health Tags API
+  description: The Tags API from Candid Health — 3 operation(s) for tags.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-tags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-tasks-api
+  name: Candid Health Tasks API
+  description: The Tasks API from Candid Health — 3 operation(s) for tasks.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-tasks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/get-all
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/encounters/v-4/create
+  - type: PostmanCollection
+    url: collections/candidhealth.postman_collection.json
+  - type: OpenCollection
+    url: collections/candidhealth.opencollection.json
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check
+  - type: APIReference
+    url: >-
+      https://docs.joincandidhealth.com/api-reference/pre-encounter/coverages/v-1/check-eligibility
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/charge-capture/v-1/create
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/payers/v-3/get
+  - type: APIReference
+    url: https://docs.joincandidhealth.com/api-reference/fee-schedules/v-3/get-match
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/insurance-adjudications/v-1/get
+  - type: Documentation
+    url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
+- aid: candid-health:candid-health-write-offs-api
+  name: Candid Health Write Offs API
+  description: The Write Offs API from Candid Health — 5 operation(s) for write offs.
+  humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
+  baseURL: https://api.joincandidhealth.com
+  tags:
+  - Write Offs
+  properties:
+  - type: OpenAPI
+    url: openapi/candid-health-write-offs-api-openapi.yml
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/eligibility/v-2
   - type: Documentation

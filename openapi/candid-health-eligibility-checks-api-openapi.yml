@@ -1,0 +1,1920 @@
+openapi: 3.2.0
+info:
+  title: Reference Eligibility Checks API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Eligibility Checks
+paths:
+  /eligibility-checks/v1:
+    post:
+      operationId: post
+      summary: Post
+      description: Sends real-time eligibility checks to payers through Stedi.
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRequest'
+  /eligibility-checks/v1/batch:
+    post:
+      operationId: batch
+      summary: Batch
+      description: Sends a batch of eligibility checks to payers through Stedi.
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_BatchEligibilityResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRequest'
+  /eligibility-checks/v1/batch/{batch_id}:
+    get:
+      operationId: poll-batch
+      summary: Poll Batch
+      description: Polls the status of a batch eligibility check.
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckPage'
+  /eligibility-checks/v1/payer/search:
+    get:
+      operationId: payer-search
+      summary: Payer Search
+      description: Searches for payers that match the query parameters.
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_PayerSearchResponse'
+  /eligibility-checks/v1/recommendation:
+    get:
+      operationId: recommendation
+      summary: Recommendation
+      description: 'Gets recommendation for eligibility checks based on filters. This endpoint will retrieve all the latest eligibility recommendations for each
+
+        eligibility recommendation type for the given filters. If you want to get a specific recommendation type, you can use the `type` query parameter.'
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: filters
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_FilterQueryString'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendation'
+    post:
+      operationId: create-recommendation
+      summary: Create Recommendation
+      description: Create an eligibiilty recommendation based on the request.
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendation'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_PostEligibilityRecommendationRequest'
+  /eligibility-checks/v1/recommendation/{recommendation_id}/{version}/vote:
+    put:
+      operationId: vote-recommendation
+      summary: Vote Recommendation
+      description: Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: recommendation_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendation'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Vote'
+  /eligibility-checks/v1/get-multi/:
+    get:
+      operationId: get-multi
+      summary: Get Multi
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: subscriber_member_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: payer_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: provider_npi
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: date_of_service
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: initiated_at_min
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: initiated_at_max
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckPage'
+  /eligibility-checks/v1/insurance-discovery:
+    post:
+      operationId: insurance-discovery
+      summary: Insurance Discovery
+      description: 'Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
+
+        Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.'
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryRequest'
+  /eligibility-checks/v1/coordination-of-benefits:
+    post:
+      operationId: coordination-of-benefits
+      summary: Coordination Of Benefits
+      description: 'Sends a coordination of benefits check through Stedi to determine whether a patient has
+
+        coverage overlap across multiple payers and, if so, which payer is primary.
+
+        Medicare and Medicare Advantage plans are not supported.'
+      tags:
+      - Eligibility Checks
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CoordinationOfBenefitsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CoordinationOfBenefitsRequest'
+components:
+  schemas:
+    type_pre-encounter_coverages_v1_BenefitType:
+      type: string
+      enum:
+      - DEDUCTIBLE
+      - DEDUCTIBLE_CONTRACT
+      - DEDUCTIBLE_REMAINING
+      - DEDUCTIBLE_YEAR_TO_DATE
+      - OOP_MAX
+      - OOP_MAX_CONTRACT
+      - OOP_MAX_REMAINING
+      - OOP_MAX_YEAR_TO_DATE
+      - COPAY
+      - COINSURANCE
+      - NON_COVERED
+      - LIMITATION
+      title: BenefitType
+    type_pre-encounter_eligibilityChecks_v1_Encounter:
+      type: object
+      properties:
+        date_of_service:
+          type: string
+          format: date
+          description: Defaults to the current date if not provided.
+        service_type_codes:
+          type: array
+          items:
+            type: string
+          description: 'Defaults to HealthBenefitPlanCoverage (30) if not provided.
+
+            <Note>Not all payers support multiple service type codes, so it is recommended to only include a single code per request.</Note>'
+      title: Encounter
+    type_pre-encounter_eligibilityChecks_v1_Cob:
+      type: object
+      properties:
+        classification:
+          type: string
+          description: 'The classification for the discovered benefits. One of: `CobInstanceExistsPrimacyDetermined`,
+
+            `CobInstanceExistsPrimacyUndetermined`, `CoverageOverlapNoBenefitOverlap`,
+
+            `CoverageOverlapExistsNotSubjectToCob`, or `MemberFoundNoCob`.'
+        instance_exists:
+          type: boolean
+          description: If true, the COB response contains at least one coordination of benefits instance.
+        primacy_determined:
+          type: boolean
+          description: If true, Stedi was able to determine the primary payer for the patient.
+        coverage_overlap:
+          type: boolean
+          description: If true, the patient has active coverage with two or more payers during the service date.
+        benefit_overlap:
+          type: boolean
+          description: If true, the patient has active coverage from two or more payers for the same service type code.
+      description: 'An overview of the COB response. Indicates whether there is a coverage overlap, whether that
+
+        overlap creates a coordination of benefits instance, and whether Stedi was able to identify
+
+        payer primacy (when a COB instance exists).'
+      title: Cob
+    type_pre-encounter_eligibilityChecks_v1_CobProvider:
+      type: object
+      properties:
+        organization_name:
+          type: string
+          description: The provider's business name. Required if the provider is an organization.
+        first_name:
+          type: string
+          description: The provider's first name. Required if the provider is an individual.
+        last_name:
+          type: string
+          description: The provider's last name. Required if the provider is an individual.
+        npi:
+          type: string
+          description: The provider's National Provider Identifier (NPI).
+      required:
+      - npi
+      description: 'Information about the entity requesting the COB check.
+
+        Provide either organization_name (for organizations) or first_name and last_name (for individuals), plus npi.'
+      title: CobProvider
+    type_pre-encounter_common_ErrorBase4xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase4xx
+    type_pre-encounter_eligibilityChecks_v1_CoordinationOfBenefitsRequest:
+      type: object
+      properties:
+        trading_partner_service_id:
+          type: string
+          description: 'The Payer ID. Each check must be for a participating health plan for which the patient has coverage.
+
+            Medicare and Medicare Advantage plans are not supported.'
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobProvider'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobSubscriber'
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobDependent'
+        encounter:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobEncounter'
+      required:
+      - trading_partner_service_id
+      - provider
+      - subscriber
+      - encounter
+      description: An object representing the data for a coordination of benefits request.
+      title: CoordinationOfBenefitsRequest
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails:
+      type: object
+      properties:
+        field?:
+          type: string
+        description?:
+          type: string
+        location?:
+          type: string
+        possibleResolutions?:
+          type: string
+        code?:
+          type: string
+        followupAction?:
+          type: string
+      description: This object is our fern representation of Stedi's EligbilityCheckError object from their API.
+      title: EligibilityCheckErrorDetails
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryDependent:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The dependent's first name.
+        last_name:
+          type: string
+          description: The dependent's last name.
+        middle_name:
+          type: string
+          description: The dependent's middle name or initial.
+        date_of_birth:
+          type: string
+          description: The dependent's date of birth, formatted as YYYYMMDD.
+        ssn:
+          type: string
+          description: The dependent's Social Security Number (SSN).
+        gender:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryGender'
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryAddress'
+      required:
+      - first_name
+      - last_name
+      description: 'Demographic information for the patient when they are a dependent on a health plan.
+
+        If you only have the dependent''s information, identify them in the subscriber object instead and leave this empty.'
+      title: InsuranceDiscoveryDependent
+    type_pre-encounter_eligibilityChecks_v1_Provider:
+      oneOf:
+      - $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_IndividualProvider'
+      - $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_OrganizationProvider'
+      title: Provider
+    type_pre-encounter_coverages_v1_BenefitsRelatedEntity:
+      type: object
+      properties:
+        entityIdentifier:
+          type: string
+        entityType:
+          type: string
+        entityName:
+          type: string
+        contactInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_RelatedEntityContact'
+        serviceTypeCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
+      title: BenefitsRelatedEntity
+    type_pre-encounter_coverages_v1_CoverageLevel:
+      type: string
+      enum:
+      - EMPLOYEE_AND_CHILDREN
+      - EMPLOYEE_ONLY
+      - EMPLOYEE_AND_SPOUSE
+      - FAMILY
+      - INDIVIDUAL
+      title: CoverageLevel
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckError:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorSource'
+        errorDetails:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+      required:
+      - source
+      - errorDetails
+      title: EligibilityCheckError
+    type_pre-encounter_coverages_v1_PlanCoverage:
+      type: object
+      properties:
+        in_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverageDetails'
+        in_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+        out_of_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverageDetails'
+        out_of_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+      title: PlanCoverage
+    type_pre-encounter_coverages_v1_CoverageDetails:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitType'
+        coverageLevel:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageLevel'
+        unit:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValueUnit'
+        value:
+          type: number
+          format: double
+        additional_notes:
+          type: string
+      required:
+      - type
+      - coverageLevel
+      - unit
+      - value
+      title: CoverageDetails
+    type_pre-encounter_coverages_v1_CoverageValue:
+      type: object
+      properties:
+        family:
+          type: number
+          format: double
+        individual:
+          type: number
+          format: double
+        employeeAndSpouse:
+          type: number
+          format: double
+        employeeAndChildren:
+          type: number
+          format: double
+      title: CoverageValue
+    type_pre-encounter_eligibilityChecks_v1_EligibilityRequest:
+      type: object
+      properties:
+        submitter_transaction_identifier:
+          type: string
+          description: 'A unique identifier for the eligibility check within the batch. Candid returns this identifier in the response for the
+
+            /batch/{batch_id} polling endpoint so you can correlate benefit responses with the original eligibility check.'
+        payer_id:
+          type: string
+          description: Supported payer ID values can be found [here](https://www.stedi.com/healthcare/network).
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Provider'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_MemberInfo'
+          description: The primary policyholder for the insurance plan or a dependent with a unique member ID. <Note>If a dependent has a unique member ID, include their information here and leave dependent undefined.</Note>
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_MemberInfo'
+          description: <Note>If a dependent has a unique member ID, include their information as subscriber and leave this field undefined.</Note>
+        encounter:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Encounter'
+        get_existing_check_initiated_after:
+          type: string
+          format: date-time
+          description: If not provided, this endpoint will run a fresh eligibility check. If provided, it will return an existing successful eligibility check if one exists that was initiated after provided date with the same parameters (Date of Service, Payer ID, Provider, Subscriber, Dependent, and Encounter).
+        source:
+          type: string
+        portal_password:
+          type: string
+          description: The password that the provider uses to log in to the payer's portal. This is not commonly used.
+        portal_username:
+          type: string
+          description: The username that the provider uses to log in to the payer's portal. This is not commonly used.
+      required:
+      - payer_id
+      - provider
+      - subscriber
+      description: An object representing the data for an eligibility request.
+      title: EligibilityRequest
+    type_pre-encounter_common_FilterQueryString:
+      type: string
+      description: 'A serialized list of filters separated by commas indicating filters to apply.  Each filter is of the form ''path:operator:value''. Example: ''patient.mrn|eq|12345''.  Filters are separated by commas. Example: ''patient.mrn|eq|12345,appointment.startDate|gt|67890''. All filters are ANDed together.  Valid operators are ''eq'', ''gt'', ''lt'', ''contains'', ''ieq'', ''in''. ieq is a case-insensitive equality operator. in allows searching for values that match any item in a semicolon-separated list (e.g., ''patient.id|in|foo;bar;baz''). Path values are camelCase.'
+      title: FilterQueryString
+    type_pre-encounter_coverages_v1_ExpandedMemberInfo:
+      type: object
+      properties:
+        member_id:
+          type: string
+        group_number:
+          type: string
+        first_name:
+          type: string
+        middle_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          type: string
+        gender:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Address'
+      title: ExpandedMemberInfo
+    type_pre-encounter_eligibilityChecks_v1_StediPayer:
+      type: object
+      properties:
+        stedi_id:
+          type: string
+        display_name:
+          type: string
+        primary_payer_id:
+          type: string
+        aliases:
+          type: array
+          items:
+            type: string
+        names:
+          type: array
+          items:
+            type: string
+        transaction_support:
+          description: Any type
+        employer_identification_numbers:
+          type: array
+          items:
+            type: string
+        payer_enrollment:
+          description: Any type
+        parent_payer_group:
+          type: string
+        coverage_types:
+          type: array
+          items:
+            type: string
+      required:
+      - stedi_id
+      - display_name
+      - primary_payer_id
+      - aliases
+      - names
+      - transaction_support
+      title: StediPayer
+    type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendation:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
+          description: The organization that owns this object.
+        deactivated:
+          type: boolean
+          description: True if the object is deactivated.  Deactivated objects are not returned in search results but are returned in all other endpoints including scan.
+        version:
+          type: integer
+          description: The version of the object. Any update to any property of an object object will create a new version.
+        updated_at:
+          type: string
+          format: date-time
+        updating_user_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
+          description: The user ID of the user who last updated the object.
+        id:
+          type: string
+          description: The unique UUID identifier for an EligibilityRecommendation.
+        eligibility_check_id:
+          type: string
+        recommendation:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendationPayload'
+        coverage_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
+        patient:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendationPatientInfo'
+        votes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Vote'
+          description: Array of votes for this recommendation
+      required:
+      - organization_id
+      - deactivated
+      - version
+      - updated_at
+      - updating_user_id
+      - id
+      - eligibility_check_id
+      - recommendation
+      - patient
+      description: An eligibility recommendation object that contains an EligibilityRecommendationType and a payload of data denoting the recommendation.
+      title: EligibilityRecommendation
+    type_pre-encounter_eligibilityChecks_v1_CobSubscriber:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The subscriber's first name.
+        last_name:
+          type: string
+          description: The subscriber's last name.
+        date_of_birth:
+          type: string
+          description: The subscriber's date of birth.
+        member_id:
+          type: string
+          description: The member ID for the subscriber's insurance policy.
+        ssn:
+          type: string
+          description: The subscriber's Social Security Number (SSN).
+      required:
+      - first_name
+      - last_name
+      - date_of_birth
+      description: 'The primary policyholder for the insurance plan or a dependent with a unique member ID.
+
+        You must provide at least one of member_id or ssn.'
+      title: CobSubscriber
+    type_pre-encounter_coverages_v1_CoverageValueUnit:
+      type: string
+      enum:
+      - PERCENT
+      - CURRENCY
+      - COUNT
+      title: CoverageValueUnit
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryGender:
+      type: string
+      enum:
+      - M
+      - F
+      title: InsuranceDiscoveryGender
+    type_pre-encounter_coverages_v1_PlanDate:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        field_name:
+          type: string
+      required:
+      - start_date
+      - field_name
+      title: PlanDate
+    type_pre-encounter_eligibilityChecks_v1_CobResponseDependent:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: The member ID for the subscriber's insurance policy.
+        first_name:
+          type: string
+        last_name:
+          type: string
+        middle_name:
+          type: string
+        gender:
+          type: string
+          description: The dependent's gender. Typically `F` - Female, `M` - Male, or `U` - Unknown.
+        date_of_birth:
+          type: string
+        ssn:
+          type: string
+        group_number:
+          type: string
+          description: The group number associated with the subscriber's insurance policy.
+        relation_to_subscriber:
+          type: string
+          description: The name of the relation_to_subscriber_code. For example, `Child` when the code is `19`.
+        relation_to_subscriber_code:
+          type: string
+          description: 'The dependent''s relationship to the subscriber. For example `01` - Spouse, `19` - Child,
+
+            `20` - Employee, `21` - Unknown, `39` - Organ Donor, `40` - Cadaver Donor,
+
+            `53` - Life Partner, or `G8` - Other Relationship.'
+        birth_sequence_number:
+          type: string
+          description: Birth order when there are multiple births associated with the provided birth date.
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobAddress'
+        aaa_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+          description: AAA errors specifying reasons for rejection and recommended follow-up actions.
+      description: Information about the dependent listed in the original COB request.
+      title: CobResponseDependent
+    type_pre-encounter_eligibilityChecks_v1_RequestCorrection:
+      type: object
+      properties:
+        property:
+          type: string
+        request_value:
+          type: string
+        corrected_value:
+          type: string
+      required:
+      - property
+      - request_value
+      - corrected_value
+      title: RequestCorrection
+    type_pre-encounter_eligibilityChecks_v1_Vote:
+      type: object
+      properties:
+        user_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
+          description: The user who voted
+        value:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_VoteValue'
+          description: The vote value
+      required:
+      - user_id
+      - value
+      description: User feedback on a recommendation
+      title: Vote
+    type_pre-encounter_eligibilityChecks_v1_OrganizationProvider:
+      type: object
+      properties:
+        organization_name:
+          type: string
+        npi:
+          type: string
+      required:
+      - npi
+      title: OrganizationProvider
+    type_pre-encounter_coverages_v1_ServiceCoverage:
+      type: object
+      properties:
+        service_code:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
+        in_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverageDetails'
+        in_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+        out_of_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverageDetails'
+        out_of_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+      required:
+      - service_code
+      title: ServiceCoverage
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorSource:
+      type: string
+      enum:
+      - CANDID
+      - STEDI
+      description: enum to represent the source of an error in an eligibility check
+      title: EligibilityCheckErrorSource
+    type_pre-encounter_coverages_v1_PlanCoverageDetails:
+      type: object
+      properties:
+        deductible:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        deductible_contract:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        deductible_remaining:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        deductible_year_to_date:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max_contract:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max_remaining:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max_year_to_date:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        additional_notes:
+          type: string
+      title: PlanCoverageDetails
+    type_pre-encounter_coverages_v1_ServiceCoverageDetails:
+      type: object
+      properties:
+        copay:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        coinsurance:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        visits:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        visits_remaining:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        additional_notes:
+          type: string
+      title: ServiceCoverageDetails
+    type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendationPatientInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
+        mrn:
+          type: string
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
+        last_name:
+          type: string
+        first_name:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        member_id:
+          type: string
+      description: "An object representing patient information for an eligibility recommendation. \nThis is used to find recommendations. Each field helps us find the right corresponding\neligibility recommendation for the patient."
+      title: EligibilityRecommendationPatientInfo
+    type_pre-encounter_eligibilityChecks_v1_IndividualProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        npi:
+          type: string
+      required:
+      - npi
+      title: IndividualProvider
+    type_pre-encounter_eligibilityChecks_v1_EligibilityStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - INACTIVE
+      - UNKNOWN
+      description: enum to represent the status of a patient's coverage
+      title: EligibilityStatus
+    type_pre-encounter_common_PageToken:
+      type: string
+      description: A token that can be used to retrieve the next or previous page of results
+      title: PageToken
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryAddress:
+      type: object
+      properties:
+        address_1:
+          type: string
+        address_2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postal_code:
+          type: string
+        country_code:
+          type: string
+      description: The patient's address. Providing a zip code improves the probability of finding matching coverage.
+      title: InsuranceDiscoveryAddress
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_eligibilityChecks_v1_CoordinationOfBenefitsResponse:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobResponseProvider'
+          description: Information about the provider who submitted the COB request.
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobResponseSubscriber'
+          description: Information about the primary policyholder.
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobResponseDependent'
+          description: Information about the dependent listed in the COB request.
+        payer:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobPayer'
+          description: Information about the payer listed in the COB request.
+        plan_date_information:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobPlanDateInformation'
+          description: Date information for the plan.
+        benefits_information:
+          type: array
+          items:
+            description: Any type
+          description: Raw passthrough of Stedi's benefits information (coverage, service types, related entities, etc.).
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+        coordination_of_benefits:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Cob'
+          description: Overview of the COB response including whether coverage overlap exists and payer primacy.
+      description: An object representing the data for a coordination of benefits response.
+      title: CoordinationOfBenefitsResponse
+    type_pre-encounter_eligibilityChecks_v1_CobEncounter:
+      type: object
+      properties:
+        date_of_service:
+          type: string
+          description: The date of service. Defaults to the current date if not specified.
+        beginning_date_of_service:
+          type: string
+          description: The beginning date of service. If included, end_date_of_service is also required.
+        end_date_of_service:
+          type: string
+          description: The end date of service. If included, beginning_date_of_service is also required.
+      description: 'Information about the encounter for the COB check.
+
+        Service dates must be within the past 2 years and must not be in the future.'
+      title: CobEncounter
+    type_pre-encounter_eligibilityChecks_v1_StediPayerItem:
+      type: object
+      properties:
+        score:
+          type: integer
+        payer:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_StediPayer'
+      required:
+      - score
+      - payer
+      title: StediPayerItem
+    type_pre-encounter_eligibilityChecks_v1_CobDependent:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The dependent's first name.
+        last_name:
+          type: string
+          description: The dependent's last name.
+        date_of_birth:
+          type: string
+          description: The dependent's date of birth.
+        ssn:
+          type: string
+          description: The dependent's Social Security Number (SSN).
+      required:
+      - first_name
+      - last_name
+      - date_of_birth
+      description: 'A dependent for which you want to check coordination of benefits.
+
+        If the dependent has their own member ID, include their information in the subscriber object instead.'
+      title: CobDependent
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckPage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheck'
+      required:
+      - total
+      - items
+      title: EligibilityCheckPage
+    type_pre-encounter_coverages_v1_PlanMetadata:
+      type: object
+      properties:
+        payer_name:
+          type: string
+        insurance_type:
+          type: string
+        insurance_type_code:
+          type: string
+        plan_name:
+          type: string
+        member_id:
+          type: string
+        group_number:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        plan_dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanDate'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ExpandedMemberInfo'
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ExpandedMemberInfo'
+      title: PlanMetadata
+    type_pre-encounter_eligibilityChecks_v1_CobAddress:
+      type: object
+      properties:
+        address_1:
+          type: string
+        address_2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          description: 'The US state or Canadian province code. Kept as a string rather than an enum because,
+
+            per Stedi, payers may sometimes return non-compliant values.'
+        postal_code:
+          type: string
+        country_code:
+          type: string
+        country_sub_division_code:
+          type: string
+      description: A patient's address as returned in a coordination of benefits response.
+      title: CobAddress
+    type_pre-encounter_eligibilityChecks_v1_CobPlanDateInformation:
+      type: object
+      properties:
+        plan_begin:
+          type: string
+          description: When the patient's health plan coverage begins.
+        plan_end:
+          type: string
+          description: When the patient's health plan coverage ends.
+      description: Dates associated with the patient's health plan coverage.
+      title: CobPlanDateInformation
+    type_pre-encounter_common_VersionConflictErrorBody:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+        latest_version:
+          type: integer
+      required:
+      - message
+      title: VersionConflictErrorBody
+    type_pre-encounter_eligibilityChecks_v1_VoteValue:
+      type: string
+      enum:
+      - UPVOTE
+      - DOWNVOTE
+      description: Possible vote values for recommendation quality
+      title: VoteValue
+    type_pre-encounter_eligibilityChecks_v1_CopayEstimationRecommendationPayload:
+      type: object
+      properties:
+        structured_response:
+          type: integer
+          description: The estimated copay amount in cents
+        exposition:
+          type: string
+          description: The AI's explanation of the copay estimate
+      required:
+      - exposition
+      description: Payload for MD visit copay estimation from AI analysis
+      title: CopayEstimationRecommendationPayload
+    type_pre-encounter_eligibilityChecks_v1_UserConfiguredPromptsRecommendationPayload:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_UserConfiguredPromptsResult'
+          description: Array of results from all enabled user-configured prompts
+      required:
+      - results
+      description: Payload for user-configured prompt recommendations from AI analysis
+      title: UserConfiguredPromptsRecommendationPayload
+    type_pre-encounter_coverages_v1_MemberInfo:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: "Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  \nHowever, each payer has different requirements, so you should supply as many of the fields necessary for each payer \nto identify the subscriber/dependent in their system."
+        first_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+          description: "Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  \nHowever, each payer has different requirements, so you should supply as many of the fields necessary for each payer \nto identify the subscriber/dependent in their system."
+      required:
+      - first_name
+      - last_name
+      title: MemberInfo
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryProvider:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The provider's National Provider Identifier (NPI).
+      required:
+      - npi
+      description: Information about the provider requesting the insurance discovery check.
+      title: InsuranceDiscoveryProvider
+    type_pre-encounter_eligibilityChecks_v1_PostEligibilityRecommendationRequest:
+      type: object
+      properties:
+        eligibility_check_id:
+          type: string
+        patient:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendationPatientInfo'
+        recommendation:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendationPayload'
+      required:
+      - eligibility_check_id
+      - patient
+      - recommendation
+      title: PostEligibilityRecommendationRequest
+    type_pre-encounter_eligibilityChecks_v1_MedicareAdvantageRecommendationPayload:
+      type: object
+      properties:
+        ma_benefit:
+          description: Any type
+        payer_id:
+          type: string
+        payer_name:
+          type: string
+        member_id:
+          type: string
+      description: An object representing the payload for a Medicare Advantage recommendation.
+      title: MedicareAdvantageRecommendationPayload
+    type_pre-encounter_coverages_v1_NonCoveredDetail:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitType'
+        coverageLevel:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageLevel'
+        unit:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValueUnit'
+        value:
+          type: number
+          format: double
+        additional_notes:
+          type: string
+        service_type_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
+      required:
+      - type
+      - coverageLevel
+      - unit
+      - value
+      title: NonCoveredDetail
+    type_pre-encounter_coverages_v1_Address:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postal_code:
+          type: string
+        country_code:
+          type: string
+        country_sub_division_code:
+          type: string
+      title: Address
+    type_pre-encounter_coverages_v1_ServiceTypeCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '30'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '38'
+      - '39'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '48'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '60'
+      - '61'
+      - '62'
+      - '63'
+      - '64'
+      - '65'
+      - '66'
+      - '67'
+      - '68'
+      - '69'
+      - '70'
+      - '71'
+      - '72'
+      - '73'
+      - '74'
+      - '75'
+      - '76'
+      - '77'
+      - '78'
+      - '79'
+      - '80'
+      - '81'
+      - '82'
+      - '83'
+      - '84'
+      - '85'
+      - '86'
+      - '87'
+      - '88'
+      - '89'
+      - '90'
+      - '91'
+      - '92'
+      - '93'
+      - '94'
+      - '95'
+      - '96'
+      - '97'
+      - '98'
+      - '99'
+      - A0
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+      - A8
+      - A9
+      - AA
+      - AB
+      - AC
+      - AD
+      - AE
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AK
+      - AL
+      - AM
+      - AN
+      - AO
+      - AQ
+      - AR
+      - B1
+      - B2
+      - B3
+      - BA
+      - BB
+      - BC
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BK
+      - BL
+      - BM
+      - BN
+      - BP
+      - BQ
+      - BR
+      - BS
+      - BT
+      - BU
+      - BV
+      - BW
+      - BX
+      - BY
+      - BZ
+      - C1
+      - CA
+      - CB
+      - CC
+      - CD
+      - CE
+      - CF
+      - CG
+      - CH
+      - CI
+      - CJ
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CP
+      - CQ
+      - DG
+      - DM
+      - DS
+      - GF
+      - GN
+      - GY
+      - IC
+      - MH
+      - NI
+      - 'ON'
+      - PT
+      - PU
+      - RN
+      - RT
+      - TC
+      - TN
+      - UC
+      description: Code identifying the type of service or benefit within a specific insurance policy (X12 008010 Element 1365)
+      title: ServiceTypeCode
+    type_pre-encounter_common_PatientId:
+      type: string
+      description: The unique identifier for a Patient
+      title: PatientId
+    type_pre-encounter_eligibilityChecks_v1_CobResponseSubscriber:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: The member ID for the subscriber's insurance policy.
+        first_name:
+          type: string
+        last_name:
+          type: string
+        middle_name:
+          type: string
+        gender:
+          type: string
+          description: The subscriber's gender. Typically `F` - Female, `M` - Male, or `U` - Unknown.
+        date_of_birth:
+          type: string
+        ssn:
+          type: string
+        group_number:
+          type: string
+          description: The group number associated with the subscriber's insurance policy.
+        birth_sequence_number:
+          type: string
+          description: Birth order when there are multiple births associated with the provided birth date.
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CobAddress'
+        aaa_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+          description: AAA errors specifying reasons for rejection and recommended follow-up actions.
+      description: Information about the primary policyholder for the insurance plan listed in the COB request.
+      title: CobResponseSubscriber
+    type_pre-encounter_eligibilityChecks_v1_UserConfiguredPromptsResult:
+      type: object
+      properties:
+        user_prompt_id:
+          type: string
+          description: Reference to the user prompt in eligibility config
+        prompt_name:
+          type: string
+          description: User-defined name for the prompt
+        structured_response:
+          description: The AI's structured answer (boolean, number, or string)
+        exposition:
+          type: string
+          description: The AI's explanation of the answer
+      required:
+      - user_prompt_id
+      - prompt_name
+      - structured_response
+      - exposition
+      description: Individual result from a single user-configured prompt execution
+      title: UserConfiguredPromptsResult
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheck:
+      type: object
+      properties:
+        batch_id:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckError'
+        request:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRequest'
+        response:
+          description: Any type
+        parsed_response:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_ParsedResponse'
+        request_corrections:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_RequestCorrection'
+      required:
+      - response
+      title: EligibilityCheck
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryStatus:
+      type: string
+      enum:
+      - PENDING
+      - COMPLETE
+      description: The status of the insurance discovery check.
+      title: InsuranceDiscoveryStatus
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoverySubscriber:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The subscriber's first name.
+        last_name:
+          type: string
+          description: The subscriber's last name.
+        middle_name:
+          type: string
+          description: The subscriber's middle name or initial.
+        date_of_birth:
+          type: string
+          description: The subscriber's date of birth, formatted as YYYYMMDD.
+        ssn:
+          type: string
+          description: The subscriber's Social Security Number (SSN). Full SSN is preferred, but even the last 4 digits can help.
+        gender:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryGender'
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryAddress'
+      required:
+      - first_name
+      - last_name
+      description: 'Demographic information for the patient when they are the health plan subscriber.
+
+        Providing as much information as possible improves the probability of finding matching coverage.
+
+        SSN and address (especially zip code) are strongly recommended.'
+      title: InsuranceDiscoverySubscriber
+    type_pre-encounter_eligibilityChecks_v1_EligibilityRecommendationPayload:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - MEDICARE_ADVANTAGE
+            description: 'Discriminator value: MEDICARE_ADVANTAGE'
+          payload:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_MedicareAdvantageRecommendationPayload'
+        required:
+        - type
+        - payload
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - MEDICAID_MANAGED_CARE
+            description: 'Discriminator value: MEDICAID_MANAGED_CARE'
+          payload:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_MedicareAdvantageRecommendationPayload'
+        required:
+        - type
+        - payload
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - COORDINATION_OF_BENEFITS
+            description: 'Discriminator value: COORDINATION_OF_BENEFITS'
+          payload:
+            description: Any type
+        required:
+        - type
+        - payload
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - COPAY_ESTIMATION
+            description: 'Discriminator value: COPAY_ESTIMATION'
+          payload:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_CopayEstimationRecommendationPayload'
+        required:
+        - type
+        - payload
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - USER_CONFIGURED_PROMPTS
+            description: 'Discriminator value: USER_CONFIGURED_PROMPTS'
+          payload:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_UserConfiguredPromptsRecommendationPayload'
+        required:
+        - type
+        - payload
+      discriminator:
+        propertyName: type
+      title: EligibilityRecommendationPayload
+    type_pre-encounter_eligibilityChecks_v1_CobPayer:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The payer's name, such as `CIGNA`.
+        payer_identification:
+          type: string
+          description: The trading_partner_service_id (Payer ID) used to identify the payer in the COB request.
+      description: Information about the payer listed in the COB request.
+      title: CobPayer
+    type_pre-encounter_eligibilityChecks_v1_PayerSearchResponse:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_StediPayerItem'
+        stats:
+          description: Any type
+      required:
+      - total
+      - items
+      - stats
+      title: PayerSearchResponse
+    type_pre-encounter_eligibilityChecks_v1_CobResponseProvider:
+      type: object
+      properties:
+        provider_name:
+          type: string
+          description: The provider's last name. Applies to providers that are an individual.
+        provider_first_name:
+          type: string
+          description: The provider's first name. Applies to providers that are an individual.
+        provider_org_name:
+          type: string
+          description: The provider's organization name.
+        npi:
+          type: string
+          description: The provider's National Provider Identifier (NPI).
+        aaa_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+          description: AAA errors specifying reasons for rejection and recommended follow-up actions.
+      description: Information about the entity that submitted the original COB request.
+      title: CobResponseProvider
+    type_pre-encounter_coverages_v1_CoverageBenefits:
+      type: object
+      properties:
+        plan_coverage:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverage'
+        service_specific_coverage:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverage'
+        benefits_related_entities:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitsRelatedEntity'
+        non_covered_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NonCoveredDetail'
+        notes:
+          type: string
+        autoUpdatedEligibilityCheckId:
+          type: string
+      title: CoverageBenefits
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryResponse:
+      type: object
+      properties:
+        discovery_id:
+          type: string
+          description: A unique ID for this insurance discovery check.
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryStatus'
+          description: The status of the discovery check. COMPLETE means items are populated. PENDING means the check is still in progress.
+        items:
+          type: array
+          items:
+            description: Any type
+          description: "An array of potential coverage matches for the patient. Only populated when status is COMPLETE.\nEach item is a raw passthrough of Stedi's deeply nested coverage-match object (provider, subscriber, \npayer, plan, and benefits details)."
+        coverages_found:
+          type: integer
+          description: The number of potential coverage matches found. 0 if no matching coverage was found.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+      description: An object representing the data for an insurance discovery response.
+      title: InsuranceDiscoveryResponse
+    type_pre-encounter_eligibilityChecks_v1_EligibilityResponse:
+      $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheck'
+      description: An object representing the data for an eligibility response.
+      title: EligibilityResponse
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryRequest:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryProvider'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoverySubscriber'
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryDependent'
+        encounter:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryEncounter'
+      required:
+      - provider
+      - subscriber
+      description: An object representing the data for an insurance discovery request.
+      title: InsuranceDiscoveryRequest
+    type_pre-encounter_coverages_v1_RelatedEntityContact:
+      type: object
+      properties:
+        mode:
+          type: string
+        value:
+          type: string
+      title: RelatedEntityContact
+    type_pre-encounter_eligibilityChecks_v1_InsuranceDiscoveryEncounter:
+      type: object
+      properties:
+        date_of_service:
+          type: string
+          description: A single date of service, formatted as YYYYMMDD.
+        beginning_date_of_service:
+          type: string
+          description: The beginning date of service, formatted as YYYYMMDD.
+        end_date_of_service:
+          type: string
+          description: The end date of service, formatted as YYYYMMDD.
+      description: 'The date range for the service. If not specified, Stedi defaults to the current date.
+
+        You can specify either a single date_of_service or a beginning_date_of_service and end_date_of_service.'
+      title: InsuranceDiscoveryEncounter
+    type_pre-encounter_eligibilityChecks_v1_ParsedResponse:
+      type: object
+      properties:
+        eligibility_status:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityStatus'
+        plan_metadata:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanMetadata'
+        benefits:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageBenefits'
+      required:
+      - eligibility_status
+      title: ParsedResponse
+    type_pre-encounter_common_CoverageId:
+      type: string
+      format: uuid
+      description: The unique identifier for a Coverage in the database
+      title: CoverageId
+    type_pre-encounter_eligibilityChecks_v1_BatchEligibilityResponse:
+      type: object
+      properties:
+        batch_id:
+          type: string
+        submitted_at:
+          type: string
+          format: date-time
+      required:
+      - batch_id
+      - submitted_at
+      description: An object representing the data for a batch eligibility response.
+      title: BatchEligibilityResponse
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

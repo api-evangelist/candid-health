@@ -1,0 +1,3399 @@
+openapi: 3.2.0
+info:
+  title: Reference Charge Captures API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Charge Captures
+paths:
+  /api/charge_captures/v1:
+    post:
+      operationId: create
+      summary: Create a Charge Capture
+      tags:
+      - Charge Captures
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapture'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ChargeExternalIdConflictError
+                  content:
+                    $ref: '#/components/schemas/type_charge-capture_v1_ChargeExternalIdConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureData'
+                  description: Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+                charge_external_id:
+                  type: string
+                  description: A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+                originating_system:
+                  type: string
+                  description: An optional string field denoting the originating system of the charge.
+                claim_creation_category:
+                  type: string
+                  description: An optional string field denoting the user defined category of the claim creation.
+                ehr_source_url:
+                  type: string
+                  description: External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+                patient_external_id:
+                  type: string
+                  description: The patient ID from the external EMR platform for the patient
+                status:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureStatus'
+                  description: the status of the charge capture
+                attachment_external_document_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+                metadata:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaInstance'
+                  description: 'Key-value pairs that adhere to metadata schemas.
+
+                    Multiple metadata instances can be associated with a charge capture.'
+                hl7_message_type:
+                  $ref: '#/components/schemas/type_charge-capture_v1_Hl7MessageType'
+                  description: The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+              required:
+              - data
+              - charge_external_id
+              - patient_external_id
+              - status
+    get:
+      operationId: getAll
+      summary: Get all Charge Captures
+      tags:
+      - Charge Captures
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of entities per page, defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        description: Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to descending order if not provided.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: patient_external_id
+        in: query
+        description: The patient ID from the external EMR platform for the patient
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: the status of the charge captures
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureStatus'
+      - name: charge_external_id
+        in: query
+        description: 'A client-specified unique ID to associate with this encounter;
+
+          for example, your internal encounter ID or a Dr. Chrono encounter ID.
+
+          This field should not contain PHI.'
+        required: false
+        schema:
+          type: string
+      - name: date_of_service_min
+        in: query
+        description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+          This date must be the local date in the timezone where the service occurred.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: date_of_service_max
+        in: query
+        description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+          This date must be the local date in the timezone where the service occurred.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: claim_ids
+        in: query
+        description: A list of claim IDs to filter by. This will return all charge captures that have a resulting claim with one of the IDs in this list.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: claim_creation_ids
+        in: query
+        description: A list of Claim Creation IDs to filter by.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureClaimCreationId'
+      - name: billing_provider_npis
+        in: query
+        description: A list of billing provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: service_facility_name
+        in: query
+        description: A string to filter by. This will return all charge captures with this service facility name.
+        required: false
+        schema:
+          type: string
+      - name: primary_payer_ids
+        in: query
+        description: A list of primary payer IDs to filter by. This will return all charge captures with one of the primary payer IDs in this list.
+        required: false
+        schema:
+          type: string
+      - name: rendering_provider_npis
+        in: query
+        description: A list of rendering provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: rendering_provider_names
+        in: query
+        description: A list of rendering provider names to filter by. This will return all charge captures with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: supervising_provider_npis
+        in: query
+        description: A list of supervising provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: supervising_provider_names
+        in: query
+        description: A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: claim_creation_category
+        in: query
+        description: A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: tags
+        in: query
+        description: A list of tags to filter by. This will return all charge captures with one of the tags.
+        required: false
+        schema:
+          type: string
+      - name: primary_payer_names
+        in: query
+        description: A list of primary payer names to filter by. This will return all charge captures with one of the names.
+        required: false
+        schema:
+          type: string
+      - name: patient_names
+        in: query
+        description: A list of patient names to filter by. This will return all charge captures with one of the names.
+        required: false
+        schema:
+          type: string
+      - name: exclude_charges_linked_to_claims
+        in: query
+        description: Whether to exclude charge captures which are part of a claim creation.
+        required: false
+        schema:
+          type: boolean
+      - name: patient_external_id_ranked_sort
+        in: query
+        description: The patient ID from the external EMR platform for the patient
+        required: false
+        schema:
+          type: string
+      - name: status_ranked_sort
+        in: query
+        description: The charge capture status to show first
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureStatus'
+      - name: charge_external_id_ranked_sort
+        in: query
+        description: 'A client-specified unique ID to associate with this encounter;
+
+          for example, your internal encounter ID or a Dr. Chrono encounter ID.
+
+          This field should not contain PHI.'
+        required: false
+        schema:
+          type: string
+      - name: date_of_service_min_ranked_sort
+        in: query
+        description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+          This date must be the local date in the timezone where the service occurred.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: date_of_service_max_ranked_sort
+        in: query
+        description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+          This date must be the local date in the timezone where the service occurred.'
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: search_term
+        in: query
+        description: 'Filter by any of the following fields: charge_id, claim_id, patient external_id,
+
+          patient date of birth, patient first name, patient last name,
+
+          or charge external id.'
+        required: false
+        schema:
+          type: string
+      - name: billable_status
+        in: query
+        description: Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_encounters_v4_BillableStatusType'
+      - name: responsible_party
+        in: query
+        description: Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_encounters_v4_ResponsiblePartyType'
+      - name: claim_ids_ranked_sort
+        in: query
+        description: A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: claim_creation_ids_ranked_sort
+        in: query
+        description: A list of Claim Creation IDs to show first.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureClaimCreationId'
+      - name: billing_provider_npis_ranked_sort
+        in: query
+        description: A list of billing provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: service_facility_name_ranked_sort
+        in: query
+        description: A string to show first. This will return all charge captures with this service facility name.
+        required: false
+        schema:
+          type: string
+      - name: primary_payer_ids_ranked_sort
+        in: query
+        description: A list of primary payer IDs to show first. This will return all charge captures with one of the primary payer IDs in this list.
+        required: false
+        schema:
+          type: string
+      - name: rendering_provider_npis_ranked_sort
+        in: query
+        description: A list of rendering provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: rendering_provider_names_ranked_sort
+        in: query
+        description: A list of rendering provider names to show first. This will return all charge captures with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: supervising_provider_npis_ranked_sort
+        in: query
+        description: A list of supervising provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+        required: false
+        schema:
+          type: string
+      - name: supervising_provider_names_ranked_sort
+        in: query
+        description: A list of supervising provider names to show first. This will return all charge captures with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: claim_status
+        in: query
+        description: the status of the claim to filter by created from charge capture bundle.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_claims_ClaimStatus'
+      - name: claim_creation_category_ranked_sort
+        in: query
+        description: A list of claim creation categories to sort by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+        required: false
+        schema:
+          type: string
+      - name: tags_ranked_sort
+        in: query
+        description: A list of tags. This will return all charge captures with one of the tags.
+        required: false
+        schema:
+          type: string
+      - name: primary_payer_names_ranked_sort
+        in: query
+        description: A list of primary payer names to sort by. This will return all charge captures with one of the names.
+        required: false
+        schema:
+          type: string
+      - name: patient_names_ranked_sort
+        in: query
+        description: A list of patient names to sort by. This will return all charge captures with one of the names.
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapturePage'
+  /api/charge_captures/v1/create-from-pre-encounter:
+    post:
+      operationId: create-from-pre-encounter-patient
+      summary: Create a Charge Capture from pre-encounter patient and appointment
+      description: 'Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+
+        of the pre-encounter service should use the standard create endpoint.
+
+
+        At encounter creation time, information from the provided patient and appointment objects will be populated
+
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+
+        - Patient
+
+        - Referring Provider
+
+        - Subscriber Primary
+
+        - Subscriber Secondary
+
+        - Referral Number
+
+        - Responsible Party
+
+        - Guarantor
+
+
+        Note that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.
+
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+
+        encounter has not already been submitted or adjudicated.'
+      tags:
+      - Charge Captures
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapture'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ChargeExternalIdConflictError
+                  content:
+                    $ref: '#/components/schemas/type_charge-capture_v1_ChargeExternalIdConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureData'
+                  description: Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+                charge_external_id:
+                  type: string
+                  description: A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+                pre_encounter_patient_id:
+                  $ref: '#/components/schemas/type_commons_PreEncounterPatientId'
+                pre_encounter_appointment_ids:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_commons_PreEncounterAppointmentId'
+                originating_system:
+                  type: string
+                  description: An optional string field denoting the originating system of the charge.
+                claim_creation_category:
+                  type: string
+                  description: An optional string field denoting the user defined category of the claim creation.
+                ehr_source_url:
+                  type: string
+                  description: External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+                status:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureStatus'
+                  description: the status of the charge capture
+                attachment_external_document_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+                hl7_message_type:
+                  $ref: '#/components/schemas/type_charge-capture_v1_Hl7MessageType'
+                  description: The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+              required:
+              - data
+              - charge_external_id
+              - pre_encounter_patient_id
+              - pre_encounter_appointment_ids
+              - status
+  /api/charge_captures/v1/changes:
+    patch:
+      operationId: updatePostBilledChanges
+      summary: Update a ChargeCapturePostBilledChange
+      tags:
+      - Charge Captures
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapturePostBilledChange'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                charge_capture_change_ids:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_commons_ChargeCapturePostBilledChangeId'
+                  description: 'A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
+
+                    All of the charges sent will be marked as resolved'
+                resolved:
+                  type: boolean
+                  description: 'Whether the change has been resolved. If true, the change will be marked as resolved.
+
+                    If false, the change will be marked as unresolved.'
+              required:
+              - charge_capture_change_ids
+              - resolved
+  /api/charge_captures/v1/{charge_capture_id}:
+    patch:
+      operationId: update
+      summary: Update Charge Capture
+      tags:
+      - Charge Captures
+      parameters:
+      - name: charge_capture_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapture'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureData'
+                charge_external_id:
+                  type: string
+                  description: 'A client-specified unique ID to associate with this encounter;
+
+                    for example, your internal encounter ID or a Dr. Chrono encounter ID.
+
+                    This field should not contain PHI.'
+                ehr_source_url:
+                  type: string
+                  description: 'External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
+
+                    Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).'
+                originating_system:
+                  type: string
+                  description: An optional string field denoting the originating system of the charge.
+                claim_creation_category:
+                  type: string
+                  description: An optional string field denoting the user defined category of the claim creation.
+                patient_external_id:
+                  type: string
+                  description: The patient ID from the external EMR platform for the patient
+                status:
+                  $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureStatus'
+                  description: the status of the charge capture
+                attachment_external_document_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+                metadata:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaInstance'
+                  description: 'Key-value pairs that adhere to metadata schemas.
+
+                    Multiple metadata instances can be associated with a charge capture.'
+                hl7_message_type:
+                  $ref: '#/components/schemas/type_charge-capture_v1_Hl7MessageType'
+                  description: The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+    get:
+      operationId: get
+      summary: Get Charge Capture
+      tags:
+      - Charge Captures
+      parameters:
+      - name: charge_capture_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapture'
+  /api/charge_captures/v1/find-by-metadata:
+    post:
+      operationId: findByMetadata
+      summary: Find Charge Captures by Metadata
+      tags:
+      - Charge Captures
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapturePage'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/type_custom-schemas_v1_SchemaInstance'
+                  description: 'Filter by metadata schema instances. This will return all charge captures
+
+                    that match any of the provided schema instances.'
+                limit:
+                  type: integer
+                  description: Maximum number of entities per page, defaults to 100.
+                page_token:
+                  $ref: '#/components/schemas/type_commons_PageToken'
+              required:
+              - metadata
+components:
+  schemas:
+    type_encounter-providers_v2_ReferringProviderSecondaryIdentificationOptional:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier'
+      title: ReferringProviderSecondaryIdentificationOptional
+    type_individual_PatientClinicalTrialInfoCreateOptional:
+      type: object
+      properties:
+        clinical_trial_arm:
+          type: string
+        clinical_trial_id:
+          $ref: '#/components/schemas/type_commons_ClinicalTrialId'
+      title: PatientClinicalTrialInfoCreateOptional
+    type_encounters_v4_IntakeQuestionId:
+      type: string
+      title: IntakeQuestionId
+    type_commons_QualifierCode:
+      type: string
+      enum:
+      - DQ
+      - DN
+      - DK
+      - P3
+      title: QualifierCode
+    type_service-facility_EncounterServiceFacilityUpdateWithOptionalAddress:
+      type: object
+      properties:
+        organization_name:
+          type: string
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+          description: zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
+        secondary_identification:
+          type: string
+          description: 'An additional identifier for the service facility other than the facility''s NPI. Some payers may require this field.
+
+            Potential examples: state license number, provider commercial number, or location number.
+
+            Box 32 section (b) of the CMS-1500 claim form.'
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+      title: EncounterServiceFacilityUpdateWithOptionalAddress
+    type_individual_PatientNonInsurancePayerInfoCreateOptional:
+      type: object
+      properties:
+        non_insurance_payer_id:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
+        member_id:
+          type: string
+        clinical_trial_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_individual_PatientClinicalTrialInfoCreateOptional'
+      title: PatientNonInsurancePayerInfoCreateOptional
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_encounters_v4_BillableStatusType:
+      type: string
+      enum:
+      - BILLABLE
+      - NOT_BILLABLE
+      title: BillableStatusType
+    type_encounter-providers_v2_ProviderSecondaryIdentificationOptional:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+          description: Represents REF01 on the EDI 837 Loop 2010BB Provider Secondary Identification segment.
+      title: ProviderSecondaryIdentificationOptional
+    type_custom-schemas_v1_SchemaInstance:
+      type: object
+      properties:
+        schema_id:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+          description: The schema to which the content must adhere.
+        content:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: A set of key-value pairs that adhere to the naming and type convention of the schema. Not all keys in the schema must be included, but attaching any key that does not exist in the schema or attaching a key with the incorrect value type will result in errors.
+      required:
+      - schema_id
+      - content
+      title: SchemaInstance
+    type_encounters_v4_IntakeFollowUpId:
+      type: string
+      title: IntakeFollowUpId
+    type_commons_FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_encounters_v4_ClaimSupplementalInformationOptional:
+      type: object
+      properties:
+        attachment_report_type_code:
+          $ref: '#/components/schemas/type_commons_ReportTypeCode'
+        attachment_transmission_code:
+          $ref: '#/components/schemas/type_commons_ReportTransmissionCode'
+        attachment_control_number:
+          type: string
+      title: ClaimSupplementalInformationOptional
+    type_custom-schemas_v1_SchemaInstanceOptional:
+      type: object
+      properties:
+        schema_id:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+          description: The schema to which the content must adhere.
+        content:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: A set of key-value pairs that adhere to the naming and type convention of the schema. Not all keys in the schema must be included, but attaching any key that does not exist in the schema or attaching a key with the incorrect value type will result in errors.
+      title: SchemaInstanceOptional
+    type_commons_StreetAddressShortZipOptional:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      title: StreetAddressShortZipOptional
+    type_encounters_v4_LabCodeType:
+      type: string
+      enum:
+      - quest
+      - labcorp
+      title: LabCodeType
+    type_claim-submission_v1_ExternalClaimSubmissionCreateOptional:
+      type: object
+      properties:
+        claim_created_at:
+          type: string
+          format: date-time
+          description: When the claim was created in the external system.
+        patient_control_number:
+          type: string
+          description: 'The Patient Control Number sent on the claim to the payer. To guarantee compatibility with all payers, this field must consist
+
+            only of uppercase letters and numbers and be no more than 14 characters long.'
+        submission_records:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_claim-submission_v1_ClaimSubmissionRecordCreateOptional'
+          description: 'A successful claim submission record will be created for each value provided.
+
+            An empty list may be provided for cases where the claim originated in an external system but was never submitted to a payer.'
+      title: ExternalClaimSubmissionCreateOptional
+    type_encounter-providers_v2_InitialReferringProviderUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentificationOptional'
+      title: InitialReferringProviderUpdateWithOptionalAddress
+    type_encounters_v4_IntakeResponseAndFollowUpsOptional:
+      type: object
+      properties:
+        response:
+          type: string
+        follow_ups:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_IntakeFollowUpOptional'
+      title: IntakeResponseAndFollowUpsOptional
+    type_encounters_v4_ClinicalNoteOptional:
+      type: object
+      properties:
+        text:
+          type: string
+        author_name:
+          type: string
+        author_npi:
+          $ref: '#/components/schemas/type_commons_Npi'
+        timestamp:
+          type: string
+          format: date-time
+      title: ClinicalNoteOptional
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_encounter-providers_v2_BillingProviderUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        npi:
+          type: string
+        taxonomy_code:
+          type: string
+        provider_commercial_license_type:
+          $ref: '#/components/schemas/type_commons_BillingProviderCommercialLicenseType'
+          description: '837i Loop2010BB G2
+
+            Provider Commercial Number'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_BillingProviderSecondaryIdentificationOptional'
+          description: 'Only one of provider_commercial_license_type or secondary_identification may be provided
+
+            837i Loop2010BB G2
+
+            Secondary Identification'
+      description: 'The billing provider is the provider or business entity submitting the claim.
+
+        Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider.
+
+        From a payer''s perspective, this represents the person or entity being reimbursed.
+
+        When a contract exists with the target payer, the billing provider should be the entity contracted with the payer.
+
+        In some circumstances, this will be an individual provider. In that case, submit that provider''s NPI and the
+
+        tax ID (TIN) that the provider gave to the payer during contracting.
+
+        In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group''s tax ID.
+
+        Box 33 on the CMS-1500 claim or Form Locator 1 on a UB-04 claim form.
+
+        The address fields here are optional.'
+      title: BillingProviderUpdateWithOptionalAddress
+    type_encounters_v4_EPSDTReferralOptional:
+      type: object
+      properties:
+        condition_indicator1:
+          $ref: '#/components/schemas/type_commons_EPSDTReferralConditionIndicatorCode'
+        condition_indicator2:
+          $ref: '#/components/schemas/type_commons_EPSDTReferralConditionIndicatorCode'
+        condition_indicator3:
+          $ref: '#/components/schemas/type_commons_EPSDTReferralConditionIndicatorCode'
+      title: EPSDTReferralOptional
+    type_property-and-casualty_v1_PropertyCasualtyPatientIdentifierCreateOptional:
+      type: object
+      properties:
+        property_casualty_patient_identifier_qualifier:
+          $ref: '#/components/schemas/type_property-and-casualty_v1_PropertyCasualtyPatientIdentifierQualifier'
+          description: 'Represents REF01 on the EDI 837 Loop 2010CA Property and Casualty Patient Identifier segment.
+
+            Valid values include 1W (Member Identification Number) and SY (Social Security Number).'
+        property_casualty_patient_identifier:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010CA Property and Casualty Patient Identifier segment. Value cannot exceed 50 characters
+      title: PropertyCasualtyPatientIdentifierCreateOptional
+    type_charge-capture_v1_ChargeCaptureStatus:
+      type: string
+      enum:
+      - planned
+      - not-billable
+      - billable
+      - aborted
+      - entered-in-error
+      title: ChargeCaptureStatus
+    type_commons_DelayReasonCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+      - '15'
+      - '16'
+      - '17'
+      description: Code indicating the reason why a request was delayed
+      title: DelayReasonCode
+    type_yes-no-indicator_YesNoIndicator:
+      type: string
+      enum:
+      - 'YES'
+      - 'NO'
+      - UNKNOWN
+      - NOT_APPLICABLE
+      title: YesNoIndicator
+    type_related-causes_v1_RelatedCausesInformationCreateOptional:
+      type: object
+      properties:
+        related_causes_code_1:
+          $ref: '#/components/schemas/type_related-causes_v1_RelatedCausesCode'
+        related_causes_code_2:
+          $ref: '#/components/schemas/type_related-causes_v1_RelatedCausesCode'
+        state_or_province_code:
+          type: string
+      title: RelatedCausesInformationCreateOptional
+    type_commons_InsuranceTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '41'
+      - '42'
+      - '43'
+      - '47'
+      - AP
+      - C1
+      - CO
+      - CP
+      - D
+      - DB
+      - E
+      - EP
+      - FF
+      - GP
+      - HA
+      - HB
+      - HD
+      - HG
+      - HM
+      - HN
+      - HP
+      - HS
+      - IN
+      - IP
+      - LC
+      - LD
+      - LI
+      - LT
+      - M
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MH
+      - MI
+      - MJ
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MR
+      - MT
+      - MV
+      - OA
+      - OT
+      - PE
+      - PL
+      - PP
+      - PR
+      - PS
+      - QM
+      - RP
+      - SP
+      - TF
+      - U
+      - WC
+      - WU
+      description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
+      title: InsuranceTypeCode
+    type_encounter-providers_v2_TreatingProviderUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZipOptional'
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The license type of the treating provider (e.g., MD, NP, PA, LCSW).
+      description: Update type for the treating provider with optional address fields. Used in contexts where address fields may be partially provided.
+      title: TreatingProviderUpdateWithOptionalAddress
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_encounters_v4_NoteCategory:
+      type: string
+      enum:
+      - clinical
+      - care_plan
+      - diagnoses
+      - vitals
+      - physical_exam
+      - review_of_systems
+      - medical_decisions
+      - history_of_present_illness
+      - patient_info
+      - chief_complaint
+      - health_record
+      - consent
+      - procedure
+      - time_in_appointment
+      title: NoteCategory
+    type_billing-notes_v2_BillingNoteBaseOptional:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Empty string not allowed.
+      title: BillingNoteBaseOptional
+    type_commons_EPSDTReferralConditionIndicatorCode:
+      type: string
+      enum:
+      - AV
+      - NU
+      - S2
+      - ST
+      title: EPSDTReferralConditionIndicatorCode
+    type_diagnoses_DiagnosisCreateOptional:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Empty string not allowed.
+        code_type:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisTypeCode'
+          description: Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
+        code:
+          type: string
+          description: "Empty string not allowed.\nShould be of the appropriate format for the provided `code_type`.\nMust obey the ICD-10 format if an ICD-10 code_type is provided, specifically:\n  - Letter\n  - Digit\n  - Digit or the letter `A` or `B`\n  - (Optional) Period `.`\n  - Up to 4 (or as few as 0) letters and digits"
+        present_on_admission_indicator:
+          $ref: '#/components/schemas/type_yes-no-indicator_YesNoIndicator'
+          description: 'For Institutional claims only.
+
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.'
+      title: DiagnosisCreateOptional
+    type_commons_PhoneNumberOptional:
+      type: object
+      properties:
+        number:
+          type: string
+        type:
+          $ref: '#/components/schemas/type_commons_PhoneNumberType'
+      title: PhoneNumberOptional
+    type_commons_Email:
+      type: string
+      title: Email
+    type_encounters_v4_PriorAuthorizationNumber:
+      type: string
+      title: PriorAuthorizationNumber
+    type_commons_ReportTransmissionCode:
+      type: string
+      enum:
+      - AA
+      - BM
+      - EL
+      - FX
+      title: ReportTransmissionCode
+    type_diagnoses_DiagnosisTypeCode:
+      type: string
+      enum:
+      - ABF
+      - ABJ
+      - ABK
+      - APR
+      - BF
+      - BJ
+      - BK
+      - PR
+      - DR
+      - LOI
+      title: DiagnosisTypeCode
+    type_claim-submission_v1_ClaimSubmissionRecordCreateOptional:
+      type: object
+      properties:
+        submitted_at:
+          type: string
+          format: date-time
+          description: When the claim was submitted to the payer.
+        claim_frequency_code:
+          $ref: '#/components/schemas/type_x12_v1_TypeOfBillFrequencyCode'
+        payer_responsibility:
+          $ref: '#/components/schemas/type_commons_ClaimSubmissionPayerResponsibilityType'
+        intended_submission_medium:
+          $ref: '#/components/schemas/type_commons_IntendedSubmissionMedium'
+          description: 'The medium by which the claim was submitted to the payer: paper or electronic.
+
+            If omitted, defaults to electronic.'
+      description: Data about each external submission.
+      title: ClaimSubmissionRecordCreateOptional
+    type_claims_ClaimStatus:
+      type: string
+      enum:
+      - biller_received
+      - coded
+      - submitted_to_payer
+      - missing_information
+      - not_billable
+      - waiting_for_provider
+      - era_received
+      - rejected
+      - denied
+      - paid
+      - paid_incorrectly
+      - finalized_paid
+      - finalized_denied
+      - held_by_customer
+      - era_requires_review
+      title: ClaimStatus
+    type_encounters_v4_SynchronicityType:
+      type: string
+      enum:
+      - Synchronous
+      - Asynchronous
+      title: SynchronicityType
+    type_charge-capture_v1_ChargeCapturePostBilledChange:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_commons_ChargeCapturePostBilledChangeId'
+        message:
+          type: string
+        resolved:
+          type: boolean
+      required:
+      - id
+      - message
+      - resolved
+      description: ChargeCapturePostBilledChange represents a change to a ChargeCapture that occurred after the ChargeCapture's status moved to BILLED. Action must be taken to resolve the update, and then the update should be marked as resolved.
+      title: ChargeCapturePostBilledChange
+    type_commons_ChargeCaptureId:
+      type: string
+      format: uuid
+      title: ChargeCaptureId
+    type_charge-capture_v1_Hl7MessageType:
+      type: string
+      enum:
+      - BAR
+      - DFT
+      - ADT
+      description: HL7 message type that produced a charge-capture write. Values match the bare MSH-9-1 code emitted by HL7 producers (conduit). Constrains the `hl7_message_type` field on charge-capture create/update payloads so that whitespace, case drift, or non-canonical values are rejected at the API boundary instead of silently bypassing the BAR/DFT discriminator.
+      title: Hl7MessageType
+    type_commons_IntendedSubmissionMedium:
+      type: string
+      enum:
+      - paper
+      - electronic
+      description: The medium (paper or electronic) via which we intended to submit the claim. The clearinghouse to which we sent the claim may use a different medium in certain cases, e.g., if the payer does not support electronic claims.
+      title: IntendedSubmissionMedium
+    type_commons_Decimal:
+      type: string
+      description: String representation of a Decimal that can be parsed by most libraries.
+      title: Decimal
+    type_encounter-providers_v2_ReferringProviderUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentificationOptional'
+      title: ReferringProviderUpdateWithOptionalAddress
+    type_encounters_v4_ResponsiblePartyType:
+      type: string
+      enum:
+      - INSURANCE_PAY
+      - SELF_PAY
+      - UNKNOWN
+      title: ResponsiblePartyType
+    type_encounters_v4_PatientHistoryCategoryOptional:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/type_encounters_v4_PatientHistoryCategoryEnum'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_IntakeQuestionOptional'
+          description: Must contain at least one item.
+      title: PatientHistoryCategoryOptional
+    type_encounters_v4_MedicationOptional:
+      type: object
+      properties:
+        name:
+          type: string
+        rx_cui:
+          $ref: '#/components/schemas/type_encounters_v4_RxCui'
+        dosage:
+          type: string
+        dosage_form:
+          type: string
+        frequency:
+          type: string
+        as_needed:
+          type: boolean
+      title: MedicationOptional
+    type_encounters_v4_PatientHistoryCategoryEnum:
+      type: string
+      enum:
+      - present_illness
+      - medical
+      - family
+      - social
+      title: PatientHistoryCategoryEnum
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_encounter-providers_v2_OrderingProviderOptional:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZipOptional'
+      title: OrderingProviderOptional
+    type_guarantor_v1_GuarantorOptional:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        external_id:
+          type: string
+          description: A unique identifier for the guarantor assigned by an external system.
+        date_of_birth:
+          type: string
+          format: date
+          description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-25.'
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        phone_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_PhoneNumberOptional'
+        phone_consent:
+          type: boolean
+        email:
+          $ref: '#/components/schemas/type_commons_Email'
+        email_consent:
+          type: boolean
+        auto_charge_consent:
+          type: boolean
+      title: GuarantorOptional
+    type_commons_ProcedureModifier:
+      type: string
+      enum:
+      - AV
+      - AU
+      - AW
+      - AY
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '32'
+      - '33'
+      - '47'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '62'
+      - '63'
+      - '66'
+      - '73'
+      - '74'
+      - '76'
+      - '77'
+      - '78'
+      - '79'
+      - '80'
+      - '81'
+      - '82'
+      - '90'
+      - '91'
+      - '92'
+      - '93'
+      - '95'
+      - '96'
+      - '97'
+      - '99'
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+      - A8
+      - A9
+      - AA
+      - AB
+      - AD
+      - AE
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AK
+      - AM
+      - AO
+      - AP
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AZ
+      - BA
+      - BL
+      - BO
+      - BP
+      - BR
+      - BU
+      - CA
+      - CB
+      - CC
+      - CD
+      - CE
+      - CF
+      - CG
+      - CH
+      - CI
+      - CJ
+      - CK
+      - CL
+      - CM
+      - CN
+      - CR
+      - CS
+      - CT
+      - CO
+      - CQ
+      - DA
+      - E1
+      - E2
+      - E3
+      - E4
+      - EA
+      - EB
+      - EC
+      - ED
+      - EE
+      - EJ
+      - EM
+      - EP
+      - ER
+      - ET
+      - EV
+      - EX
+      - EY
+      - F1
+      - F2
+      - F3
+      - F4
+      - F5
+      - F6
+      - F7
+      - F8
+      - F9
+      - FA
+      - FB
+      - FC
+      - FP
+      - FQ
+      - FR
+      - FS
+      - FT
+      - FX
+      - FY
+      - G0
+      - G1
+      - G2
+      - G3
+      - G4
+      - G5
+      - G6
+      - G7
+      - G8
+      - G9
+      - GA
+      - GB
+      - GC
+      - GE
+      - GF
+      - GG
+      - GH
+      - GJ
+      - GK
+      - GL
+      - GM
+      - GN
+      - GO
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GV
+      - GW
+      - GX
+      - GY
+      - GZ
+      - HA
+      - HB
+      - HC
+      - HD
+      - HE
+      - HF
+      - HG
+      - HH
+      - HI
+      - HJ
+      - HK
+      - HL
+      - HM
+      - HN
+      - HO
+      - HP
+      - HQ
+      - HR
+      - HS
+      - HT
+      - HU
+      - HV
+      - HW
+      - HX
+      - HY
+      - HZ
+      - J1
+      - J2
+      - J3
+      - J4
+      - J5
+      - JA
+      - JB
+      - JC
+      - JD
+      - JE
+      - JG
+      - JW
+      - JZ
+      - K0
+      - K1
+      - K2
+      - K3
+      - K4
+      - KA
+      - KB
+      - KC
+      - KD
+      - KE
+      - KF
+      - KG
+      - KH
+      - KI
+      - KJ
+      - KK
+      - KL
+      - KM
+      - KN
+      - KO
+      - KP
+      - KQ
+      - KR
+      - KS
+      - KT
+      - KU
+      - KV
+      - KW
+      - KX
+      - KY
+      - KZ
+      - LC
+      - LD
+      - LL
+      - LM
+      - LR
+      - LS
+      - LT
+      - LU
+      - M2
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MS
+      - N1
+      - N2
+      - N3
+      - NB
+      - NR
+      - NU
+      - P1
+      - P2
+      - P3
+      - P4
+      - P5
+      - P6
+      - PA
+      - PB
+      - PC
+      - PD
+      - PI
+      - PL
+      - PM
+      - PN
+      - PO
+      - PS
+      - PT
+      - Q0
+      - Q1
+      - Q2
+      - Q3
+      - Q4
+      - Q5
+      - Q6
+      - Q7
+      - Q8
+      - Q9
+      - QA
+      - QB
+      - QC
+      - QD
+      - QE
+      - QF
+      - QG
+      - QH
+      - QJ
+      - QK
+      - QL
+      - QM
+      - QN
+      - QP
+      - QQ
+      - QR
+      - QS
+      - QT
+      - QW
+      - QX
+      - QY
+      - QZ
+      - RA
+      - RB
+      - RC
+      - RD
+      - RE
+      - RI
+      - RR
+      - RT
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SF
+      - SG
+      - SH
+      - SJ
+      - SL
+      - SM
+      - SN
+      - SQ
+      - SS
+      - ST
+      - SU
+      - SV
+      - SW
+      - SY
+      - T1
+      - T2
+      - T3
+      - T4
+      - T5
+      - T6
+      - T7
+      - T8
+      - T9
+      - TA
+      - TB
+      - TC
+      - TD
+      - TE
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TP
+      - TQ
+      - TR
+      - TS
+      - TT
+      - TU
+      - TV
+      - TW
+      - U1
+      - U2
+      - U3
+      - U4
+      - U5
+      - U6
+      - U7
+      - U8
+      - U9
+      - UA
+      - UB
+      - UC
+      - UD
+      - UE
+      - UF
+      - UG
+      - UH
+      - UJ
+      - UK
+      - UN
+      - UP
+      - UQ
+      - UR
+      - US
+      - V1
+      - V2
+      - V3
+      - W1
+      - W2
+      - W3
+      - X4
+      - XE
+      - XP
+      - XS
+      - XU
+      - XY
+      - ZZ
+      title: ProcedureModifier
+    type_x12_v1_TypeOfBillFrequencyCode:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '7'
+      - '8'
+      - '9'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      - J
+      - K
+      - M
+      - O
+      - P
+      - Q
+      - X
+      - Y
+      - Z
+      title: TypeOfBillFrequencyCode
+    type_encounters_v4_VitalsUpdate:
+      type: object
+      properties:
+        height_in:
+          type: integer
+        weight_lbs:
+          type: integer
+        blood_pressure_systolic_mmhg:
+          type: integer
+        blood_pressure_diastolic_mmhg:
+          type: integer
+        body_temperature_f:
+          type: number
+          format: double
+        hemoglobin_gdl:
+          type: number
+          format: double
+        hematocrit_pct:
+          type: number
+          format: double
+      title: VitalsUpdate
+    type_tags_TagId:
+      type: string
+      title: TagId
+    type_encounter-providers_v2_BillingProviderSecondaryIdentificationOptional:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_BillingProviderSecondaryIdentificationQualifier'
+          description: 'Represents REF01 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment.
+
+            Valid values include G2 (Provider Commercial Number) and LU (Location Number). Defaults to G2 if not set.'
+      title: BillingProviderSecondaryIdentificationOptional
+    type_commons_PatientRelationshipToInsuredCodeAll:
+      type: string
+      enum:
+      - '01'
+      - '04'
+      - '05'
+      - '07'
+      - '10'
+      - '15'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '29'
+      - '32'
+      - '33'
+      - '36'
+      - '39'
+      - '40'
+      - '41'
+      - '43'
+      - '53'
+      - G8
+      title: PatientRelationshipToInsuredCodeAll
+    type_commons_EncounterExternalId:
+      type: string
+      title: EncounterExternalId
+    type_commons_PreEncounterPatientId:
+      type: string
+      format: uuid
+      title: PreEncounterPatientId
+    type_individual_PatientUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        gender:
+          $ref: '#/components/schemas/type_individual_Gender'
+        external_id:
+          type: string
+          description: The ID used to identify this individual in your system. For example, your internal patient ID or an EHR patient ID.
+        date_of_birth:
+          type: string
+          format: date
+          description: Box 3 on the CMS-1500 claim form or Form Locator 10 on a UB-04 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+          description: Box 5 on the CMS-1500 claim form or Form Locator 9 on a UB-04 claim form.
+        phone_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_PhoneNumberOptional'
+        phone_consent:
+          type: boolean
+        email:
+          $ref: '#/components/schemas/type_commons_Email'
+        email_consent:
+          type: boolean
+        auto_charge_consent:
+          type: boolean
+        non_insurance_payers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
+          description: On update, we will replace the existing list of non-insurance payers with the new list if populated.
+        non_insurance_payers_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_individual_PatientNonInsurancePayerInfoCreateOptional'
+          description: On update, we will replace the existing list of non-insurance payers with the new list if populated.
+      title: PatientUpdateWithOptionalAddress
+    type_service-lines_v2_ServiceIdQualifier:
+      type: string
+      enum:
+      - EN
+      - EO
+      - HI
+      - N4
+      - 'ON'
+      - UK
+      - UP
+      title: ServiceIdQualifier
+    type_service-lines_v2_TestResultType:
+      type: string
+      enum:
+      - HEMATOCRIT
+      - HEMOGLOBIN
+      - LDL
+      - VITAMIN_D
+      title: TestResultType
+    type_commons_ReportTypeCode:
+      type: string
+      enum:
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '13'
+      - '15'
+      - '21'
+      - A3
+      - A4
+      - AM
+      - AS
+      - B2
+      - B3
+      - B4
+      - BR
+      - BS
+      - BT
+      - CB
+      - CK
+      - CT
+      - D2
+      - DA
+      - DB
+      - DG
+      - DJ
+      - DS
+      - EB
+      - HC
+      - HR
+      - I5
+      - IR
+      - LA
+      - M1
+      - MT
+      - NN
+      - OB
+      - OC
+      - OD
+      - OE
+      - OX
+      - OZ
+      - P4
+      - P5
+      - PE
+      - PN
+      - PO
+      - PQ
+      - PY
+      - PZ
+      - RB
+      - RR
+      - RT
+      - RX
+      - SG
+      - V5
+      - XP
+      title: ReportTypeCode
+    type_service-lines_v2_TestResultOptional:
+      type: object
+      properties:
+        value:
+          type: number
+          format: double
+        result_type:
+          $ref: '#/components/schemas/type_service-lines_v2_TestResultType'
+      title: TestResultOptional
+    type_service-lines_v2_DrugIdentificationOptional:
+      type: object
+      properties:
+        service_id_qualifier:
+          $ref: '#/components/schemas/type_service-lines_v2_ServiceIdQualifier'
+        national_drug_code:
+          type: string
+        national_drug_unit_count:
+          type: string
+        measurement_unit_code:
+          $ref: '#/components/schemas/type_service-lines_v2_MeasurementUnitCode'
+        link_sequence_number:
+          type: string
+        pharmacy_prescription_number:
+          type: string
+        conversion_formula:
+          type: string
+        drug_description:
+          type: string
+      title: DrugIdentificationOptional
+    type_insurance-cards_v2_InsuranceCardCreateOptional:
+      type: object
+      properties:
+        group_number:
+          type: string
+          description: Box 11 on the CMS-1500 claim form.
+        plan_name:
+          type: string
+          description: Box 11c on the CMS-1500 claim form.
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+        insurance_type:
+          $ref: '#/components/schemas/type_commons_InsuranceTypeCode'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        payer_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZipOptional'
+        member_id:
+          type: string
+        payer_name:
+          type: string
+        payer_id:
+          type: string
+        rx_bin:
+          type: string
+        rx_pcn:
+          type: string
+        image_url_front:
+          type: string
+        image_url_back:
+          type: string
+        emr_payer_crosswalk:
+          $ref: '#/components/schemas/type_commons_EmrPayerCrosswalk'
+          description: Set to PAYER_PLAN_GROUP to use Payer Plans for automatic payer resolution. See Payer Information documentation for details.
+        payer_plan_group_name:
+          type: string
+          description: When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan name here. See Payer Information documentation for details.
+      title: InsuranceCardCreateOptional
+    type_encounters_v4_ClinicalNoteCategoryCreateOptional:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/type_encounters_v4_NoteCategory'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_ClinicalNoteOptional'
+      title: ClinicalNoteCategoryCreateOptional
+    type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - 0B
+      - 1G
+      - G2
+      - LU
+      title: ProviderSecondaryIdentificationQualifier
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_encounters_v4_InterventionOptional:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          $ref: '#/components/schemas/type_encounters_v4_InterventionCategory'
+        description:
+          type: string
+          description: '"Examples: ''Birth Control LAC'', ''Tracking'', ''Stress Management'', ''Supplement'', ''Labs''"'
+        medication:
+          $ref: '#/components/schemas/type_encounters_v4_MedicationOptional'
+          description: Required when `type` is `allopathic`.
+        labs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_LabOptional'
+          description: Required when `type` is `tests`.
+      title: InterventionOptional
+    type_commons_BillingProviderCommercialLicenseType:
+      type: string
+      enum:
+      - '0'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      title: BillingProviderCommercialLicenseType
+    type_charge-capture_v1_ChargeCaptureError:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        charge_capture_id:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureId'
+          description: 'The underlying Charge Capture that this error object references.
+
+            The Charge Capture referenced will be a part of the Claim Creation tied to this error.
+
+            Errors may also refer to all charge_captures present in a Claim Creation, in which case this field will be null.'
+        message:
+          type: string
+          description: A human readable error explaining why this charge capture Claim Creation failed to create a claim.
+        resolved:
+          type: boolean
+          description: Whether or not the error has been resolved as part of user workflows
+        resolved_by:
+          type: string
+          description: A string denoting who resolved the error within candid's system.
+        resolution_reason:
+          type: string
+          description: A string denoting how or why an error was resolved.
+        field_in_error:
+          type: string
+          description: 'The field of the corresponding underlying ChargeCapture that has a field that is failing validations,
+
+            is not present but marked as required, or otherwise in error.'
+        claim_creation_id:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureClaimCreationId'
+          description: The ID of the ChargeCaptureClaimCreation associated with this Error.
+      required:
+      - id
+      - message
+      - claim_creation_id
+      title: ChargeCaptureError
+    type_encounters_v4_InterventionCategory:
+      type: string
+      enum:
+      - allopathic
+      - naturopathic
+      - tests
+      - lifestyle
+      title: InterventionCategory
+    type_encounter-providers_v2_RenderingProviderUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationOptional'
+          description: 'Only one of provider_commercial_license_type or secondary_identification may be provided
+
+            837i Loop2310BB G2
+
+            Secondary Identification'
+      title: RenderingProviderUpdateWithOptionalAddress
+    type_encounters_v4_LabOptional:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        code_type:
+          $ref: '#/components/schemas/type_encounters_v4_LabCodeType'
+      title: LabOptional
+    type_encounters_v4_IntakeQuestionOptional:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_encounters_v4_IntakeQuestionId'
+        text:
+          type: string
+        responses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_IntakeResponseAndFollowUpsOptional'
+      title: IntakeQuestionOptional
+    type_charge-capture_v1_ChargeCaptureData:
+      type: object
+      properties:
+        benefits_assigned_to_provider:
+          type: boolean
+          description: Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form or Form Locator 53 on a UB-04 claim form.
+        prior_authorization_number:
+          $ref: '#/components/schemas/type_encounters_v4_PriorAuthorizationNumber'
+          description: Box 23 on the CMS-1500 claim form or Form Locator 63 on a UB-04 claim form.
+        external_id:
+          $ref: '#/components/schemas/type_commons_EncounterExternalId'
+          description: 'A client-specified unique ID to associate with this encounter;
+
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+
+            This field should not contain PHI.'
+        date_of_service:
+          type: string
+          format: date
+          description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+            This date must be the local date in the timezone where the service occurred.
+
+            Box 24a on the CMS-1500 claim form or Form Locator 45 on the UB-04 claim form.
+
+            If service occurred over a range of dates, this should be the start date.
+
+            If service lines have distinct date_of_service values, updating the encounter''s date_of_service will fail. If all service line date_of_service values are the same, updating the encounter''s date_of_service will update all service line date_of_service values.'
+        tag_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tags_TagId'
+          description: Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
+        billable_status:
+          $ref: '#/components/schemas/type_encounters_v4_BillableStatusType'
+          description: Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+        responsible_party:
+          $ref: '#/components/schemas/type_encounters_v4_ResponsiblePartyType'
+          description: Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+        provider_accepts_assignment:
+          type: boolean
+          description: Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form. There is no exact equivalent of this field on a UB-04 claim, however contributes to the concept of Form Locator 53.
+        synchronicity:
+          $ref: '#/components/schemas/type_encounters_v4_SynchronicityType'
+          description: Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        appointment_type:
+          type: string
+          description: 'Human-readable description of the appointment type (ex: "Acupuncture - Headaches").'
+        end_date_of_service:
+          type: string
+          format: date
+          description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+
+            This date must be the local date in the timezone where the service occurred.
+
+            If omitted, the Encounter is assumed to be for a single day.
+
+            Must not be temporally before the date_of_service field.
+
+            If service lines have distinct end_date_of_service values, updating the encounter''s end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter''s end_date_of_service will update all service line date_of_service values.'
+        additional_information:
+          type: string
+          description: 'Defines additional information on the claim needed by the payer.
+
+            Box 19 on the CMS-1500 claim form or Form Locator 80 on a UB-04 claim form.'
+        service_authorization_exception_code:
+          $ref: '#/components/schemas/type_encounters_v4_ServiceAuthorizationExceptionCode'
+          description: '837p Loop2300 REF*4N
+
+            Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+
+            reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+
+            obtaining the authorization.'
+        admission_date:
+          type: string
+          format: date
+          description: '837p Loop2300 DTP*435, CMS-1500 Box 18 or UB-04 Form Locator 12.
+
+            Required on all ambulance claims when the patient was known to be admitted to the hospital.
+
+            OR
+
+            Required on all claims involving inpatient medical visits.'
+        discharge_date:
+          type: string
+          format: date
+          description: 837p Loop2300 DTP*096, CMS-1500 Box 18 Required for inpatient claims when the patient was discharged from the facility and the discharge date is known. Not used on an institutional claim.
+        onset_of_current_illness_or_symptom_date:
+          type: string
+          format: date
+          description: "837p Loop2300 DTP*431, CMS-1500 Box 14\nRequired for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.\nOR\nThis date is the onset of acute symptoms for the current illness or condition.\n For UB-04 claims, this is populated separately via occurrence codes."
+        last_menstrual_period_date:
+          type: string
+          format: date
+          description: '837p Loop2300 DTP*484, CMS-1500 Box 14
+
+            Required when, in the judgment of the provider, the services on this claim are related to the patient''s pregnancy.de
+
+            This field is populated separately via occurrence codes for UB-04 claim forms.'
+        delay_reason_code:
+          $ref: '#/components/schemas/type_commons_DelayReasonCode'
+          description: 'Code indicating the reason why a claim submission was delayed.
+
+            Corresponds to CLM-20 in the 837 specification (both professional and institutional).'
+        patient_authorized_release:
+          type: boolean
+          description: 'Whether this patient has authorized the release of medical information
+
+            for billing purpose.
+
+            Box 12 on the CMS-1500 claim form  or Form Locator 52 on a UB-04 claim form.'
+        referral_number:
+          type: string
+          description: Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+        secondary_payer_carrier_code:
+          type: string
+          description: When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
+        vitals:
+          $ref: '#/components/schemas/type_encounters_v4_VitalsUpdate'
+          description: 'If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
+
+            Otherwise, a new vitals object will be created for the encounter.'
+        diagnoses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_diagnoses_DiagnosisCreateOptional'
+          description: 'Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+
+            submitted to the payor.'
+        clinical_notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_ClinicalNoteCategoryCreateOptional'
+          description: Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
+        claim_supplemental_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_ClaimSupplementalInformationOptional'
+          description: Refers to Loop 2300 - Segment PWK on the 837P and 837i form. No more than 10 entries are permitted.
+        epsdt_referral:
+          $ref: '#/components/schemas/type_encounters_v4_EPSDTReferralOptional'
+          description: Refers to Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P and 837i form
+        existing_medications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_MedicationOptional'
+          description: 'Existing medications that should be on the encounter.
+
+            Note all current existing medications on encounter will be overridden with this list.'
+        guarantor:
+          $ref: '#/components/schemas/type_guarantor_v1_GuarantorOptional'
+          description: Personal and contact info for the guarantor of the patient responsibility.
+        subscriber_primary:
+          $ref: '#/components/schemas/type_individual_SubscriberCreateOptional'
+          description: Contains details of the primary insurance subscriber.
+        subscriber_secondary:
+          $ref: '#/components/schemas/type_individual_SubscriberCreateOptional'
+          description: Contains details of the secondary insurance subscriber.
+        subscriber_tertiary:
+          $ref: '#/components/schemas/type_individual_SubscriberCreateOptional'
+          description: Contains details of the tertiary insurance subscriber.
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_InterventionOptional'
+        schema_instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaInstanceOptional'
+          description: 'Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+
+            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+
+            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+
+            is provided as an input, then the encounter''s schema instances will be cleared.'
+        external_claim_submission:
+          $ref: '#/components/schemas/type_claim-submission_v1_ExternalClaimSubmissionCreateOptional'
+          description: '***This field is in beta.***
+
+            To be included for claims that have been submitted outside of Candid.
+
+            Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).'
+        service_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_service-lines_v2_ServiceLineCreateOptional'
+          description: 'Each service line must be linked to a diagnosis. Concretely,
+
+            `service_line.diagnosis_pointers`must contain at least one entry which should be
+
+            in bounds of the diagnoses list field.'
+        patient_histories:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_PatientHistoryCategoryOptional'
+        billing_notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteBaseOptional'
+          description: 'Spot to store misc, human-readable, notes about this encounter to be
+
+            used in the billing process.'
+        patient:
+          $ref: '#/components/schemas/type_individual_PatientUpdateWithOptionalAddress'
+          description: Contains the identification information of the individual receiving medical services.
+        service_facility:
+          $ref: '#/components/schemas/type_service-facility_EncounterServiceFacilityUpdateWithOptionalAddress'
+          description: Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed
+        service_facility_id:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+          description: The ID of an existing Organization Service Facility to use for this encounter. The service facility's canonical data (name, address, NPI, etc.) will be populated automatically. If the value does not match an existing Organization Service Facility, the request will fail with a 422 error. This field is mutually exclusive with service_facility — providing both will result in a 422 error.
+        rendering_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_RenderingProviderUpdateWithOptionalAddress'
+          description: The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service. For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+        initial_referring_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_InitialReferringProviderUpdateWithOptionalAddress'
+          description: 'The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
+
+            indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient''s episode of care being billed/reported in this transaction.'
+        referring_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderUpdateWithOptionalAddress'
+          description: 'The final provider who referred the services that were rendered.
+
+            All physicians who order services or refer Medicare beneficiaries must
+
+            report this data.'
+        supervising_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderUpdateWithOptionalAddress'
+          description: Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+        treating_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_TreatingProviderUpdateWithOptionalAddress'
+          description: The treating provider is the provider who treats the patient. This is supported for professional and institutional encounters.
+        billing_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_BillingProviderUpdateWithOptionalAddress'
+          description: The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form or Form Locator 1 on a UB-04 claim form.
+        pay_to_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+          description: Specifies the address to which payments for the claim should be sent.
+        related_causes_information:
+          $ref: '#/components/schemas/type_related-causes_v1_RelatedCausesInformationCreateOptional'
+          description: Corresponds to box 10a on the CMS-1500 (Loop 2300 on 837)
+        property_casualty_claim_number:
+          type: string
+          description: 837p Loop2010 REF02, CMS1500 Box 11b
+        accident_date:
+          type: string
+          format: date
+          description: 837p Loop2300 DTP*439, CMS1500 Box 15
+        property_casualty_patient_identifier:
+          $ref: '#/components/schemas/type_property-and-casualty_v1_PropertyCasualtyPatientIdentifierCreateOptional'
+          description: 'Patient identifier for Property and Casualty claims.
+
+            837p Loop2010CA'
+      title: ChargeCaptureData
+    type_charge-capture_v1_ChargeCapture:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureId'
+        status:
+          $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureStatus'
+        charge_capture_data:
+          $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureData'
+        date_of_service:
+          type: string
+          format: date
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+        charge_external_id:
+          type: string
+        ehr_source_url:
+          type: string
+        originating_system:
+          type: string
+        claim_creation_category:
+          type: string
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaInstance'
+          description: 'Key-value pairs that adhere to metadata schemas.
+
+            Multiple metadata instances can be associated with a charge capture.'
+        error:
+          $ref: '#/components/schemas/type_charge-capture_v1_ChargeCaptureError'
+        updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapturePostBilledChange'
+          description: This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+        claim_creation_id:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureClaimCreationId'
+      required:
+      - id
+      - status
+      - charge_capture_data
+      - patient_external_id
+      - charge_external_id
+      - updates
+      title: ChargeCapture
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_EmrPayerCrosswalk:
+      type: string
+      enum:
+      - HEALTHIE
+      - CANVAS
+      - WAYSTAR
+      - PAYER_PLAN_GROUP
+      title: EmrPayerCrosswalk
+    type_encounters_v4_RxCui:
+      type: string
+      title: RxCui
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_individual_Gender:
+      type: string
+      enum:
+      - male
+      - female
+      - other
+      - not_given
+      - unknown
+      title: Gender
+    type_encounter-providers_v2_SupervisingProviderSecondaryIdentificationOptional:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+      title: SupervisingProviderSecondaryIdentificationOptional
+    type_commons_StreetAddressLongZipOptional:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      title: StreetAddressLongZipOptional
+    type_service-lines_v2_MeasurementUnitCode:
+      type: string
+      enum:
+      - ML
+      - UN
+      - GR
+      - F2
+      - ME
+      title: MeasurementUnitCode
+    type_encounter-providers_v2_SupervisingProviderUpdateWithOptionalAddress:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentificationOptional'
+      title: SupervisingProviderUpdateWithOptionalAddress
+    type_non-insurance-payers_v1_NonInsurancePayerId:
+      type: string
+      format: uuid
+      title: NonInsurancePayerId
+    type_individual_SubscriberCreateOptional:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        gender:
+          $ref: '#/components/schemas/type_individual_Gender'
+        patient_relationship_to_subscriber_code:
+          $ref: '#/components/schemas/type_commons_PatientRelationshipToInsuredCodeAll'
+        date_of_birth:
+          type: string
+          format: date
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZipOptional'
+        insurance_card:
+          $ref: '#/components/schemas/type_insurance-cards_v2_InsuranceCardCreateOptional'
+          description: Please reference our [Payer Information](https://docs.joincandidhealth.com/introduction/payer-information) documentation for more details on how to populate the `insurance_card` fields.
+      title: SubscriberCreateOptional
+    type_charge-capture_v1_ChargeCapturePage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_charge-capture_v1_ChargeCapture'
+        item_count:
+          type: integer
+      required:
+      - items
+      - item_count
+      title: ChargeCapturePage
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons_PreEncounterAppointmentId:
+      type: string
+      format: uuid
+      title: PreEncounterAppointmentId
+    type_commons_ChargeCapturePostBilledChangeId:
+      type: string
+      format: uuid
+      title: ChargeCapturePostBilledChangeId
+    type_property-and-casualty_v1_PropertyCasualtyPatientIdentifierQualifier:
+      type: string
+      enum:
+      - 1W
+      - SY
+      title: PropertyCasualtyPatientIdentifierQualifier
+    type_related-causes_v1_RelatedCausesCode:
+      type: string
+      enum:
+      - AA
+      - AB
+      - AP
+      - EM
+      - OA
+      - ZZ
+      title: RelatedCausesCode
+    type_encounters_v4_ServiceAuthorizationExceptionCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      description: 'Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+
+        reasons listed in one of the enum values, the service was performed without obtaining the authorization.'
+      title: ServiceAuthorizationExceptionCode
+    type_charge-capture_v1_ChargeCaptureSortField:
+      type: string
+      enum:
+      - created_at
+      - date_of_service
+      title: ChargeCaptureSortField
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_commons_PhoneNumberType:
+      type: string
+      enum:
+      - Home
+      - Mobile
+      - Work
+      title: PhoneNumberType
+    type_commons_SchemaId:
+      type: string
+      format: uuid
+      title: SchemaId
+    type_service-lines_v2_ServiceLineCreateOptional:
+      type: object
+      properties:
+        modifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+        has_epsdt_indicator:
+          type: boolean
+          description: 'Maps to SV1-11 on the 837-P and Box 24H on the CMS-1500.
+
+            If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.'
+        has_family_planning_indicator:
+          type: boolean
+          description: 'Maps to SV1-12 on the 837-P and Box 24I on the CMS-1500.
+
+            If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.'
+        procedure_code:
+          type: string
+        quantity:
+          $ref: '#/components/schemas/type_commons_Decimal'
+          description: 'String representation of a Decimal that can be parsed by most libraries.
+
+            For professional claims, a ServiceLine quantity cannot contain more than one digit of precision
+
+            (Example: 1.1 is valid, 1.11 is not). For institutional claims, a ServiceLine quantity cannot contain
+
+            more than three decimal digits of precision.'
+        units:
+          $ref: '#/components/schemas/type_commons_ServiceLineUnits'
+        charge_amount_cents:
+          type: integer
+          description: The total amount charged for this service line, factoring in quantity. If procedure_code is updated and this is not, the system will attempt to set it based on chargemasters entries and the service line’s quantity. For example, if a single unit has an entry of 100 cents and 2 units were rendered, the charge_amount_cents will be set to 200, if there is no chargemaster entry, it will default to the amount set in this field.
+        diagnosis_pointers:
+          type: array
+          items:
+            type: integer
+          description: Indices (zero-indexed) of all the diagnoses this service line references
+        drug_identification:
+          $ref: '#/components/schemas/type_service-lines_v2_DrugIdentificationOptional'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: 837p Loop2300, SV105. This enum is not used or required in 837i claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        description:
+          type: string
+          description: A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on a 837-P and SV2-02, C003-07 on a 837-I form.
+        date_of_service:
+          type: string
+          format: date
+        end_date_of_service:
+          type: string
+          format: date
+        ordering_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_OrderingProviderOptional'
+          description: 'Required when the service or supply was ordered by a provider who is different than the rendering provider for this service line.
+
+            If not required by this implementation guide, do not send.'
+        test_results:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_service-lines_v2_TestResultOptional'
+          description: 'Contains a list of test results. Test result types may map to MEA-02 on the 837-P (ex: Hemoglobin, Hematocrit).
+
+            This is unused by 837-i and ignored for institutional service lines.
+
+            No more than 5 MEA-02 test results may be submitted per service line.'
+        note:
+          type: string
+          description: Maps to NTE02 loop 2400 on the EDI 837.
+        revenue_code:
+          type: string
+          description: A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).
+        prior_authorization_number:
+          type: string
+          description: Prior authorization number for this service line. Maps to the appropriate REF segment on Loop 2400 of the EDI 837p. This is not used for institutional claims (EDI 837i).
+        external_id:
+          type: string
+          description: 'An external identifier for this service line. This is not used in the EDI 837, but can be used to identify the service line in external systems.
+
+            This field should not contain PHI. Must be unique on a given claim.'
+      title: ServiceLineCreateOptional
+    type_commons_ClinicalTrialId:
+      type: string
+      format: uuid
+      title: ClinicalTrialId
+    type_commons_SourceOfPaymentCode:
+      type: string
+      enum:
+      - 09
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - AM
+      - BL
+      - CH
+      - CI
+      - DS
+      - FI
+      - HM
+      - LM
+      - MA
+      - MB
+      - MC
+      - OF
+      - TV
+      - VA
+      - WC
+      - ZZ
+      title: SourceOfPaymentCode
+    type_encounter-providers_v2_BillingProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - G2
+      - LU
+      title: BillingProviderSecondaryIdentificationQualifier
+    type_charge-capture_v1_ChargeExternalIdConflictErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: ChargeExternalIdConflictErrorMessage
+    type_commons_ClaimSubmissionPayerResponsibilityType:
+      type: string
+      enum:
+      - primary
+      - secondary
+      title: ClaimSubmissionPayerResponsibilityType
+    type_organization-providers_v2_LicenseType:
+      type: string
+      enum:
+      - MD
+      - NP
+      - PA
+      - LMFT
+      - LCPC
+      - LCSW
+      - PMHNP
+      - FNP
+      - LPCC
+      - DO
+      - RD
+      - SLP
+      - APRN
+      - LPC
+      - PHD
+      - PSYD
+      - LMSW
+      - LMHC
+      - OTHER_MASTERS
+      - BCBA
+      - UNKNOWN
+      - RPH
+      - PHT
+      - LAC
+      - LMT
+      - DC
+      - ND
+      - MA
+      - PT
+      - IBCLC
+      - RN
+      - DPT
+      - LCMHC
+      - CNM
+      - RNFA
+      - ACSW
+      - APC
+      - BCABA
+      - BHA
+      - OD
+      - DPM
+      - DA
+      - DDS
+      - DEH
+      - DMD
+      - PTA
+      - LCADC
+      - LCAT
+      - LCMHCS
+      - LCMHCA
+      - LCSWA
+      - LICSW
+      - LISW
+      - LMFTS
+      - LMFTA
+      - LPCI
+      - LSCSW
+      - MHCA
+      - MHT
+      - RBT
+      - RCSWI
+      - RHMCI
+      - LPN
+      - OTD
+      - OMS
+      - MFTA
+      - APCC
+      - DNP
+      - AGNPBC
+      - ANP
+      - FNPPP
+      - LCSWR
+      - ALC
+      - RMFTI
+      - LAMFT
+      - LPCA
+      - LSWI
+      - CSW
+      - CPC
+      - LGMFT
+      - LLPC
+      - PLPC
+      - PLMFT
+      - LMHCA
+      - CIT
+      - CT
+      - MFT
+      - LSW
+      - PLMHP
+      - PCMSW
+      - LMHP
+      - OTR/L
+      - RPA
+      - COTA
+      - CRNP
+      - SLP-CF
+      - NP-C
+      - PA-C
+      - AMFT
+      - CDN
+      - CGC
+      - CNS
+      - MDPHD
+      - AuD
+      - ATC
+      - LAT
+      - OTA
+      - LSSP
+      - SLPA
+      title: LicenseType
+    type_commons_ServiceLineUnits:
+      type: string
+      enum:
+      - MJ
+      - UN
+      title: ServiceLineUnits
+    type_encounters_v4_IntakeFollowUpOptional:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_encounters_v4_IntakeFollowUpId'
+        text:
+          type: string
+        response:
+          type: string
+      title: IntakeFollowUpOptional
+    type_commons_Npi:
+      type: string
+      title: Npi
+    type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - 0B
+      - 1G
+      - G2
+      title: ReferringProviderSecondaryIdentificationQualifier
+    type_commons_ChargeCaptureClaimCreationId:
+      type: string
+      format: uuid
+      title: ChargeCaptureClaimCreationId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

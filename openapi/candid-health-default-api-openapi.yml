@@ -134,6 +134,14 @@ paths:
               - client_secret
 components:
   schemas:
+    type_auth_default_TooManyRequestsErrorType:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: TooManyRequestsErrorType
     type_auth_default_AuthGetTokenResponse:
       type: object
       properties:
@@ -157,14 +165,6 @@ components:
       required:
       - message
       title: InvalidContentTypeErrorType
-    type_auth_default_TooManyRequestsErrorType:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-      title: TooManyRequestsErrorType
   securitySchemes:
     OAuthScheme:
       type: http

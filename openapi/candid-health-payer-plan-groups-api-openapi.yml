@@ -1,0 +1,671 @@
+openapi: 3.2.0
+info:
+  title: Reference Payer Plan Groups API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Payer Plan Groups
+paths:
+  /api/payer-plan-groups/v1:
+    get:
+      operationId: getMulti
+      summary: Get payer plans
+      description: Returns all payer plans matching filter criteria.
+      tags:
+      - Payer Plan Groups
+      parameters:
+      - name: plan_group_name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: payer_uuid
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+      - name: payer_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_payers_v3_PayerId'
+      - name: plan_type
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+      - name: is_active
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: payer_plan_group_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      - name: limit
+        in: query
+        description: Defaults to 100. Cannot exc
+        required: false
+        schema:
+          type: integer
+      - name: sort_by_similarity
+        in: query
+        description: 'If this property is passed, the results will be ordered by those that contain a payer_id, payer_name, plan_group_name, or
+
+          payer_address most similar to the value passed. This will take precedence over the sort and sort_direction properties. This
+
+          will always sort in order of most similar to least similar.'
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Defaults to plan_group_name. If sort_by_similarity is passed, that sort will takes precedence over this property.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroupSortField'
+      - name: sort_direction
+        in: query
+        description: Sort direction. Defaults to ascending order if not provided.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_SortDirection'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroupPage'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create a payer plan
+      tags:
+      - Payer Plan Groups
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - PayerPlanGroupAlreadyExistsHttpError
+                  content:
+                    $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroupAlreadyExistsError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_payer-plan-groups_v1_MutablePayerPlanGroup'
+  /api/payer-plan-groups/v1/{payer_plan_group_id}:
+    get:
+      operationId: get
+      summary: Get payer plan
+      description: Return a payer plan with a given ID.
+      tags:
+      - Payer Plan Groups
+      parameters:
+      - name: payer_plan_group_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    put:
+      operationId: update
+      summary: Update payer plan
+      description: Update any of the fields on a payer plan
+      tags:
+      - Payer Plan Groups
+      parameters:
+      - name: payer_plan_group_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - PayerPlanGroupAlreadyExistsHttpError
+                  content:
+                    $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroupAlreadyExistsError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_payer-plan-groups_v1_MutablePayerPlanGroup'
+    patch:
+      operationId: deactivate
+      summary: Delete payer plan
+      description: Marks the payer plan as deactivated
+      tags:
+      - Payer Plan Groups
+      parameters:
+      - name: payer_plan_group_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_payers_v3_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_id:
+          type: string
+          description: The primary national payer ID of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        availity_payer_name:
+          type: string
+          description: The name of the payer as it appears in Availity.
+        availity_claims_payer_id:
+          type: string
+          description: The ID of the payer as it appears in Availity.
+        availity_eligibility_id:
+          type: string
+          description: The eligibility ID of the payer as it appears in Availity.
+        availity_remittance_payer_id:
+          type: string
+          description: The remittance ID of the payer as it appears in Availity.
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_id
+      - payer_name
+      title: Payer
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_payer-plan-groups_v1_MutablePayerPlanGroup:
+      type: object
+      properties:
+        plan_group_name:
+          type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+      required:
+      - plan_group_name
+      - payer_uuid
+      - plan_type
+      title: MutablePayerPlanGroup
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_commons_SourceOfPaymentCode:
+      type: string
+      enum:
+      - 09
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - AM
+      - BL
+      - CH
+      - CI
+      - DS
+      - FI
+      - HM
+      - LM
+      - MA
+      - MB
+      - MC
+      - OF
+      - TV
+      - VA
+      - WC
+      - ZZ
+      title: SourceOfPaymentCode
+    type_payer-plan-groups_v1_PayerPlanGroupPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
+      required:
+      - items
+      title: PayerPlanGroupPage
+    type_payer-plan-groups_v1_PayerPlanGroup:
+      type: object
+      properties:
+        plan_group_name:
+          type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+        is_active:
+          type: boolean
+        organization_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      required:
+      - plan_group_name
+      - payer_uuid
+      - plan_type
+      - payer_plan_group_id
+      - payer
+      - is_active
+      - organization_id
+      title: PayerPlanGroup
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_payer-plan-groups_v1_PayerPlanGroupSortField:
+      type: string
+      enum:
+      - plan_group_name
+      - plan_type
+      - created_at
+      title: PayerPlanGroupSortField
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_payer-plan-groups_v1_PayerPlanGroupAlreadyExistsError:
+      type: object
+      properties:
+        message:
+          type: string
+        id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      required:
+      - message
+      - id
+      title: PayerPlanGroupAlreadyExistsError
+    type_payers_v3_PayerId:
+      type: string
+      title: PayerId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

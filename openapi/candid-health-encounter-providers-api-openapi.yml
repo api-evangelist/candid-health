@@ -1,0 +1,1212 @@
+openapi: 3.2.0
+info:
+  title: Reference Encounter Providers API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Encounter Providers
+paths:
+  /api/encounter-providers/v2/{encounter_id}:
+    patch:
+      operationId: update_referring_provider
+      summary: Update Referring Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderUpdate'
+  /api/encounter-providers/v2/{encounter_id}/initial-referring-provider:
+    patch:
+      operationId: update_initial_referring_provider
+      summary: Update Initial Referring Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_InitialReferringProviderUpdate'
+    delete:
+      operationId: delete_initial_referring_provider
+      summary: Delete Initial Referring Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/encounter-providers/v2/{encounter_id}/supervising-provider:
+    patch:
+      operationId: update_supervising_provider
+      summary: Update Supervising Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderUpdate'
+    delete:
+      operationId: delete_supervising_provider
+      summary: Delete Supervising Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/encounter-providers/v2/{service_line_id}/ordering-provider:
+    patch:
+      operationId: update_ordering_provider
+      summary: Update Ordering Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_OrderingProviderUpdate'
+    delete:
+      operationId: delete_ordering_provider
+      summary: Delete Ordering Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/encounter-providers/v2/{encounter_id}/create-referring-provider:
+    post:
+      operationId: create_referring_provider
+      summary: Create Referring Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProvider'
+  /api/encounter-providers/v2/{encounter_id}/create-initial-referring-provider:
+    post:
+      operationId: create_initial_referring_provider
+      summary: Create Initial Referring Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_InitialReferringProvider'
+  /api/encounter-providers/v2/{encounter_id}/create-supervising-provider:
+    post:
+      operationId: create_supervising_provider
+      summary: Create Supervising Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProvider'
+  /api/encounter-providers/v2/{service_line_id}/create-ordering-provider:
+    post:
+      operationId: create_ordering_provider
+      summary: Create Ordering Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: service_line_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_encounter-providers_v2_OrderingProvider'
+  /api/encounter-providers/v2/{encounter_id}/referring-provider:
+    delete:
+      operationId: delete_referring_provider
+      summary: Delete Referring Provider
+      tags:
+      - Encounter Providers
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_encounter-providers_v2_OrderingProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      title: OrderingProviderUpdate
+    type_commons_QualifierCode:
+      type: string
+      enum:
+      - DQ
+      - DN
+      - DK
+      - P3
+      title: QualifierCode
+    type_encounter-providers_v2_EncounterProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        provider_id:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderId'
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        tax_id:
+          type: string
+        npi:
+          type: string
+        taxonomy_code:
+          type: string
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        provider_commercial_license_type:
+          $ref: '#/components/schemas/type_commons_BillingProviderCommercialLicenseType'
+          description: '837i Loop2010BB G2
+
+            Provider Commercial Number'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentification'
+          description: 'Only one of provider_commercial_license_type or secondary_identification may be provided
+
+            837i Loop2010BB G2
+
+            Secondary Identification'
+      required:
+      - provider_id
+      - address
+      - npi
+      title: EncounterProvider
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_encounter-providers_v2_OrderingProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - npi
+      title: OrderingProvider
+    type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - 0B
+      - 1G
+      - G2
+      - LU
+      title: ProviderSecondaryIdentificationQualifier
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_encounter-providers_v2_ReferringProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      required:
+      - npi
+      title: ReferringProvider
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_encounter-providers_v2_ReferringProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier'
+      required:
+      - reference_identification
+      - reference_identification_qualifier
+      title: ReferringProviderSecondaryIdentification
+    type_encounter-providers_v2_ReferringProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      title: ReferringProviderUpdate
+    type_encounter-providers_v2_InitialReferringProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      title: InitialReferringProviderUpdate
+    type_encounter-providers_v2_SupervisingProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+      required:
+      - reference_identification
+      - reference_identification_qualifier
+      title: SupervisingProviderSecondaryIdentification
+    type_encounter-providers_v2_InitialReferringProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      required:
+      - npi
+      title: InitialReferringProvider
+    type_commons_BillingProviderCommercialLicenseType:
+      type: string
+      enum:
+      - '0'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      title: BillingProviderCommercialLicenseType
+    type_encounter-providers_v2_SupervisingProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentification'
+      required:
+      - npi
+      title: SupervisingProvider
+    type_encounter-providers_v2_ProviderId:
+      type: string
+      format: uuid
+      title: ProviderId
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_encounter-providers_v2_SupervisingProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentification'
+      title: SupervisingProviderUpdate
+    type_encounter-providers_v2_ProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+          description: Represents REF01 on the EDI 837 Loop 2010BB Provider Secondary Identification segment.
+      required:
+      - reference_identification
+      title: ProviderSecondaryIdentification
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - 0B
+      - 1G
+      - G2
+      title: ReferringProviderSecondaryIdentificationQualifier
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

@@ -1,0 +1,899 @@
+openapi: 3.2.0
+info:
+  title: Reference Organization Service Facilities API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Organization Service Facilities
+paths:
+  /api/organization-service-facilities/v2/{organization_service_facility_id}:
+    get:
+      operationId: get
+      summary: Get organization service facility
+      tags:
+      - Organization Service Facilities
+      parameters:
+      - name: organization_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update organization service facility
+      tags:
+      - Organization Service Facilities
+      parameters:
+      - name: organization_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityUpdate'
+    delete:
+      operationId: delete
+      summary: Delete organization service facility
+      tags:
+      - Organization Service Facilities
+      parameters:
+      - name: organization_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/organization-service-facilities/v2:
+    get:
+      operationId: get_multi
+      summary: Get all organization service facilities
+      tags:
+      - Organization Service Facilities
+      parameters:
+      - name: limit
+        in: query
+        description: Limit the number of results returned. Defaults to 100.
+        required: false
+        schema:
+          type: integer
+      - name: name
+        in: query
+        description: Filter to a name or a part of a name.
+        required: false
+        schema:
+          type: string
+      - name: organization_service_facility_ids
+        in: query
+        description: Filter to the provided organization service facility IDs.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+      - name: external_ids
+        in: query
+        description: Filter by one or more external_ids.
+        required: false
+        schema:
+          type: string
+      - name: place_of_service_code
+        in: query
+        description: Filter by Place of Service (POS) code.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+      - name: page_token
+        in: query
+        description: The page token to continue paging through a previous request.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: organization_id
+        in: query
+        description: Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityPage'
+    post:
+      operationId: create
+      summary: Create organization service facility
+      tags:
+      - Organization Service Facilities
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityConflictError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityConflictErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityCreate'
+  /api/organization-service-facilities/v2/external-id/{external_id}:
+    get:
+      operationId: get_by_external_id
+      summary: Get organization service facility by external_id
+      description: 'Looks up a single organization service facility by its `external_id` field. This can be useful
+
+        for finding service facilities within Candid which are associated with service facilities in
+
+        an external system.'
+      tags:
+      - Organization Service Facilities
+      parameters:
+      - name: external_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_organization-service-facilities_v2_ServiceFacilityType:
+      type: string
+      enum:
+      - DX
+      - CVDX
+      - CATH
+      - ECHO
+      - GIDX
+      - ENDOS
+      - RADDX
+      - RADO
+      - RNEU
+      - HOSP
+      - CHR
+      - GACH
+      - MHSP
+      - PSYCHF
+      - RH
+      - RHAT
+      - RHII
+      - RHMAD
+      - RHPI
+      - RHPIH
+      - RHPIMS
+      - RHPIVS
+      - RHYAD
+      - HU
+      - BMTU
+      - CCU
+      - CHEST
+      - EPIL
+      - ER
+      - ETU
+      - HD
+      - HLAB
+      - INLAB
+      - OUTLAB
+      - HRAD
+      - HUSCS
+      - ICU
+      - PEDICU
+      - PEDNICU
+      - INPHARM
+      - MBL
+      - NCCS
+      - NS
+      - OUTPHARM
+      - PEDU
+      - PHU
+      - RHU
+      - SLEEP
+      - NCCF
+      - SNF
+      - OF
+      - ALL
+      - AMPUT
+      - BMTC
+      - BREAST
+      - CANC
+      - CAPC
+      - CARD
+      - PEDCARD
+      - COAG
+      - CRS
+      - DERM
+      - ENDO
+      - PEDE
+      - ENT
+      - FMC
+      - GI
+      - PEDGI
+      - GIM
+      - GYN
+      - HEM
+      - PEDHEM
+      - HTN
+      - IEC
+      - INFD
+      - PEDID
+      - INV
+      - LYMPH
+      - MGEN
+      - NEPH
+      - PEDNEPH
+      - NEUR
+      - OB
+      - OMS
+      - ONCL
+      - PEDHO
+      - OPH
+      - OPTC
+      - ORTHO
+      - HAND
+      - PAINCL
+      - PC
+      - PEDC
+      - PEDRHEUM
+      - POD
+      - PREV
+      - PROCTO
+      - PROFF
+      - PROS
+      - PSI
+      - PSY
+      - RHEUM
+      - SPMED
+      - SU
+      - PLS
+      - URO
+      - TR
+      - TRAVEL
+      - WND
+      - RTF
+      - PRC
+      - SURF
+      - DADDR
+      - MOBL
+      - AMB
+      - PHARM
+      - ACC
+      - COMM
+      - CSC
+      - PTRES
+      - SCHOOL
+      - UPC
+      - WORK
+      title: ServiceFacilityType
+    type_organization-service-facilities_v2_ServiceFacilityMode:
+      type: string
+      enum:
+      - instance
+      - kind
+      title: ServiceFacilityMode
+    type_organization-service-facilities_v2_OrganizationServiceFacilityCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the service facility.
+        aliases:
+          type: array
+          items:
+            type: string
+          description: A list of alternate names for the service facility.
+        description:
+          type: string
+          description: A description of the service facility.
+        external_id:
+          type: string
+          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: The Place of Service (POS) code for this service facility.
+        clia_number:
+          type: string
+          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+        status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
+          description: The status of the service facility.
+        operational_status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
+          description: The operational status of the service facility.
+        mode:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
+          description: The mode of the service facility.
+        type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
+          description: The type of the service facility.
+        physical_type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
+          description: The physical type of the service facility.
+        telecoms:
+          type: array
+          items:
+            type: string
+          description: A list of contact methods for the service facility.
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the service facility.
+      required:
+      - name
+      - aliases
+      - telecoms
+      - address
+      title: OrganizationServiceFacilityCreate
+    type_organization-service-facilities_v2_ServiceFacilityStatus:
+      type: string
+      enum:
+      - active
+      - inactive
+      - suspended
+      title: ServiceFacilityStatus
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_commons_FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_organization-service-facilities_v2_OrganizationServiceFacilityPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+      required:
+      - items
+      title: OrganizationServiceFacilityPage
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_organization-service-facilities_v2_OrganizationServiceFacilityUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the service facility.
+        aliases:
+          type: array
+          items:
+            type: string
+          description: A list of alternate names for the service facility.
+        description:
+          type: string
+          description: A description of the service facility.
+        external_id:
+          type: string
+          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: The Place of Service (POS) code for this service facility.
+        clia_number:
+          type: string
+          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+        status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
+          description: The status of the service facility.
+        operational_status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
+          description: The operational status of the service facility.
+        mode:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
+          description: The mode of the service facility.
+        type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
+          description: The type of the service facility.
+        physical_type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
+          description: The physical type of the service facility.
+        telecoms:
+          type: array
+          items:
+            type: string
+          description: A list of contact methods for the service facility.
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the service facility.
+      title: OrganizationServiceFacilityUpdate
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_organization-service-facilities_v2_OrganizationServiceFacility:
+      type: object
+      properties:
+        organization_service_facility_id:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+        name:
+          type: string
+          description: The name of the service facility.
+        aliases:
+          type: array
+          items:
+            type: string
+          description: A list of alternate names for the service facility.
+        description:
+          type: string
+          description: A description of the service facility.
+        external_id:
+          type: string
+          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: The Place of Service (POS) code for this service facility.
+        clia_number:
+          type: string
+          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+        status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
+          description: The status of the service facility.
+        operational_status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
+          description: The operational status of the service facility.
+        mode:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
+          description: The mode of the service facility.
+        type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
+          description: The type of the service facility.
+        physical_type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
+          description: The physical type of the service facility.
+        telecoms:
+          type: array
+          items:
+            type: string
+          description: A list of contact methods for the service facility.
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the service facility.
+      required:
+      - organization_service_facility_id
+      - name
+      - aliases
+      - telecoms
+      - address
+      title: OrganizationServiceFacility
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_organization-service-facilities_v2_ServiceFacilityOperationalStatus:
+      type: string
+      enum:
+      - C
+      - H
+      - I
+      - K
+      - O
+      - U
+      title: ServiceFacilityOperationalStatus
+    type_organization-service-facilities_v2_ServiceFacilityPhysicalType:
+      type: string
+      enum:
+      - si
+      - bu
+      - wi
+      - wa
+      - lvl
+      - co
+      - ro
+      - bd
+      - ve
+      - ho
+      - ca
+      - rd
+      - area
+      - jdn
+      title: ServiceFacilityPhysicalType
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

@@ -1,0 +1,409 @@
+openapi: 3.2.0
+info:
+  title: Reference Patient Ar API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Patient Ar
+paths:
+  /api/patient-ar/v1/inventory:
+    get:
+      operationId: list-inventory
+      summary: List Inventory Records
+      description: 'Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
+
+        The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.'
+      tags:
+      - Patient Ar
+      parameters:
+      - name: since
+        in: query
+        description: Timestamp to filter records since, inclusive
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: limit
+        in: query
+        description: Maximum number of records to return, default is 100
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-ar_v1_ListInventoryPagedResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: The provided filters are invalid or not supported.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - InvalidFiltersError
+                    description: The provided filters are invalid or not supported.
+                  content:
+                    $ref: '#/components/schemas/type_patient-ar_v1_InvalidFiltersErrorType'
+                    description: The provided filters are invalid or not supported.
+                required:
+                - errorName
+                - content
+  /api/patient-ar/v1/invoice-itemization/{claim_id}:
+    get:
+      operationId: itemize
+      summary: Invoice Itemization
+      description: Provides detailed itemization of invoice data for a specific claim.
+      tags:
+      - Patient Ar
+      parameters:
+      - name: claim_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_patient-ar_v1_InvoiceItemizationResponse'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_commons_ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_patient-ar_v1_InsurancePaymentInfo:
+      type: object
+      properties:
+        total_payment_cents:
+          type: integer
+          description: The total amount of insurance payments in cents for the service line.
+      required:
+      - total_payment_cents
+      title: InsurancePaymentInfo
+    type_patient-ar_v1_ServiceLineItemization:
+      type: object
+      properties:
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+          description: The ID of the service line.
+        procedure_code:
+          type: string
+          description: The procedure code (CPT/HCPCS) associated with the service line.
+        date_of_service:
+          type: string
+          format: date
+          description: The date of service for the service line.
+        patient_balance_cents:
+          type: integer
+          description: The total patient balance in cents for the service line. Negative values indicate a credit balance.
+        charge_amount_cents:
+          type: integer
+          description: The total charge amount in cents for the service line.
+        insurance_adjustments:
+          $ref: '#/components/schemas/type_patient-ar_v1_InsuranceAdjustmentInfo'
+        insurance_payments:
+          $ref: '#/components/schemas/type_patient-ar_v1_InsurancePaymentInfo'
+        non_insurance_adjustments:
+          $ref: '#/components/schemas/type_patient-ar_v1_NonInsuranceAdjustmentInfo'
+        non_insurance_payments:
+          $ref: '#/components/schemas/type_patient-ar_v1_NonInsurancePaymentInfo'
+        patient_adjustments:
+          $ref: '#/components/schemas/type_patient-ar_v1_PatientAdjustmentInfo'
+        patient_payments:
+          $ref: '#/components/schemas/type_patient-ar_v1_PatientPaymentInfo'
+        copay_cents:
+          type: integer
+          description: The copay amount in cents for the service line.
+        coinsurance_cents:
+          type: integer
+          description: The coinsurance amount in cents for the service line.
+        deductible_cents:
+          type: integer
+          description: The deductible amount in cents for the service line.
+      required:
+      - service_line_id
+      - procedure_code
+      - date_of_service
+      - patient_balance_cents
+      - charge_amount_cents
+      - insurance_adjustments
+      - insurance_payments
+      - non_insurance_adjustments
+      - non_insurance_payments
+      - patient_adjustments
+      - patient_payments
+      - copay_cents
+      - coinsurance_cents
+      - deductible_cents
+      title: ServiceLineItemization
+    type_patient-ar_v1_InsuranceAdjustmentInfo:
+      type: object
+      properties:
+        total_adjustment_cents:
+          type: integer
+          description: The total amount of insurance adjustments in cents for the service line.
+      required:
+      - total_adjustment_cents
+      title: InsuranceAdjustmentInfo
+    type_patient-ar_v1_InvalidFiltersErrorType:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: InvalidFiltersErrorType
+    type_patient-ar_v1_PatientARStatus:
+      type: string
+      enum:
+      - invoiceable
+      - non_invoiceable
+      title: PatientARStatus
+    type_patient-ar_v1_NonInsuranceAdjustmentInfo:
+      type: object
+      properties:
+        total_adjustment_cents:
+          type: integer
+          description: The total amount of non-insurance adjustments in cents for the service line.
+      required:
+      - total_adjustment_cents
+      title: NonInsuranceAdjustmentInfo
+    type_patient-ar_v1_NonInsurancePaymentInfo:
+      type: object
+      properties:
+        total_payment_cents:
+          type: integer
+          description: The total amount of non-insurance payments in cents for the service line.
+      required:
+      - total_payment_cents
+      title: NonInsurancePaymentInfo
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_patient-ar_v1_InvoiceItemizationResponse:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+          description: The ID of the claim associated with the invoice itemization.
+        patient_balance_cents:
+          type: integer
+          description: The total patient balance in cents for the claim. Negative values indicate a credit balance.
+        organization_service_facility_id:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+          description: The organization service facility ID from the claim's encounter.
+        claim_level_patient_payments:
+          $ref: '#/components/schemas/type_patient-ar_v1_PatientPaymentInfo'
+        service_line_itemization:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_patient-ar_v1_ServiceLineItemization'
+          description: A list of service line itemizations for the claim.
+      required:
+      - claim_id
+      - patient_balance_cents
+      - claim_level_patient_payments
+      - service_line_itemization
+      title: InvoiceItemizationResponse
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_patient-ar_v1_PatientPaymentAllocation:
+      type: object
+      properties:
+        source_id:
+          type: string
+          description: 'Payment identifier from the source system (e.g., patient portal, manual entry). Note multiple allocations may exist for a single payment and
+
+            thus may share the same source_id.'
+        amount_cents:
+          type: integer
+          description: The amount of the patient payment in cents.
+      required:
+      - amount_cents
+      title: PatientPaymentAllocation
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_patient-ar_v1_PatientAdjustmentInfo:
+      type: object
+      properties:
+        total_adjustment_cents:
+          type: integer
+          description: The total amount of patient adjustments in cents for the service line.
+      required:
+      - total_adjustment_cents
+      title: PatientAdjustmentInfo
+    type_patient-ar_v1_PatientPaymentInfo:
+      type: object
+      properties:
+        total_payment_cents:
+          type: integer
+          description: The total amount of patient payments in cents for the service line.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_patient-ar_v1_PatientPaymentAllocation'
+          description: A list of patient payment items associated with the service line.
+      required:
+      - total_payment_cents
+      - items
+      title: PatientPaymentInfo
+    type_patient-ar_v1_InventoryRecord:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        timestamp:
+          type: string
+          format: date-time
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+        patient_ar_status:
+          $ref: '#/components/schemas/type_patient-ar_v1_PatientARStatus'
+      required:
+      - claim_id
+      - encounter_id
+      - timestamp
+      - patient_external_id
+      - patient_ar_status
+      title: InventoryRecord
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_patient-ar_v1_ListInventoryPagedResponse:
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_patient-ar_v1_InventoryRecord'
+          description: List of inventory records matching the filters
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+          description: Token for the next page of results, if available
+      required:
+      - records
+      title: ListInventoryPagedResponse
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

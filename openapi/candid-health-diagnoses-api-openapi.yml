@@ -189,16 +189,34 @@ paths:
                 - content
 components:
   schemas:
-    type_diagnoses_DiagnosisNotFoundError:
+    type_diagnoses_StandaloneDiagnosisCreate:
       type: object
       properties:
-        diagnosis_id:
-          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
-        message:
+        name:
           type: string
+          description: Empty string not allowed.
+        code_type:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisTypeCode'
+          description: Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
+        code:
+          type: string
+          description: "Empty string not allowed.\nShould be of the appropriate format for the provided `code_type`.\nMust obey the ICD-10 format if an ICD-10 code_type is provided, specifically:\n  - Letter\n  - Digit\n  - Digit or the letter `A` or `B`\n  - (Optional) Period `.`\n  - Up to 4 (or as few as 0) letters and digits"
+        present_on_admission_indicator:
+          $ref: '#/components/schemas/type_yes-no-indicator_YesNoIndicator'
+          description: 'For Institutional claims only.
+
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
       required:
-      - message
-      title: DiagnosisNotFoundError
+      - code_type
+      - code
+      - encounter_id
+      title: StandaloneDiagnosisCreate
     type_diagnoses_DiagnosisTypeCode:
       type: string
       enum:
@@ -213,20 +231,6 @@ components:
       - DR
       - LOI
       title: DiagnosisTypeCode
-    type_diagnoses_ServiceLinesMustHaveAtLeastOneDiagnosisError:
-      type: object
-      properties:
-        diagnosis_id:
-          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
-        service_line_id:
-          $ref: '#/components/schemas/type_commons_ServiceLineId'
-        message:
-          type: string
-      required:
-      - diagnosis_id
-      - service_line_id
-      - message
-      title: ServiceLinesMustHaveAtLeastOneDiagnosisError
     type_diagnoses_DisallowMultiplePrimaryDiagnosisError:
       type: object
       properties:
@@ -241,6 +245,50 @@ components:
       - new_primary_diagnosis_id
       - message
       title: DisallowMultiplePrimaryDiagnosisError
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_diagnoses_ServiceLinesMustHaveAtLeastOneDiagnosisError:
+      type: object
+      properties:
+        diagnosis_id:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+        message:
+          type: string
+      required:
+      - diagnosis_id
+      - service_line_id
+      - message
+      title: ServiceLinesMustHaveAtLeastOneDiagnosisError
+    type_diagnoses_DiagnosisId:
+      type: string
+      format: uuid
+      title: DiagnosisId
+    type_diagnoses_DiagnosisNotFoundError:
+      type: object
+      properties:
+        diagnosis_id:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        message:
+          type: string
+      required:
+      - message
+      title: DiagnosisNotFoundError
+    type_yes-no-indicator_YesNoIndicator:
+      type: string
+      enum:
+      - 'YES'
+      - 'NO'
+      - UNKNOWN
+      - NOT_APPLICABLE
+      title: YesNoIndicator
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
     type_diagnoses_Diagnosis:
       type: object
       properties:
@@ -280,54 +328,6 @@ components:
       - created_at
       - updated_at
       title: Diagnosis
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
-    type_yes-no-indicator_YesNoIndicator:
-      type: string
-      enum:
-      - 'YES'
-      - 'NO'
-      - UNKNOWN
-      - NOT_APPLICABLE
-      title: YesNoIndicator
-    type_diagnoses_DiagnosisId:
-      type: string
-      format: uuid
-      title: DiagnosisId
-    type_diagnoses_StandaloneDiagnosisCreate:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Empty string not allowed.
-        code_type:
-          $ref: '#/components/schemas/type_diagnoses_DiagnosisTypeCode'
-          description: Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
-        code:
-          type: string
-          description: "Empty string not allowed.\nShould be of the appropriate format for the provided `code_type`.\nMust obey the ICD-10 format if an ICD-10 code_type is provided, specifically:\n  - Letter\n  - Digit\n  - Digit or the letter `A` or `B`\n  - (Optional) Period `.`\n  - Up to 4 (or as few as 0) letters and digits"
-        present_on_admission_indicator:
-          $ref: '#/components/schemas/type_yes-no-indicator_YesNoIndicator'
-          description: 'For Institutional claims only.
-
-            A "Y" indicates that the onset occurred prior to admission to the hospital.
-
-            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
-
-            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.'
-        encounter_id:
-          $ref: '#/components/schemas/type_commons_EncounterId'
-      required:
-      - code_type
-      - code
-      - encounter_id
-      title: StandaloneDiagnosisCreate
   securitySchemes:
     OAuthScheme:
       type: http

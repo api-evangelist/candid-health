@@ -1,0 +1,2554 @@
+openapi: 3.2.0
+info:
+  title: Reference Contracts API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Contracts
+paths:
+  /api/contracts/v2/{contract_id}:
+    get:
+      operationId: get
+      summary: Get contract
+      description: This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractId'
+      - name: organization_id
+        in: query
+        description: Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v2_ContractWithProviders'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    delete:
+      operationId: delete
+      summary: Delete contract
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractIsLinkedToFeeScheduleHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts_v2_ContractIsLinkedToFeeScheduleError'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update contract
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v2_ContractWithProviders'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractInvalidExpirationDateHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts_v2_ContractInvalidExpirationDateError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts_v2_RenderingProviderid'
+                  description: 'A rendering provider isn''t contracted directly with the payer but can render
+
+                    services under the contract held by the contracting provider.
+
+                    Max items is 4000.'
+                effective_date:
+                  $ref: '#/components/schemas/type_commons_Date'
+                  description: The starting day upon which the contract is effective
+                expiration_date:
+                  $ref: '#/components/schemas/type_contracts_v2_DateUpdate'
+                  description: An optional end day upon which the contract expires
+                regions:
+                  $ref: '#/components/schemas/type_contracts_v2_RegionsUpdate'
+                  description: 'If present, the contract''s rendering providers will be patched to this exact
+
+                    value, overriding what was set before.'
+                contract_status:
+                  $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+                authorized_signatory:
+                  $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatoryUpdate'
+                commercial_insurance_types:
+                  $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+                medicare_insurance_types:
+                  $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+                medicaid_insurance_types:
+                  $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+  /api/contracts/v2:
+    get:
+      operationId: get_multi
+      summary: Get all contracts
+      description: This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+      tags:
+      - Contracts
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of contracts returned. Defaults to 1000. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: contracting_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractingProviderId'
+      - name: rendering_provider_ids
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_RenderingProviderid'
+      - name: payer_names
+        in: query
+        description: Filter to contracts that include any of the included payer names.
+        required: false
+        schema:
+          type: string
+      - name: states
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_State'
+      - name: contract_status
+        in: query
+        description: The status of the contract. Defaults to `pending`
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+      - name: sort
+        in: query
+        description: Potentially sort by a contract related attribute.  Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractSortField'
+      - name: sort_direction
+        in: query
+        description: Direction of sort, defaulting to desc
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_SortDirection'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v2_ContractsPage'
+    post:
+      operationId: create
+      summary: Create contract
+      description: Creates a new contract within the user's current organization
+      tags:
+      - Contracts
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v2_ContractWithProviders'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                effective_date:
+                  $ref: '#/components/schemas/type_commons_Date'
+                  description: The starting day upon which the contract is effective
+                expiration_date:
+                  $ref: '#/components/schemas/type_commons_Date'
+                  description: An optional end day upon which the contract expires
+                regions:
+                  $ref: '#/components/schemas/type_commons_Regions'
+                  description: 'The state(s) to which the contract''s coverage extends.
+
+                    It may also be set to "national" for the entirety of the US.'
+                contract_status:
+                  $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+                authorized_signatory:
+                  $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+                commercial_insurance_types:
+                  $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+                  description: The commercial plan insurance types this contract applies.
+                medicare_insurance_types:
+                  $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+                  description: The Medicare plan insurance types this contract applies.
+                medicaid_insurance_types:
+                  $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+                  description: The Medicaid plan insurance types this contract applies.
+                contracting_provider_id:
+                  $ref: '#/components/schemas/type_contracts_v2_ContractingProviderId'
+                  description: The UUID of the provider under agreement to the contract
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts_v2_RenderingProviderid'
+                  description: 'A rendering provider isn''t contracted directly with the payer but can render
+
+                    services under the contract held by the contracting provider.
+
+                    Max items is 4000.'
+                payer_uuid:
+                  type: string
+                  format: uuid
+                  description: The UUID of the insurance company under agreement to the contract
+              required:
+              - effective_date
+              - regions
+              - commercial_insurance_types
+              - medicare_insurance_types
+              - medicaid_insurance_types
+              - contracting_provider_id
+              - rendering_provider_ids
+              - payer_uuid
+  /api/contracts/v3/{contract_id}:
+    get:
+      operationId: getApiContractsV3ByContractId
+      summary: Get contract
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractWithProvidersUnion'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+      x-operation-id-source: normalized
+      x-operation-id-original: get
+    delete:
+      operationId: deleteApiContractsV3ByContractId
+      summary: Delete contract
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractIsLinkedToFeeScheduleHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts_v2_ContractIsLinkedToFeeScheduleError'
+                required:
+                - errorName
+                - content
+      x-operation-id-source: normalized
+      x-operation-id-original: delete
+    patch:
+      operationId: patchApiContractsV3ByContractId
+      summary: Update contract
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractWithProvidersUnion'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - ContractInvalidExpirationDateHttpError
+                  content:
+                    $ref: '#/components/schemas/type_contracts_v2_ContractInvalidExpirationDateError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_contracts_v3_ContractUpdateUnion'
+      x-operation-id-source: normalized
+      x-operation-id-original: update
+  /api/contracts/v3:
+    get:
+      operationId: getApiContractsV3
+      summary: Get all contracts
+      tags:
+      - Contracts
+      parameters:
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of contracts returned. Defaults to 1000. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: type
+        in: query
+        description: The type of contract
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractType'
+      - name: contracting_provider_id
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractingProviderId'
+      - name: rendering_provider_ids
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+      - name: payer_names
+        in: query
+        description: Filter to contracts that include any of the included payer names.
+        required: false
+        schema:
+          type: string
+      - name: states
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_State'
+      - name: contract_status
+        in: query
+        description: The status of the contract. Defaults to `pending`
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+      - name: sort
+        in: query
+        description: Potentially sort by a contract related attribute.  Defaults to created_at
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_contracts_v2_ContractSortField'
+      - name: sort_direction
+        in: query
+        description: Direction of sort, defaulting to desc
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_SortDirection'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractsPage'
+      x-operation-id-source: normalized
+      x-operation-id-original: get_multi
+    post:
+      operationId: postApiContractsV3
+      summary: Create contract
+      description: Creates a new contract within the user's current organization
+      tags:
+      - Contracts
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractWithProvidersUnion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_contracts_v3_ContractCreateUnion'
+      x-operation-id-source: normalized
+      x-operation-id-original: create
+  /api/contracts/v3/{contract_id}/providers:
+    get:
+      operationId: get_contract_providers
+      summary: Get contract providers
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of providers returned per page. Defaults to 100. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractProvidersPage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: add_contract_providers
+      summary: Add providers to contract
+      description: Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_AddContractProvidersResponse'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+                  description: Provider IDs to add to the contract. Max 100,000 per request.
+              required:
+              - rendering_provider_ids
+    delete:
+      operationId: remove_contract_providers
+      summary: Remove providers from contract
+      description: Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractProviderCount'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rendering_provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+                  description: Provider IDs to remove from the contract. Max 100,000 per request.
+              required:
+              - rendering_provider_ids
+  /api/contracts/v3/{contract_id}/providers/credentialing:
+    get:
+      operationId: get_contract_provider_credentialing_spans
+      summary: Get contract provider credentialing spans
+      description: Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list.
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: limit
+        in: query
+        description: Max number of providers returned per page. Defaults to 100. Max is 1000.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractProviderCredentialingPage'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+  /api/contracts/v3/{contract_id}/service-facilities:
+    post:
+      operationId: create_contract_service_facility
+      summary: Create contract service facility
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacility'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_facility_id:
+                  type: string
+                  format: uuid
+                  description: The UUID of the service facility
+                provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
+                  description: The providers who are authorized under the contract
+              required:
+              - service_facility_id
+              - provider_ids
+  /api/contracts/v3/{contract_id}/service-facilities/{contract_service_facility_id}:
+    patch:
+      operationId: update_contract_service_facility
+      summary: Update contract service facility
+      tags:
+      - Contracts
+      parameters:
+      - name: contract_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+      - name: contract_service_facility_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacility'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_facility_id:
+                  type: string
+                  format: uuid
+                  description: The UUID of the service facility
+                provider_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    format: uuid
+                  description: The providers who are authorized under the contract
+components:
+  schemas:
+    type_payers_v3_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_id:
+          type: string
+          description: The primary national payer ID of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        availity_payer_name:
+          type: string
+          description: The name of the payer as it appears in Availity.
+        availity_claims_payer_id:
+          type: string
+          description: The ID of the payer as it appears in Availity.
+        availity_eligibility_id:
+          type: string
+          description: The eligibility ID of the payer as it appears in Availity.
+        availity_remittance_payer_id:
+          type: string
+          description: The remittance ID of the payer as it appears in Availity.
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_id
+      - payer_name
+      title: Payer
+    type_contracts_v3_ContractProvidersPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+      required:
+      - items
+      title: ContractProvidersPage
+    type_contracts_v2_RegionsUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons_Regions'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: RegionsUpdate
+    type_contracts_v2_ContractSortField:
+      type: string
+      enum:
+      - created_at
+      - payer_name
+      - payer_id
+      - billing_provider_name
+      - effective_date
+      - contract_status
+      title: ContractSortField
+    type_organization-providers_v2_OrganizationProviderAddress:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the provider
+        address_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_AddressType'
+          description: The address type of the provider
+      required:
+      - address
+      - address_type
+      title: OrganizationProviderAddress
+    type_contracts_v3_ContractType:
+      type: string
+      enum:
+      - professional
+      - institutional
+      title: ContractType
+    type_contracts_v2_InsuranceTypes:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - allApply
+            description: 'Discriminator value: allApply'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - noneApply
+            description: 'Discriminator value: noneApply'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - theseApply
+            description: 'Discriminator value: theseApply'
+          value:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_commons_InsuranceTypeCode'
+        required:
+        - type
+        - value
+      discriminator:
+        propertyName: type
+      title: InsuranceTypes
+    type_identifiers_Identifier:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/type_commons_DateRangeOptionalEnd'
+        identifier_code:
+          $ref: '#/components/schemas/type_identifiers_IdentifierCode'
+        identifier_value:
+          $ref: '#/components/schemas/type_identifiers_IdentifierValue'
+        identifier_id:
+          $ref: '#/components/schemas/type_identifiers_IdentifierId'
+      required:
+      - identifier_code
+      - identifier_value
+      - identifier_id
+      title: Identifier
+    type_contracts_v3_ContractId:
+      type: string
+      format: uuid
+      title: ContractId
+    type_commons_Date:
+      type: string
+      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+      title: Date
+    type_contracts_v3_ContractServiceFacility:
+      type: object
+      properties:
+        service_facility_id:
+          type: string
+          format: uuid
+          description: The UUID of the service facility
+        provider_ids:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+          description: The providers who are authorized under the contract
+        contract_id:
+          $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          description: The UUID of the contract
+        contract_service_facility_id:
+          $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityId'
+      required:
+      - service_facility_id
+      - provider_ids
+      - contract_id
+      - contract_service_facility_id
+      title: ContractServiceFacility
+    type_commons_Regions:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - states
+            description: 'Discriminator value: states'
+          states:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_commons_State'
+        required:
+        - type
+        - states
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - national
+            description: 'Discriminator value: national'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: Regions
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_identifiers_IdentifierId:
+      type: string
+      format: uuid
+      title: IdentifierId
+    type_organization-providers_v2_ProviderType:
+      type: string
+      enum:
+      - INDIVIDUAL
+      - ORGANIZATION
+      title: ProviderType
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_organization-providers_v2_OrganizationProvider:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        ptan:
+          type: string
+          description: The Provider Transaction Access Number for the provider.
+        medicaid_provider_id:
+          type: string
+          description: The medicaid provider ID for the provider.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+          description: Auto-generated ID set on creation
+        employment_status:
+          $ref: '#/components/schemas/type_organization-providers_v2_EmploymentStatus'
+          description: The employment status for the provider.
+        employment_start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment start date for the provider.
+        employment_termination_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment termination date for the provider.
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - organization_provider_id
+      - employment_status
+      title: OrganizationProvider
+    type_contracts_v2_ContractingProviderId:
+      type: string
+      format: uuid
+      title: ContractingProviderId
+    type_commons_DateRangeOptionalEnd:
+      type: object
+      properties:
+        start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+        end_date:
+          $ref: '#/components/schemas/type_commons_Date'
+      required:
+      - start_date
+      title: DateRangeOptionalEnd
+    type_contracts_v2_ContractInvalidExpirationDateError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: ContractInvalidExpirationDateError
+    type_contracts_v3_ContractProviderCount:
+      type: object
+      properties:
+        provider_count:
+          type: integer
+          description: The total number of rendering providers currently associated with this contract
+      required:
+      - provider_count
+      title: ContractProviderCount
+    type_contracts_v3_ContractCreateUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_type:
+            $ref: '#/components/schemas/type_contracts_v3_ContractType'
+            description: The type of contract
+          contracting_provider_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractingProviderId'
+            description: The UUID of the provider under agreement to the contract
+          payer_uuid:
+            type: string
+            format: uuid
+            description: The UUID of the insurance company under agreement to the contract
+          rendering_provider_ids:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_type
+        - contracting_provider_id
+        - payer_uuid
+        - rendering_provider_ids
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_type:
+            $ref: '#/components/schemas/type_contracts_v3_ContractType'
+            description: The type of contract
+          contracting_provider_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractingProviderId'
+            description: The UUID of the provider under agreement to the contract
+          payer_uuid:
+            type: string
+            format: uuid
+            description: The UUID of the insurance company under agreement to the contract
+          contract_service_facilities:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityBase'
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_type
+        - contracting_provider_id
+        - payer_uuid
+        - contract_service_facilities
+      discriminator:
+        propertyName: type
+      title: ContractCreateUnion
+    type_organization-providers_v2_OrganizationProviderId:
+      type: string
+      format: uuid
+      title: OrganizationProviderId
+    type_contracts_v3_ContractUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+      discriminator:
+        propertyName: type
+      title: ContractUnion
+    type_contracts_v3_RenderingProviderid:
+      type: string
+      format: uuid
+      title: RenderingProviderid
+    type_contracts_v2_ContractStatus:
+      type: string
+      enum:
+      - pending
+      - effective
+      - cancelled
+      title: ContractStatus
+    type_organization-providers_v3_OrganizationProviderV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          type: string
+          format: date
+          description: The employment start date for the provider.
+        employment_termination_date:
+          type: string
+          format: date
+          description: The employment termination date for the provider.
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+          description: Auto-generated ID set on creation.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_Identifier'
+          description: Qualification given to a provider (PTAN, Medicaid Provider Id etc.).
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - organization_provider_id
+      - qualifications
+      title: OrganizationProviderV2
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_contracts_v3_ContractWithProvidersUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+          rendering_provider_ids:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              format: uuid
+            description: 'Deprecated. Use the dedicated providers endpoints to manage rendering providers
+
+              (GET/POST/DELETE /api/contracts/v3/{contract_id}/providers).
+
+              This field returns a maximum of 4,000 IDs'
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+        - rendering_provider_ids
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_commons_Regions'
+            description: 'The state(s) to which the contract''s coverage extends.
+
+              It may also be set to "national" for the entirety of the US.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The commercial plan insurance types this contract applies.
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicare plan insurance types this contract applies.
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+            description: The Medicaid plan insurance types this contract applies.
+          contract_id:
+            $ref: '#/components/schemas/type_contracts_v3_ContractId'
+          contracting_provider:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+            description: The provider under contract
+          provider_count:
+            type: integer
+            description: The number of linked providers who can render medical services under this contract
+          payer:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+            description: The insurance company under contract
+          contract_service_facilities:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacility'
+            description: The service facilities under contract
+        required:
+        - type
+        - effective_date
+        - regions
+        - commercial_insurance_types
+        - medicare_insurance_types
+        - medicaid_insurance_types
+        - contract_id
+        - contracting_provider
+        - provider_count
+        - payer
+        - contract_service_facilities
+      discriminator:
+        propertyName: type
+      title: ContractWithProvidersUnion
+    type_identifiers_IdentifierValue:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - medicare_provider_identifier
+            description: 'Discriminator value: medicare_provider_identifier'
+          state:
+            $ref: '#/components/schemas/type_commons_State'
+          provider_number:
+            type: string
+          organization_service_facility_id:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+            description: When set, this identifier applies only to the given service facility.
+        required:
+        - type
+        - state
+        - provider_number
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - medicaid_provider_identifier
+            description: 'Discriminator value: medicaid_provider_identifier'
+          state:
+            $ref: '#/components/schemas/type_commons_State'
+          provider_number:
+            type: string
+          organization_service_facility_id:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+            description: When set, this identifier applies only to the given service facility.
+        required:
+        - type
+        - state
+        - provider_number
+      discriminator:
+        propertyName: type
+      title: IdentifierValue
+    type_contracts_v3_ContractProviderCredentialing:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+        credentialing_spans:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_credentialing_v2_ProviderCredentialingSpan'
+      required:
+      - provider
+      - credentialing_spans
+      description: A rendering provider with their credentialing spans scoped to the contract's contracting provider and payer.
+      title: ContractProviderCredentialing
+    type_credentialing_v2_ProviderCredentialingSpanId:
+      type: string
+      format: uuid
+      title: ProviderCredentialingSpanId
+    type_contracts_v2_RenderingProviderid:
+      type: string
+      format: uuid
+      title: RenderingProviderid
+    type_credentialing_v2_ProviderCredentialingSpan:
+      type: object
+      properties:
+        contracting_provider:
+          $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+          description: The practice location at which the rendering provider is covered by the credentialing span.
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+          description: The payer doing the credentialing.
+        start_date:
+          type: string
+          format: date
+          description: Start date of the credentialing span.
+        end_date:
+          type: string
+          format: date
+          description: End date of the credentialing span.
+        submitted_date:
+          type: string
+          format: date
+          description: Date that the credential paperwork was submitted.
+        credentialing_status:
+          $ref: '#/components/schemas/type_credentialing_v2_CredentialingSpanStatus'
+          description: Status of the credentialing span.
+        payer_loaded_date:
+          type: string
+          format: date
+          description: Date that the payer loaded the credentialing span into their system.
+        is_enabled:
+          type: boolean
+          description: Is the credentialing span enabled?
+        provider_credentialing_span_id:
+          $ref: '#/components/schemas/type_credentialing_v2_ProviderCredentialingSpanId'
+        rendering_provider:
+          $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+          description: The rendering provider covered by the credentialing span.
+        regions:
+          $ref: '#/components/schemas/type_commons_Regions'
+          description: The states covered by the credentialing span. A span may be national and cover all states.
+        medallion_payer_enrollment_id:
+          type: string
+          format: uuid
+          description: Provider ID for the related medallion payer enrollment.
+        source:
+          type: string
+          description: Source of the credentialing span.
+      required:
+      - contracting_provider
+      - payer
+      - credentialing_status
+      - is_enabled
+      - provider_credentialing_span_id
+      - rendering_provider
+      - regions
+      - source
+      title: ProviderCredentialingSpan
+    type_contracts_v2_ContractId:
+      type: string
+      format: uuid
+      title: ContractId
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_contracts_v3_ContractServiceFacilityBase:
+      type: object
+      properties:
+        service_facility_id:
+          type: string
+          format: uuid
+          description: The UUID of the service facility
+        provider_ids:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+          description: The providers who are authorized under the contract
+      required:
+      - service_facility_id
+      - provider_ids
+      title: ContractServiceFacilityBase
+    type_organization-providers_v2_AddressType:
+      type: string
+      enum:
+      - DEFAULT
+      title: AddressType
+    type_contracts_v3_ContractingProviderId:
+      type: string
+      format: uuid
+      title: ContractingProviderId
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_contracts_v2_ContractIsLinkedToFeeScheduleError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: ContractIsLinkedToFeeScheduleError
+    type_commons_InsuranceTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '41'
+      - '42'
+      - '43'
+      - '47'
+      - AP
+      - C1
+      - CO
+      - CP
+      - D
+      - DB
+      - E
+      - EP
+      - FF
+      - GP
+      - HA
+      - HB
+      - HD
+      - HG
+      - HM
+      - HN
+      - HP
+      - HS
+      - IN
+      - IP
+      - LC
+      - LD
+      - LI
+      - LT
+      - M
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MH
+      - MI
+      - MJ
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MR
+      - MT
+      - MV
+      - OA
+      - OT
+      - PE
+      - PL
+      - PP
+      - PR
+      - PS
+      - QM
+      - RP
+      - SP
+      - TF
+      - U
+      - WC
+      - WU
+      description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
+      title: InsuranceTypeCode
+    type_contracts_v2_ContractsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_contracts_v2_Contract'
+      required:
+      - items
+      title: ContractsPage
+    type_credentialing_v2_CredentialingSpanStatus:
+      type: string
+      enum:
+      - work_in_progress
+      - pending
+      - effective
+      - expired
+      description: Stage of a credentialing span in the credentialing workflow.
+      title: CredentialingSpanStatus
+    type_contracts_v2_Contract:
+      type: object
+      properties:
+        effective_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The starting day upon which the contract is effective
+        expiration_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: An optional end day upon which the contract expires
+        regions:
+          $ref: '#/components/schemas/type_commons_Regions'
+          description: 'The state(s) to which the contract''s coverage extends.
+
+            It may also be set to "national" for the entirety of the US.'
+        contract_status:
+          $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+        authorized_signatory:
+          $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+        commercial_insurance_types:
+          $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          description: The commercial plan insurance types this contract applies.
+        medicare_insurance_types:
+          $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          description: The Medicare plan insurance types this contract applies.
+        medicaid_insurance_types:
+          $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          description: The Medicaid plan insurance types this contract applies.
+        contract_id:
+          $ref: '#/components/schemas/type_contracts_v2_ContractId'
+        contracting_provider:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+          description: The provider under contract
+        provider_count:
+          type: integer
+          description: The number of linked providers who can render medical services under this contract
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+          description: The insurance company under contract
+      required:
+      - effective_date
+      - regions
+      - commercial_insurance_types
+      - medicare_insurance_types
+      - medicaid_insurance_types
+      - contract_id
+      - contracting_provider
+      - provider_count
+      - payer
+      title: Contract
+    type_contracts_v2_AuthorizedSignatory:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        title:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        fax:
+          type: string
+      title: AuthorizedSignatory
+    type_contracts_v3_ContractUpdateUnion:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - professional
+            description: 'Discriminator value: professional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_contracts_v2_DateUpdate'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_contracts_v2_RegionsUpdate'
+            description: 'If present, the contract''s rendering providers will be patched to this exact
+
+              value, overriding what was set before.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatoryUpdate'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          rendering_provider_ids:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_RenderingProviderid'
+            description: 'Deprecated. Use the dedicated providers endpoints to manage rendering providers
+
+              (GET/POST/DELETE /api/contracts/v3/{contract_id}/providers).
+
+              Attempting to set this property will raise an error if the contract already has more than 4,000 rendering providers.'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - institutional
+            description: 'Discriminator value: institutional'
+          effective_date:
+            $ref: '#/components/schemas/type_commons_Date'
+            description: The starting day upon which the contract is effective
+          expiration_date:
+            $ref: '#/components/schemas/type_contracts_v2_DateUpdate'
+            description: An optional end day upon which the contract expires
+          regions:
+            $ref: '#/components/schemas/type_contracts_v2_RegionsUpdate'
+            description: 'If present, the contract''s rendering providers will be patched to this exact
+
+              value, overriding what was set before.'
+          contract_status:
+            $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+          authorized_signatory:
+            $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatoryUpdate'
+          commercial_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicare_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          medicaid_insurance_types:
+            $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          contract_service_facility_ids:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/type_contracts_v3_ContractServiceFacilityId'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: ContractUpdateUnion
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_contracts_v2_ContractWithProviders:
+      type: object
+      properties:
+        effective_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The starting day upon which the contract is effective
+        expiration_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: An optional end day upon which the contract expires
+        regions:
+          $ref: '#/components/schemas/type_commons_Regions'
+          description: 'The state(s) to which the contract''s coverage extends.
+
+            It may also be set to "national" for the entirety of the US.'
+        contract_status:
+          $ref: '#/components/schemas/type_contracts_v2_ContractStatus'
+        authorized_signatory:
+          $ref: '#/components/schemas/type_contracts_v2_AuthorizedSignatory'
+        commercial_insurance_types:
+          $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          description: The commercial plan insurance types this contract applies.
+        medicare_insurance_types:
+          $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          description: The Medicare plan insurance types this contract applies.
+        medicaid_insurance_types:
+          $ref: '#/components/schemas/type_contracts_v2_InsuranceTypes'
+          description: The Medicaid plan insurance types this contract applies.
+        contract_id:
+          $ref: '#/components/schemas/type_contracts_v2_ContractId'
+        contracting_provider:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProvider'
+          description: The provider under contract
+        provider_count:
+          type: integer
+          description: The number of linked providers who can render medical services under this contract
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+          description: The insurance company under contract
+        rendering_provider_ids:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+          description: The providers who can render medical services under the contract
+      required:
+      - effective_date
+      - regions
+      - commercial_insurance_types
+      - medicare_insurance_types
+      - medicaid_insurance_types
+      - contract_id
+      - contracting_provider
+      - provider_count
+      - payer
+      - rendering_provider_ids
+      title: ContractWithProviders
+    type_organization-providers_v2_EmploymentStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - TERMINATED
+      title: EmploymentStatus
+    type_identifiers_IdentifierCode:
+      type: string
+      enum:
+      - MCR
+      - MCD
+      title: IdentifierCode
+    type_contracts_v3_AddContractProvidersResponse:
+      type: object
+      properties:
+        provider_count:
+          type: integer
+          description: The total number of rendering providers currently associated with this contract after the operation
+        added_count:
+          type: integer
+          description: The number of rendering providers that were newly added to the contract
+        ignored_count:
+          type: integer
+          description: The number of rendering provider IDs that were already associated with the contract and thus ignored
+      required:
+      - provider_count
+      - added_count
+      - ignored_count
+      title: AddContractProvidersResponse
+    type_organization-providers_v2_LicenseType:
+      type: string
+      enum:
+      - MD
+      - NP
+      - PA
+      - LMFT
+      - LCPC
+      - LCSW
+      - PMHNP
+      - FNP
+      - LPCC
+      - DO
+      - RD
+      - SLP
+      - APRN
+      - LPC
+      - PHD
+      - PSYD
+      - LMSW
+      - LMHC
+      - OTHER_MASTERS
+      - BCBA
+      - UNKNOWN
+      - RPH
+      - PHT
+      - LAC
+      - LMT
+      - DC
+      - ND
+      - MA
+      - PT
+      - IBCLC
+      - RN
+      - DPT
+      - LCMHC
+      - CNM
+      - RNFA
+      - ACSW
+      - APC
+      - BCABA
+      - BHA
+      - OD
+      - DPM
+      - DA
+      - DDS
+      - DEH
+      - DMD
+      - PTA
+      - LCADC
+      - LCAT
+      - LCMHCS
+      - LCMHCA
+      - LCSWA
+      - LICSW
+      - LISW
+      - LMFTS
+      - LMFTA
+      - LPCI
+      - LSCSW
+      - MHCA
+      - MHT
+      - RBT
+      - RCSWI
+      - RHMCI
+      - LPN
+      - OTD
+      - OMS
+      - MFTA
+      - APCC
+      - DNP
+      - AGNPBC
+      - ANP
+      - FNPPP
+      - LCSWR
+      - ALC
+      - RMFTI
+      - LAMFT
+      - LPCA
+      - LSWI
+      - CSW
+      - CPC
+      - LGMFT
+      - LLPC
+      - PLPC
+      - PLMFT
+      - LMHCA
+      - CIT
+      - CT
+      - MFT
+      - LSW
+      - PLMHP
+      - PCMSW
+      - LMHP
+      - OTR/L
+      - RPA
+      - COTA
+      - CRNP
+      - SLP-CF
+      - NP-C
+      - PA-C
+      - AMFT
+      - CDN
+      - CGC
+      - CNS
+      - MDPHD
+      - AuD
+      - ATC
+      - LAT
+      - OTA
+      - LSSP
+      - SLPA
+      title: LicenseType
+    type_contracts_v3_ContractServiceFacilityId:
+      type: string
+      format: uuid
+      title: ContractServiceFacilityId
+    type_contracts_v3_ContractProviderCredentialingPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_contracts_v3_ContractProviderCredentialing'
+      required:
+      - items
+      title: ContractProviderCredentialingPage
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_contracts_v2_DateUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons_Date'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: DateUpdate
+    type_contracts_v2_AuthorizedSignatoryUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          first_name:
+            type: string
+          last_name:
+            type: string
+          title:
+            type: string
+          email:
+            type: string
+          phone:
+            type: string
+          fax:
+            type: string
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: AuthorizedSignatoryUpdate
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_contracts_v3_ContractsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_contracts_v3_ContractUnion'
+      required:
+      - items
+      title: ContractsPage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

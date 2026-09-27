@@ -1,0 +1,432 @@
+openapi: 3.2.0
+info:
+  title: Reference Patient Merge API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Patient Merge
+paths:
+  /patient-merge/v1:
+    post:
+      operationId: create
+      summary: Create
+      description: Creates a new patient merge record.
+      tags:
+      - Patient Merge
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_patientMerges_v1_PatientMerge'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - BadRequestError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '500':
+          description: Error response with status 500
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - InternalError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_ErrorBase5xx'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_patientMerges_v1_MutablePatientMerge'
+  /patient-merge/v1/status/{mrn_or_id}:
+    get:
+      operationId: get_status
+      summary: Get Status
+      description: Gets the merge status for a patient by patient ID or mrn. If the provided value is a valid UUID, it will be treated as a patient ID. Otherwise, it will be treated as an MRN.
+      tags:
+      - Patient Merge
+      parameters:
+      - name: mrn_or_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_patientMerges_v1_PatientMergeStatus'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /patient-merge/v1/all/{mrn}:
+    get:
+      operationId: get_all_by_mrn
+      summary: Get All By Mrn
+      description: Gets all patient merge records that have the given mrn.
+      tags:
+      - Patient Merge
+      parameters:
+      - name: mrn
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter_patientMerges_v1_PatientMerge'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_ErrorBase4xx'
+                required:
+                - errorName
+                - content
+  /patient-merge/v1/{id}/{version}:
+    delete:
+      operationId: deactivate
+      summary: Deactivate
+      description: Deactivates a patient merge record. Path must contain next version.
+      tags:
+      - Patient Merge
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientMergeId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - NotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_ErrorBase4xx'
+                required:
+                - errorName
+                - content
+        '409':
+          description: Error response with status 409
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - VersionConflictError
+                  content:
+                    $ref: '#/components/schemas/type_pre-encounter_common_VersionConflictErrorBody'
+                required:
+                - errorName
+                - content
+  /patient-merge/v1/updates/scan:
+    get:
+      operationId: scan
+      summary: Scan
+      description: 'Scans up to 1000 patient merge updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+
+
+        **Polling Pattern:**
+
+        To continuously poll for updates without gaps:
+
+        1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)
+
+        2. The API returns 100 by default and up to 1000 patient merge records, sorted by `updated_at` ascending
+
+        3. Find the `updated_at` value from the last record in the response
+
+        4. Use that `updated_at` value as the `since` parameter in your next request
+
+        5. Repeat steps 2-4 to ingest updates until you receive an empty list
+
+
+        **Important Notes:**
+
+        - The `since` parameter is inclusive, so you may receive the last record from the previous batch again (you can deduplicate by ID and version)
+
+        - All patient merge records include `updated_at`, `id`, `version`, `deactivated`, and `updating_user` fields for tracking changes
+
+        - Timestamps have millisecond resolution for precise ordering'
+      tags:
+      - Patient Merge
+      parameters:
+      - name: since
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: maxResults
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/type_pre-encounter_patientMerges_v1_PatientMerge'
+components:
+  schemas:
+    type_pre-encounter_patientMerges_v1_PatientMerge:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
+          description: The organization that owns this object.
+        deactivated:
+          type: boolean
+          description: True if the object is deactivated.  Deactivated objects are not returned in search results but are returned in all other endpoints including scan.
+        version:
+          type: integer
+          description: The version of the object. Any update to any property of an object object will create a new version.
+        updated_at:
+          type: string
+          format: date-time
+        updating_user_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
+          description: The user ID of the user who last updated the object.
+        alternative_patient_mrn:
+          type: string
+          description: The MRN of the patient that was merged.
+        primary_patient_mrn:
+          type: string
+          description: The MRN of the patient that is getting a patient merged into them.
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientMergeId'
+      required:
+      - organization_id
+      - deactivated
+      - version
+      - updated_at
+      - updating_user_id
+      - alternative_patient_mrn
+      - primary_patient_mrn
+      - id
+      description: A PatientMerge object with immutable server-owned properties.
+      title: PatientMerge
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_common_ErrorBase5xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase5xx
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_common_PatientMergeId:
+      type: string
+      description: The unique identifier for a PatientMerge record.
+      title: PatientMergeId
+    type_pre-encounter_patientMerges_v1_MutablePatientMerge:
+      type: object
+      properties:
+        alternative_patient_mrn:
+          type: string
+          description: The MRN of the patient that was merged.
+        primary_patient_mrn:
+          type: string
+          description: The MRN of the patient that is getting a patient merged into them.
+      required:
+      - alternative_patient_mrn
+      - primary_patient_mrn
+      description: An object representing a patient merge mapping.
+      title: MutablePatientMerge
+    type_pre-encounter_patientMerges_v1_PatientMergeStatus:
+      oneOf:
+      - type: object
+        properties:
+          merge_status:
+            type: string
+            enum:
+            - none
+            description: 'Discriminator value: none'
+        required:
+        - merge_status
+      - type: object
+        properties:
+          merge_status:
+            type: string
+            enum:
+            - alternative
+            description: 'Discriminator value: alternative'
+          primary_mrn:
+            type: string
+        required:
+        - merge_status
+        - primary_mrn
+      - type: object
+        properties:
+          merge_status:
+            type: string
+            enum:
+            - primary
+            description: 'Discriminator value: primary'
+          alternative_mrns:
+            type: array
+            items:
+              type: string
+        required:
+        - merge_status
+        - alternative_mrns
+      discriminator:
+        propertyName: merge_status
+      description: The merge status of a patient.
+      title: PatientMergeStatus
+    type_pre-encounter_common_ErrorBase4xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase4xx
+    type_pre-encounter_common_VersionConflictErrorBody:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+        latest_version:
+          type: integer
+      required:
+      - message
+      title: VersionConflictErrorBody
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

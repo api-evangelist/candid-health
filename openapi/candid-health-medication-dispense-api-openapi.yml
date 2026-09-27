@@ -1,0 +1,3326 @@
+openapi: 3.2.0
+info:
+  title: Reference Medication Dispense API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Medication Dispense
+paths:
+  /api/medication-dispense/v1:
+    post:
+      operationId: create
+      summary: Medication Dispense Create
+      tags:
+      - Medication Dispense
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_encounters_v4_Encounter'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - InvalidTagNamesError
+                  content:
+                    $ref: '#/components/schemas/type_encounters_v4_InvalidTagNamesErrorType'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_medication-dispense_v1_MedicationDispenseCreate'
+components:
+  schemas:
+    type_invoices_v2_InvoiceStatus:
+      type: string
+      enum:
+      - DRAFT
+      - OPEN
+      - PAID
+      - VOID
+      - UNCOLLECTIBLE
+      - HELD
+      title: InvoiceStatus
+    type_encounters_v4_IntakeQuestionId:
+      type: string
+      title: IntakeQuestionId
+    type_commons_QualifierCode:
+      type: string
+      enum:
+      - DQ
+      - DN
+      - DK
+      - P3
+      title: QualifierCode
+    type_encounter-providers_v2_EncounterProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        provider_id:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderId'
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        tax_id:
+          type: string
+        npi:
+          type: string
+        taxonomy_code:
+          type: string
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        provider_commercial_license_type:
+          $ref: '#/components/schemas/type_commons_BillingProviderCommercialLicenseType'
+          description: '837i Loop2010BB G2
+
+            Provider Commercial Number'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentification'
+          description: 'Only one of provider_commercial_license_type or secondary_identification may be provided
+
+            837i Loop2010BB G2
+
+            Secondary Identification'
+      required:
+      - provider_id
+      - address
+      - npi
+      title: EncounterProvider
+    type_service-lines_v2_DenialReasonContent:
+      type: string
+      enum:
+      - Authorization Required
+      - Referral Required
+      - Medical Records Requested
+      - Timely Filing
+      - Duplicate Claim
+      - Full Contractual Adjustment
+      - Incorrect Place of Service
+      - Incorrect Patient Gender
+      - Incorrect Patient Info
+      - Bundled
+      - Exceeded Billable Time
+      - Invalid Provider Information
+      - Invalid Diagnosis Code
+      - Incorrect Procedure Code
+      - Invalid Modifier
+      - Missing NDC Code
+      - Invalid Insurance Data
+      - No Active Coverage
+      - Coordination of Benefits
+      - Incorrect Payer
+      - Credentialing
+      - No Effective Contract
+      - Missing W-9
+      - Missing Contract Linkage
+      - Non-Covered Benefit
+      - Experimental Procedure
+      - Not Medically Necessary
+      - Info Requested from Provider
+      - Info Requested from Patient
+      - Billing Error
+      - Unknown
+      - Max Benefit Reached
+      title: DenialReasonContent
+    type_encounters_v4_PatientHistoryCategory:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/type_encounters_v4_PatientHistoryCategoryEnum'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_IntakeQuestion'
+          description: Must contain at least one item.
+      required:
+      - category
+      - questions
+      title: PatientHistoryCategory
+    type_insurance-cards_v2_InsuranceCardId:
+      type: string
+      format: uuid
+      title: InsuranceCardId
+    type_commons_Date:
+      type: string
+      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+      title: Date
+    type_commons_InvoiceId:
+      type: string
+      format: uuid
+      title: InvoiceId
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_encounters_v4_BillableStatusType:
+      type: string
+      enum:
+      - BILLABLE
+      - NOT_BILLABLE
+      title: BillableStatusType
+    type_encounters_v4_EPSDTReferral:
+      type: object
+      properties:
+        condition_indicator1:
+          $ref: '#/components/schemas/type_commons_EPSDTReferralConditionIndicatorCode'
+        condition_indicator2:
+          $ref: '#/components/schemas/type_commons_EPSDTReferralConditionIndicatorCode'
+        condition_indicator3:
+          $ref: '#/components/schemas/type_commons_EPSDTReferralConditionIndicatorCode'
+      required:
+      - condition_indicator1
+      title: EPSDTReferral
+    type_encounters_v4_EncounterOwnerOfNextActionType:
+      type: string
+      enum:
+      - CANDID
+      - CUSTOMER
+      - CODER
+      - NONE
+      title: EncounterOwnerOfNextActionType
+    type_custom-schemas_v1_SchemaInstance:
+      type: object
+      properties:
+        schema_id:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+          description: The schema to which the content must adhere.
+        content:
+          type: object
+          additionalProperties:
+            description: Any type
+          description: A set of key-value pairs that adhere to the naming and type convention of the schema. Not all keys in the schema must be included, but attaching any key that does not exist in the schema or attaching a key with the incorrect value type will result in errors.
+      required:
+      - schema_id
+      - content
+      title: SchemaInstance
+    type_encounters_v4_IntakeFollowUpId:
+      type: string
+      title: IntakeFollowUpId
+    type_encounters_v4_IntakeQuestion:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_encounters_v4_IntakeQuestionId'
+        text:
+          type: string
+        responses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_IntakeResponseAndFollowUps'
+      required:
+      - id
+      - text
+      title: IntakeQuestion
+    type_encounters_v4_EncounterSubmissionExpectation:
+      type: string
+      enum:
+      - TARGET_PROFESSIONAL
+      - TARGET_INSTITUTIONAL
+      description: 'Used to describe the currently expected target form for this encounter.  This affects what
+
+        validations and queues the form is processed under.  Before submission,
+
+        this value will be required by some rules or user intervention.  It can be changed
+
+        at any time, although doing so may incur other rules.'
+      title: EncounterSubmissionExpectation
+    type_commons_FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_eras_ERA:
+      type: object
+      properties:
+        check_number:
+          type: string
+        check_date:
+          $ref: '#/components/schemas/type_commons_Date'
+        era_id:
+          $ref: '#/components/schemas/type_eras_EraId'
+      required:
+      - check_number
+      - check_date
+      - era_id
+      title: ERA
+    type_encounters_v4_LabCodeType:
+      type: string
+      enum:
+      - quest
+      - labcorp
+      title: LabCodeType
+    type_x12_v1_PointOfOriginForAdmissionOrVisitCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '4'
+      - '5'
+      - '6'
+      - '8'
+      - '9'
+      - D
+      - E
+      - F
+      - G
+      title: PointOfOriginForAdmissionOrVisitCode
+    type_encounters_v4_IntakeResponseAndFollowUps:
+      type: object
+      properties:
+        response:
+          type: string
+        follow_ups:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_IntakeFollowUp'
+      title: IntakeResponseAndFollowUps
+    type_service-lines_v2_DrugIdentification:
+      type: object
+      properties:
+        service_id_qualifier:
+          $ref: '#/components/schemas/type_service-lines_v2_ServiceIdQualifier'
+        national_drug_code:
+          type: string
+        national_drug_unit_count:
+          type: string
+        measurement_unit_code:
+          $ref: '#/components/schemas/type_service-lines_v2_MeasurementUnitCode'
+        link_sequence_number:
+          type: string
+        pharmacy_prescription_number:
+          type: string
+        conversion_formula:
+          type: string
+        drug_description:
+          type: string
+      required:
+      - service_id_qualifier
+      - national_drug_code
+      - national_drug_unit_count
+      - measurement_unit_code
+      title: DrugIdentification
+    type_individual_Subscriber:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        gender:
+          $ref: '#/components/schemas/type_individual_Gender'
+        patient_relationship_to_subscriber_code:
+          $ref: '#/components/schemas/type_commons_PatientRelationshipToInsuredCodeAll'
+        date_of_birth:
+          type: string
+          format: date
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+        individual_id:
+          $ref: '#/components/schemas/type_individual_IndividualId'
+        insurance_card:
+          $ref: '#/components/schemas/type_insurance-cards_v2_InsuranceCard'
+      required:
+      - first_name
+      - last_name
+      - gender
+      - patient_relationship_to_subscriber_code
+      - individual_id
+      - insurance_card
+      title: Subscriber
+    type_patient-payments_v3_PatientPaymentId:
+      type: string
+      title: PatientPaymentId
+    type_individual_PatientClinicalTrialInfo:
+      type: object
+      properties:
+        clinical_trial_arm:
+          type: string
+        clinical_trial:
+          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrial'
+      required:
+      - clinical_trial
+      title: PatientClinicalTrialInfo
+    type_encounter-providers_v2_EncounterAdditionalProvider:
+      type: object
+      properties:
+        provider_id:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderId'
+        first_name:
+          type: string
+        last_name:
+          type: string
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        tax_id:
+          type: string
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The license type of the provider (e.g., MD, NP, PA, LCSW).
+      required:
+      - provider_id
+      - first_name
+      - last_name
+      description: A lighter-weight provider type with optional NPI. Used for treating providers and other additional provider roles that may not have full NPI credentials.
+      title: EncounterAdditionalProvider
+    type_yes-no-indicator_YesNoIndicator:
+      type: string
+      enum:
+      - 'YES'
+      - 'NO'
+      - UNKNOWN
+      - NOT_APPLICABLE
+      title: YesNoIndicator
+    type_commons_DelayReasonCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+      - '15'
+      - '16'
+      - '17'
+      description: Code indicating the reason why a request was delayed
+      title: DelayReasonCode
+    type_commons_InsuranceTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '41'
+      - '42'
+      - '43'
+      - '47'
+      - AP
+      - C1
+      - CO
+      - CP
+      - D
+      - DB
+      - E
+      - EP
+      - FF
+      - GP
+      - HA
+      - HB
+      - HD
+      - HG
+      - HM
+      - HN
+      - HP
+      - HS
+      - IN
+      - IP
+      - LC
+      - LD
+      - LI
+      - LT
+      - M
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MH
+      - MI
+      - MJ
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MR
+      - MT
+      - MV
+      - OA
+      - OT
+      - PE
+      - PL
+      - PP
+      - PR
+      - PS
+      - QM
+      - RP
+      - SP
+      - TF
+      - U
+      - WC
+      - WU
+      description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
+      title: InsuranceTypeCode
+    type_encounters_v4_NoteCategory:
+      type: string
+      enum:
+      - clinical
+      - care_plan
+      - diagnoses
+      - vitals
+      - physical_exam
+      - review_of_systems
+      - medical_decisions
+      - history_of_present_illness
+      - patient_info
+      - chief_complaint
+      - health_record
+      - consent
+      - procedure
+      - time_in_appointment
+      title: NoteCategory
+    type_service-facility_EncounterServiceFacility:
+      type: object
+      properties:
+        service_facility_id:
+          $ref: '#/components/schemas/type_service-facility_ServiceFacilityId'
+        organization_name:
+          type: string
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
+        secondary_identification:
+          type: string
+          description: 'An additional identifier for the service facility other than the facility''s NPI. Some payers may require this field.
+
+            Potential examples: state license number, provider commercial number, or location number.
+
+            Box 32 section (b) of the CMS-1500 claim form.'
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+      required:
+      - service_facility_id
+      - organization_name
+      - address
+      title: EncounterServiceFacility
+    type_tags_Tag:
+      type: object
+      properties:
+        tag_id:
+          $ref: '#/components/schemas/type_tags_TagId'
+        description:
+          type: string
+        color:
+          $ref: '#/components/schemas/type_tags_TagColorEnum'
+        creator_id:
+          type: string
+      required:
+      - tag_id
+      - description
+      - color
+      - creator_id
+      title: Tag
+    type_commons_EPSDTReferralConditionIndicatorCode:
+      type: string
+      enum:
+      - AV
+      - NU
+      - S2
+      - ST
+      title: EPSDTReferralConditionIndicatorCode
+    type_invoices_v2_ClaimInvoiceItemInfo:
+      type: object
+      properties:
+        claim_invoice_item:
+          $ref: '#/components/schemas/type_invoices_v2_ClaimInvoiceItem'
+        service_line_invoice_items:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_invoices_v2_ServiceLineInvoiceItem'
+      required:
+      - service_line_invoice_items
+      title: ClaimInvoiceItemInfo
+    type_billing-notes_v2_BillingNoteType:
+      type: string
+      enum:
+      - manual
+      - system
+      - queue_added
+      - queue_moved
+      - task_created
+      title: BillingNoteType
+    type_commons_StreetAddressShortZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      title: StreetAddressShortZip
+    type_tags_TagColorEnum:
+      type: string
+      enum:
+      - black
+      - white
+      - gray
+      - red
+      - yellow
+      - green
+      - blue
+      - indigo
+      - purple
+      - pink
+      title: TagColorEnum
+    type_clinical-trials_v1_ClinicalTrial:
+      type: object
+      properties:
+        name:
+          type: string
+        clinical_trial_number:
+          type: string
+          description: Must be 8 characters long
+        clinical_trial_phase:
+          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
+        clinical_trial_id:
+          $ref: '#/components/schemas/type_commons_ClinicalTrialId'
+        non_insurance_payer_id:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
+        is_active:
+          type: boolean
+      required:
+      - name
+      - clinical_trial_number
+      - clinical_trial_id
+      - non_insurance_payer_id
+      - is_active
+      title: ClinicalTrial
+    type_service-lines_v2_ServiceLineERAData:
+      type: object
+      properties:
+        service_line_adjustments:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_service-lines_v2_ServiceLineAdjustment'
+          description: 'Deprecated. This field aggregates all CARCs across a service line''s history
+
+            without granular context
+
+            (e.g., which CARCs relate to denials vs. payments vs. reversals), making it
+
+            unsuitable for denial analysis or operational workflows.'
+        remittance_advice_remark_codes:
+          type: array
+          items:
+            type: string
+      required:
+      - service_line_adjustments
+      - remittance_advice_remark_codes
+      title: ServiceLineERAData
+    type_diagnoses_DiagnosisId:
+      type: string
+      format: uuid
+      title: DiagnosisId
+    type_billing-notes_v2_BillingNote:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Empty string not allowed.
+        billing_note_id:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteId'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        created_at:
+          type: string
+          format: date-time
+          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+
+            For example, 2017-07-21T17:32:28Z.'
+        author_auth0_id:
+          type: string
+        author_name:
+          type: string
+        billing_note_type:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteType'
+        billing_note_metadata:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteMetadata'
+      required:
+      - text
+      - billing_note_id
+      - encounter_id
+      - created_at
+      title: BillingNote
+    type_commons_Email:
+      type: string
+      title: Email
+    type_encounters_v4_PriorAuthorizationNumber:
+      type: string
+      title: PriorAuthorizationNumber
+    type_commons_ReportTransmissionCode:
+      type: string
+      enum:
+      - AA
+      - BM
+      - EL
+      - FX
+      title: ReportTransmissionCode
+    type_commons_ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_diagnoses_DiagnosisTypeCode:
+      type: string
+      enum:
+      - ABF
+      - ABJ
+      - ABK
+      - APR
+      - BF
+      - BJ
+      - BK
+      - PR
+      - DR
+      - LOI
+      title: DiagnosisTypeCode
+    type_claims_ClaimStatus:
+      type: string
+      enum:
+      - biller_received
+      - coded
+      - submitted_to_payer
+      - missing_information
+      - not_billable
+      - waiting_for_provider
+      - era_received
+      - rejected
+      - denied
+      - paid
+      - paid_incorrectly
+      - finalized_paid
+      - finalized_denied
+      - held_by_customer
+      - era_requires_review
+      title: ClaimStatus
+    type_commons_LinkUrl:
+      type: string
+      title: LinkUrl
+    type_encounters_v4_SynchronicityType:
+      type: string
+      enum:
+      - Synchronous
+      - Asynchronous
+      title: SynchronicityType
+    type_related-causes_v1_RelatedCausesInformation:
+      type: object
+      properties:
+        related_causes_code_1:
+          $ref: '#/components/schemas/type_related-causes_v1_RelatedCausesCode'
+        related_causes_code_2:
+          $ref: '#/components/schemas/type_related-causes_v1_RelatedCausesCode'
+        state_or_province_code:
+          type: string
+      required:
+      - related_causes_code_1
+      title: RelatedCausesInformation
+    type_invoices_InvoiceStatus:
+      type: string
+      enum:
+      - draft
+      - open
+      - paid
+      - void
+      - uncollectible
+      - held
+      title: InvoiceStatus
+    type_commons_WorkQueueId:
+      type: string
+      title: WorkQueueId
+    type_insurance-cards_v2_InsuranceCard:
+      type: object
+      properties:
+        group_number:
+          type: string
+          description: Box 11 on the CMS-1500 claim form.
+        plan_name:
+          type: string
+          description: Box 11c on the CMS-1500 claim form.
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+        insurance_type:
+          $ref: '#/components/schemas/type_commons_InsuranceTypeCode'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        payer_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        insurance_card_id:
+          $ref: '#/components/schemas/type_insurance-cards_v2_InsuranceCardId'
+        member_id:
+          type: string
+        payer_name:
+          type: string
+        payer_id:
+          type: string
+        rx_bin:
+          type: string
+        rx_pcn:
+          type: string
+        image_url_front:
+          type: string
+        image_url_back:
+          type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v4_PayerUuid'
+      required:
+      - insurance_card_id
+      - member_id
+      - payer_name
+      - payer_id
+      title: InsuranceCard
+    type_patient-payments_v3_PatientPaymentStatus:
+      type: string
+      enum:
+      - PENDING
+      - paid
+      - CANCELED
+      - voided
+      - FAILED
+      - COMPLETED
+      - succeeded
+      - pending
+      - failed
+      - requires_action
+      - canceled
+      title: PatientPaymentStatus
+    type_commons_Decimal:
+      type: string
+      description: String representation of a Decimal that can be parsed by most libraries.
+      title: Decimal
+    type_encounters_v4_ResponsiblePartyType:
+      type: string
+      enum:
+      - INSURANCE_PAY
+      - SELF_PAY
+      - UNKNOWN
+      title: ResponsiblePartyType
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_patient-payments_v3_PatientPaymentSource:
+      type: string
+      enum:
+      - MANUAL_ENTRY
+      - CHARGEBEE_PAYMENTS
+      - CHARGEBEE MANUALLY VOIDED BY CANDID
+      - CHARGEBEE_REFUNDS
+      - SQUARE_REFUNDS
+      - SQUARE_PAYMENTS
+      - STRIPE_CHARGES
+      - STRIPE_REFUNDS
+      - ELATION_PAYMENTS
+      title: PatientPaymentSource
+    type_encounters_v4_Intervention:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          $ref: '#/components/schemas/type_encounters_v4_InterventionCategory'
+        description:
+          type: string
+          description: '"Examples: ''Birth Control LAC'', ''Tracking'', ''Stress Management'', ''Supplement'', ''Labs''"'
+        medication:
+          $ref: '#/components/schemas/type_encounters_v4_Medication'
+          description: Required when `type` is `allopathic`.
+        labs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_Lab'
+          description: Required when `type` is `tests`.
+      required:
+      - name
+      - category
+      title: Intervention
+    type_encounters_v4_PatientHistoryCategoryEnum:
+      type: string
+      enum:
+      - present_illness
+      - medical
+      - family
+      - social
+      title: PatientHistoryCategoryEnum
+    type_payers_v4_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_ProcedureModifier:
+      type: string
+      enum:
+      - AV
+      - AU
+      - AW
+      - AY
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '32'
+      - '33'
+      - '47'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '62'
+      - '63'
+      - '66'
+      - '73'
+      - '74'
+      - '76'
+      - '77'
+      - '78'
+      - '79'
+      - '80'
+      - '81'
+      - '82'
+      - '90'
+      - '91'
+      - '92'
+      - '93'
+      - '95'
+      - '96'
+      - '97'
+      - '99'
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+      - A8
+      - A9
+      - AA
+      - AB
+      - AD
+      - AE
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AK
+      - AM
+      - AO
+      - AP
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AZ
+      - BA
+      - BL
+      - BO
+      - BP
+      - BR
+      - BU
+      - CA
+      - CB
+      - CC
+      - CD
+      - CE
+      - CF
+      - CG
+      - CH
+      - CI
+      - CJ
+      - CK
+      - CL
+      - CM
+      - CN
+      - CR
+      - CS
+      - CT
+      - CO
+      - CQ
+      - DA
+      - E1
+      - E2
+      - E3
+      - E4
+      - EA
+      - EB
+      - EC
+      - ED
+      - EE
+      - EJ
+      - EM
+      - EP
+      - ER
+      - ET
+      - EV
+      - EX
+      - EY
+      - F1
+      - F2
+      - F3
+      - F4
+      - F5
+      - F6
+      - F7
+      - F8
+      - F9
+      - FA
+      - FB
+      - FC
+      - FP
+      - FQ
+      - FR
+      - FS
+      - FT
+      - FX
+      - FY
+      - G0
+      - G1
+      - G2
+      - G3
+      - G4
+      - G5
+      - G6
+      - G7
+      - G8
+      - G9
+      - GA
+      - GB
+      - GC
+      - GE
+      - GF
+      - GG
+      - GH
+      - GJ
+      - GK
+      - GL
+      - GM
+      - GN
+      - GO
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GV
+      - GW
+      - GX
+      - GY
+      - GZ
+      - HA
+      - HB
+      - HC
+      - HD
+      - HE
+      - HF
+      - HG
+      - HH
+      - HI
+      - HJ
+      - HK
+      - HL
+      - HM
+      - HN
+      - HO
+      - HP
+      - HQ
+      - HR
+      - HS
+      - HT
+      - HU
+      - HV
+      - HW
+      - HX
+      - HY
+      - HZ
+      - J1
+      - J2
+      - J3
+      - J4
+      - J5
+      - JA
+      - JB
+      - JC
+      - JD
+      - JE
+      - JG
+      - JW
+      - JZ
+      - K0
+      - K1
+      - K2
+      - K3
+      - K4
+      - KA
+      - KB
+      - KC
+      - KD
+      - KE
+      - KF
+      - KG
+      - KH
+      - KI
+      - KJ
+      - KK
+      - KL
+      - KM
+      - KN
+      - KO
+      - KP
+      - KQ
+      - KR
+      - KS
+      - KT
+      - KU
+      - KV
+      - KW
+      - KX
+      - KY
+      - KZ
+      - LC
+      - LD
+      - LL
+      - LM
+      - LR
+      - LS
+      - LT
+      - LU
+      - M2
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MS
+      - N1
+      - N2
+      - N3
+      - NB
+      - NR
+      - NU
+      - P1
+      - P2
+      - P3
+      - P4
+      - P5
+      - P6
+      - PA
+      - PB
+      - PC
+      - PD
+      - PI
+      - PL
+      - PM
+      - PN
+      - PO
+      - PS
+      - PT
+      - Q0
+      - Q1
+      - Q2
+      - Q3
+      - Q4
+      - Q5
+      - Q6
+      - Q7
+      - Q8
+      - Q9
+      - QA
+      - QB
+      - QC
+      - QD
+      - QE
+      - QF
+      - QG
+      - QH
+      - QJ
+      - QK
+      - QL
+      - QM
+      - QN
+      - QP
+      - QQ
+      - QR
+      - QS
+      - QT
+      - QW
+      - QX
+      - QY
+      - QZ
+      - RA
+      - RB
+      - RC
+      - RD
+      - RE
+      - RI
+      - RR
+      - RT
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SF
+      - SG
+      - SH
+      - SJ
+      - SL
+      - SM
+      - SN
+      - SQ
+      - SS
+      - ST
+      - SU
+      - SV
+      - SW
+      - SY
+      - T1
+      - T2
+      - T3
+      - T4
+      - T5
+      - T6
+      - T7
+      - T8
+      - T9
+      - TA
+      - TB
+      - TC
+      - TD
+      - TE
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TP
+      - TQ
+      - TR
+      - TS
+      - TT
+      - TU
+      - TV
+      - TW
+      - U1
+      - U2
+      - U3
+      - U4
+      - U5
+      - U6
+      - U7
+      - U8
+      - U9
+      - UA
+      - UB
+      - UC
+      - UD
+      - UE
+      - UF
+      - UG
+      - UH
+      - UJ
+      - UK
+      - UN
+      - UP
+      - UQ
+      - UR
+      - US
+      - V1
+      - V2
+      - V3
+      - W1
+      - W2
+      - W3
+      - X4
+      - XE
+      - XP
+      - XS
+      - XU
+      - XY
+      - ZZ
+      title: ProcedureModifier
+    type_service-lines_v2_ServiceLineDenialReason:
+      type: object
+      properties:
+        reason:
+          $ref: '#/components/schemas/type_service-lines_v2_DenialReasonContent'
+          description: Text of the denial reason
+      description: 'The reason a given service line was denied within a given time range.
+
+        A service line may be denied for different reasons over time, but only one reason at a time.'
+      title: ServiceLineDenialReason
+    type_service-lines_v2_ServiceLineAdjustment:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        adjustment_group_code:
+          type: string
+        adjustment_reason_code:
+          type: string
+        adjustment_amount_cents:
+          type: integer
+        adjustment_note:
+          type: string
+      required:
+      - created_at
+      title: ServiceLineAdjustment
+    type_invoices_v2_InvoiceDestination:
+      type: string
+      enum:
+      - STRIPE
+      - CEDAR
+      - HEALTHIE
+      - COLLECTLY
+      - THIRD_PARTY_PAYERS
+      - INSTAMED
+      - REVSPRING
+      title: InvoiceDestination
+    type_guarantor_v1_Guarantor:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        external_id:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+        guarantor_id:
+          $ref: '#/components/schemas/type_guarantor_v1_GuarantorId'
+        phone_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_PhoneNumber'
+        phone_consent:
+          type: boolean
+        email:
+          $ref: '#/components/schemas/type_commons_Email'
+        email_consent:
+          type: boolean
+        auto_charge_consent:
+          type: boolean
+      required:
+      - first_name
+      - last_name
+      - external_id
+      - address
+      - guarantor_id
+      - phone_numbers
+      - phone_consent
+      - email_consent
+      - auto_charge_consent
+      title: Guarantor
+    type_invoices_v2_InvoiceInfo:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_commons_InvoiceId'
+        invoice:
+          $ref: '#/components/schemas/type_invoices_v2_Invoice'
+        invoice_type:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceDestination'
+      required:
+      - id
+      - invoice
+      - invoice_type
+      title: InvoiceInfo
+    type_x12_v1_TypeOfBillFrequencyCode:
+      type: string
+      enum:
+      - '0'
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '7'
+      - '8'
+      - '9'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      - J
+      - K
+      - M
+      - O
+      - P
+      - Q
+      - X
+      - Y
+      - Z
+      title: TypeOfBillFrequencyCode
+    type_encounters_v4_ClinicalNote:
+      type: object
+      properties:
+        text:
+          type: string
+        author_name:
+          type: string
+        author_npi:
+          $ref: '#/components/schemas/type_commons_Npi'
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - text
+      - author_name
+      - timestamp
+      title: ClinicalNote
+    type_individual_IndividualId:
+      type: string
+      format: uuid
+      title: IndividualId
+    type_clinical-trials_v1_ClinicalTrialPhase:
+      type: string
+      enum:
+      - Phase 1
+      - Phase 2
+      - Phase 3
+      title: ClinicalTrialPhase
+    type_claims_Claim:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        status:
+          $ref: '#/components/schemas/type_claims_ClaimStatus'
+        clearinghouse:
+          type: string
+        clearinghouse_claim_id:
+          type: string
+        payer_claim_id:
+          type: string
+        clia_number:
+          type: string
+        service_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_service-lines_v2_ServiceLine'
+        eras:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_eras_ERA'
+      required:
+      - claim_id
+      - status
+      - service_lines
+      - eras
+      title: Claim
+    type_individual_Patient:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        gender:
+          $ref: '#/components/schemas/type_individual_Gender'
+        external_id:
+          type: string
+          description: The ID used to identify this individual in your system. For example, your internal patient ID or an EHR patient ID.
+        date_of_birth:
+          type: string
+          format: date
+          description: Box 3 on the CMS-1500 claim form or Form Locator 10 on a UB-04 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+          description: Box 5 on the CMS-1500 claim form or Form Locator 9 on a UB-04 claim form.
+        individual_id:
+          $ref: '#/components/schemas/type_individual_IndividualId'
+        phone_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_PhoneNumber'
+        phone_consent:
+          type: boolean
+        email:
+          $ref: '#/components/schemas/type_commons_Email'
+        email_consent:
+          type: boolean
+        auto_charge_consent:
+          type: boolean
+        non_insurance_payers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayer'
+        non_insurance_payers_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_individual_PatientNonInsurancePayerInfo'
+      required:
+      - first_name
+      - last_name
+      - gender
+      - external_id
+      - date_of_birth
+      - address
+      - individual_id
+      - phone_numbers
+      - phone_consent
+      - email_consent
+      - auto_charge_consent
+      - non_insurance_payers
+      - non_insurance_payers_info
+      title: Patient
+    type_encounters_v4_IntakeFollowUp:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_encounters_v4_IntakeFollowUpId'
+        text:
+          type: string
+        response:
+          type: string
+      required:
+      - id
+      - text
+      title: IntakeFollowUp
+    type_encounters_v4_ClinicalNoteCategory:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/type_encounters_v4_NoteCategory'
+        notes:
+          type: array
+          items:
+            type: string
+        notes_structured:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_ClinicalNote'
+      required:
+      - category
+      - notes
+      title: ClinicalNoteCategory
+    type_medication-dispense_v1_MedicationDispenseCreate:
+      type: object
+      properties:
+        medication_dispense_external_id:
+          type: string
+        patient_external_id:
+          type: string
+        procedure_code:
+          type: string
+        quantity:
+          $ref: '#/components/schemas/type_commons_Decimal'
+        units:
+          $ref: '#/components/schemas/type_commons_ServiceLineUnits'
+        date_of_service:
+          type: string
+          format: date
+        drug_identification:
+          $ref: '#/components/schemas/type_service-lines_v2_DrugIdentification'
+        description:
+          type: string
+        modifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+      required:
+      - medication_dispense_external_id
+      - patient_external_id
+      - procedure_code
+      - quantity
+      - units
+      - date_of_service
+      title: MedicationDispenseCreate
+    type_encounters_v4_Encounter:
+      type: object
+      properties:
+        external_id:
+          $ref: '#/components/schemas/type_commons_EncounterExternalId'
+          description: 'A client-specified unique ID to associate with this encounter;
+
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+
+            This field should not contain PHI.'
+        date_of_service:
+          type: string
+          format: date
+          description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+
+            This date must be the local date in the timezone where the service occurred.
+
+            Box 24a on the CMS-1500 claim form or Form Locator 45 on the UB-04 claim form.
+
+            If service occurred over a range of dates, this should be the start date.
+
+            date_of_service must be defined on either the encounter or the service lines but not both.
+
+            If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.'
+        end_date_of_service:
+          type: string
+          format: date
+          description: 'Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+
+            This date must be the local date in the timezone where the service occurred.
+
+            If omitted, the Encounter is assumed to be for a single day.
+
+            Must not be temporally before the date_of_service field.
+
+            If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.'
+        patient_authorized_release:
+          type: boolean
+          description: 'Whether this patient has authorized the release of medical information
+
+            for billing purpose.
+
+            Box 12 on the CMS-1500 claim form  or Form Locator 52 on a UB-04 claim form.'
+        benefits_assigned_to_provider:
+          type: boolean
+          description: 'Whether this patient has authorized insurance payments to be made to you,
+
+            not them. If false, patient may receive reimbursement.
+
+            Box 13 on the CMS-1500 claim form or Form Locator 53 on a UB-04 claim form.'
+        provider_accepts_assignment:
+          type: boolean
+          description: 'Whether you have accepted the patient''s authorization for insurance payments
+
+            to be made to you, not them.
+
+            Box 27 on the CMS-1500 claim form. There is no exact equivalent of this field on a UB-04 claim, however contributes to the concept of Form Locator 53.'
+        appointment_type:
+          type: string
+          description: 'Human-readable description of the appointment type (ex: "Acupuncture - Headaches").'
+        existing_medications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_Medication'
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_Intervention'
+        pay_to_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: Specifies the address to which payments for the claim should be sent.
+        synchronicity:
+          $ref: '#/components/schemas/type_encounters_v4_SynchronicityType'
+          description: 'Whether or not this was a synchronous or asynchronous encounter.
+
+            Asynchronous encounters occur when providers and patients communicate online using
+
+            forms, instant messaging, or other pre-recorded digital mediums.
+
+            Synchronous encounters occur in live, real-time settings where the patient interacts
+
+            directly with the provider, such as over video or a phone call.'
+        vitals:
+          $ref: '#/components/schemas/type_encounters_v4_Vitals'
+        billable_status:
+          $ref: '#/components/schemas/type_encounters_v4_BillableStatusType'
+          description: 'Defines if the Encounter is to be billed by Candid to the responsible_party.
+
+            Examples for when this should be set to NOT_BILLABLE include
+
+            if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.'
+        additional_information:
+          type: string
+          description: 'Defines additional information on the claim needed by the payer.
+
+            Box 19 on the CMS-1500 claim form or Form Locator 80 on a UB-04 claim form.'
+        service_authorization_exception_code:
+          $ref: '#/components/schemas/type_encounters_v4_ServiceAuthorizationExceptionCode'
+          description: '837p Loop2300 REF*4N
+
+            Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+
+            reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+
+            obtaining the authorization.'
+        admission_date:
+          type: string
+          format: date
+          description: '837p Loop2300 DTP*435, CMS-1500 Box 18 or UB-04 Form Locator 12.
+
+            Required on all ambulance claims when the patient was known to be admitted to the hospital.
+
+            OR
+
+            Required on all claims involving inpatient medical visits.'
+        discharge_date:
+          type: string
+          format: date
+          description: 837p Loop2300 DTP*096, CMS-1500 Box 18 Required for inpatient claims when the patient was discharged from the facility and the discharge date is known. Not used on an institutional claim.
+        onset_of_current_illness_or_symptom_date:
+          type: string
+          format: date
+          description: "837p Loop2300 DTP*431, CMS-1500 Box 14\nRequired for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.\nOR\nThis date is the onset of acute symptoms for the current illness or condition.\n For UB-04 claims, this is populated separately via occurrence codes."
+        last_menstrual_period_date:
+          type: string
+          format: date
+          description: '837p Loop2300 DTP*484, CMS-1500 Box 14
+
+            Required when, in the judgment of the provider, the services on this claim are related to the patient''s pregnancy.
+
+            This field is populated separately via occurrence codes for UB-04 claim forms.'
+        delay_reason_code:
+          $ref: '#/components/schemas/type_commons_DelayReasonCode'
+          description: 'Code indicating the reason why a claim submission was delayed.
+
+            Corresponds to CLM-20 in the 837 specification (both professional and institutional).'
+        accident_state_or_province_code:
+          $ref: '#/components/schemas/type_commons_State'
+          description: 837i-REF1000 -- an optional state indicating where an accident related to the encounter occurred.
+        claim_creation_id:
+          $ref: '#/components/schemas/type_commons_ChargeCaptureClaimCreationId'
+          description: If the encounter was created from ingested charge captures, this is the associated Charge Capture Claim Creation Id.
+        patient_control_number:
+          type: string
+          description: 'A patient control number (PCN) is a unique identifier assigned to a patient within a healthcare system or facility.
+
+            It''s used to track and manage a patient''s medical records, treatments, and other healthcare-related information.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_claims_Claim'
+        patient:
+          $ref: '#/components/schemas/type_individual_Patient'
+          description: Contains the identification information of the individual receiving medical services.
+        guarantor:
+          $ref: '#/components/schemas/type_guarantor_v1_Guarantor'
+          description: Personal and contact info for the guarantor of the patient responsibility.
+        billing_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+          description: The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form or Form Locator 1 on a UB-04 claim form.
+        rendering_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+          description: 'The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+
+            For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.'
+        attending_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+          description: 837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has overall responsibility for the patient in institutional claims processing.
+        admission_hour:
+          type: integer
+          description: '837i Loop 2300 DTP-03
+
+            Extension of the admission date with hour (0-23) details.
+
+            Required for institutional submission.'
+        admission_type_code:
+          $ref: '#/components/schemas/type_x12_v1_TypeOfAdmissionOrVisitCode'
+          description: 837i Loop 2300 CL1-01 Code used to indicate the priority of an admission or visit. Equivalent to Form Locator 14 Priority of Admission on a UB-04 claim, not used on CMS-1500 claim forms.
+        admission_source_code:
+          $ref: '#/components/schemas/type_x12_v1_PointOfOriginForAdmissionOrVisitCode'
+          description: 837i Loop 2300 CLI1-02 Code used to indicate the conditions under which an admission occurs. Equivalent to Form Locator 15 Point of Origin on a UB-04 claim, not used on CMS-1500 claim forms.
+        discharge_hour:
+          type: integer
+          description: '837i Loop 2300 DTP-03
+
+            Extension of the discharge date with hour (0-23) details.'
+        discharge_status:
+          $ref: '#/components/schemas/type_x12_v1_PatientDischargeStatusCode'
+          description: '837i CL1-03 or Form Locator 17 on a UB-04 claim form. This is a required field on UB-04 claims.
+
+            Code indicating patient status as of the "statement covers through date".'
+        operating_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+          description: 837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has primary responsibility for surgical procedures in institutional claims processing.
+        other_operating_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+          description: 837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has secondary responsibility for surgical procedures in institutional claims processing.  Only used when operating_provider is also set.
+        treating_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterAdditionalProvider'
+          description: The treating provider is the provider who treats the patient. This is only supported for professional encounters.
+        related_causes_information:
+          $ref: '#/components/schemas/type_related-causes_v1_RelatedCausesInformation'
+        property_casualty_claim_number:
+          type: string
+          description: 837p Loop2010 REF02, CMS1500 Box 11b
+        accident_date:
+          type: string
+          format: date
+          description: 837p Loop2300 DTP*439, CMS1500 Box 15
+        property_casualty_patient_identifier:
+          $ref: '#/components/schemas/type_property-and-casualty_v1_PropertyCasualtyPatientIdentifier'
+          description: 'Patient identifier for Property and Casualty claims.
+
+            837p Loop2010CA'
+        submission_expectation:
+          $ref: '#/components/schemas/type_encounters_v4_EncounterSubmissionExpectation'
+          description: Describes the currently expected target form for this encounter.  This affects what validations and queues the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.
+        type_of_bill:
+          $ref: '#/components/schemas/type_x12_v1_TypeOfBillComposite'
+          description: Four digit code used in institutional forms to indicate the type of bill (e.g., hospital inpatient, hospital outpatient). First digit is a leading 0, followed by the type_of_facility, type_of_care, then frequency_code. Professional forms are not required to submit this attribute. You may send the 4 digit code via raw_code, or each individual digit separately via composite_codes.
+        referring_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        initial_referring_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        supervising_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        service_facility:
+          $ref: '#/components/schemas/type_service-facility_EncounterServiceFacility'
+          description: Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed
+        subscriber_primary:
+          $ref: '#/components/schemas/type_individual_Subscriber'
+          description: 'Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
+
+            These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
+
+            However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
+
+            Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.'
+        subscriber_secondary:
+          $ref: '#/components/schemas/type_individual_Subscriber'
+          description: Contains details of the secondary insurance subscriber.
+        subscriber_tertiary:
+          $ref: '#/components/schemas/type_individual_Subscriber'
+          description: Contains details of the tertiary insurance subscriber.
+        prior_authorization_number:
+          $ref: '#/components/schemas/type_encounters_v4_PriorAuthorizationNumber'
+          description: Box 23 on the CMS-1500 claim form or Form Locator 63 on a UB-04 claim form.
+        responsible_party:
+          $ref: '#/components/schemas/type_encounters_v4_ResponsiblePartyType'
+          description: Defines the party to be billed with the initial balance owed on the claim.
+        url:
+          $ref: '#/components/schemas/type_commons_LinkUrl'
+          description: URL that links directly to the claim created in Candid.
+        diagnoses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_diagnoses_Diagnosis'
+          description: Contains the primary and other diagnosis health care code information objects associated with this encounter. For professional claims, these diagnoses correspond with those that are set on service lines directly, where as for institutional claims these are only associated directly with the claim itself.  See also Health Care Code Information objects and corresponding apis.
+        clinical_notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_ClinicalNoteCategory'
+          description: Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
+        billing_notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_billing-notes_v2_BillingNote'
+          description: 'Spot to store misc, human-readable, notes about this encounter to be
+
+            used in the billing process.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        place_of_service_code_as_submitted:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        patient_histories:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_PatientHistoryCategory'
+        patient_payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_patient-payments_v3_PatientPayment'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tags_Tag'
+        coding_attribution:
+          $ref: '#/components/schemas/type_encounters_v4_CodingAttributionType'
+          description: The entity that performed the coding of medical services for the claim.
+        work_queue_id:
+          $ref: '#/components/schemas/type_commons_WorkQueueId'
+        work_queue_membership_activated_at:
+          type: string
+          format: date-time
+        owner_of_next_action:
+          $ref: '#/components/schemas/type_encounters_v4_EncounterOwnerOfNextActionType'
+          description: The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+        submission_origin:
+          $ref: '#/components/schemas/type_encounters_v4_EncounterSubmissionOriginType'
+          description: 'The party who originally submitted the Claim.
+
+            For Claims originating in Candid, this will be EncounterSubmissionOriginType.CANDID.
+
+            For Encounters created with an external_claim_submission object, this will be EncounterSubmissionOriginType.EXTERNAL.'
+        schema_instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaInstance'
+          description: 'Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+
+            instances cannot be created for the same schema on an encounter.'
+        referral_number:
+          type: string
+          description: Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+        epsdt_referral:
+          $ref: '#/components/schemas/type_encounters_v4_EPSDTReferral'
+          description: Refers to Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P and 837i form
+        claim_supplemental_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_encounters_v4_ClaimSupplementalInformation'
+          description: Refers to Loop 2300 - Segment PWK on the 837P and 837i form. No more than 10 entries are permitted.
+        secondary_payer_carrier_code:
+          type: string
+          description: When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
+        last_submitted_at:
+          type: string
+          format: date-time
+          description: The date and time the encounter was last submitted to a payer.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the encounter was created.
+        next_responsible_party:
+          $ref: '#/components/schemas/type_commons_NextResponsibleParty'
+          description: The party (payer, patient, etc.) responsible for the remainder of the balance on the claim.
+        organization_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      required:
+      - external_id
+      - patient_authorized_release
+      - benefits_assigned_to_provider
+      - provider_accepts_assignment
+      - billable_status
+      - encounter_id
+      - claims
+      - patient
+      - billing_provider
+      - rendering_provider
+      - service_facility
+      - responsible_party
+      - url
+      - diagnoses
+      - clinical_notes
+      - patient_histories
+      - patient_payments
+      - tags
+      - owner_of_next_action
+      - submission_origin
+      - schema_instances
+      - created_at
+      title: Encounter
+    type_tags_TagId:
+      type: string
+      title: TagId
+    type_commons_PatientRelationshipToInsuredCodeAll:
+      type: string
+      enum:
+      - '01'
+      - '04'
+      - '05'
+      - '07'
+      - '10'
+      - '15'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '29'
+      - '32'
+      - '33'
+      - '36'
+      - '39'
+      - '40'
+      - '41'
+      - '43'
+      - '53'
+      - G8
+      title: PatientRelationshipToInsuredCodeAll
+    type_commons_EncounterExternalId:
+      type: string
+      title: EncounterExternalId
+    type_invoices_Invoice:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_commons_InvoiceId'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        organzation_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+        source_id:
+          type: string
+        source_customer_id:
+          type: string
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+        note:
+          type: string
+        due_date:
+          $ref: '#/components/schemas/type_commons_Date'
+        status:
+          $ref: '#/components/schemas/type_invoices_InvoiceStatus'
+        url:
+          type: string
+        customer_invoice_url:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_invoices_InvoiceItem'
+      required:
+      - id
+      - created_at
+      - updated_at
+      - organzation_id
+      - source_id
+      - source_customer_id
+      - patient_external_id
+      - due_date
+      - status
+      - items
+      title: Invoice
+    type_encounters_v4_ClaimSupplementalInformation:
+      type: object
+      properties:
+        attachment_report_type_code:
+          $ref: '#/components/schemas/type_commons_ReportTypeCode'
+        attachment_transmission_code:
+          $ref: '#/components/schemas/type_commons_ReportTransmissionCode'
+        attachment_control_number:
+          type: string
+      required:
+      - attachment_report_type_code
+      - attachment_transmission_code
+      title: ClaimSupplementalInformation
+    type_billing-notes_v2_BillingNoteMetadata:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - queue_added
+            description: 'Discriminator value: queue_added'
+          queue_id:
+            type: string
+          queue_name:
+            type: string
+        required:
+        - type
+        - queue_id
+        - queue_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - queue_moved
+            description: 'Discriminator value: queue_moved'
+          from_queue_id:
+            type: string
+          from_queue_name:
+            type: string
+          to_queue_id:
+            type: string
+          to_queue_name:
+            type: string
+        required:
+        - type
+        - from_queue_id
+        - from_queue_name
+        - to_queue_id
+        - to_queue_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - task_created
+            description: 'Discriminator value: task_created'
+          task_id:
+            type: string
+            format: uuid
+          task_type:
+            type: string
+        required:
+        - type
+        - task_id
+        - task_type
+      discriminator:
+        propertyName: type
+      title: BillingNoteMetadata
+    type_service-lines_v2_ServiceIdQualifier:
+      type: string
+      enum:
+      - EN
+      - EO
+      - HI
+      - N4
+      - 'ON'
+      - UK
+      - UP
+      title: ServiceIdQualifier
+    type_service-lines_v2_TestResultType:
+      type: string
+      enum:
+      - HEMATOCRIT
+      - HEMOGLOBIN
+      - LDL
+      - VITAMIN_D
+      title: TestResultType
+    type_commons_ReportTypeCode:
+      type: string
+      enum:
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '13'
+      - '15'
+      - '21'
+      - A3
+      - A4
+      - AM
+      - AS
+      - B2
+      - B3
+      - B4
+      - BR
+      - BS
+      - BT
+      - CB
+      - CK
+      - CT
+      - D2
+      - DA
+      - DB
+      - DG
+      - DJ
+      - DS
+      - EB
+      - HC
+      - HR
+      - I5
+      - IR
+      - LA
+      - M1
+      - MT
+      - NN
+      - OB
+      - OC
+      - OD
+      - OE
+      - OX
+      - OZ
+      - P4
+      - P5
+      - PE
+      - PN
+      - PO
+      - PQ
+      - PY
+      - PZ
+      - RB
+      - RR
+      - RT
+      - RX
+      - SG
+      - V5
+      - XP
+      title: ReportTypeCode
+    type_encounters_v4_Vitals:
+      type: object
+      properties:
+        height_in:
+          type: integer
+        weight_lbs:
+          type: integer
+        blood_pressure_systolic_mmhg:
+          type: integer
+        blood_pressure_diastolic_mmhg:
+          type: integer
+        body_temperature_f:
+          type: number
+          format: double
+        hemoglobin_gdl:
+          type: number
+          format: double
+        hematocrit_pct:
+          type: number
+          format: double
+      title: Vitals
+    type_invoices_v2_UnattributedInvoiceItem:
+      type: object
+      properties:
+        amount_cents:
+          type: integer
+      required:
+      - amount_cents
+      title: UnattributedInvoiceItem
+    type_individual_PatientNonInsurancePayerInfo:
+      type: object
+      properties:
+        non_insurance_payer:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayer'
+        member_id:
+          type: string
+        clinical_trial_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_individual_PatientClinicalTrialInfo'
+          description: A patient cannot be associated with a given trial more than once
+      required:
+      - non_insurance_payer
+      - clinical_trial_info
+      title: PatientNonInsurancePayerInfo
+    type_invoices_v2_InvoiceItemInfo:
+      type: object
+      properties:
+        claim_invoice_items:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_invoices_v2_ClaimInvoiceItemInfo'
+        unattributed_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_invoices_v2_UnattributedInvoiceItem'
+      required:
+      - claim_invoice_items
+      - unattributed_items
+      title: InvoiceItemInfo
+    type_invoices_v2_InvoiceDestinationMetadata:
+      type: object
+      properties:
+        invoice_destination:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceDestination'
+          description: Defines which third-party service this invoice was created in
+        source_id:
+          type: string
+          description: The id of the invoice in the third-party service
+        source_customer_id:
+          type: string
+          description: The id of the customer that the invoice is attributed to in the third-party service
+        destination_status:
+          type: string
+          description: The status of the invoice in the third-party service
+      required:
+      - invoice_destination
+      - source_id
+      - source_customer_id
+      title: InvoiceDestinationMetadata
+    type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - 0B
+      - 1G
+      - G2
+      - LU
+      title: ProviderSecondaryIdentificationQualifier
+    type_invoices_v2_ClaimInvoiceItem:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        amount_cents:
+          type: integer
+      required:
+      - claim_id
+      - amount_cents
+      title: ClaimInvoiceItem
+    type_x12_v1_TypeOfBillComposite:
+      type: object
+      properties:
+        type_of_facility:
+          $ref: '#/components/schemas/type_x12_v1_TypeOfFacilityCode'
+          description: The FL04 Institutional type of facility code for the bill.  The second digit of the composite code.
+        type_of_care:
+          $ref: '#/components/schemas/type_x12_v1_TypeOfCareCode'
+          description: The FL04 Institutional type of care code for the bill.  The third digit of the composite code.
+        frequency_code:
+          $ref: '#/components/schemas/type_x12_v1_TypeOfBillFrequencyCode'
+          description: The FL04 Institutional frequency code for the bill.  The fourth digit of the composite code.
+        code:
+          type: string
+          description: The composite, 4 digit code of the composite, starting with a padding code 0.
+      required:
+      - type_of_facility
+      - type_of_care
+      - frequency_code
+      - code
+      title: TypeOfBillComposite
+    type_encounters_v4_Medication:
+      type: object
+      properties:
+        name:
+          type: string
+        rx_cui:
+          $ref: '#/components/schemas/type_encounters_v4_RxCui'
+        dosage:
+          type: string
+        dosage_form:
+          type: string
+        frequency:
+          type: string
+        as_needed:
+          type: boolean
+      required:
+      - name
+      title: Medication
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_eras_EraId:
+      type: string
+      format: uuid
+      title: EraId
+    type_commons_PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        type:
+          $ref: '#/components/schemas/type_commons_PhoneNumberType'
+      required:
+      - number
+      - type
+      title: PhoneNumber
+    type_property-and-casualty_v1_PropertyCasualtyPatientIdentifier:
+      type: object
+      properties:
+        property_casualty_patient_identifier_qualifier:
+          $ref: '#/components/schemas/type_property-and-casualty_v1_PropertyCasualtyPatientIdentifierQualifier'
+          description: 'Represents REF01 on the EDI 837 Loop 2010CA Property and Casualty Patient Identifier segment.
+
+            Valid values include 1W (Member Identification Number) and SY (Social Security Number).'
+        property_casualty_patient_identifier:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010CA Property and Casualty Patient Identifier segment. Value cannot exceed 50 characters
+      required:
+      - property_casualty_patient_identifier_qualifier
+      - property_casualty_patient_identifier
+      title: PropertyCasualtyPatientIdentifier
+    type_commons_BillingProviderCommercialLicenseType:
+      type: string
+      enum:
+      - '0'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      title: BillingProviderCommercialLicenseType
+    type_encounters_v4_InterventionCategory:
+      type: string
+      enum:
+      - allopathic
+      - naturopathic
+      - tests
+      - lifestyle
+      title: InterventionCategory
+    type_service-lines_v2_ServiceLine:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        modifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+        charge_amount_cents:
+          type: integer
+        allowed_amount_cents:
+          type: integer
+        insurance_balance_cents:
+          type: integer
+        patient_balance_cents:
+          type: integer
+        paid_amount_cents:
+          type: integer
+        primary_paid_amount_cents:
+          type: integer
+        secondary_paid_amount_cents:
+          type: integer
+        tertiary_paid_amount_cents:
+          type: integer
+        patient_responsibility_cents:
+          type: integer
+        copay_cents:
+          type: integer
+        coinsurance_cents:
+          type: integer
+        deductible_cents:
+          type: integer
+        diagnosis_id_zero:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        diagnosis_id_one:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        diagnosis_id_two:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        diagnosis_id_three:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        drug_identification:
+          $ref: '#/components/schemas/type_service-lines_v2_DrugIdentification'
+        service_line_era_data:
+          $ref: '#/components/schemas/type_service-lines_v2_ServiceLineERAData'
+        service_line_manual_adjustments:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_service-lines_v2_ServiceLineAdjustment'
+        related_invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_invoices_Invoice'
+        related_invoice_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_invoices_v2_InvoiceInfo'
+        denial_reason:
+          $ref: '#/components/schemas/type_service-lines_v2_ServiceLineDenialReason'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: 837p Loop2300, SV105. This enum is not used or required in 837i claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        place_of_service_code_as_submitted:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: 837p Loop2300, SV105. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+        procedure_code:
+          type: string
+        ordering_provider:
+          $ref: '#/components/schemas/type_encounter-providers_v2_EncounterProvider'
+        revenue_code:
+          type: string
+          description: A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).
+        quantity:
+          $ref: '#/components/schemas/type_commons_Decimal'
+          description: 'String representation of a Decimal that can be parsed by most libraries.
+
+            For professional claims, a ServiceLine quantity cannot contain more than one digit of precision
+
+            (Example: 1.1 is valid, 1.11 is not). For institutional claims, a ServiceLine quantity cannot contain
+
+            more than three decimal digits of precision.'
+        units:
+          $ref: '#/components/schemas/type_commons_ServiceLineUnits'
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        date_of_service_range:
+          $ref: '#/components/schemas/type_commons_DateRangeOptionalEnd'
+          description: 'A range of dates of service for this service line. If the service line is for a single date, the end date
+
+            will be empty.'
+        description:
+          type: string
+          description: A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on a 837-P and SV2-02, C003-07 on a 837-I form.
+        date_of_service:
+          type: string
+          format: date
+        end_date_of_service:
+          type: string
+          format: date
+        test_results:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_service-lines_v2_TestResult'
+          description: 'Contains a list of test results. Test result types may map to MEA-02 on the 837-P (ex: Hemoglobin, Hematocrit).
+
+            This is unused by 837-i and ignored for institutional service lines.
+
+            No more than 5 MEA-02 test results may be submitted per service line.'
+        has_epsdt_indicator:
+          type: boolean
+          description: 'Maps to SV1-11 on the 837-P and Box 24H on the CMS-1500.
+
+            If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.'
+        has_family_planning_indicator:
+          type: boolean
+          description: 'Maps to SV1-12 on the 837-P and Box 24I on the CMS-1500.
+
+            If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.'
+        note:
+          type: string
+          description: Maps to NTE02 loop 2400 on the EDI 837.
+        prior_authorization_number:
+          type: string
+          description: Prior authorization number for this service line. Maps to the appropriate REF segment on Loop 2400 of the EDI 837p. This is not used for institutional claims (EDI 837i).
+        external_id:
+          type: string
+          description: 'An external identifier for this service line. This is not used in the EDI 837, but can be used to identify the service line in external systems.
+
+            This field should not contain PHI. Must be unique on a given claim.'
+      required:
+      - created_at
+      - service_line_id
+      - procedure_code
+      - quantity
+      - units
+      - claim_id
+      - date_of_service_range
+      - date_of_service
+      title: ServiceLine
+    type_guarantor_v1_GuarantorId:
+      type: string
+      format: uuid
+      title: GuarantorId
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_encounters_v4_RxCui:
+      type: string
+      title: RxCui
+    type_x12_v1_TypeOfFacilityCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '6'
+      - '7'
+      - '8'
+      title: TypeOfFacilityCode
+    type_invoices_v2_ServiceLineInvoiceItem:
+      type: object
+      properties:
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+        amount_cents:
+          type: integer
+      required:
+      - service_line_id
+      - amount_cents
+      title: ServiceLineInvoiceItem
+    type_diagnoses_Diagnosis:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Empty string not allowed.
+        code_type:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisTypeCode'
+          description: Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
+        code:
+          type: string
+          description: "Empty string not allowed.\nShould be of the appropriate format for the provided `code_type`.\nMust obey the ICD-10 format if an ICD-10 code_type is provided, specifically:\n  - Letter\n  - Digit\n  - Digit or the letter `A` or `B`\n  - (Optional) Period `.`\n  - Up to 4 (or as few as 0) letters and digits"
+        present_on_admission_indicator:
+          $ref: '#/components/schemas/type_yes-no-indicator_YesNoIndicator'
+          description: 'For Institutional claims only.
+
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        diagnosis_id:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - code_type
+      - code
+      - encounter_id
+      - diagnosis_id
+      - created_at
+      - updated_at
+      title: Diagnosis
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_non-insurance-payers_v1_NonInsurancePayer:
+      type: object
+      properties:
+        non_insurance_payer_id:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        enabled:
+          type: boolean
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+        clinical_trials:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrial'
+      required:
+      - non_insurance_payer_id
+      - name
+      - enabled
+      - clinical_trials
+      title: NonInsurancePayer
+    type_individual_Gender:
+      type: string
+      enum:
+      - male
+      - female
+      - other
+      - not_given
+      - unknown
+      title: Gender
+    type_service-facility_ServiceFacilityId:
+      type: string
+      format: uuid
+      title: ServiceFacilityId
+    type_encounters_v4_Lab:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        code_type:
+          $ref: '#/components/schemas/type_encounters_v4_LabCodeType'
+      required:
+      - name
+      title: Lab
+    type_service-lines_v2_MeasurementUnitCode:
+      type: string
+      enum:
+      - ML
+      - UN
+      - GR
+      - F2
+      - ME
+      title: MeasurementUnitCode
+    type_x12_v1_TypeOfCareCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      title: TypeOfCareCode
+    type_non-insurance-payers_v1_NonInsurancePayerId:
+      type: string
+      format: uuid
+      title: NonInsurancePayerId
+    type_x12_v1_TypeOfAdmissionOrVisitCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '9'
+      title: TypeOfAdmissionOrVisitCode
+    type_invoices_InvoiceItem:
+      type: object
+      properties:
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+        amount_cents:
+          type: integer
+      required:
+      - service_line_id
+      - amount_cents
+      title: InvoiceItem
+    type_commons_DateRangeOptionalEnd:
+      type: object
+      properties:
+        start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+        end_date:
+          $ref: '#/components/schemas/type_commons_Date'
+      required:
+      - start_date
+      title: DateRangeOptionalEnd
+    type_encounters_v4_InvalidTagNamesErrorType:
+      type: object
+      properties:
+        invalid_tag_names:
+          type: array
+          items:
+            type: string
+      required:
+      - invalid_tag_names
+      title: InvalidTagNamesErrorType
+    type_property-and-casualty_v1_PropertyCasualtyPatientIdentifierQualifier:
+      type: string
+      enum:
+      - 1W
+      - SY
+      title: PropertyCasualtyPatientIdentifierQualifier
+    type_service-lines_v2_TestResult:
+      type: object
+      properties:
+        value:
+          type: number
+          format: double
+        result_type:
+          $ref: '#/components/schemas/type_service-lines_v2_TestResultType'
+      required:
+      - value
+      - result_type
+      title: TestResult
+    type_related-causes_v1_RelatedCausesCode:
+      type: string
+      enum:
+      - AA
+      - AB
+      - AP
+      - EM
+      - OA
+      - ZZ
+      title: RelatedCausesCode
+    type_encounters_v4_EncounterSubmissionOriginType:
+      type: string
+      enum:
+      - CANDID
+      - EXTERNAL
+      title: EncounterSubmissionOriginType
+    type_encounters_v4_ServiceAuthorizationExceptionCode:
+      type: string
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      description: 'Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+
+        reasons listed in one of the enum values, the service was performed without obtaining the authorization.'
+      title: ServiceAuthorizationExceptionCode
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_encounters_v4_CodingAttributionType:
+      type: string
+      enum:
+      - CANDID
+      - CUSTOMER
+      - TCN
+      - PJF
+      title: CodingAttributionType
+    type_commons_PhoneNumberType:
+      type: string
+      enum:
+      - Home
+      - Mobile
+      - Work
+      title: PhoneNumberType
+    type_invoices_v2_Invoice:
+      type: object
+      properties:
+        amount_cents:
+          type: integer
+          description: Total monetary amount (in cents) of all Invoice Items
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        organization_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+        invoice_destination_metadata:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceDestinationMetadata'
+          description: Contains all relevant information from the third-party service this invoice was created in
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+        note:
+          type: string
+        due_date:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceStatus'
+        url:
+          type: string
+          description: Link to the admin view of the invoice in the third-party service
+        customer_invoice_url:
+          type: string
+          description: Link to the patient view of the invoice in the third-party service
+        items:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceItemInfo'
+          description: The InvoiceItem rollup which contains all claim and service line invoice items
+      required:
+      - amount_cents
+      - created_at
+      - updated_at
+      - organization_id
+      - invoice_destination_metadata
+      - patient_external_id
+      - due_date
+      - status
+      - items
+      title: Invoice
+    type_billing-notes_v2_BillingNoteId:
+      type: string
+      format: uuid
+      title: BillingNoteId
+    type_patient-payments_v3_PatientPayment:
+      type: object
+      properties:
+        patient_payment_id:
+          $ref: '#/components/schemas/type_patient-payments_v3_PatientPaymentId'
+        organization_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+        source_internal_id:
+          type: string
+        source:
+          $ref: '#/components/schemas/type_patient-payments_v3_PatientPaymentSource'
+        amount_cents:
+          type: integer
+        payment_timestamp:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/type_patient-payments_v3_PatientPaymentStatus'
+        payment_name:
+          type: string
+        payment_note:
+          type: string
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+        encounter_external_id:
+          $ref: '#/components/schemas/type_commons_EncounterExternalId'
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+      required:
+      - patient_payment_id
+      - organization_id
+      - source_internal_id
+      - source
+      - amount_cents
+      title: PatientPayment
+    type_commons_SchemaId:
+      type: string
+      format: uuid
+      title: SchemaId
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_NextResponsibleParty:
+      type: string
+      enum:
+      - primary
+      - secondary
+      - tertiary
+      - patient
+      - non_insurance
+      - none
+      title: NextResponsibleParty
+    type_encounter-providers_v2_ProviderId:
+      type: string
+      format: uuid
+      title: ProviderId
+    type_commons_ClinicalTrialId:
+      type: string
+      format: uuid
+      title: ClinicalTrialId
+    type_commons_SourceOfPaymentCode:
+      type: string
+      enum:
+      - 09
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - AM
+      - BL
+      - CH
+      - CI
+      - DS
+      - FI
+      - HM
+      - LM
+      - MA
+      - MB
+      - MC
+      - OF
+      - TV
+      - VA
+      - WC
+      - ZZ
+      title: SourceOfPaymentCode
+    type_x12_v1_PatientDischargeStatusCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 09
+      - '20'
+      - '21'
+      - '30'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '50'
+      - '51'
+      - '61'
+      - '62'
+      - '63'
+      - '64'
+      - '65'
+      - '66'
+      - '69'
+      - '70'
+      - '81'
+      - '82'
+      - '83'
+      - '84'
+      - '85'
+      - '86'
+      - '87'
+      - '88'
+      - '89'
+      - '90'
+      - '91'
+      - '92'
+      - '93'
+      - '94'
+      - '95'
+      title: PatientDischargeStatusCode
+    type_organization-providers_v2_LicenseType:
+      type: string
+      enum:
+      - MD
+      - NP
+      - PA
+      - LMFT
+      - LCPC
+      - LCSW
+      - PMHNP
+      - FNP
+      - LPCC
+      - DO
+      - RD
+      - SLP
+      - APRN
+      - LPC
+      - PHD
+      - PSYD
+      - LMSW
+      - LMHC
+      - OTHER_MASTERS
+      - BCBA
+      - UNKNOWN
+      - RPH
+      - PHT
+      - LAC
+      - LMT
+      - DC
+      - ND
+      - MA
+      - PT
+      - IBCLC
+      - RN
+      - DPT
+      - LCMHC
+      - CNM
+      - RNFA
+      - ACSW
+      - APC
+      - BCABA
+      - BHA
+      - OD
+      - DPM
+      - DA
+      - DDS
+      - DEH
+      - DMD
+      - PTA
+      - LCADC
+      - LCAT
+      - LCMHCS
+      - LCMHCA
+      - LCSWA
+      - LICSW
+      - LISW
+      - LMFTS
+      - LMFTA
+      - LPCI
+      - LSCSW
+      - MHCA
+      - MHT
+      - RBT
+      - RCSWI
+      - RHMCI
+      - LPN
+      - OTD
+      - OMS
+      - MFTA
+      - APCC
+      - DNP
+      - AGNPBC
+      - ANP
+      - FNPPP
+      - LCSWR
+      - ALC
+      - RMFTI
+      - LAMFT
+      - LPCA
+      - LSWI
+      - CSW
+      - CPC
+      - LGMFT
+      - LLPC
+      - PLPC
+      - PLMFT
+      - LMHCA
+      - CIT
+      - CT
+      - MFT
+      - LSW
+      - PLMHP
+      - PCMSW
+      - LMHP
+      - OTR/L
+      - RPA
+      - COTA
+      - CRNP
+      - SLP-CF
+      - NP-C
+      - PA-C
+      - AMFT
+      - CDN
+      - CGC
+      - CNS
+      - MDPHD
+      - AuD
+      - ATC
+      - LAT
+      - OTA
+      - LSSP
+      - SLPA
+      title: LicenseType
+    type_encounter-providers_v2_ProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+          description: Represents REF01 on the EDI 837 Loop 2010BB Provider Secondary Identification segment.
+      required:
+      - reference_identification
+      title: ProviderSecondaryIdentification
+    type_commons_ServiceLineUnits:
+      type: string
+      enum:
+      - MJ
+      - UN
+      title: ServiceLineUnits
+    type_commons_Npi:
+      type: string
+      title: Npi
+    type_commons_ChargeCaptureClaimCreationId:
+      type: string
+      format: uuid
+      title: ChargeCaptureClaimCreationId
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

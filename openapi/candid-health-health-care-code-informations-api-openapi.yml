@@ -1,0 +1,1179 @@
+openapi: 3.2.0
+info:
+  title: Reference Health Care Code Informations API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Health Care Code Informations
+paths:
+  /api/health-care-code-informations/v1/{encounter_id}:
+    put:
+      operationId: update
+      summary: Update
+      tags:
+      - Health Care Code Informations
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_health-care-code-information_v1_HealthCareCodeInformationGetAllResponse'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationError
+                  content:
+                    $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_health-care-code-information_v1_HealthCareCodeInformationUpdate'
+    get:
+      operationId: get_all_for_encounter
+      summary: Get All For Encounter
+      tags:
+      - Health Care Code Informations
+      parameters:
+      - name: encounter_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_health-care-code-information_v1_HealthCareCodeInformationGetAllResponse'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+components:
+  schemas:
+    type_health-care-code-information_v1_OtherProcedureInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        other_procedure_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_OtherProcedureInformationCodeQualifier'
+        other_procedure_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+        other_procedure_date:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_D8Date'
+          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+
+            For example, 2017-07-21T17:32:28Z.
+
+            In practice, only the date portion of this is used for claim submission, so
+
+            midnight time is fine.'
+      required:
+      - other_procedure_code_qualifier
+      - other_procedure_code
+      - other_procedure_date
+      description: This corresponds to the BBQ or BQ code qualifier values.
+      title: OtherProcedureInformation
+    type_health-care-code-information_v1_OccurrenceSpanCode:
+      type: string
+      enum:
+      - '70'
+      - '71'
+      - '72'
+      - '73'
+      - '74'
+      - '75'
+      - '76'
+      - '77'
+      - '78'
+      - '80'
+      - '81'
+      - '82'
+      - M0
+      - M1
+      - M2
+      - M3
+      - M4
+      title: OccurrenceSpanCode
+    type_health-care-code-information_v1_OccurrenceInformationCodeQualifier:
+      type: string
+      enum:
+      - BH
+      title: OccurrenceInformationCodeQualifier
+    type_health-care-code-information_v1_TreatmentCodeInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        treatment_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_TreatmentCodeQualifier'
+        treatment_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_TreatmentCode'
+      required:
+      - treatment_code_qualifier
+      - treatment_code
+      description: This corresponds to the TC code qualifier value.
+      title: TreatmentCodeInformation
+    type_health-care-code-information_v1_OtherDiagnosisInformationCodeQualifier:
+      type: string
+      enum:
+      - BF
+      - ABF
+      title: OtherDiagnosisInformationCodeQualifier
+    type_health-care-code-information_v1_DiagnosisRelatedGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        diagnosis_related_group_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_DiagnosisRelatedGroupCodeQualifier'
+        diagnosis_related_group_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_MSDRGCode'
+      required:
+      - diagnosis_related_group_code_qualifier
+      - diagnosis_related_group_code
+      description: This corresponds to DR code qualifier values.
+      title: DiagnosisRelatedGroup
+    type_health-care-code-information_v1_ConditionInformationCodeQualifier:
+      type: string
+      enum:
+      - BG
+      title: ConditionInformationCodeQualifier
+    type_health-care-code-information_v1_ExternalCauseOfInjury:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        external_cause_of_injury_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ExternalCauseOfInjuryCodeQualifier'
+        external_cause_of_injury_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+        present_on_admission_indicator:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PresentOnAdmissionIndicatorCode'
+      required:
+      - external_cause_of_injury_code_qualifier
+      - external_cause_of_injury_code
+      description: This corresponds to BN or ABN code qualifier values.
+      title: ExternalCauseOfInjury
+    type_health-care-code-information_v1_OccurrenceInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        occurrence_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceInformationCodeQualifier'
+        occurrence_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceCode'
+        occurrence_date:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_D8Date'
+          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+
+            For example, 2017-07-21T17:32:28Z.
+
+            In practice, only the date portion of this is used for claim submission, so
+
+            midnight time is fine.'
+      required:
+      - occurrence_code_qualifier
+      - occurrence_code
+      - occurrence_date
+      description: This corresponds to the BH code qualifier value.
+      title: OccurrenceInformation
+    type_health-care-code-information_v1_AdmittingDiagnosis:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        admitting_diagnosis_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_AdmittingDiagnosisCodeQualifier'
+        admitting_diagnosis_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+      required:
+      - admitting_diagnosis_code_qualifier
+      - admitting_diagnosis_code
+      description: This corresponds to BJ or ABJ code qualifier values.
+      title: AdmittingDiagnosis
+    type_health-care-code-information_v1_PatientReasonForVisitCodeQualifier:
+      type: string
+      enum:
+      - PR
+      - APR
+      title: PatientReasonForVisitCodeQualifier
+    type_health-care-code-information_v1_DiagnosisRelatedGroupCodeQualifier:
+      type: string
+      enum:
+      - DR
+      title: DiagnosisRelatedGroupCodeQualifier
+    type_health-care-code-information_v1_PrincipalProcedureInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        principal_procedure_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PrincipalProcedureInformationCodeQualifier'
+        principal_procedure_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+        procedure_date:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_D8Date'
+          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+
+            For example, 2017-07-21T17:32:28Z.
+
+            In practice, only the date portion of this is used for claim submission, so
+
+            midnight time is fine.'
+      required:
+      - principal_procedure_code_qualifier
+      - principal_procedure_code
+      - procedure_date
+      description: This correspond to BBR, BR, and CAH code qualifier values.
+      title: PrincipalProcedureInformation
+    type_health-care-code-information_v1_PrincipalDiagnosisCodeQualifier:
+      type: string
+      enum:
+      - BK
+      - ABK
+      title: PrincipalDiagnosisCodeQualifier
+    type_health-care-code-information_v1_SetOrClearPrincipalProcedureInformation:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PrincipalProcedureInformation'
+      title: SetOrClearPrincipalProcedureInformation
+    type_health-care-code-information_v1_OtherDiagnosisInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        other_diagnosis_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_OtherDiagnosisInformationCodeQualifier'
+        other_diagnosis:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+        present_on_admission_indicator:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PresentOnAdmissionIndicatorCode'
+      required:
+      - other_diagnosis_code_qualifier
+      - other_diagnosis
+      description: This corresponds to BF and ABF code qualifier values.
+      title: OtherDiagnosisInformation
+    type_health-care-code-information_v1_OccurrenceSpanInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        occurrence_span_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceSpanCodeQualifier'
+        occurrence_span_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceSpanCode'
+        occurrence_span_date:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_RD8Date'
+      required:
+      - occurrence_span_code_qualifier
+      - occurrence_span_code
+      - occurrence_span_date
+      description: This corresponds to the BI code qualifier value.
+      title: OccurrenceSpanInformation
+    type_health-care-code-information_v1_SetOrClearAdmittingDiagnosis:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_AdmittingDiagnosis'
+      title: SetOrClearAdmittingDiagnosis
+    type_commons_Decimal:
+      type: string
+      description: String representation of a Decimal that can be parsed by most libraries.
+      title: Decimal
+    type_health-care-code-information_v1_PrincipalDiagnosis:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        principal_diagnosis_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PrincipalDiagnosisCodeQualifier'
+        primary_diagnosis_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+        present_on_admission_indicator:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PresentOnAdmissionIndicatorCode'
+      required:
+      - principal_diagnosis_code_qualifier
+      - primary_diagnosis_code
+      description: This corresponds to BK or ABK code qualifier values.
+      title: PrincipalDiagnosis
+    type_health-care-code-information_v1_RD8Date:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+      required:
+      - start
+      - end
+      title: RD8Date
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_health-care-code-information_v1_ConditionInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        condition_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ConditionInformationCodeQualifier'
+        condition_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ConditionCode'
+      required:
+      - condition_code_qualifier
+      - condition_code
+      description: This corresponds to the BG code qualifier value.
+      title: ConditionInformation
+    type_health-care-code-information_v1_ICDCode:
+      type: string
+      title: ICDCode
+    type_health-care-code-information_v1_HealthCareCodeInformationGetAllResponse:
+      type: object
+      properties:
+        principal_diagnosis:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PrincipalDiagnosis'
+        other_diagnosis_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OtherDiagnosisInformation'
+        admitting_diagnosis:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_AdmittingDiagnosis'
+          description: This object only applies to 837i institutional claim forms.
+        patient_reasons_for_visit:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_PatientReasonForVisit'
+          description: This object only applies to 837i institutional claim forms.
+        external_causes_of_injury:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_ExternalCauseOfInjury'
+          description: This object only applies to 837i institutional claim forms.
+        diagnosis_related_groups:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_DiagnosisRelatedGroup'
+          description: This object only applies to 837i institutional claim forms.
+        principal_procedure:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PrincipalProcedureInformation'
+          description: This object only applies to 837i institutional claim forms.
+        other_procedure_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OtherProcedureInformation'
+          description: This object only applies to 837i institutional claim forms.
+        occurrence_span_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceSpanInformation'
+          description: This object only applies to 837i institutional claim forms.
+        occurrence_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceInformation'
+          description: This object only applies to 837i institutional claim forms.
+        treatment_code_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_TreatmentCodeInformation'
+          description: This object only applies to 837i institutional claim forms.
+        value_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_ValueInformation'
+          description: This object only applies to 837i institutional claim forms.
+        condition_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_ConditionInformation'
+          description: This object only applies to 837i institutional claim forms.
+      required:
+      - other_diagnosis_information
+      - patient_reasons_for_visit
+      - external_causes_of_injury
+      - other_procedure_information
+      - occurrence_span_information
+      - occurrence_information
+      - treatment_code_information
+      - value_information
+      - condition_information
+      title: HealthCareCodeInformationGetAllResponse
+    type_health-care-code-information_v1_ExternalCauseOfInjuryCodeQualifier:
+      type: string
+      enum:
+      - BN
+      - ABN
+      title: ExternalCauseOfInjuryCodeQualifier
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_health-care-code-information_v1_SetOrClearPrincipalDiagnosis:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PrincipalDiagnosis'
+      title: SetOrClearPrincipalDiagnosis
+    type_health-care-code-information_v1_PrincipalProcedureInformationCodeQualifier:
+      type: string
+      enum:
+      - BBR
+      - BR
+      - CAH
+      title: PrincipalProcedureInformationCodeQualifier
+    type_health-care-code-information_v1_ValueCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '04'
+      - '05'
+      - '06'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '30'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '37'
+      - '38'
+      - '39'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '48'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '60'
+      - '61'
+      - '66'
+      - '67'
+      - '68'
+      - '69'
+      - '80'
+      - '81'
+      - '82'
+      - '83'
+      - '84'
+      - '85'
+      - '87'
+      - '89'
+      - '90'
+      - '91'
+      - A0
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+      - A8
+      - A9
+      - AA
+      - AB
+      - B1
+      - B2
+      - B3
+      - B7
+      - BA
+      - BB
+      - C1
+      - C2
+      - C3
+      - C7
+      - CA
+      - CB
+      - D3
+      - D4
+      - D5
+      - D6
+      - FC
+      - FD
+      - G8
+      - P1
+      - P2
+      - P3
+      - Y1
+      - Y2
+      - Y3
+      - Y4
+      - Y5
+      title: ValueCode
+    type_health-care-code-information_v1_OtherProcedureInformationCodeQualifier:
+      type: string
+      enum:
+      - BBQ
+      - BQ
+      title: OtherProcedureInformationCodeQualifier
+    type_health-care-code-information_v1_ValueInformation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        value_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ValueCodeQualifier'
+        value_code:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ValueCode'
+        value_code_amount:
+          $ref: '#/components/schemas/type_commons_Decimal'
+      required:
+      - value_code_qualifier
+      - value_code
+      - value_code_amount
+      description: This corresponds to the BE code qualifier value.
+      title: ValueInformation
+    type_health-care-code-information_v1_PatientReasonForVisit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 'The id of this health care code information if it is already stored.
+
+            If this is not set, this is referring to a new health care code information to be added
+
+            to the encounter.  If it is set, this refers to an update of an existing health care code
+
+            information object on the encounter.'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+          description: 'The encounter_id of this health care code information if it is already stored.
+
+            This will be set by the server in responses, but clients are not expected to set it.'
+        patient_reason_for_visit_code_qualifier:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_PatientReasonForVisitCodeQualifier'
+        patient_reason_for_visit:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_ICDCode'
+      required:
+      - patient_reason_for_visit_code_qualifier
+      - patient_reason_for_visit
+      description: This corresponds to PR or APR code qualifier values.
+      title: PatientReasonForVisit
+    type_health-care-code-information_v1_ValueCodeQualifier:
+      type: string
+      enum:
+      - BE
+      title: ValueCodeQualifier
+    type_health-care-code-information_v1_HealthCareCodeInformationUpdate:
+      type: object
+      properties:
+        principal_diagnosis:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_SetOrClearPrincipalDiagnosis'
+          description: Set & Replace semantics.  If the id matches the existing principal_diagnosis, that diagnosis is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing principal_diagnosis is deleted and removed from any service line pointers.
+        other_diagnosis_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OtherDiagnosisInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous other_diagnosis_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted, including having it removed from any service line pointers.
+        admitting_diagnosis:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_SetOrClearAdmittingDiagnosis'
+          description: Set & Replace semantics.  If the id matches the existing admitting_diagnosis, that diagnosis is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing principal_diagnosis is deleted. This object only applies to 837i institutional claim forms.
+        patient_reasons_for_visit:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_PatientReasonForVisit'
+          description: Set & Replace semantics.  For each entry that has an id, any previous patient_reasons_for_visit by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        external_causes_of_injury:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_ExternalCauseOfInjury'
+          description: Set & Replace semantics.  For each entry that has an id, any previous external_causes_of_injury by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        diagnosis_related_groups:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_SetOrClearDiagnosisRelatedGroup'
+          description: Set & Replace semantics.  If the id matches the existing diagnosis_related_groups, that diagnosis_related_group is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing diagnosis_related_groups is deleted. This object only applies to 837i institutional claim forms.
+        principal_procedure:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_SetOrClearPrincipalProcedureInformation'
+          description: Set & Replace semantics.  If the id matches the existing principal_procedure, that principal_procedure is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing principal_procedure is deleted. This object only applies to 837i institutional claim forms.
+        other_procedure_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OtherProcedureInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous other_procedure_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        occurrence_span_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceSpanInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous occurrence_span_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        occurrence_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_OccurrenceInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous occurrence_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        treatment_code_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_TreatmentCodeInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous treatment_code_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        value_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_ValueInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous value_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+        condition_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_health-care-code-information_v1_ConditionInformation'
+          description: Set & Replace semantics.  For each entry that has an id, any previous condition_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+      title: HealthCareCodeInformationUpdate
+    type_health-care-code-information_v1_SetOrClearDiagnosisRelatedGroup:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_health-care-code-information_v1_DiagnosisRelatedGroup'
+      title: SetOrClearDiagnosisRelatedGroup
+    type_health-care-code-information_v1_D8Date:
+      type: string
+      format: date
+      title: D8Date
+    type_health-care-code-information_v1_PresentOnAdmissionIndicatorCode:
+      type: string
+      enum:
+      - Y
+      - N
+      - U
+      - W
+      - '1'
+      title: PresentOnAdmissionIndicatorCode
+    type_health-care-code-information_v1_TreatmentCode:
+      type: string
+      title: TreatmentCode
+    type_health-care-code-information_v1_MSDRGCode:
+      type: string
+      title: MSDRGCode
+    type_health-care-code-information_v1_OccurrenceSpanCodeQualifier:
+      type: string
+      enum:
+      - BI
+      title: OccurrenceSpanCodeQualifier
+    type_health-care-code-information_v1_ConditionCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '30'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '38'
+      - '39'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '48'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '60'
+      - '61'
+      - '66'
+      - '67'
+      - '68'
+      - '69'
+      - '70'
+      - '71'
+      - '72'
+      - '73'
+      - '74'
+      - '75'
+      - '76'
+      - '77'
+      - '78'
+      - '79'
+      - '80'
+      - '81'
+      - '82'
+      - '83'
+      - '84'
+      - '85'
+      - '86'
+      - '87'
+      - '88'
+      - '89'
+      - '90'
+      - '91'
+      - '92'
+      - A0
+      - A1
+      - A2
+      - A3
+      - A4
+      - A5
+      - A6
+      - A7
+      - A9
+      - AA
+      - AB
+      - AC
+      - AD
+      - AE
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AK
+      - AL
+      - AM
+      - AN
+      - B0
+      - B1
+      - B2
+      - B3
+      - B4
+      - BP
+      - C1
+      - C2
+      - C3
+      - C4
+      - C5
+      - C6
+      - C7
+      - D0
+      - D1
+      - D2
+      - D3
+      - D4
+      - D5
+      - D6
+      - D7
+      - D8
+      - D9
+      - DR(a)
+      - E0
+      - G0
+      - H0
+      - H2
+      - H3
+      - H4
+      - H5
+      - P1
+      - P7
+      - R1
+      - R2
+      - R3
+      - R4
+      - R5
+      - R6
+      - R7
+      - R8
+      - R9
+      - W0
+      - W2
+      - W3
+      - W4
+      - W5
+      description: '
+
+        FL 18-28 - Condition Codes
+
+        Source: UB-04 Manual 2025, Pages 64-81 (FL18-28, Pages 1-18)
+
+        Excludes codes designated as "Payer Codes" or "FOR PUBLIC HEALTH DATA REPORTING ONLY"
+
+        unless usage on claims is indicated.'
+      title: ConditionCode
+    type_health-care-code-information_v1_AdmittingDiagnosisCodeQualifier:
+      type: string
+      enum:
+      - BJ
+      - ABJ
+      title: AdmittingDiagnosisCodeQualifier
+    type_health-care-code-information_v1_TreatmentCodeQualifier:
+      type: string
+      enum:
+      - TC
+      title: TreatmentCodeQualifier
+    type_health-care-code-information_v1_OccurrenceCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '30'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '38'
+      - '39'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '50'
+      - '51'
+      - '52'
+      - '54'
+      - '55'
+      - '56'
+      - '61'
+      - '62'
+      - A1
+      - A2
+      - A3
+      - A4
+      - B1
+      - B2
+      - B3
+      - C1
+      - C2
+      - C3
+      title: OccurrenceCode
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

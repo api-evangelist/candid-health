@@ -1,0 +1,697 @@
+openapi: 3.2.0
+info:
+  title: Reference Tasks API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Tasks
+paths:
+  /api/tasks/v3/{task_id}/actions:
+    get:
+      operationId: get_actions
+      summary: Get task actions
+      tags:
+      - Tasks
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_TaskId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_TaskActions'
+  /api/tasks/v3:
+    get:
+      operationId: get_multi
+      summary: Get all tasks
+      tags:
+      - Tasks
+      parameters:
+      - name: limit
+        in: query
+        description: Defaults to 100
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_PageToken'
+      - name: status
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+      - name: statuses
+        in: query
+        description: Only return tasks with a status that matches one in this comma-separated list.
+        required: false
+        schema:
+          type: string
+      - name: task_type
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_tasks_commons_TaskType'
+      - name: task_types
+        in: query
+        description: Only return tasks with a task_type that matches one in this comma-separated list.
+        required: false
+        schema:
+          type: string
+      - name: categories
+        in: query
+        description: Only return tasks with categories that match one in this comma-separated list.
+        required: false
+        schema:
+          type: string
+      - name: updated_since
+        in: query
+        description: Only return tasks updated on or after this date-time
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: encounter_id
+        in: query
+        description: Only return tasks associated with this encounter
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+      - name: search_term
+        in: query
+        description: Query tasks by encounter_id, claim_id, task_id, or external_id
+        required: false
+        schema:
+          type: string
+      - name: assigned_to_id
+        in: query
+        description: Only return tasks assigned to this user
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_commons_UserId'
+      - name: date_of_service_min
+        in: query
+        description: The minimum date of service for the linked encounter
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: date_of_service_max
+        in: query
+        description: The maximum date of service for the linked encounter
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: billing_provider_npi
+        in: query
+        description: The NPI of the billing provider associated with the task's claim
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Defaults to updated_at:desc
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_tasks_v3_TaskSortOptions'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_TaskPage'
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnprocessableEntityError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnprocessableEntityErrorMessage'
+                required:
+                - errorName
+                - content
+    post:
+      operationId: create
+      summary: Create task
+      tags:
+      - Tasks
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_Task'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_tasks_v3_TaskCreateV3'
+  /api/tasks/v3/{task_id}:
+    get:
+      operationId: get
+      summary: Get task
+      tags:
+      - Tasks
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_TaskId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_Task'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update task
+      tags:
+      - Tasks
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_commons_TaskId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_tasks_v3_Task'
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - TaskUpdatedToDeprecatedStatusError
+                  content:
+                    $ref: '#/components/schemas/type_tasks_v3_TaskUpdatedToDeprecatedStatusErrorType'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_tasks_v3_TaskUpdateV3'
+components:
+  schemas:
+    type_pipeline-commons_ConfigurableRuleId:
+      type: string
+      format: uuid
+      title: ConfigurableRuleId
+    type_commons_TaskId:
+      type: string
+      format: uuid
+      title: TaskId
+    type_tasks_v3_TaskPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_Task'
+      required:
+      - items
+      title: TaskPage
+    type_tasks_commons_TaskType:
+      type: string
+      enum:
+      - CUSTOMER_DATA_REQUEST
+      - CLAIM_SUBMISSION_RUN_VALIDATIONS_FAILURE
+      - CLAIM_SUBMISSION_SUBMIT_CLAIM_FAILURE
+      - CLAIM_SUBMISSION_TRANSFORM_FAILURE
+      - CODE_CLAIM
+      - CODE_CLAIM_REVIEW
+      - ELIGIBILITY
+      - CLAIM_FOLLOW_UP
+      - REJECTION_RESOLUTION
+      - PAYER_CONFIGURATION_ERROR
+      - DENIAL_RESOLUTION
+      - MISSING_ENROLLMENT
+      - CHARGE_CAPTURE_UPDATE
+      title: TaskType
+    type_tasks_v3_TaskNote:
+      type: object
+      properties:
+        task_note_id:
+          $ref: '#/components/schemas/type_commons_TaskNoteId'
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        author_name:
+          type: string
+        author_organization_name:
+          type: string
+      required:
+      - task_note_id
+      - text
+      - created_at
+      - author_name
+      - author_organization_name
+      title: TaskNote
+    type_commons_WorkQueueId:
+      type: string
+      title: WorkQueueId
+    type_tasks_v3_TaskActionType:
+      type: string
+      enum:
+      - close_task
+      - close_task_and_reprocess
+      title: TaskActionType
+    type_tasks_v3_TaskUpdatedToDeprecatedStatusErrorType:
+      type: object
+      properties:
+        deprecated_status:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+      title: TaskUpdatedToDeprecatedStatusErrorType
+    type_tasks_v3_TaskActionExecutionMethod:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - close_task
+            description: 'Discriminator value: close_task'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: TaskActionExecutionMethod
+    type_tasks_commons_TaskStatus:
+      type: string
+      enum:
+      - finished
+      - addressed_by_provider_group
+      - sent_to_provider_group
+      - open
+      - blocked
+      - waiting_for_review
+      - in_progress
+      title: TaskStatus
+    type_commons_TaskNoteId:
+      type: string
+      format: uuid
+      title: TaskNoteId
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_tasks_v3_TaskAction:
+      type: object
+      properties:
+        display_name:
+          type: string
+        execution_method:
+          $ref: '#/components/schemas/type_tasks_v3_TaskActionExecutionMethod'
+        type:
+          $ref: '#/components/schemas/type_tasks_v3_TaskActionType'
+      required:
+      - display_name
+      - execution_method
+      - type
+      title: TaskAction
+    type_tasks_v3_TaskActions:
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_TaskAction'
+      required:
+      - actions
+      title: TaskActions
+    type_tasks_v3_TaskSortOptions:
+      type: string
+      enum:
+      - updated_at:asc
+      - updated_at:desc
+      - patient_name:asc
+      - patient_name:desc
+      - patient_external_id:asc
+      - patient_external_id:desc
+      - payer_name:asc
+      - payer_name:desc
+      - payer_id:asc
+      - payer_id:desc
+      - status:asc
+      - status:desc
+      - task_type:asc
+      - task_type:desc
+      - category:asc
+      - category:desc
+      - agg_updated_at:asc
+      - agg_updated_at:desc
+      - date_of_service:asc
+      - date_of_service:desc
+      - blocks_claim_submission:asc
+      - blocks_claim_submission:desc
+      title: TaskSortOptions
+    type_pipeline-commons_RuleId:
+      type: string
+      format: uuid
+      title: RuleId
+    type_tasks_v3_TaskCreateV3:
+      type: object
+      properties:
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        task_type:
+          $ref: '#/components/schemas/type_tasks_commons_TaskType'
+        description:
+          type: string
+        blocks_claim_submission:
+          type: boolean
+        assignee_user_id:
+          $ref: '#/components/schemas/type_commons_UserId'
+        category:
+          $ref: '#/components/schemas/type_tasks_commons_TaskCategory'
+        work_queue_id:
+          $ref: '#/components/schemas/type_commons_WorkQueueId'
+      required:
+      - encounter_id
+      - task_type
+      - description
+      - work_queue_id
+      title: TaskCreateV3
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_tasks_v3_TaskUpdateV3:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+        assignee_user_id:
+          $ref: '#/components/schemas/type_commons_UserId'
+        blocks_claim_submission:
+          type: boolean
+      title: TaskUpdateV3
+    type_tasks_commons_TaskCategory:
+      type: string
+      enum:
+      - other
+      - provider_credentialing
+      - authorization_required
+      - inactive_coverage
+      - unknown_eligibility_or_patient_not_found
+      - incorrect_member_id
+      - documentation_addendum_request
+      - coordination_of_benefits
+      - missing_or_incorrect_gender
+      - incorrect_date_of_birth
+      - incorrect_payer
+      - incorrect_name
+      - invalid_diagnosis_code
+      - non_covered_diagnosis_codes
+      - information_requested_from_patient
+      - incorrect_rendering_provider_info
+      - missing_or_incorrect_modifier
+      - coding_frequency_error
+      - incorrect_patient_address
+      - multiple_em_claims
+      - missing_or_incorrect_charge_amount
+      - medical_records_request
+      - provider_enrollment_or_contracting
+      - missing_or_incorrect_group_number
+      - missing_diagnosis_codes
+      - missing_patient_authorization
+      - incorrect_billing_provider_info
+      - incorrect_procedure_code
+      - incorrect_quantity
+      - incorrect_place_of_service_code
+      - incorrect_service_facility_info
+      - incorrect_date_of_service
+      - missing_or_incorrect_ndc
+      - patient_collections
+      - submit_to_secondary
+      - transient_server_error
+      - missing_remittance_enrollment
+      - missing_claims_enrollment
+      - held_by_customer
+      - pending_manual_remit_posting
+      - incorrect_referring_provider_info
+      - payer_configuration_error
+      - downcoding_review
+      title: TaskCategory
+    type_tasks_v3_Task:
+      type: object
+      properties:
+        task_id:
+          $ref: '#/components/schemas/type_commons_TaskId'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        task_type:
+          $ref: '#/components/schemas/type_tasks_commons_TaskType'
+        description:
+          type: string
+        blocks_claim_submission:
+          type: boolean
+        external_id:
+          type: string
+        patient_name:
+          type: string
+        patient_external_id:
+          type: string
+        payer_name:
+          type: string
+        payer_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/type_tasks_commons_TaskStatus'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_TaskNote'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+          description: The time of most recent update to the task only
+        agg_updated_at:
+          type: string
+          format: date-time
+          description: The time of most recent update to the task or any of its notes
+        date_of_service:
+          type: string
+          format: date
+        assignments:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_tasks_v3_TaskAssignment'
+        category:
+          $ref: '#/components/schemas/type_tasks_commons_TaskCategory'
+        configurable_rule_id:
+          $ref: '#/components/schemas/type_pipeline-commons_ConfigurableRuleId'
+        persisted_rule_id:
+          $ref: '#/components/schemas/type_pipeline-commons_RuleId'
+      required:
+      - task_id
+      - encounter_id
+      - task_type
+      - description
+      - blocks_claim_submission
+      - external_id
+      - patient_name
+      - patient_external_id
+      - status
+      - notes
+      - created_at
+      - updated_at
+      - agg_updated_at
+      - date_of_service
+      - assignments
+      title: Task
+    type_commons_UserId:
+      type: string
+      format: uuid
+      title: UserId
+    type_tasks_v3_TaskAssignment:
+      type: object
+      properties:
+        task_assignment_id:
+          $ref: '#/components/schemas/type_commons_TaskAssignmentId'
+        assignee_user_id:
+          $ref: '#/components/schemas/type_commons_UserId'
+      required:
+      - task_assignment_id
+      title: TaskAssignment
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_TaskAssignmentId:
+      type: string
+      format: uuid
+      title: TaskAssignmentId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

@@ -1,0 +1,375 @@
+openapi: 3.2.0
+info:
+  title: Reference Billing Notes API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Billing Notes
+paths:
+  /api/billing_notes/v2:
+    post:
+      operationId: create
+      summary: Create billing note
+      tags:
+      - Billing Notes
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_billing-notes_v2_BillingNote'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Empty string not allowed.
+                encounter_id:
+                  $ref: '#/components/schemas/type_commons_EncounterId'
+              required:
+              - text
+              - encounter_id
+  /api/billing_notes/v2/{billing_note_id}:
+    delete:
+      operationId: delete
+      summary: Delete billing note
+      tags:
+      - Billing Notes
+      parameters:
+      - name: billing_note_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - OrganizationNotAuthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_OrganizationNotAuthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+    patch:
+      operationId: update
+      summary: Update
+      tags:
+      - Billing Notes
+      parameters:
+      - name: billing_note_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_billing-notes_v2_BillingNote'
+        '400':
+          description: Error response with status 400
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - OrganizationNotAuthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_OrganizationNotAuthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '403':
+          description: Error response with status 403
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - UnauthorizedError
+                  content:
+                    $ref: '#/components/schemas/type_commons_UnauthorizedErrorMessage'
+                required:
+                - errorName
+                - content
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - EntityNotFoundError
+                  content:
+                    $ref: '#/components/schemas/type_commons_EntityNotFoundErrorMessage'
+                required:
+                - errorName
+                - content
+        '422':
+          description: Error response with status 422
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorName:
+                    type: string
+                    enum:
+                    - HttpRequestValidationsError
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/type_commons_RequestValidationError'
+                required:
+                - errorName
+                - content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Empty string not allowed.
+              required:
+              - text
+components:
+  schemas:
+    type_billing-notes_v2_BillingNoteId:
+      type: string
+      format: uuid
+      title: BillingNoteId
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_billing-notes_v2_BillingNote:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Empty string not allowed.
+        billing_note_id:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteId'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        created_at:
+          type: string
+          format: date-time
+          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+
+            For example, 2017-07-21T17:32:28Z.'
+        author_auth0_id:
+          type: string
+        author_name:
+          type: string
+        billing_note_type:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteType'
+        billing_note_metadata:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteMetadata'
+      required:
+      - text
+      - billing_note_id
+      - encounter_id
+      - created_at
+      title: BillingNote
+    type_billing-notes_v2_BillingNoteMetadata:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - queue_added
+            description: 'Discriminator value: queue_added'
+          queue_id:
+            type: string
+          queue_name:
+            type: string
+        required:
+        - type
+        - queue_id
+        - queue_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - queue_moved
+            description: 'Discriminator value: queue_moved'
+          from_queue_id:
+            type: string
+          from_queue_name:
+            type: string
+          to_queue_id:
+            type: string
+          to_queue_name:
+            type: string
+        required:
+        - type
+        - from_queue_id
+        - from_queue_name
+        - to_queue_id
+        - to_queue_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - task_created
+            description: 'Discriminator value: task_created'
+          task_id:
+            type: string
+            format: uuid
+          task_type:
+            type: string
+        required:
+        - type
+        - task_id
+        - task_type
+      discriminator:
+        propertyName: type
+      title: BillingNoteMetadata
+    type_billing-notes_v2_BillingNoteType:
+      type: string
+      enum:
+      - manual
+      - system
+      - queue_added
+      - queue_moved
+      - task_created
+      title: BillingNoteType
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_commons_OrganizationNotAuthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: OrganizationNotAuthorizedErrorMessage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication

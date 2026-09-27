@@ -1,0 +1,261 @@
+openapi: 3.2.0
+info:
+  title: Reference Tags API
+  version: 1.0.0
+servers:
+- url: https://pre-api.joincandidhealth.com
+  description: Production
+- url: https://pre-api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-pre-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-pre-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:4000
+  description: Local
+- url: https://api.joincandidhealth.com
+  description: Production
+- url: https://api-staging.joincandidhealth.com
+  description: Staging
+- url: https://sandbox-api.joincandidhealth.com
+  description: CandidSandbox
+- url: https://staging-api.joincandidhealth.com
+  description: CandidStaging
+- url: http://localhost:5050
+  description: Local
+tags:
+- name: Tags
+paths:
+  /tags/v1/{id}:
+    get:
+      operationId: get
+      summary: Get
+      description: Gets a tag by TagId.
+      tags:
+      - Tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_TagId'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_tags_v1_Tag'
+  /tags/v1:
+    get:
+      operationId: getAll
+      summary: Get All
+      description: Gets all tags. Defaults to page size of 1000.
+      tags:
+      - Tags
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_tags_v1_TagPage'
+    post:
+      operationId: create
+      summary: Create
+      description: Adds a new tag if it does not already exist, otherwise, returns the existing tag.
+      tags:
+      - Tags
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_tags_v1_Tag'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_tags_v1_MutableTag'
+  /tags/v1/{id}/{version}:
+    put:
+      operationId: update
+      summary: Update
+      description: Updates a tag. The path must contain the most recent version to prevent races.
+      tags:
+      - Tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_TagId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_pre-encounter_tags_v1_Tag'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_pre-encounter_tags_v1_MutableTag'
+    delete:
+      operationId: deactivate
+      summary: Deactivate
+      description: Sets a tag as deactivated. The path must contain the most recent version to prevent races.
+      tags:
+      - Tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_pre-encounter_common_TagId'
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+components:
+  schemas:
+    type_pre-encounter_common_TagId:
+      type: string
+      description: The unique identifier for a Tag.
+      title: TagId
+    type_pre-encounter_tags_v1_TagPage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_tags_v1_Tag'
+      required:
+      - total
+      - items
+      title: TagPage
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_tags_v1_MutableTag:
+      type: object
+      properties:
+        value:
+          type: string
+        description:
+          type: string
+        alert:
+          type: boolean
+      required:
+      - value
+      description: An object representing a Tag.
+      title: MutableTag
+    type_pre-encounter_common_PageToken:
+      type: string
+      description: A token that can be used to retrieve the next or previous page of results
+      title: PageToken
+    type_pre-encounter_tags_v1_Tag:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
+          description: The organization that owns this object.
+        deactivated:
+          type: boolean
+          description: True if the object is deactivated.  Deactivated objects are not returned in search results but are returned in all other endpoints including scan.
+        version:
+          type: integer
+          description: The version of the object. Any update to any property of an object object will create a new version.
+        updated_at:
+          type: string
+          format: date-time
+        updating_user_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
+          description: The user ID of the user who last updated the object.
+        value:
+          type: string
+        description:
+          type: string
+        alert:
+          type: boolean
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_TagId'
+      required:
+      - organization_id
+      - deactivated
+      - version
+      - updated_at
+      - updating_user_id
+      - value
+      - id
+      description: A Tag object with immutable server-owned properties.
+      title: Tag
+  securitySchemes:
+    OAuthScheme:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 authentication
