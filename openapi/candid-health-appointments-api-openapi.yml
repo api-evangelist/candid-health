@@ -468,14 +468,406 @@ paths:
                   $ref: '#/components/schemas/type_pre-encounter_appointments_v1_Appointment'
 components:
   schemas:
-    type_pre-encounter_common_PatientId:
+    type_pre-encounter_common_Period:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+      title: Period
+    type_pre-encounter_patients_v1_Authorization:
+      type: object
+      properties:
+        payer_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
+        payer_name:
+          type: string
+        additional_payer_information:
+          $ref: '#/components/schemas/type_pre-encounter_common_AdditionalPayerInformation'
+        authorization_number:
+          type: string
+        cpt_code:
+          type: string
+        apply_for_all_cpt_codes:
+          type: boolean
+          description: If true, then the authorization will apply for all claims for the payer that fall in range the `period`.
+        no_prior_authorization_required:
+          type: boolean
+          description: If true, indicates that prior authorization is not required and prior authorization number will not be set on the claim for this authorization.
+        units:
+          $ref: '#/components/schemas/type_pre-encounter_patients_v1_AuthorizationUnit'
+        quantity:
+          type: integer
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        notes:
+          type: string
+        billing_provider_npi:
+          type: string
+          description: The NPI of the billing provider for which this authorization applies.
+        service_facility:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientServiceFacility'
+          description: When set, specifies the service facility for which this authorization applies.
+        dx_codes:
+          type: array
+          items:
+            type: string
+          description: When set, the authorization will only apply when at least one of these diagnosis codes is found on the claim/service lines (in addition to other criteria).
+      required:
+      - payer_id
+      - payer_name
+      - authorization_number
+      - cpt_code
+      - units
+      title: Authorization
+    type_pre-encounter_common_PayerId:
       type: string
-      description: The unique identifier for a Patient
-      title: PatientId
-    type_pre-encounter_common_CanonicalNonInsurancePayerId:
+      description: The unique identifier for a Payer in the database
+      title: PayerId
+    type_pre-encounter_patients_v1_ElectronicCommunicationConsent:
+      type: object
+      properties:
+        text_communication_consent:
+          type: boolean
+          description: Consent for text/SMS communication.
+        email_communication_consent:
+          type: boolean
+          description: Consent for email communication.
+      description: Granular consent for electronic communication channels.
+      title: ElectronicCommunicationConsent
+    type_pre-encounter_common_CanonicalNonInsurancePayerAssociation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalNonInsurancePayerId'
+        member_id:
+          type: string
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        clinical_trial_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_CanonicalClinicalTrialAssociation'
+          description: A patient cannot be associated with a given trial more than once
+      required:
+      - id
+      title: CanonicalNonInsurancePayerAssociation
+    type_pre-encounter_common_ExternalIdentifier:
+      type: object
+      properties:
+        value:
+          type: string
+        system:
+          type: string
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+      required:
+      - value
+      - system
+      description: An external identifier for a patient
+      title: ExternalIdentifier
+    type_pre-encounter_common_FilterQueryString:
       type: string
-      description: The unique identifier for a non-insurance payer configured in the Candid system
-      title: CanonicalNonInsurancePayerId
+      description: 'A serialized list of filters separated by commas indicating filters to apply.  Each filter is of the form ''path:operator:value''. Example: ''patient.mrn|eq|12345''.  Filters are separated by commas. Example: ''patient.mrn|eq|12345,appointment.startDate|gt|67890''. All filters are ANDed together.  Valid operators are ''eq'', ''gt'', ''lt'', ''contains'', ''ieq'', ''in''. ieq is a case-insensitive equality operator. in allows searching for values that match any item in a semicolon-separated list (e.g., ''patient.id|in|foo;bar;baz''). Path values are camelCase.'
+      title: FilterQueryString
+    type_pre-encounter_common_TagId:
+      type: string
+      description: The unique identifier for a Tag.
+      title: TagId
+    type_pre-encounter_coverages_v1_CoverageStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - CANCELLED
+      - DRAFT
+      - ENTERED_IN_ERROR
+      description: enum to represent the statuses defined at https://build.fhir.org/valueset-fm-status.html
+      title: CoverageStatus
+    type_pre-encounter_appointments_v1_Service:
+      type: object
+      properties:
+        universal_service_identifier:
+          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_UniversalServiceIdentifier'
+          description: Contains the code describing the activity type that is being scheduled.
+        start_timestamp:
+          type: string
+          format: date-time
+      title: Service
+    type_pre-encounter_common_Relationship:
+      type: string
+      enum:
+      - SELF
+      - SPOUSE
+      - CHILD
+      - COMMON_LAW_SPOUSE
+      - OTHER
+      title: Relationship
+    type_pre-encounter_patients_v1_FilingOrder:
+      type: object
+      properties:
+        coverages:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
+      required:
+      - coverages
+      description: The patient's active coverages, in order of primary, secondary, etc.
+      title: FilingOrder
+    type_pre-encounter_common_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_pre-encounter_patients_v1_CoveragesForRelatedCauses:
+      type: object
+      properties:
+        coverages:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
+      required:
+      - coverages
+      description: Additional coverages for the patient applicable to related causes such as Auto or Workers Comp
+      title: CoveragesForRelatedCauses
+    type_pre-encounter_lists_v1_SortFieldString:
+      type: string
+      description: 'The field to order by.  Valid values are either keys on the list item object or a special ordering "similar_name:<search_string>" (Ex: similar_name:John).  Similar name ordering uses trigrams to fuzzy match patient name to the search criteria.  Path names are camelCase.'
+      title: SortFieldString
+    type_pre-encounter_patients_v1_ReferralSource:
+      type: string
+      enum:
+      - HOSPITAL
+      - REFERRING_MD
+      - SELF
+      - OTHER
+      title: ReferralSource
+    type_pre-encounter_appointments_v1_UniversalServiceIdentifier:
+      type: string
+      enum:
+      - MD_Visit
+      - Treatment
+      - Tests
+      - Activity
+      title: UniversalServiceIdentifier
+    type_pre-encounter_common_HumanName:
+      type: object
+      properties:
+        family:
+          type: string
+        given:
+          type: array
+          items:
+            type: string
+        use:
+          $ref: '#/components/schemas/type_pre-encounter_common_NameUse'
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        suffix:
+          type: string
+      required:
+      - family
+      - given
+      - use
+      title: HumanName
+    type_pre-encounter_common_ExternalProvider:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
+        type:
+          $ref: '#/components/schemas/type_pre-encounter_common_ExternalProviderType'
+          description: Defaults to ATTENDING.
+        npi:
+          type: string
+        telecoms:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_ContactPoint'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_Address'
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        canonical_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalProviderId'
+        fax:
+          type: string
+        other_fax_numbers:
+          type: array
+          items:
+            type: string
+        emails:
+          type: array
+          items:
+            type: string
+        service_facilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_PatientServiceFacility'
+          description: Associated service facilities for this provider.
+      required:
+      - name
+      - telecoms
+      title: ExternalProvider
+    type_pre-encounter_appointments_v1_Visit:
+      type: object
+      properties:
+        patient_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
+        patient:
+          $ref: '#/components/schemas/type_pre-encounter_patients_v1_MutablePatientWithMrn'
+        start_time:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_AppointmentStatus'
+        primary_coverage_status:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageStatus'
+        secondary_coverage_status:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageStatus'
+        primary_payer_name:
+          type: string
+        primary_payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
+        secondary_payer_name:
+          type: string
+        secondary_payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
+      required:
+      - patient_id
+      - organization_id
+      - patient
+      - start_time
+      - status
+      description: A visit is a collection of appointments that occur on the same day.
+      title: Visit
+    type_pre-encounter_patients_v1_DoNotInvoiceReason:
+      type: string
+      enum:
+      - BANKRUPTCY
+      - DECEASED
+      - HARDSHIP
+      - OTHER
+      - COLLECTIONS
+      - BAD_ADDRESS
+      - PROFESSIONAL_COURTESY
+      title: DoNotInvoiceReason
+    type_pre-encounter_common_ContactPointUse:
+      type: string
+      enum:
+      - HOME
+      - WORK
+      - TEMP
+      - OLD
+      - MOBILE
+      title: ContactPointUse
+    type_pre-encounter_common_CanonicalClinicalTrialAssociation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalClinicalTrialId'
+        clinical_trial_arm:
+          type: string
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+      required:
+      - id
+      title: CanonicalClinicalTrialAssociation
+    type_pre-encounter_appointments_v1_NotReadyReason:
+      type: string
+      enum:
+      - INACTIVE_PRIMARY
+      - INACTIVE_SECONDARY
+      - MEDICARE_ADVANTAGE_CONVERSION
+      - MEDICAID_MANAGED_CONVERSION
+      - UNAVAILABLE_PRIMARY
+      - UNAVAILABLE_SECONDARY
+      - PENDING_PRIMARY
+      - PENDING_SECONDARY
+      - ELIGIBILITY_CHECK_FAILED_PRIMARY
+      - ELIGIBILITY_CHECK_FAILED_SECONDARY
+      - NEW_COMBO
+      - NO_COVERAGE
+      - ERROR
+      - MANUAL
+      description: The reason an appointment is NOT_READY. Only set when status is NOT_READY. All values except MANUAL are set by the automated eligibility check; MANUAL is set by staff via the API.
+      title: NotReadyReason
+    type_pre-encounter_common_AddressUse:
+      type: string
+      enum:
+      - HOME
+      - WORK
+      - TEMP
+      - OLD
+      - BILLING
+      title: AddressUse
+    type_pre-encounter_common_DisabilityStatus:
+      type: string
+      enum:
+      - DISABLED
+      - NON_DISABLED
+      title: DisabilityStatus
+    type_pre-encounter_common_Gender:
+      type: string
+      enum:
+      - MAN
+      - WOMAN
+      - NON_BINARY
+      - TWO_SPIRIT
+      - FEMALE_TO_MALE
+      - MALE_TO_FEMALE
+      - OTHER
+      - UNKNOWN
+      - REFUSED
+      title: Gender
+    type_pre-encounter_common_NameUse:
+      type: string
+      enum:
+      - USUAL
+      - OFFICIAL
+      - TEMP
+      - NICKNAME
+      - ANONYMOUS
+      - OLD
+      - MAIDEN
+      title: NameUse
+    type_pre-encounter_common_Race:
+      type: string
+      enum:
+      - AMERICAN_INDIAN_OR_ALASKA_NATIVE
+      - WHITE
+      - BLACK
+      - ASIAN
+      - NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER
+      - MIDDLE_EASTERN_OR_NORTH_AFRICAN
+      - OTHER
+      - UNKNOWN
+      - REFUSED
+      title: Race
+    type_pre-encounter_patients_v1_AuthorizationUnit:
+      type: string
+      enum:
+      - VISIT
+      - UNIT
+      title: AuthorizationUnit
+    type_pre-encounter_patients_v1_ReferralType:
+      type: string
+      enum:
+      - DIRECTED
+      - ROTATION
+      - OVERNIGHT
+      title: ReferralType
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
     type_pre-encounter_patients_v1_Referral:
       type: object
       properties:
@@ -503,155 +895,14 @@ components:
       - provider
       - referral_number
       title: Referral
-    type_pre-encounter_appointments_v1_AppointmentStatus:
+    type_pre-encounter_common_AppointmentId:
       type: string
-      enum:
-      - PENDING
-      - NOT_READY
-      - READY
-      - CHECKED_IN
-      title: AppointmentStatus
-    type_pre-encounter_appointments_v1_Appointment:
-      type: object
-      properties:
-        organization_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
-          description: The organization that owns this object.
-        deactivated:
-          type: boolean
-          description: True if the object is deactivated.  Deactivated objects are not returned in search results but are returned in all other endpoints including scan.
-        version:
-          type: integer
-          description: The version of the object. Any update to any property of an object object will create a new version.
-        updated_at:
-          type: string
-          format: date-time
-        updating_user_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
-          description: The user ID of the user who last updated the object.
-        patient_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
-          description: The Candid-defined patient identifier.
-        start_timestamp:
-          type: string
-          format: date-time
-        status:
-          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_AppointmentStatus'
-          description: Defaults to PENDING. If status is NOT_READY, work_queue must be set. If status is READY or CHECKED_IN, work_queue must be null. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
-        not_ready_reason:
-          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_NotReadyReason'
-          description: The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise. It is not recommended to change this value manually via API.
-        ready_source:
-          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_ReadySource'
-          description: The method that set the appointment status to READY. It is not recommended to change this value manually via API. Must only be set when the status is READY or CHECKED_IN, it is cleared otherwise.
-        service_duration:
-          type: integer
-          description: The requested length of time allotted for the appointment. The units are in minutes.
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_appointments_v1_Service'
-        placer_appointment_id:
-          type: string
-          description: ID for the appointment/order for the event.
-        attending_doctor:
-          $ref: '#/components/schemas/type_pre-encounter_common_ExternalProvider'
-          description: Attending physician information. The attending physician will be stored as the Current MD for the patient.
-        estimated_copay_cents:
-          type: integer
-        estimated_patient_responsibility_cents:
-          type: integer
-          description: The estimated amount the patient will be responsible for paying at the time of service. This does not include the copay.
-        patient_deposit_cents:
-          type: integer
-        appointment_details:
-          type: string
-        checked_in_timestamp:
-          type: string
-          format: date-time
-          description: The timestamp when the patient checked in for their appointment. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
-        notes:
-          type: string
-        location_resource_id:
-          type: string
-          description: 'Contains the coded identification of the location being scheduled. Components: <Identifier (ST)>^<Text (ST)>'
-        automated_eligibility_check_complete:
-          type: boolean
-          description: True if the automated eligibility check has been completed. It is not recommended to change this value manually via API. This refers explicitly to the automated eligibility check that occurs a specific number of days before the appointment.
-        work_queue:
-          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_AppointmentWorkQueue'
-          description: The work queue that the appointment belongs to. It is not recommended to change this value manually via API. If status is NOT_READY, work_queue must be set. If status is READY, work_queue must be null.
-        id:
-          $ref: '#/components/schemas/type_pre-encounter_common_AppointmentId'
-      required:
-      - organization_id
-      - deactivated
-      - version
-      - updated_at
-      - updating_user_id
-      - patient_id
-      - start_timestamp
-      - service_duration
-      - services
-      - id
-      description: An appointment object with immutable server-owned properties.
-      title: Appointment
-    type_pre-encounter_patients_v1_AuthorizationUnit:
+      description: The unique identifier for an Appointment.
+      title: AppointmentId
+    type_pre-encounter_common_PageToken:
       type: string
-      enum:
-      - VISIT
-      - UNIT
-      title: AuthorizationUnit
-    type_pre-encounter_patients_v1_Contact:
-      type: object
-      properties:
-        relationship:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_Relationship'
-        name:
-          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
-        telecoms:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_ContactPoint'
-        addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_Address'
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        hipaa_authorization:
-          type: boolean
-      required:
-      - relationship
-      - name
-      - telecoms
-      - addresses
-      title: Contact
-    type_pre-encounter_common_ExternalIdentifier:
-      type: object
-      properties:
-        value:
-          type: string
-        system:
-          type: string
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-      required:
-      - value
-      - system
-      description: An external identifier for a patient
-      title: ExternalIdentifier
-    type_pre-encounter_common_Relationship:
-      type: string
-      enum:
-      - SELF
-      - SPOUSE
-      - CHILD
-      - COMMON_LAW_SPOUSE
-      - OTHER
-      title: Relationship
+      description: A token that can be used to retrieve the next or previous page of results
+      title: PageToken
     type_pre-encounter_patients_v1_MutablePatientWithMrn:
       type: object
       properties:
@@ -813,124 +1064,10 @@ components:
       - filing_order
       - mrn
       title: MutablePatientWithMrn
-    type_pre-encounter_common_OrganizationId:
+    type_pre-encounter_common_CanonicalProviderId:
       type: string
-      description: The unique identifier for an Organization in the database
-      title: OrganizationId
-    type_pre-encounter_patients_v1_SpecializationCategory:
-      type: string
-      enum:
-      - BEHAVIORAL_HEALTH_THERAPY
-      - CARDIOLOGY
-      - DERMATOLOGY
-      - ENDOCRINOLOGY
-      - ENT
-      - GASTROENTEROLOGY
-      - GENERAL_SURGERY
-      - GENETICS
-      - HEMATOLOGY
-      - INFECTIOUS_DISEASE
-      - NEUROLOGY
-      - NUTRITIONAL_THERAPY
-      - OB_GYN
-      - ONCOLOGY
-      - OPHTHALMOLOGY
-      - ORTHOPEDICS
-      - PAIN_MANAGEMENT
-      - PEDIATRICS
-      - PHYSICAL_THERAPY
-      - PODIATRY
-      - PRIMARY_CARE
-      - PSYCHIATRY
-      - PULMONOLOGY
-      - RADIOLOGY
-      - RHEUMATOLOGY
-      - SCREENING
-      - UROLOGY
-      - OTHER
-      title: SpecializationCategory
-    type_pre-encounter_common_CanonicalClinicalTrialId:
-      type: string
-      description: The unique identifier for a clinical trial configured in the Candid system
-      title: CanonicalClinicalTrialId
-    type_pre-encounter_common_ExternalProviderType:
-      type: string
-      enum:
-      - PRIMARY
-      - REFERRING
-      - ATTENDING
-      title: ExternalProviderType
-    type_pre-encounter_common_ErrorBase4xx:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-      required:
-      - message
-      title: ErrorBase4xx
-    type_pre-encounter_appointments_v1_CountsResponse:
-      type: object
-      properties:
-        not_ready_reason_counts:
-          type: object
-          additionalProperties:
-            type: integer
-      title: CountsResponse
-    type_pre-encounter_lists_v1_SortFieldString:
-      type: string
-      description: 'The field to order by.  Valid values are either keys on the list item object or a special ordering "similar_name:<search_string>" (Ex: similar_name:John).  Similar name ordering uses trigrams to fuzzy match patient name to the search criteria.  Path names are camelCase.'
-      title: SortFieldString
-    type_pre-encounter_common_AppointmentId:
-      type: string
-      description: The unique identifier for an Appointment.
-      title: AppointmentId
-    type_pre-encounter_common_PayerId:
-      type: string
-      description: The unique identifier for a Payer in the database
-      title: PayerId
-    type_pre-encounter_common_ExternalProvider:
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
-        type:
-          $ref: '#/components/schemas/type_pre-encounter_common_ExternalProviderType'
-          description: Defaults to ATTENDING.
-        npi:
-          type: string
-        telecoms:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_ContactPoint'
-        addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_Address'
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        canonical_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalProviderId'
-        fax:
-          type: string
-        other_fax_numbers:
-          type: array
-          items:
-            type: string
-        emails:
-          type: array
-          items:
-            type: string
-        service_facilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_PatientServiceFacility'
-          description: Associated service facilities for this provider.
-      required:
-      - name
-      - telecoms
-      title: ExternalProvider
+      description: The unique identifier for a provider configured in the Candid system
+      title: CanonicalProviderId
     type_pre-encounter_common_ContactPoint:
       type: object
       properties:
@@ -944,12 +1081,26 @@ components:
       - value
       - use
       title: ContactPoint
-    type_pre-encounter_common_SortDirection:
+    type_pre-encounter_appointments_v1_AppointmentStatus:
       type: string
       enum:
-      - asc
-      - desc
-      title: SortDirection
+      - PENDING
+      - NOT_READY
+      - READY
+      - CHECKED_IN
+      title: AppointmentStatus
+    type_pre-encounter_patients_v1_ExternalProvenance:
+      type: object
+      properties:
+        external_id:
+          type: string
+        system_name:
+          type: string
+      required:
+      - external_id
+      - system_name
+      description: Information about the upstream system that owns this patient data.
+      title: ExternalProvenance
     type_pre-encounter_appointments_v1_ReadySource:
       type: string
       enum:
@@ -957,159 +1108,6 @@ components:
       - MACHINE
       description: Indicates how this appointment's status was marked as READY - MANUAL or MACHINE.
       title: ReadySource
-    type_pre-encounter_appointments_v1_NotReadyReason:
-      type: string
-      enum:
-      - INACTIVE_PRIMARY
-      - INACTIVE_SECONDARY
-      - MEDICARE_ADVANTAGE_CONVERSION
-      - MEDICAID_MANAGED_CONVERSION
-      - UNAVAILABLE_PRIMARY
-      - UNAVAILABLE_SECONDARY
-      - PENDING_PRIMARY
-      - PENDING_SECONDARY
-      - ELIGIBILITY_CHECK_FAILED_PRIMARY
-      - ELIGIBILITY_CHECK_FAILED_SECONDARY
-      - NEW_COMBO
-      - NO_COVERAGE
-      - ERROR
-      - MANUAL
-      description: The reason an appointment is NOT_READY. Only set when status is NOT_READY. All values except MANUAL are set by the automated eligibility check; MANUAL is set by staff via the API.
-      title: NotReadyReason
-    type_pre-encounter_patients_v1_FilingOrder:
-      type: object
-      properties:
-        coverages:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
-      required:
-      - coverages
-      description: The patient's active coverages, in order of primary, secondary, etc.
-      title: FilingOrder
-    type_pre-encounter_appointments_v1_UniversalServiceIdentifier:
-      type: string
-      enum:
-      - MD_Visit
-      - Treatment
-      - Tests
-      - Activity
-      title: UniversalServiceIdentifier
-    type_pre-encounter_common_AddressUse:
-      type: string
-      enum:
-      - HOME
-      - WORK
-      - TEMP
-      - OLD
-      - BILLING
-      title: AddressUse
-    type_pre-encounter_patients_v1_AdvancedDirective:
-      type: string
-      enum:
-      - NONE
-      - DURABLE_POWER_OF_ATTORNEY
-      - LIVING_WILL
-      - DO_NOT_RESUSCITATE
-      - STANDARD_PRECAUTIONS
-      - FALL_RISK
-      title: AdvancedDirective
-    type_pre-encounter_common_NameUse:
-      type: string
-      enum:
-      - USUAL
-      - OFFICIAL
-      - TEMP
-      - NICKNAME
-      - ANONYMOUS
-      - OLD
-      - MAIDEN
-      title: NameUse
-    type_pre-encounter_patients_v1_Guarantor:
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
-        telecom:
-          $ref: '#/components/schemas/type_pre-encounter_common_ContactPoint'
-        email:
-          type: string
-        birth_date:
-          type: string
-          format: date
-        address:
-          $ref: '#/components/schemas/type_pre-encounter_common_Address'
-      required:
-      - name
-      - address
-      title: Guarantor
-    type_pre-encounter_appointments_v1_Service:
-      type: object
-      properties:
-        universal_service_identifier:
-          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_UniversalServiceIdentifier'
-          description: Contains the code describing the activity type that is being scheduled.
-        start_timestamp:
-          type: string
-          format: date-time
-      title: Service
-    type_pre-encounter_common_ContactPointUse:
-      type: string
-      enum:
-      - HOME
-      - WORK
-      - TEMP
-      - OLD
-      - MOBILE
-      title: ContactPointUse
-    type_pre-encounter_common_Gender:
-      type: string
-      enum:
-      - MAN
-      - WOMAN
-      - NON_BINARY
-      - TWO_SPIRIT
-      - FEMALE_TO_MALE
-      - MALE_TO_FEMALE
-      - OTHER
-      - UNKNOWN
-      - REFUSED
-      title: Gender
-    type_pre-encounter_common_Sex:
-      type: string
-      enum:
-      - FEMALE
-      - MALE
-      - UNKNOWN
-      - REFUSED
-      title: Sex
-    type_pre-encounter_patients_v1_OriginationDetail:
-      type: object
-      properties:
-        referral_source:
-          $ref: '#/components/schemas/type_pre-encounter_patients_v1_ReferralSource'
-        referring_provider:
-          $ref: '#/components/schemas/type_pre-encounter_common_ExternalProvider'
-        specialization_categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_patients_v1_SpecializationCategory'
-        referral_type:
-          $ref: '#/components/schemas/type_pre-encounter_patients_v1_ReferralType'
-      required:
-      - referral_source
-      title: OriginationDetail
-    type_pre-encounter_patients_v1_ElectronicCommunicationConsent:
-      type: object
-      properties:
-        text_communication_consent:
-          type: boolean
-          description: Consent for text/SMS communication.
-        email_communication_consent:
-          type: boolean
-          description: Consent for email communication.
-      description: Granular consent for electronic communication channels.
-      title: ElectronicCommunicationConsent
     type_pre-encounter_patients_v1_ReferralUnit:
       type: string
       enum:
@@ -1120,72 +1118,6 @@ components:
       type: string
       description: The unique identifier for a service facility configured in the Candid system
       title: CanonicalServiceFacilityId
-    type_pre-encounter_patients_v1_InferredPatientMetadata:
-      type: object
-      properties:
-        inferred_encounter_id:
-          type: string
-        inferred_encounter_latest_date_of_service:
-          type: string
-          format: date
-      required:
-      - inferred_encounter_id
-      - inferred_encounter_latest_date_of_service
-      title: InferredPatientMetadata
-    type_pre-encounter_common_Race:
-      type: string
-      enum:
-      - AMERICAN_INDIAN_OR_ALASKA_NATIVE
-      - WHITE
-      - BLACK
-      - ASIAN
-      - NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER
-      - MIDDLE_EASTERN_OR_NORTH_AFRICAN
-      - OTHER
-      - UNKNOWN
-      - REFUSED
-      title: Race
-    type_pre-encounter_common_CanonicalProviderId:
-      type: string
-      description: The unique identifier for a provider configured in the Candid system
-      title: CanonicalProviderId
-    type_pre-encounter_appointments_v1_VisitsPage:
-      type: object
-      properties:
-        next_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        prev_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        total:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_appointments_v1_Visit'
-      required:
-      - total
-      - items
-      title: VisitsPage
-    type_pre-encounter_common_CanonicalClinicalTrialAssociation:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalClinicalTrialId'
-        clinical_trial_arm:
-          type: string
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-      required:
-      - id
-      title: CanonicalClinicalTrialAssociation
-    type_pre-encounter_common_NoteId:
-      type: string
-      description: The unique identifier for a Note.
-      title: NoteId
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
     type_pre-encounter_common_AdditionalPayerInformation:
       type: object
       properties:
@@ -1198,223 +1130,33 @@ components:
         availity_remittance_payer_id:
           type: string
       title: AdditionalPayerInformation
-    type_pre-encounter_patients_v1_Authorization:
+    type_pre-encounter_patients_v1_Contact:
       type: object
       properties:
-        payer_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
-        payer_name:
-          type: string
-        additional_payer_information:
-          $ref: '#/components/schemas/type_pre-encounter_common_AdditionalPayerInformation'
-        authorization_number:
-          type: string
-        cpt_code:
-          type: string
-        apply_for_all_cpt_codes:
-          type: boolean
-          description: If true, then the authorization will apply for all claims for the payer that fall in range the `period`.
-        no_prior_authorization_required:
-          type: boolean
-          description: If true, indicates that prior authorization is not required and prior authorization number will not be set on the claim for this authorization.
-        units:
-          $ref: '#/components/schemas/type_pre-encounter_patients_v1_AuthorizationUnit'
-        quantity:
-          type: integer
+        relationship:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_Relationship'
+        name:
+          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
+        telecoms:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_ContactPoint'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_Address'
         period:
           $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        notes:
-          type: string
-        billing_provider_npi:
-          type: string
-          description: The NPI of the billing provider for which this authorization applies.
-        service_facility:
-          $ref: '#/components/schemas/type_pre-encounter_common_PatientServiceFacility'
-          description: When set, specifies the service facility for which this authorization applies.
-        dx_codes:
-          type: array
-          items:
-            type: string
-          description: When set, the authorization will only apply when at least one of these diagnosis codes is found on the claim/service lines (in addition to other criteria).
+        hipaa_authorization:
+          type: boolean
       required:
-      - payer_id
-      - payer_name
-      - authorization_number
-      - cpt_code
-      - units
-      title: Authorization
-    type_pre-encounter_patients_v1_ReferralSource:
-      type: string
-      enum:
-      - HOSPITAL
-      - REFERRING_MD
-      - SELF
-      - OTHER
-      title: ReferralSource
-    type_pre-encounter_common_DisabilityStatus:
-      type: string
-      enum:
-      - DISABLED
-      - NON_DISABLED
-      title: DisabilityStatus
-    type_pre-encounter_coverages_v1_CoverageStatus:
-      type: string
-      enum:
-      - ACTIVE
-      - CANCELLED
-      - DRAFT
-      - ENTERED_IN_ERROR
-      description: enum to represent the statuses defined at https://build.fhir.org/valueset-fm-status.html
-      title: CoverageStatus
-    type_pre-encounter_appointments_v1_AppointmentWorkQueue:
-      type: string
-      enum:
-      - EMERGENT_ISSUE
-      - NEW_PATIENT
-      - RETURNING_PATIENT
-      - MANUAL_ESCALATION
-      title: AppointmentWorkQueue
-    type_pre-encounter_common_SexualOrientation:
-      type: string
-      enum:
-      - HETEROSEXUAL
-      - HOMOSEXUAL
-      - BISEXUAL
-      - TWO_SPIRIT
-      - OTHER
-      - UNKNOWN
-      - REFUSED
-      title: SexualOrientation
-    type_pre-encounter_common_Ethnicity:
-      type: string
-      enum:
-      - HISPANIC_OR_LATINO
-      - NOT_HISPANIC_OR_LATINO
-      - UNKNOWN
-      - REFUSED
-      title: Ethnicity
-    type_pre-encounter_patients_v1_MaritalStatus:
-      type: string
-      enum:
-      - ANNULLED
-      - DIVORCED
-      - INTERLOCUTORY
-      - SEPARATED
-      - MARRIED
-      - COMMON_LAW
-      - POLYGAMOUS
-      - DOMESTIC_PARTNER
-      - UNMARRIED
-      - NEVER_MARRIED
-      - WIDOWED
-      - UNKNOWN
-      title: MaritalStatus
-    type_pre-encounter_common_TagId:
-      type: string
-      description: The unique identifier for a Tag.
-      title: TagId
-    type_pre-encounter_common_CanonicalNonInsurancePayerAssociation:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalNonInsurancePayerId'
-        member_id:
-          type: string
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        clinical_trial_info:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_CanonicalClinicalTrialAssociation'
-          description: A patient cannot be associated with a given trial more than once
-      required:
-      - id
-      title: CanonicalNonInsurancePayerAssociation
-    type_pre-encounter_patients_v1_ReferralType:
-      type: string
-      enum:
-      - DIRECTED
-      - ROTATION
-      - OVERNIGHT
-      title: ReferralType
-    type_pre-encounter_appointments_v1_Visit:
-      type: object
-      properties:
-        patient_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
-        organization_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
-        patient:
-          $ref: '#/components/schemas/type_pre-encounter_patients_v1_MutablePatientWithMrn'
-        start_time:
-          type: string
-          format: date-time
-        status:
-          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_AppointmentStatus'
-        primary_coverage_status:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageStatus'
-        secondary_coverage_status:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageStatus'
-        primary_payer_name:
-          type: string
-        primary_payer_plan_group_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
-        secondary_payer_name:
-          type: string
-        secondary_payer_plan_group_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
-      required:
-      - patient_id
-      - organization_id
-      - patient
-      - start_time
-      - status
-      description: A visit is a collection of appointments that occur on the same day.
-      title: Visit
-    type_pre-encounter_common_PayerPlanGroupId:
-      type: string
-      format: uuid
-      description: The unique identifier for a PayerPlanGroup in the database
-      title: PayerPlanGroupId
-    type_pre-encounter_common_PatientServiceFacility:
-      type: object
-      properties:
-        service_facility_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalServiceFacilityId'
-      required:
-      - service_facility_id
-      description: Represents a canonical service facility attached to a patient or patient dependent object
-      title: PatientServiceFacility
-    type_pre-encounter_patients_v1_DoNotInvoiceReason:
-      type: string
-      enum:
-      - BANKRUPTCY
-      - DECEASED
-      - HARDSHIP
-      - OTHER
-      - COLLECTIONS
-      - BAD_ADDRESS
-      - PROFESSIONAL_COURTESY
-      title: DoNotInvoiceReason
-    type_pre-encounter_common_FilterQueryString:
-      type: string
-      description: 'A serialized list of filters separated by commas indicating filters to apply.  Each filter is of the form ''path:operator:value''. Example: ''patient.mrn|eq|12345''.  Filters are separated by commas. Example: ''patient.mrn|eq|12345,appointment.startDate|gt|67890''. All filters are ANDed together.  Valid operators are ''eq'', ''gt'', ''lt'', ''contains'', ''ieq'', ''in''. ieq is a case-insensitive equality operator. in allows searching for values that match any item in a semicolon-separated list (e.g., ''patient.id|in|foo;bar;baz''). Path values are camelCase.'
-      title: FilterQueryString
-    type_pre-encounter_common_PageToken:
-      type: string
-      description: A token that can be used to retrieve the next or previous page of results
-      title: PageToken
-    type_pre-encounter_patients_v1_CoveragesForRelatedCauses:
-      type: object
-      properties:
-        coverages:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
-      required:
-      - coverages
-      description: Additional coverages for the patient applicable to related causes such as Auto or Workers Comp
-      title: CoveragesForRelatedCauses
+      - relationship
+      - name
+      - telecoms
+      - addresses
+      title: Contact
     type_pre-encounter_appointments_v1_MutableAppointment:
       type: object
       properties:
@@ -1477,53 +1219,157 @@ components:
       - services
       description: An object representing a appointment.
       title: MutableAppointment
-    type_pre-encounter_common_HumanName:
+    type_pre-encounter_common_VersionConflictErrorBody:
       type: object
       properties:
-        family:
+        message:
           type: string
-        given:
+        data:
+          description: Any type
+        latest_version:
+          type: integer
+      required:
+      - message
+      title: VersionConflictErrorBody
+    type_pre-encounter_appointments_v1_VisitsPage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
           type: array
           items:
-            type: string
-        use:
-          $ref: '#/components/schemas/type_pre-encounter_common_NameUse'
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        suffix:
-          type: string
+            $ref: '#/components/schemas/type_pre-encounter_appointments_v1_Visit'
       required:
-      - family
-      - given
-      - use
-      title: HumanName
-    type_pre-encounter_patients_v1_ExternalProvenance:
-      type: object
-      properties:
-        external_id:
-          type: string
-        system_name:
-          type: string
-      required:
-      - external_id
-      - system_name
-      description: Information about the upstream system that owns this patient data.
-      title: ExternalProvenance
-    type_pre-encounter_common_Period:
-      type: object
-      properties:
-        start:
-          type: string
-          format: date
-        end:
-          type: string
-          format: date
-      title: Period
+      - total
+      - items
+      title: VisitsPage
+    type_pre-encounter_common_PayerPlanGroupId:
+      type: string
+      format: uuid
+      description: The unique identifier for a PayerPlanGroup in the database
+      title: PayerPlanGroupId
     type_pre-encounter_common_CoverageId:
       type: string
       format: uuid
       description: The unique identifier for a Coverage in the database
       title: CoverageId
+    type_pre-encounter_appointments_v1_Appointment:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_OrganizationId'
+          description: The organization that owns this object.
+        deactivated:
+          type: boolean
+          description: True if the object is deactivated.  Deactivated objects are not returned in search results but are returned in all other endpoints including scan.
+        version:
+          type: integer
+          description: The version of the object. Any update to any property of an object object will create a new version.
+        updated_at:
+          type: string
+          format: date-time
+        updating_user_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
+          description: The user ID of the user who last updated the object.
+        patient_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
+          description: The Candid-defined patient identifier.
+        start_timestamp:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_AppointmentStatus'
+          description: Defaults to PENDING. If status is NOT_READY, work_queue must be set. If status is READY or CHECKED_IN, work_queue must be null. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
+        not_ready_reason:
+          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_NotReadyReason'
+          description: The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise. It is not recommended to change this value manually via API.
+        ready_source:
+          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_ReadySource'
+          description: The method that set the appointment status to READY. It is not recommended to change this value manually via API. Must only be set when the status is READY or CHECKED_IN, it is cleared otherwise.
+        service_duration:
+          type: integer
+          description: The requested length of time allotted for the appointment. The units are in minutes.
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_appointments_v1_Service'
+        placer_appointment_id:
+          type: string
+          description: ID for the appointment/order for the event.
+        attending_doctor:
+          $ref: '#/components/schemas/type_pre-encounter_common_ExternalProvider'
+          description: Attending physician information. The attending physician will be stored as the Current MD for the patient.
+        estimated_copay_cents:
+          type: integer
+        estimated_patient_responsibility_cents:
+          type: integer
+          description: The estimated amount the patient will be responsible for paying at the time of service. This does not include the copay.
+        patient_deposit_cents:
+          type: integer
+        appointment_details:
+          type: string
+        checked_in_timestamp:
+          type: string
+          format: date-time
+          description: The timestamp when the patient checked in for their appointment. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
+        notes:
+          type: string
+        location_resource_id:
+          type: string
+          description: 'Contains the coded identification of the location being scheduled. Components: <Identifier (ST)>^<Text (ST)>'
+        automated_eligibility_check_complete:
+          type: boolean
+          description: True if the automated eligibility check has been completed. It is not recommended to change this value manually via API. This refers explicitly to the automated eligibility check that occurs a specific number of days before the appointment.
+        work_queue:
+          $ref: '#/components/schemas/type_pre-encounter_appointments_v1_AppointmentWorkQueue'
+          description: The work queue that the appointment belongs to. It is not recommended to change this value manually via API. If status is NOT_READY, work_queue must be set. If status is READY, work_queue must be null.
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_AppointmentId'
+      required:
+      - organization_id
+      - deactivated
+      - version
+      - updated_at
+      - updating_user_id
+      - patient_id
+      - start_timestamp
+      - service_duration
+      - services
+      - id
+      description: An appointment object with immutable server-owned properties.
+      title: Appointment
+    type_pre-encounter_common_ExternalProviderType:
+      type: string
+      enum:
+      - PRIMARY
+      - REFERRING
+      - ATTENDING
+      title: ExternalProviderType
+    type_pre-encounter_common_NoteId:
+      type: string
+      description: The unique identifier for a Note.
+      title: NoteId
+    type_pre-encounter_appointments_v1_AppointmentWorkQueue:
+      type: string
+      enum:
+      - EMERGENT_ISSUE
+      - NEW_PATIENT
+      - RETURNING_PATIENT
+      - MANUAL_ESCALATION
+      title: AppointmentWorkQueue
+    type_pre-encounter_appointments_v1_CountsResponse:
+      type: object
+      properties:
+        not_ready_reason_counts:
+          type: object
+          additionalProperties:
+            type: integer
+      title: CountsResponse
     type_pre-encounter_common_Address:
       type: object
       properties:
@@ -1553,18 +1399,172 @@ components:
       - postal_code
       - country
       title: Address
-    type_pre-encounter_common_VersionConflictErrorBody:
+    type_pre-encounter_common_SexualOrientation:
+      type: string
+      enum:
+      - HETEROSEXUAL
+      - HOMOSEXUAL
+      - BISEXUAL
+      - TWO_SPIRIT
+      - OTHER
+      - UNKNOWN
+      - REFUSED
+      title: SexualOrientation
+    type_pre-encounter_common_CanonicalNonInsurancePayerId:
+      type: string
+      description: The unique identifier for a non-insurance payer configured in the Candid system
+      title: CanonicalNonInsurancePayerId
+    type_pre-encounter_common_ErrorBase4xx:
       type: object
       properties:
         message:
           type: string
         data:
           description: Any type
-        latest_version:
-          type: integer
       required:
       - message
-      title: VersionConflictErrorBody
+      title: ErrorBase4xx
+    type_pre-encounter_patients_v1_Guarantor:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
+        telecom:
+          $ref: '#/components/schemas/type_pre-encounter_common_ContactPoint'
+        email:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_common_Address'
+      required:
+      - name
+      - address
+      title: Guarantor
+    type_pre-encounter_patients_v1_InferredPatientMetadata:
+      type: object
+      properties:
+        inferred_encounter_id:
+          type: string
+        inferred_encounter_latest_date_of_service:
+          type: string
+          format: date
+      required:
+      - inferred_encounter_id
+      - inferred_encounter_latest_date_of_service
+      title: InferredPatientMetadata
+    type_pre-encounter_patients_v1_OriginationDetail:
+      type: object
+      properties:
+        referral_source:
+          $ref: '#/components/schemas/type_pre-encounter_patients_v1_ReferralSource'
+        referring_provider:
+          $ref: '#/components/schemas/type_pre-encounter_common_ExternalProvider'
+        specialization_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_patients_v1_SpecializationCategory'
+        referral_type:
+          $ref: '#/components/schemas/type_pre-encounter_patients_v1_ReferralType'
+      required:
+      - referral_source
+      title: OriginationDetail
+    type_pre-encounter_patients_v1_SpecializationCategory:
+      type: string
+      enum:
+      - BEHAVIORAL_HEALTH_THERAPY
+      - CARDIOLOGY
+      - DERMATOLOGY
+      - ENDOCRINOLOGY
+      - ENT
+      - GASTROENTEROLOGY
+      - GENERAL_SURGERY
+      - GENETICS
+      - HEMATOLOGY
+      - INFECTIOUS_DISEASE
+      - NEUROLOGY
+      - NUTRITIONAL_THERAPY
+      - OB_GYN
+      - ONCOLOGY
+      - OPHTHALMOLOGY
+      - ORTHOPEDICS
+      - PAIN_MANAGEMENT
+      - PEDIATRICS
+      - PHYSICAL_THERAPY
+      - PODIATRY
+      - PRIMARY_CARE
+      - PSYCHIATRY
+      - PULMONOLOGY
+      - RADIOLOGY
+      - RHEUMATOLOGY
+      - SCREENING
+      - UROLOGY
+      - OTHER
+      title: SpecializationCategory
+    type_pre-encounter_common_Sex:
+      type: string
+      enum:
+      - FEMALE
+      - MALE
+      - UNKNOWN
+      - REFUSED
+      title: Sex
+    type_pre-encounter_common_CanonicalClinicalTrialId:
+      type: string
+      description: The unique identifier for a clinical trial configured in the Candid system
+      title: CanonicalClinicalTrialId
+    type_pre-encounter_common_PatientId:
+      type: string
+      description: The unique identifier for a Patient
+      title: PatientId
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_common_Ethnicity:
+      type: string
+      enum:
+      - HISPANIC_OR_LATINO
+      - NOT_HISPANIC_OR_LATINO
+      - UNKNOWN
+      - REFUSED
+      title: Ethnicity
+    type_pre-encounter_common_PatientServiceFacility:
+      type: object
+      properties:
+        service_facility_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_CanonicalServiceFacilityId'
+      required:
+      - service_facility_id
+      description: Represents a canonical service facility attached to a patient or patient dependent object
+      title: PatientServiceFacility
+    type_pre-encounter_patients_v1_AdvancedDirective:
+      type: string
+      enum:
+      - NONE
+      - DURABLE_POWER_OF_ATTORNEY
+      - LIVING_WILL
+      - DO_NOT_RESUSCITATE
+      - STANDARD_PRECAUTIONS
+      - FALL_RISK
+      title: AdvancedDirective
+    type_pre-encounter_patients_v1_MaritalStatus:
+      type: string
+      enum:
+      - ANNULLED
+      - DIVORCED
+      - INTERLOCUTORY
+      - SEPARATED
+      - MARRIED
+      - COMMON_LAW
+      - POLYGAMOUS
+      - DOMESTIC_PARTNER
+      - UNMARRIED
+      - NEVER_MARRIED
+      - WIDOWED
+      - UNKNOWN
+      title: MaritalStatus
   securitySchemes:
     OAuthScheme:
       type: http

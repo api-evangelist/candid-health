@@ -437,6 +437,34 @@ paths:
                 - content
 components:
   schemas:
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_non-insurance-payers_v1_NonInsurancePayerSortField:
+      type: string
+      enum:
+      - NAME
+      - CATEGORY
+      - ENABLED
+      - UPDATED_AT
+      title: NonInsurancePayerSortField
+    type_non-insurance-payers_v1_NonInsurancePayerUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Max 50 characters allowed
+        description:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate'
+        category:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate'
+        address:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate'
+      title: NonInsurancePayerUpdateRequest
     type_clinical-trials_v1_MutableClinicalTrial:
       type: object
       properties:
@@ -451,7 +479,7 @@ components:
       - name
       - clinical_trial_number
       title: MutableClinicalTrial
-    type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate:
+    type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate:
       oneOf:
       - type: object
         properties:
@@ -477,49 +505,60 @@ components:
         description: Max 255 characters allowed
       discriminator:
         propertyName: type
-      title: NonInsurancePayerCategoryUpdate
-    type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - remove
-            description: 'Discriminator value: remove'
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - set
-            description: 'Discriminator value: set'
-          value:
-            $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      title: NonInsurancePayerAddressUpdate
-    type_non-insurance-payers_v1_NonInsurancePayerUpdateRequest:
+      title: NonInsurancePayerDescriptionUpdate
+    type_commons_UnprocessableEntityErrorMessage:
       type: object
       properties:
-        name:
+        message:
           type: string
-          description: Max 50 characters allowed
-        description:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate'
-        category:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate'
-        address:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate'
-      title: NonInsurancePayerUpdateRequest
-    type_non-insurance-payers_v1_NonInsurancePayerId:
+      title: UnprocessableEntityErrorMessage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_non-insurance-payers_v1_NonInsurancePayerCategoriesPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            type: string
+      required:
+      - items
+      title: NonInsurancePayerCategoriesPage
+    type_commons_ClinicalTrialId:
       type: string
       format: uuid
-      title: NonInsurancePayerId
+      title: ClinicalTrialId
+    type_clinical-trials_v1_ClinicalTrialPhase:
+      type: string
+      enum:
+      - Phase 1
+      - Phase 2
+      - Phase 3
+      title: ClinicalTrialPhase
+    type_non-insurance-payers_v1_ToggleNonInsurancePayerEnablementRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
+      title: ToggleNonInsurancePayerEnablementRequest
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
     type_commons_State:
       type: string
       enum:
@@ -586,174 +625,6 @@ components:
       - WI
       - WY
       title: State
-    type_commons_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_commons_UnprocessableEntityErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnprocessableEntityErrorMessage
-    type_non-insurance-payers_v1_NonInsurancePayerCategoriesPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            type: string
-      required:
-      - items
-      title: NonInsurancePayerCategoriesPage
-    type_non-insurance-payers_v1_CreateNonInsurancePayerRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Max 50 characters allowed
-        description:
-          type: string
-          description: Max 255 characters allowed
-        category:
-          type: string
-          description: Max 255 characters allowed
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
-        clinical_trials:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_clinical-trials_v1_MutableClinicalTrial'
-          description: The same name cannot be used across several clinical trials
-      required:
-      - name
-      title: CreateNonInsurancePayerRequest
-    type_non-insurance-payers_v1_NonInsurancePayerPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayer'
-      required:
-      - items
-      title: NonInsurancePayerPage
-    type_non-insurance-payers_v1_ToggleNonInsurancePayerEnablementRequest:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-      required:
-      - enabled
-      title: ToggleNonInsurancePayerEnablementRequest
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_non-insurance-payers_v1_NonInsurancePayerSortField:
-      type: string
-      enum:
-      - NAME
-      - CATEGORY
-      - ENABLED
-      - UPDATED_AT
-      title: NonInsurancePayerSortField
-    type_commons_ClinicalTrialId:
-      type: string
-      format: uuid
-      title: ClinicalTrialId
-    type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - remove
-            description: 'Discriminator value: remove'
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - set
-            description: 'Discriminator value: set'
-          value:
-            type: string
-        required:
-        - type
-        - value
-        description: Max 255 characters allowed
-      discriminator:
-        propertyName: type
-      title: NonInsurancePayerDescriptionUpdate
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_commons_EntityConflictErrorMessage:
-      type: object
-      properties:
-        entity_name:
-          type: string
-      required:
-      - entity_name
-      title: EntityConflictErrorMessage
-    type_clinical-trials_v1_ClinicalTrialPhase:
-      type: string
-      enum:
-      - Phase 1
-      - Phase 2
-      - Phase 3
-      title: ClinicalTrialPhase
-    type_commons_StreetAddressShortZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      title: StreetAddressShortZip
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
     type_clinical-trials_v1_ClinicalTrial:
       type: object
       properties:
@@ -802,6 +673,135 @@ components:
       - enabled
       - clinical_trials
       title: NonInsurancePayer
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons_StreetAddressShortZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      title: StreetAddressShortZip
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_non-insurance-payers_v1_NonInsurancePayerId:
+      type: string
+      format: uuid
+      title: NonInsurancePayerId
+    type_non-insurance-payers_v1_NonInsurancePayerPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayer'
+      required:
+      - items
+      title: NonInsurancePayerPage
+    type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            type: string
+        required:
+        - type
+        - value
+        description: Max 255 characters allowed
+      discriminator:
+        propertyName: type
+      title: NonInsurancePayerCategoryUpdate
+    type_non-insurance-payers_v1_CreateNonInsurancePayerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Max 50 characters allowed
+        description:
+          type: string
+          description: Max 255 characters allowed
+        category:
+          type: string
+          description: Max 255 characters allowed
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+        clinical_trials:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_clinical-trials_v1_MutableClinicalTrial'
+          description: The same name cannot be used across several clinical trials
+      required:
+      - name
+      title: CreateNonInsurancePayerRequest
+    type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: NonInsurancePayerAddressUpdate
   securitySchemes:
     OAuthScheme:
       type: http

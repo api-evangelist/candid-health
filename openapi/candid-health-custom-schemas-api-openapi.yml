@@ -272,6 +272,56 @@ paths:
                   description: A list of typed entries to add to schema. Only additive modifications are permitted.
 components:
   schemas:
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons_SchemaId:
+      type: string
+      format: uuid
+      title: SchemaId
+    type_custom-schemas_v1_Schema:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+        name:
+          type: string
+        description:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
+      required:
+      - id
+      - name
+      - fields
+      title: Schema
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_custom-schemas_v1_SchemaGetMultiResponse:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
+      required:
+      - schemas
+      title: SchemaGetMultiResponse
     type_commons_Primitive:
       type: string
       enum:
@@ -293,16 +343,6 @@ components:
       required:
       - errors
       title: SchemaValidationFailure
-    type_custom-schemas_v1_SchemaGetMultiResponse:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
-      required:
-      - schemas
-      title: SchemaGetMultiResponse
     type_custom-schemas_v1_SchemaValidationError:
       oneOf:
       - type: object
@@ -338,20 +378,6 @@ components:
       discriminator:
         propertyName: type
       title: SchemaValidationError
-    type_commons_SchemaId:
-      type: string
-      format: uuid
-      title: SchemaId
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
     type_custom-schemas_v1_SchemaField:
       type: object
       properties:
@@ -363,32 +389,6 @@ components:
       - key
       - type
       title: SchemaField
-    type_custom-schemas_v1_Schema:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_commons_SchemaId'
-        name:
-          type: string
-        description:
-          type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
-      required:
-      - id
-      - name
-      - fields
-      title: Schema
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

@@ -424,6 +424,354 @@ paths:
                 - content
 components:
   schemas:
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_financials_RefundReason:
+      type: string
+      enum:
+      - OVERCHARGED
+      - ENTERED_IN_ERROR
+      - TRANSFER
+      title: RefundReason
+    type_commons_ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_insurance-refunds_v1_InsuranceRefund:
+      type: object
+      properties:
+        insurance_refund_id:
+          $ref: '#/components/schemas/type_insurance-refunds_v1_InsuranceRefundId'
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+        amount_cents:
+          type: integer
+        refund_timestamp:
+          type: string
+          format: date-time
+        refund_note:
+          type: string
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_financials_Allocation'
+        refund_reason:
+          $ref: '#/components/schemas/type_financials_RefundReason'
+      required:
+      - insurance_refund_id
+      - payer
+      - amount_cents
+      - allocations
+      title: InsuranceRefund
+    type_financials_RefundReasonUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            $ref: '#/components/schemas/type_financials_RefundReason'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: RefundReasonUpdate
+    type_insurance-refunds_v1_InsuranceRefundCreate:
+      type: object
+      properties:
+        payer_identifier:
+          $ref: '#/components/schemas/type_payers_v3_PayerIdentifier'
+        amount_cents:
+          type: integer
+        refund_timestamp:
+          type: string
+          format: date-time
+        refund_note:
+          type: string
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_financials_AllocationCreate'
+        refund_reason:
+          $ref: '#/components/schemas/type_financials_RefundReason'
+      required:
+      - payer_identifier
+      - amount_cents
+      - allocations
+      title: InsuranceRefundCreate
+    type_insurance-refunds_v1_InsuranceRefundSortField:
+      type: string
+      enum:
+      - amount_cents
+      - refund_timestamp
+      - refund_note
+      - refund_reason
+      title: InsuranceRefundSortField
+    type_financials_AllocationEarmarkType:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - date_of_service
+            description: 'Discriminator value: date_of_service'
+          value:
+            $ref: '#/components/schemas/type_commons_Date'
+        required:
+        - type
+        - value
+        description: Earmark for auto-allocation to an encounter with this specific date of service
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - external_encounter_id
+            description: 'Discriminator value: external_encounter_id'
+          value:
+            $ref: '#/components/schemas/type_commons_EncounterExternalId'
+        required:
+        - type
+        - value
+        description: Earmark for auto-allocation to an encounter with this specific external ID (more specific than date of service)
+      discriminator:
+        propertyName: type
+      description: 'If enabled for your organization, defines how a patient prepayment allocation should be earmarked for future auto-allocation.
+
+        Earmarks hold the allocation until a matching encounter is created, then attempt to allocate to that encounter.
+
+        Only applicable for unattributed allocations.'
+      title: AllocationEarmarkType
+    type_financials_AllocationTarget:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - service_line
+            description: 'Discriminator value: service_line'
+          service_line_id:
+            $ref: '#/components/schemas/type_commons_ServiceLineId'
+          claim_id:
+            $ref: '#/components/schemas/type_commons_ClaimId'
+          encounter_id:
+            $ref: '#/components/schemas/type_commons_EncounterId'
+        required:
+        - type
+        - service_line_id
+        - claim_id
+        - encounter_id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - claim
+            description: 'Discriminator value: claim'
+          claim_id:
+            $ref: '#/components/schemas/type_commons_ClaimId'
+          encounter_id:
+            $ref: '#/components/schemas/type_commons_EncounterId'
+        required:
+        - type
+        - claim_id
+        - encounter_id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - billing_provider_id
+            description: 'Discriminator value: billing_provider_id'
+          billing_provider_id:
+            $ref: '#/components/schemas/type_commons_ProviderId'
+        required:
+        - type
+        - billing_provider_id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - appointment
+            description: 'Discriminator value: appointment'
+          appointment_id:
+            $ref: '#/components/schemas/type_commons_AppointmentId'
+          patient_external_id:
+            $ref: '#/components/schemas/type_commons_PatientExternalId'
+        required:
+        - type
+        - appointment_id
+        - patient_external_id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - unattributed
+            description: 'Discriminator value: unattributed'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      description: 'Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+
+        claim, billing provider, or is unallocated.'
+      title: AllocationTarget
+    type_payers_v3_PayerName:
+      type: string
+      title: PayerName
+    type_commons_EncounterExternalId:
+      type: string
+      title: EncounterExternalId
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_insurance-refunds_v1_InsuranceRefundsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_insurance-refunds_v1_InsuranceRefund'
+      required:
+      - items
+      title: InsuranceRefundsPage
+    type_financials_BalanceEarmark:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        target:
+          $ref: '#/components/schemas/type_financials_AllocationEarmarkType'
+          description: The target for this earmark (date of service or external encounter ID)
+        amount_earmarked_cents:
+          type: integer
+          description: The amount earmarked in cents for future allocation
+        created_by_allocation_id:
+          $ref: '#/components/schemas/type_commons_AllocationId'
+          description: The ID of the allocation that created this earmark
+      required:
+      - id
+      - target
+      description: 'Represents an active balance earmarking record that holds allocated funds for future auto-allocation.
+
+        Earmarks are created when funds are allocated but should be held for a specific encounter or date of service.
+
+        Only active (non-deleted) earmarks are returned.'
+      title: BalanceEarmark
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_financials_NoteUpdate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - set
+            description: 'Discriminator value: set'
+          value:
+            type: string
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: NoteUpdate
+    type_financials_AllocationCreate:
+      type: object
+      properties:
+        amount_cents:
+          type: integer
+        target:
+          $ref: '#/components/schemas/type_financials_AllocationTargetCreate'
+        earmark:
+          $ref: '#/components/schemas/type_financials_AllocationEarmarkType'
+          description: 'If enabled for your organization, optional earmarking configuration for patient prepayments.
+
+            When provided on unattributed allocations, holds the payment for future auto-allocation to matching encounters.'
+      required:
+      - amount_cents
+      - target
+      description: 'Allocations are portions of payments that are applied to specific resources, known as targets. Each allocation has
+
+        and amount, defined in cents, and a target.'
+      title: AllocationCreate
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_financials_Allocation:
+      type: object
+      properties:
+        allocation_id:
+          $ref: '#/components/schemas/type_commons_AllocationId'
+        amount_cents:
+          type: integer
+        target:
+          $ref: '#/components/schemas/type_financials_AllocationTarget'
+        earmark:
+          $ref: '#/components/schemas/type_financials_BalanceEarmark'
+          description: The active earmark created by this allocation, if any. Only present when this allocation created an earmark for future auto-allocation and the earmark has not been deleted.
+        allocated_on:
+          type: string
+          format: date-time
+      required:
+      - amount_cents
+      - target
+      title: Allocation
+    type_payers_v3_PayerId:
+      type: string
+      title: PayerId
     type_payers_v3_Payer:
       type: object
       properties:
@@ -455,111 +803,6 @@ components:
       - payer_id
       - payer_name
       title: Payer
-    type_commons_EncounterExternalId:
-      type: string
-      title: EncounterExternalId
-    type_commons_ClaimId:
-      type: string
-      format: uuid
-      title: ClaimId
-    type_insurance-refunds_v1_InsuranceRefund:
-      type: object
-      properties:
-        insurance_refund_id:
-          $ref: '#/components/schemas/type_insurance-refunds_v1_InsuranceRefundId'
-        payer:
-          $ref: '#/components/schemas/type_payers_v3_Payer'
-        amount_cents:
-          type: integer
-        refund_timestamp:
-          type: string
-          format: date-time
-        refund_note:
-          type: string
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_financials_Allocation'
-        refund_reason:
-          $ref: '#/components/schemas/type_financials_RefundReason'
-      required:
-      - insurance_refund_id
-      - payer
-      - amount_cents
-      - allocations
-      title: InsuranceRefund
-    type_commons_ProviderId:
-      type: string
-      format: uuid
-      title: ProviderId
-    type_financials_RefundReasonUpdate:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - set
-            description: 'Discriminator value: set'
-          value:
-            $ref: '#/components/schemas/type_financials_RefundReason'
-        required:
-        - type
-        - value
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - remove
-            description: 'Discriminator value: remove'
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      title: RefundReasonUpdate
-    type_insurance-refunds_v1_InsuranceRefundSortField:
-      type: string
-      enum:
-      - amount_cents
-      - refund_timestamp
-      - refund_note
-      - refund_reason
-      title: InsuranceRefundSortField
-    type_insurance-refunds_v1_InsuranceRefundCreate:
-      type: object
-      properties:
-        payer_identifier:
-          $ref: '#/components/schemas/type_payers_v3_PayerIdentifier'
-        amount_cents:
-          type: integer
-        refund_timestamp:
-          type: string
-          format: date-time
-        refund_note:
-          type: string
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_financials_AllocationCreate'
-        refund_reason:
-          $ref: '#/components/schemas/type_financials_RefundReason'
-      required:
-      - payer_identifier
-      - amount_cents
-      - allocations
-      title: InsuranceRefundCreate
-    type_commons_Date:
-      type: string
-      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
-      title: Date
-    type_financials_RefundReason:
-      type: string
-      enum:
-      - OVERCHARGED
-      - ENTERED_IN_ERROR
-      - TRANSFER
-      title: RefundReason
     type_commons_State:
       type: string
       enum:
@@ -626,6 +869,59 @@ components:
       - WI
       - WY
       title: State
+    type_commons_AppointmentId:
+      type: string
+      title: AppointmentId
+    type_commons_AllocationId:
+      type: string
+      format: uuid
+      title: AllocationId
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_insurance-refunds_v1_InsuranceRefundId:
+      type: string
+      format: uuid
+      title: InsuranceRefundId
+    type_commons_Date:
+      type: string
+      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+      title: Date
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
     type_financials_AllocationTargetCreate:
       oneOf:
       - type: object
@@ -706,41 +1002,10 @@ components:
 
         claim, billing provider, or is unallocated.'
       title: AllocationTargetCreate
-    type_payers_v3_PayerId:
-      type: string
-      title: PayerId
-    type_commons_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_payers_v3_PayerName:
-      type: string
-      title: PayerName
-    type_commons_ServiceLineId:
+    type_commons_ProviderId:
       type: string
       format: uuid
-      title: ServiceLineId
-    type_financials_Allocation:
-      type: object
-      properties:
-        allocation_id:
-          $ref: '#/components/schemas/type_commons_AllocationId'
-        amount_cents:
-          type: integer
-        target:
-          $ref: '#/components/schemas/type_financials_AllocationTarget'
-        earmark:
-          $ref: '#/components/schemas/type_financials_BalanceEarmark'
-          description: The active earmark created by this allocation, if any. Only present when this allocation created an earmark for future auto-allocation and the earmark has not been deleted.
-        allocated_on:
-          type: string
-          format: date-time
-      required:
-      - amount_cents
-      - target
-      title: Allocation
+      title: ProviderId
     type_payers_v3_PayerIdentifier:
       oneOf:
       - type: object
@@ -773,271 +1038,6 @@ components:
       discriminator:
         propertyName: type
       title: PayerIdentifier
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
-    type_commons_PatientExternalId:
-      type: string
-      title: PatientExternalId
-    type_commons_UnprocessableEntityErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnprocessableEntityErrorMessage
-    type_financials_AllocationCreate:
-      type: object
-      properties:
-        amount_cents:
-          type: integer
-        target:
-          $ref: '#/components/schemas/type_financials_AllocationTargetCreate'
-        earmark:
-          $ref: '#/components/schemas/type_financials_AllocationEarmarkType'
-          description: 'If enabled for your organization, optional earmarking configuration for patient prepayments.
-
-            When provided on unattributed allocations, holds the payment for future auto-allocation to matching encounters.'
-      required:
-      - amount_cents
-      - target
-      description: 'Allocations are portions of payments that are applied to specific resources, known as targets. Each allocation has
-
-        and amount, defined in cents, and a target.'
-      title: AllocationCreate
-    type_financials_BalanceEarmark:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        target:
-          $ref: '#/components/schemas/type_financials_AllocationEarmarkType'
-          description: The target for this earmark (date of service or external encounter ID)
-        amount_earmarked_cents:
-          type: integer
-          description: The amount earmarked in cents for future allocation
-        created_by_allocation_id:
-          $ref: '#/components/schemas/type_commons_AllocationId'
-          description: The ID of the allocation that created this earmark
-      required:
-      - id
-      - target
-      description: 'Represents an active balance earmarking record that holds allocated funds for future auto-allocation.
-
-        Earmarks are created when funds are allocated but should be held for a specific encounter or date of service.
-
-        Only active (non-deleted) earmarks are returned.'
-      title: BalanceEarmark
-    type_payers_v3_PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
-    type_commons_AppointmentId:
-      type: string
-      title: AppointmentId
-    type_commons_AllocationId:
-      type: string
-      format: uuid
-      title: AllocationId
-    type_insurance-refunds_v1_InsuranceRefundId:
-      type: string
-      format: uuid
-      title: InsuranceRefundId
-    type_financials_AllocationEarmarkType:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - date_of_service
-            description: 'Discriminator value: date_of_service'
-          value:
-            $ref: '#/components/schemas/type_commons_Date'
-        required:
-        - type
-        - value
-        description: Earmark for auto-allocation to an encounter with this specific date of service
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - external_encounter_id
-            description: 'Discriminator value: external_encounter_id'
-          value:
-            $ref: '#/components/schemas/type_commons_EncounterExternalId'
-        required:
-        - type
-        - value
-        description: Earmark for auto-allocation to an encounter with this specific external ID (more specific than date of service)
-      discriminator:
-        propertyName: type
-      description: 'If enabled for your organization, defines how a patient prepayment allocation should be earmarked for future auto-allocation.
-
-        Earmarks hold the allocation until a matching encounter is created, then attempt to allocate to that encounter.
-
-        Only applicable for unattributed allocations.'
-      title: AllocationEarmarkType
-    type_financials_NoteUpdate:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - set
-            description: 'Discriminator value: set'
-          value:
-            type: string
-        required:
-        - type
-        - value
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - remove
-            description: 'Discriminator value: remove'
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      title: NoteUpdate
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_financials_AllocationTarget:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - service_line
-            description: 'Discriminator value: service_line'
-          service_line_id:
-            $ref: '#/components/schemas/type_commons_ServiceLineId'
-          claim_id:
-            $ref: '#/components/schemas/type_commons_ClaimId'
-          encounter_id:
-            $ref: '#/components/schemas/type_commons_EncounterId'
-        required:
-        - type
-        - service_line_id
-        - claim_id
-        - encounter_id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - claim
-            description: 'Discriminator value: claim'
-          claim_id:
-            $ref: '#/components/schemas/type_commons_ClaimId'
-          encounter_id:
-            $ref: '#/components/schemas/type_commons_EncounterId'
-        required:
-        - type
-        - claim_id
-        - encounter_id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - billing_provider_id
-            description: 'Discriminator value: billing_provider_id'
-          billing_provider_id:
-            $ref: '#/components/schemas/type_commons_ProviderId'
-        required:
-        - type
-        - billing_provider_id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - appointment
-            description: 'Discriminator value: appointment'
-          appointment_id:
-            $ref: '#/components/schemas/type_commons_AppointmentId'
-          patient_external_id:
-            $ref: '#/components/schemas/type_commons_PatientExternalId'
-        required:
-        - type
-        - appointment_id
-        - patient_external_id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - unattributed
-            description: 'Discriminator value: unattributed'
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      description: 'Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
-
-        claim, billing provider, or is unallocated.'
-      title: AllocationTarget
-    type_commons_StreetAddressLongZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_insurance-refunds_v1_InsuranceRefundsPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_insurance-refunds_v1_InsuranceRefund'
-      required:
-      - items
-      title: InsuranceRefundsPage
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

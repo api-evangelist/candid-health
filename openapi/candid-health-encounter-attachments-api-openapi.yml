@@ -317,6 +317,10 @@ paths:
               - attachment_id
 components:
   schemas:
+    type_encounter-attachments_v1_AttachmentId:
+      type: string
+      format: uuid
+      title: AttachmentId
     type_encounter-attachments_v1_EncounterAttachmentType:
       type: string
       enum:
@@ -324,10 +328,14 @@ components:
       - EOB
       - OTHER
       title: EncounterAttachmentType
-    type_encounter-attachments_v1_AttachmentId:
+    type_commons_EncounterId:
       type: string
       format: uuid
-      title: AttachmentId
+      title: EncounterId
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
     type_users_v2_IdpUserMetadata:
       oneOf:
       - type: object
@@ -369,9 +377,33 @@ components:
       discriminator:
         propertyName: type
       title: IdpUserMetadata
-    type_commons_LinkUrl:
+    type_encounter-attachments_v1_ChargeCaptureAttachment:
+      type: object
+      properties:
+        attachment_id:
+          $ref: '#/components/schemas/type_encounter-attachments_v1_AttachmentId'
+        file_name:
+          type: string
+        description:
+          type: string
+        content_type:
+          type: string
+        authed_url:
+          $ref: '#/components/schemas/type_commons_LinkUrl'
+        attachment_type:
+          $ref: '#/components/schemas/type_encounter-attachments_v1_EncounterAttachmentType'
+      required:
+      - attachment_id
+      - file_name
+      - description
+      - content_type
+      - authed_url
+      - attachment_type
+      title: ChargeCaptureAttachment
+    type_commons_UserId:
       type: string
-      title: LinkUrl
+      format: uuid
+      title: UserId
     type_encounter-attachments_v1_EncounterAttachment:
       type: object
       properties:
@@ -440,14 +472,9 @@ components:
       discriminator:
         propertyName: type
       title: UserMetadata
-    type_commons_UserId:
+    type_commons_LinkUrl:
       type: string
-      format: uuid
-      title: UserId
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
+      title: LinkUrl
     type_users_v2_UserV2:
       type: object
       properties:
@@ -466,33 +493,6 @@ components:
       - idp_metadata
       - user_metadata
       title: UserV2
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
-    type_encounter-attachments_v1_ChargeCaptureAttachment:
-      type: object
-      properties:
-        attachment_id:
-          $ref: '#/components/schemas/type_encounter-attachments_v1_AttachmentId'
-        file_name:
-          type: string
-        description:
-          type: string
-        content_type:
-          type: string
-        authed_url:
-          $ref: '#/components/schemas/type_commons_LinkUrl'
-        attachment_type:
-          $ref: '#/components/schemas/type_encounter-attachments_v1_EncounterAttachmentType'
-      required:
-      - attachment_id
-      - file_name
-      - description
-      - content_type
-      - authed_url
-      - attachment_type
-      title: ChargeCaptureAttachment
   securitySchemes:
     OAuthScheme:
       type: http

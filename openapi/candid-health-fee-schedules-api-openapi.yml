@@ -649,20 +649,9 @@ paths:
               - rate_ids
 components:
   schemas:
-    type_fee-schedules_v3_DimensionsPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        dimensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_fee-schedules_v3_OptionalDimensions'
-      required:
-      - dimensions
-      title: DimensionsPage
+    type_commons_PageToken:
+      type: string
+      title: PageToken
     type_fee-schedules_v3_MatchPayer:
       type: object
       properties:
@@ -678,17 +667,202 @@ components:
       - explanation
       description: Match information for a payer
       title: MatchPayer
-    type_fee-schedules_v3_MatchTestResult:
+    type_fee-schedules_v3_RateUpload:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - new_rate
+            description: 'Discriminator value: new_rate'
+          dimensions:
+            $ref: '#/components/schemas/type_fee-schedules_v3_Dimensions'
+          entries:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+        required:
+        - type
+        - dimensions
+        - entries
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - new_version
+            description: 'Discriminator value: new_version'
+          rate_id:
+            $ref: '#/components/schemas/type_commons_RateId'
+          previous_version:
+            type: integer
+            description: New versions of rates must indicate the exact version they modify. When the system attempts to save this new version, if the latest version in the system does not equal this previous_version, the request will be rejected with a EntityConflictError.
+          entries:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+        required:
+        - type
+        - rate_id
+        - previous_version
+        - entries
+      discriminator:
+        propertyName: type
+      title: RateUpload
+    type_fee-schedules_v3_MatchDate:
       type: object
       properties:
-        dimensions:
-          $ref: '#/components/schemas/type_fee-schedules_v3_DimensionMatch'
+        value:
+          type: string
+          format: date
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for date of service
+      title: MatchDate
+    type_fee-schedules_v3_MatchLicenseType:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for rendering provider license type
+      title: MatchLicenseType
+    type_fee-schedules_v3_MatchResult:
+      type: object
+      properties:
         threshold:
           $ref: '#/components/schemas/type_fee-schedules_v3_ThresholdMatch'
+        rate_id:
+          $ref: '#/components/schemas/type_commons_RateId'
       required:
-      - dimensions
       - threshold
-      title: MatchTestResult
+      - rate_id
+      title: MatchResult
+    type_organization-providers_v2_LicenseType:
+      type: string
+      enum:
+      - MD
+      - NP
+      - PA
+      - LMFT
+      - LCPC
+      - LCSW
+      - PMHNP
+      - FNP
+      - LPCC
+      - DO
+      - RD
+      - SLP
+      - APRN
+      - LPC
+      - PHD
+      - PSYD
+      - LMSW
+      - LMHC
+      - OTHER_MASTERS
+      - BCBA
+      - UNKNOWN
+      - RPH
+      - PHT
+      - LAC
+      - LMT
+      - DC
+      - ND
+      - MA
+      - PT
+      - IBCLC
+      - RN
+      - DPT
+      - LCMHC
+      - CNM
+      - RNFA
+      - ACSW
+      - APC
+      - BCABA
+      - BHA
+      - OD
+      - DPM
+      - DA
+      - DDS
+      - DEH
+      - DMD
+      - PTA
+      - LCADC
+      - LCAT
+      - LCMHCS
+      - LCMHCA
+      - LCSWA
+      - LICSW
+      - LISW
+      - LMFTS
+      - LMFTA
+      - LPCI
+      - LSCSW
+      - MHCA
+      - MHT
+      - RBT
+      - RCSWI
+      - RHMCI
+      - LPN
+      - OTD
+      - OMS
+      - MFTA
+      - APCC
+      - DNP
+      - AGNPBC
+      - ANP
+      - FNPPP
+      - LCSWR
+      - ALC
+      - RMFTI
+      - LAMFT
+      - LPCA
+      - LSWI
+      - CSW
+      - CPC
+      - LGMFT
+      - LLPC
+      - PLPC
+      - PLMFT
+      - LMHCA
+      - CIT
+      - CT
+      - MFT
+      - LSW
+      - PLMHP
+      - PCMSW
+      - LMHP
+      - OTR/L
+      - RPA
+      - COTA
+      - CRNP
+      - SLP-CF
+      - NP-C
+      - PA-C
+      - AMFT
+      - CDN
+      - CGC
+      - CNS
+      - MDPHD
+      - AuD
+      - ATC
+      - LAT
+      - OTA
+      - LSSP
+      - SLPA
+      title: LicenseType
     type_commons_NetworkType:
       type: string
       enum:
@@ -714,6 +888,96 @@ components:
       - CI
       - BL
       title: NetworkType
+    type_fee-schedules_v3_MatchNetworkTypes:
+      type: object
+      properties:
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_NetworkType'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for network types
+      title: MatchNetworkTypes
+    type_fee-schedules_v3_MatchFacilityTypeCode:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for facility type code
+      title: MatchFacilityTypeCode
+    type_fee-schedules_v3_MatchPayerPlanGroups:
+      type: object
+      properties:
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for a payer plan
+      title: MatchPayerPlanGroups
+    type_fee-schedules_v3_PayerThresholdsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        payer_thresholds:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+      required:
+      - payer_thresholds
+      title: PayerThresholdsPage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_fee-schedules_v3_ThresholdMatch:
+      type: object
+      properties:
+        threshold:
+          $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
+        rate_cents:
+          type: integer
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - threshold
+      - rate_cents
+      - match
+      - explanation
+      description: Threshold and dollar amount matching for a service line
+      title: ThresholdMatch
     type_fee-schedules_v3_RateEntry:
       type: object
       properties:
@@ -733,432 +997,6 @@ components:
       - is_deactivated
       description: A rate value in cents for a specific time range.  Rate entries can be deactivated, which is set by using the delete_rate endpoint.  Deactivated rate entries are not considered when matching against service lines.
       title: RateEntry
-    type_commons_State:
-      type: string
-      enum:
-      - AA
-      - AE
-      - AP
-      - AL
-      - AK
-      - AS
-      - AZ
-      - AR
-      - CA
-      - CO
-      - CT
-      - DC
-      - DE
-      - FL
-      - FM
-      - GA
-      - GU
-      - HI
-      - ID
-      - IL
-      - IN
-      - IA
-      - KS
-      - KY
-      - LA
-      - ME
-      - MD
-      - MA
-      - MH
-      - MI
-      - MN
-      - MP
-      - MS
-      - MO
-      - MT
-      - NE
-      - NV
-      - NH
-      - NJ
-      - NM
-      - NY
-      - NC
-      - ND
-      - OH
-      - OK
-      - OR
-      - PA
-      - PR
-      - PW
-      - RI
-      - SC
-      - SD
-      - TN
-      - TX
-      - UT
-      - VI
-      - VT
-      - VA
-      - WA
-      - WV
-      - WI
-      - WY
-      title: State
-    type_fee-schedules_v3_ValidationError:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - overlapping_rate_entries
-            description: 'Discriminator value: overlapping_rate_entries'
-          message:
-            type: string
-          rate_a:
-            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
-          rate_b:
-            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
-        required:
-        - type
-        - message
-        - rate_a
-        - rate_b
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - version_conflict
-            description: 'Discriminator value: version_conflict'
-          entity_name:
-            type: string
-        required:
-        - type
-        - entity_name
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - organization_provider_not_found
-            description: 'Discriminator value: organization_provider_not_found'
-          id:
-            type: string
-        required:
-        - type
-        - id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - duplicate_rate
-            description: 'Discriminator value: duplicate_rate'
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - empty_entries
-            description: 'Discriminator value: empty_entries'
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - payer_plan_group_not_found
-            description: 'Discriminator value: payer_plan_group_not_found'
-          id:
-            type: string
-        required:
-        - type
-        - id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - payer_plan_group_does_not_match_rate_payer
-            description: 'Discriminator value: payer_plan_group_does_not_match_rate_payer'
-          rate_payer_uuid:
-            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-          payer_plan_group_payer_uuid:
-            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-        required:
-        - type
-        - rate_payer_uuid
-        - payer_plan_group_payer_uuid
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - payer_plan_group_network_type_mutual_exclusion
-            description: 'Discriminator value: payer_plan_group_network_type_mutual_exclusion'
-          entity_name:
-            type: string
-        required:
-        - type
-        - entity_name
-      discriminator:
-        propertyName: type
-      title: ValidationError
-    type_commons_FacilityTypeCode:
-      type: string
-      enum:
-      - '01'
-      - '02'
-      - '03'
-      - '04'
-      - '05'
-      - '06'
-      - '07'
-      - 08
-      - 09
-      - '10'
-      - '11'
-      - '12'
-      - '13'
-      - '14'
-      - '15'
-      - '16'
-      - '17'
-      - '18'
-      - '19'
-      - '20'
-      - '21'
-      - '22'
-      - '23'
-      - '24'
-      - '25'
-      - '26'
-      - '31'
-      - '32'
-      - '33'
-      - '34'
-      - '41'
-      - '42'
-      - '49'
-      - '50'
-      - '51'
-      - '52'
-      - '53'
-      - '54'
-      - '55'
-      - '56'
-      - '57'
-      - '58'
-      - '60'
-      - '61'
-      - '62'
-      - '65'
-      - '71'
-      - '72'
-      - '81'
-      - '99'
-      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
-
-        02 for telemedicine, 11 for in-person. Full list here:
-
-        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
-      title: FacilityTypeCode
-    type_commons_ErrorMessage:
-      type: string
-      title: ErrorMessage
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_fee-schedules_v3_MatchProvider:
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - match
-      - explanation
-      description: Match information for a billing provider
-      title: MatchProvider
-    type_fee-schedules_v3_Rate:
-      type: object
-      properties:
-        rate_id:
-          $ref: '#/components/schemas/type_commons_RateId'
-        dimensions:
-          $ref: '#/components/schemas/type_fee-schedules_v3_Dimensions'
-          description: The dimension values that distinguish this rate from others.
-        version:
-          type: integer
-          description: The version of this rate in the system.
-        updated_at:
-          type: string
-          format: date
-        updated_by:
-          $ref: '#/components/schemas/type_commons_UserId'
-        entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
-      required:
-      - rate_id
-      - dimensions
-      - version
-      - updated_at
-      - updated_by
-      - entries
-      description: A comprehensive rate including the current rate value and all values for historic time ranges. The time ranges specified by each RateEntry are disjoint.  A rate must always have at least one entry.
-      title: Rate
-    type_organization-providers_v2_OrganizationProviderId:
-      type: string
-      format: uuid
-      title: OrganizationProviderId
-    type_fee-schedules_v3_PayerThresholdsPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        payer_thresholds:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
-      required:
-      - payer_thresholds
-      title: PayerThresholdsPage
-    type_fee-schedules_v3_MatchLicenseType:
-      type: object
-      properties:
-        value:
-          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - match
-      - explanation
-      description: Match information for rendering provider license type
-      title: MatchLicenseType
-    type_commons_PayerPlanGroupId:
-      type: string
-      format: uuid
-      title: PayerPlanGroupId
-    type_fee-schedules_v3_OptionalDimensions:
-      type: object
-      properties:
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-        organization_billing_provider_id:
-          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
-        states:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_State'
-        zip_codes:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-        license_types:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
-        facility_type_codes:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_FacilityTypeCode'
-        network_types:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_NetworkType'
-        payer_plan_group_ids:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
-        cpt_code:
-          type: string
-        modifiers:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_ProcedureModifier'
-      required:
-      - states
-      - zip_codes
-      - license_types
-      - facility_type_codes
-      - network_types
-      - payer_plan_group_ids
-      - modifiers
-      description: A dimensions object where all properties are optional.
-      title: OptionalDimensions
-    type_fee-schedules_v3_MatchGeo:
-      type: object
-      properties:
-        zip_code:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - match
-      - explanation
-      description: Match information for state or zip code
-      title: MatchGeo
-    type_fee-schedules_v3_RateUploadWithPossibleErrors:
-      type: object
-      properties:
-        rate_upload:
-          $ref: '#/components/schemas/type_fee-schedules_v3_RateUpload'
-        existing_rate:
-          $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
-        possible_errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_fee-schedules_v3_ValidationError'
-      required:
-      - rate_upload
-      - possible_errors
-      title: RateUploadWithPossibleErrors
-    type_fee-schedules_v3_MatchPayerPlanGroups:
-      type: object
-      properties:
-        value:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - value
-      - match
-      - explanation
-      description: Match information for a payer plan
-      title: MatchPayerPlanGroups
     type_commons_ProcedureModifier:
       type: string
       enum:
@@ -1577,144 +1415,99 @@ components:
       - XY
       - ZZ
       title: ProcedureModifier
-    type_fee-schedules_v3_RateUpload:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - new_rate
-            description: 'Discriminator value: new_rate'
-          dimensions:
-            $ref: '#/components/schemas/type_fee-schedules_v3_Dimensions'
-          entries:
-            type: array
-            items:
-              $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
-        required:
-        - type
-        - dimensions
-        - entries
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - new_version
-            description: 'Discriminator value: new_version'
-          rate_id:
-            $ref: '#/components/schemas/type_commons_RateId'
-          previous_version:
-            type: integer
-            description: New versions of rates must indicate the exact version they modify. When the system attempts to save this new version, if the latest version in the system does not equal this previous_version, the request will be rejected with a EntityConflictError.
-          entries:
-            type: array
-            items:
-              $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
-        required:
-        - type
-        - rate_id
-        - previous_version
-        - entries
-      discriminator:
-        propertyName: type
-      title: RateUpload
-    type_fee-schedules_v3_MatchFacilityTypeCode:
+    type_fee-schedules_v3_DimensionMatch:
       type: object
       properties:
-        value:
-          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
-        match:
-          type: boolean
-        explanation:
-          type: string
+        payer:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchPayer'
+        geography:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchGeo'
+        organization_billing_provider:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchProvider'
+        date_of_service:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchDate'
+        cpt_code:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchCptCode'
+        modifiers:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchModifiers'
+        license_type:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchLicenseType'
+        facility_type_code:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchFacilityTypeCode'
+        network_types:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchNetworkTypes'
+        payer_plan_groups:
+          $ref: '#/components/schemas/type_fee-schedules_v3_MatchPayerPlanGroups'
       required:
-      - match
-      - explanation
-      description: Match information for facility type code
-      title: MatchFacilityTypeCode
-    type_payers_v3_PayerUuid:
+      - payer
+      - geography
+      - organization_billing_provider
+      - date_of_service
+      - cpt_code
+      - modifiers
+      - license_type
+      - facility_type_code
+      - network_types
+      - payer_plan_groups
+      description: Dimension matching for a service line
+      title: DimensionMatch
+    type_commons_UserId:
       type: string
       format: uuid
-      title: PayerUuid
-    type_fee-schedules_v3_MatchDate:
-      type: object
-      properties:
-        value:
-          type: string
-          format: date
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - match
-      - explanation
-      description: Match information for date of service
-      title: MatchDate
-    type_fee-schedules_v3_MatchResult:
-      type: object
-      properties:
-        threshold:
-          $ref: '#/components/schemas/type_fee-schedules_v3_ThresholdMatch'
-        rate_id:
-          $ref: '#/components/schemas/type_commons_RateId'
-      required:
-      - threshold
-      - rate_id
-      title: MatchResult
-    type_fee-schedules_v3_PayerThreshold:
-      type: object
-      properties:
-        upper_threshold_cents:
-          type: integer
-        lower_threshold_cents:
-          type: integer
-        disable_paid_incorrectly:
-          type: boolean
-      required:
-      - disable_paid_incorrectly
-      description: 'Rate thresholds that determine fee schedule rate matching behavior.  When a service line is adjudicated by a payer Candid determines if the payer''s
-
-        allowed amount "matches" the rate value.  If the allowed amount doesn''t equal the rate value, Candid moves the claim to a PAID_INCORRECTLY state.  These
-
-        optional thresholds allow a user to set wiggle room to avoid claims moving to PAID_INCORRECTLY and instead have them move directly to FINALIZED_PAID
-
-        when the payer''s allowed amount is greater than [rate_cents - lower_threshold_cents] and less than [rate_cents + upper_threshold_cents].
-
-
-        Additionally, a client can set disable_paid_incorrectly to avoid the PAID_INCORRECTLY claim status entirely.'
-      title: PayerThreshold
-    type_fee-schedules_v3_MatchModifiers:
-      type: object
-      properties:
-        value:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_ProcedureModifier'
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - value
-      - match
-      - explanation
-      description: Match information for procedure modifiers
-      title: MatchModifiers
-    type_commons_PageToken:
+      title: UserId
+    type_commons_ErrorMessage:
       type: string
-      title: PageToken
-    type_commons_EntityConflictErrorMessage:
+      title: ErrorMessage
+    type_organization-providers_v2_OrganizationProviderId:
+      type: string
+      format: uuid
+      title: OrganizationProviderId
+    type_fee-schedules_v3_MatchProvider:
       type: object
       properties:
-        entity_name:
+        value:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        match:
+          type: boolean
+        explanation:
           type: string
       required:
-      - entity_name
-      title: EntityConflictErrorMessage
+      - match
+      - explanation
+      description: Match information for a billing provider
+      title: MatchProvider
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_fee-schedules_v3_RatesPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        rates:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
+      required:
+      - rates
+      title: RatesPage
+    type_fee-schedules_v3_DimensionsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_OptionalDimensions'
+      required:
+      - dimensions
+      title: DimensionsPage
     type_fee-schedules_v3_Dimensions:
       type: object
       properties:
@@ -1772,221 +1565,6 @@ components:
       - modifiers
       description: Dimension values that qualify a rate. For the optional dimensions, a null value signifies "all apply". For set-type dimensions, an empty set signifies "all apply". Only one of, but not both, of `network_types` and `payer_plan_group_id` may be populated.
       title: Dimensions
-    type_organization-providers_v2_LicenseType:
-      type: string
-      enum:
-      - MD
-      - NP
-      - PA
-      - LMFT
-      - LCPC
-      - LCSW
-      - PMHNP
-      - FNP
-      - LPCC
-      - DO
-      - RD
-      - SLP
-      - APRN
-      - LPC
-      - PHD
-      - PSYD
-      - LMSW
-      - LMHC
-      - OTHER_MASTERS
-      - BCBA
-      - UNKNOWN
-      - RPH
-      - PHT
-      - LAC
-      - LMT
-      - DC
-      - ND
-      - MA
-      - PT
-      - IBCLC
-      - RN
-      - DPT
-      - LCMHC
-      - CNM
-      - RNFA
-      - ACSW
-      - APC
-      - BCABA
-      - BHA
-      - OD
-      - DPM
-      - DA
-      - DDS
-      - DEH
-      - DMD
-      - PTA
-      - LCADC
-      - LCAT
-      - LCMHCS
-      - LCMHCA
-      - LCSWA
-      - LICSW
-      - LISW
-      - LMFTS
-      - LMFTA
-      - LPCI
-      - LSCSW
-      - MHCA
-      - MHT
-      - RBT
-      - RCSWI
-      - RHMCI
-      - LPN
-      - OTD
-      - OMS
-      - MFTA
-      - APCC
-      - DNP
-      - AGNPBC
-      - ANP
-      - FNPPP
-      - LCSWR
-      - ALC
-      - RMFTI
-      - LAMFT
-      - LPCA
-      - LSWI
-      - CSW
-      - CPC
-      - LGMFT
-      - LLPC
-      - PLPC
-      - PLMFT
-      - LMHCA
-      - CIT
-      - CT
-      - MFT
-      - LSW
-      - PLMHP
-      - PCMSW
-      - LMHP
-      - OTR/L
-      - RPA
-      - COTA
-      - CRNP
-      - SLP-CF
-      - NP-C
-      - PA-C
-      - AMFT
-      - CDN
-      - CGC
-      - CNS
-      - MDPHD
-      - AuD
-      - ATC
-      - LAT
-      - OTA
-      - LSSP
-      - SLPA
-      title: LicenseType
-    type_commons_RateId:
-      type: string
-      format: uuid
-      title: RateId
-    type_commons_UserId:
-      type: string
-      format: uuid
-      title: UserId
-    type_fee-schedules_v3_ThresholdMatch:
-      type: object
-      properties:
-        threshold:
-          $ref: '#/components/schemas/type_fee-schedules_v3_PayerThreshold'
-        rate_cents:
-          type: integer
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - threshold
-      - rate_cents
-      - match
-      - explanation
-      description: Threshold and dollar amount matching for a service line
-      title: ThresholdMatch
-    type_fee-schedules_v3_MatchNetworkTypes:
-      type: object
-      properties:
-        value:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_commons_NetworkType'
-        match:
-          type: boolean
-        explanation:
-          type: string
-      required:
-      - value
-      - match
-      - explanation
-      description: Match information for network types
-      title: MatchNetworkTypes
-    type_fee-schedules_v3_DimensionMatch:
-      type: object
-      properties:
-        payer:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchPayer'
-        geography:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchGeo'
-        organization_billing_provider:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchProvider'
-        date_of_service:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchDate'
-        cpt_code:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchCptCode'
-        modifiers:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchModifiers'
-        license_type:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchLicenseType'
-        facility_type_code:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchFacilityTypeCode'
-        network_types:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchNetworkTypes'
-        payer_plan_groups:
-          $ref: '#/components/schemas/type_fee-schedules_v3_MatchPayerPlanGroups'
-      required:
-      - payer
-      - geography
-      - organization_billing_provider
-      - date_of_service
-      - cpt_code
-      - modifiers
-      - license_type
-      - facility_type_code
-      - network_types
-      - payer_plan_groups
-      description: Dimension matching for a service line
-      title: DimensionMatch
-    type_fee-schedules_v3_RatesPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        rates:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
-      required:
-      - rates
-      title: RatesPage
-    type_fee-schedules_v3_DimensionName:
-      type: string
-      enum:
-      - payer_uuid
-      - organization_billing_provider_id
-      - cpt_code
-      description: The name of a dimension.
-      title: DimensionName
     type_fee-schedules_v3_MatchCptCode:
       type: object
       properties:
@@ -2002,6 +1580,428 @@ components:
       - explanation
       description: Match information for a CPT code
       title: MatchCptCode
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_fee-schedules_v3_MatchModifiers:
+      type: object
+      properties:
+        value:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - value
+      - match
+      - explanation
+      description: Match information for procedure modifiers
+      title: MatchModifiers
+    type_fee-schedules_v3_RateUploadWithPossibleErrors:
+      type: object
+      properties:
+        rate_upload:
+          $ref: '#/components/schemas/type_fee-schedules_v3_RateUpload'
+        existing_rate:
+          $ref: '#/components/schemas/type_fee-schedules_v3_Rate'
+        possible_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_ValidationError'
+      required:
+      - rate_upload
+      - possible_errors
+      title: RateUploadWithPossibleErrors
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_fee-schedules_v3_DimensionName:
+      type: string
+      enum:
+      - payer_uuid
+      - organization_billing_provider_id
+      - cpt_code
+      description: The name of a dimension.
+      title: DimensionName
+    type_commons_FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_fee-schedules_v3_OptionalDimensions:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        organization_billing_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        states:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_State'
+        zip_codes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        license_types:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+        facility_type_codes:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+        network_types:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_NetworkType'
+        payer_plan_group_ids:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        cpt_code:
+          type: string
+        modifiers:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_commons_ProcedureModifier'
+      required:
+      - states
+      - zip_codes
+      - license_types
+      - facility_type_codes
+      - network_types
+      - payer_plan_group_ids
+      - modifiers
+      description: A dimensions object where all properties are optional.
+      title: OptionalDimensions
+    type_fee-schedules_v3_MatchTestResult:
+      type: object
+      properties:
+        dimensions:
+          $ref: '#/components/schemas/type_fee-schedules_v3_DimensionMatch'
+        threshold:
+          $ref: '#/components/schemas/type_fee-schedules_v3_ThresholdMatch'
+      required:
+      - dimensions
+      - threshold
+      title: MatchTestResult
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_fee-schedules_v3_PayerThreshold:
+      type: object
+      properties:
+        upper_threshold_cents:
+          type: integer
+        lower_threshold_cents:
+          type: integer
+        disable_paid_incorrectly:
+          type: boolean
+      required:
+      - disable_paid_incorrectly
+      description: 'Rate thresholds that determine fee schedule rate matching behavior.  When a service line is adjudicated by a payer Candid determines if the payer''s
+
+        allowed amount "matches" the rate value.  If the allowed amount doesn''t equal the rate value, Candid moves the claim to a PAID_INCORRECTLY state.  These
+
+        optional thresholds allow a user to set wiggle room to avoid claims moving to PAID_INCORRECTLY and instead have them move directly to FINALIZED_PAID
+
+        when the payer''s allowed amount is greater than [rate_cents - lower_threshold_cents] and less than [rate_cents + upper_threshold_cents].
+
+
+        Additionally, a client can set disable_paid_incorrectly to avoid the PAID_INCORRECTLY claim status entirely.'
+      title: PayerThreshold
+    type_fee-schedules_v3_Rate:
+      type: object
+      properties:
+        rate_id:
+          $ref: '#/components/schemas/type_commons_RateId'
+        dimensions:
+          $ref: '#/components/schemas/type_fee-schedules_v3_Dimensions'
+          description: The dimension values that distinguish this rate from others.
+        version:
+          type: integer
+          description: The version of this rate in the system.
+        updated_at:
+          type: string
+          format: date
+        updated_by:
+          $ref: '#/components/schemas/type_commons_UserId'
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+      required:
+      - rate_id
+      - dimensions
+      - version
+      - updated_at
+      - updated_by
+      - entries
+      description: A comprehensive rate including the current rate value and all values for historic time ranges. The time ranges specified by each RateEntry are disjoint.  A rate must always have at least one entry.
+      title: Rate
+    type_fee-schedules_v3_ValidationError:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - overlapping_rate_entries
+            description: 'Discriminator value: overlapping_rate_entries'
+          message:
+            type: string
+          rate_a:
+            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+          rate_b:
+            $ref: '#/components/schemas/type_fee-schedules_v3_RateEntry'
+        required:
+        - type
+        - message
+        - rate_a
+        - rate_b
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - version_conflict
+            description: 'Discriminator value: version_conflict'
+          entity_name:
+            type: string
+        required:
+        - type
+        - entity_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - organization_provider_not_found
+            description: 'Discriminator value: organization_provider_not_found'
+          id:
+            type: string
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - duplicate_rate
+            description: 'Discriminator value: duplicate_rate'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - empty_entries
+            description: 'Discriminator value: empty_entries'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_plan_group_not_found
+            description: 'Discriminator value: payer_plan_group_not_found'
+          id:
+            type: string
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_plan_group_does_not_match_rate_payer
+            description: 'Discriminator value: payer_plan_group_does_not_match_rate_payer'
+          rate_payer_uuid:
+            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          payer_plan_group_payer_uuid:
+            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        required:
+        - type
+        - rate_payer_uuid
+        - payer_plan_group_payer_uuid
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_plan_group_network_type_mutual_exclusion
+            description: 'Discriminator value: payer_plan_group_network_type_mutual_exclusion'
+          entity_name:
+            type: string
+        required:
+        - type
+        - entity_name
+      discriminator:
+        propertyName: type
+      title: ValidationError
+    type_fee-schedules_v3_MatchGeo:
+      type: object
+      properties:
+        zip_code:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        match:
+          type: boolean
+        explanation:
+          type: string
+      required:
+      - match
+      - explanation
+      description: Match information for state or zip code
+      title: MatchGeo
+    type_commons_RateId:
+      type: string
+      format: uuid
+      title: RateId
   securitySchemes:
     OAuthScheme:
       type: http

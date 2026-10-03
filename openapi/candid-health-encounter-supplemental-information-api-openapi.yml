@@ -192,67 +192,22 @@ paths:
                 - content
 components:
   schemas:
-    type_commons_ReportTransmissionCode:
-      type: string
-      enum:
-      - AA
-      - BM
-      - EL
-      - FX
-      title: ReportTransmissionCode
-    type_encounter-supplemental-information_v1_UpdateSupplementalInformationRequest:
-      type: object
-      properties:
-        attachment_id:
-          $ref: '#/components/schemas/type_encounter-attachments_v1_AttachmentId'
-        attachment_report_type_code:
-          $ref: '#/components/schemas/type_commons_ReportTypeCode'
-        attachment_transmission_code:
-          $ref: '#/components/schemas/type_commons_ReportTransmissionCode'
-        attachment_control_number:
-          type: string
-        attachment_inclusion:
-          $ref: '#/components/schemas/type_encounter-supplemental-information_v1_AttachmentInclusion'
-      title: UpdateSupplementalInformationRequest
-    type_encounter-supplemental-information_v1_SupplementalInformation:
-      type: object
-      properties:
-        supplemental_information_id:
-          $ref: '#/components/schemas/type_encounter-supplemental-information_v1_SupplementalInformationId'
-        attachment_id:
-          $ref: '#/components/schemas/type_encounter-attachments_v1_AttachmentId'
-        attachment_report_type_code:
-          $ref: '#/components/schemas/type_commons_ReportTypeCode'
-        attachment_transmission_code:
-          $ref: '#/components/schemas/type_commons_ReportTransmissionCode'
-        attachment_control_number:
-          type: string
-        attachment_inclusion:
-          $ref: '#/components/schemas/type_encounter-supplemental-information_v1_AttachmentInclusion'
-        encounter_id:
-          $ref: '#/components/schemas/type_commons_EncounterId'
-      required:
-      - supplemental_information_id
-      - attachment_report_type_code
-      - attachment_transmission_code
-      - attachment_inclusion
-      - encounter_id
-      title: SupplementalInformation
-    type_encounter-attachments_v1_AttachmentId:
-      type: string
-      format: uuid
-      title: AttachmentId
-    type_encounter-supplemental-information_v1_AttachmentInclusion:
-      type: string
-      enum:
-      - not_included
-      - included_on_next_submission
-      - included_on_all_submissions
-      title: AttachmentInclusion
     type_encounter-supplemental-information_v1_SupplementalInformationId:
       type: string
       format: uuid
       title: SupplementalInformationId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_encounter-attachments_v1_AttachmentId:
+      type: string
+      format: uuid
+      title: AttachmentId
     type_encounter-supplemental-information_v1_CreateSupplementalInformationRequest:
       type: object
       properties:
@@ -340,14 +295,59 @@ components:
       - V5
       - XP
       title: ReportTypeCode
-    type_commons_EntityNotFoundErrorMessage:
+    type_encounter-supplemental-information_v1_AttachmentInclusion:
+      type: string
+      enum:
+      - not_included
+      - included_on_next_submission
+      - included_on_all_submissions
+      title: AttachmentInclusion
+    type_encounter-supplemental-information_v1_SupplementalInformation:
       type: object
       properties:
-        id:
+        supplemental_information_id:
+          $ref: '#/components/schemas/type_encounter-supplemental-information_v1_SupplementalInformationId'
+        attachment_id:
+          $ref: '#/components/schemas/type_encounter-attachments_v1_AttachmentId'
+        attachment_report_type_code:
+          $ref: '#/components/schemas/type_commons_ReportTypeCode'
+        attachment_transmission_code:
+          $ref: '#/components/schemas/type_commons_ReportTransmissionCode'
+        attachment_control_number:
           type: string
+        attachment_inclusion:
+          $ref: '#/components/schemas/type_encounter-supplemental-information_v1_AttachmentInclusion'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
       required:
-      - id
-      title: EntityNotFoundErrorMessage
+      - supplemental_information_id
+      - attachment_report_type_code
+      - attachment_transmission_code
+      - attachment_inclusion
+      - encounter_id
+      title: SupplementalInformation
+    type_encounter-supplemental-information_v1_UpdateSupplementalInformationRequest:
+      type: object
+      properties:
+        attachment_id:
+          $ref: '#/components/schemas/type_encounter-attachments_v1_AttachmentId'
+        attachment_report_type_code:
+          $ref: '#/components/schemas/type_commons_ReportTypeCode'
+        attachment_transmission_code:
+          $ref: '#/components/schemas/type_commons_ReportTransmissionCode'
+        attachment_control_number:
+          type: string
+        attachment_inclusion:
+          $ref: '#/components/schemas/type_encounter-supplemental-information_v1_AttachmentInclusion'
+      title: UpdateSupplementalInformationRequest
+    type_commons_ReportTransmissionCode:
+      type: string
+      enum:
+      - AA
+      - BM
+      - EL
+      - FX
+      title: ReportTransmissionCode
   securitySchemes:
     OAuthScheme:
       type: http

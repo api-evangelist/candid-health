@@ -94,17 +94,32 @@ paths:
               - date_range_max
 components:
   schemas:
-    type_superbills_v1_SuperbillResponse:
+    type_commons_StreetAddressShortZip:
       type: object
       properties:
-        superbills:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_superbills_v1_Superbill'
-          description: Each object represents a single Superbill for a single billing provider.
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
       required:
-      - superbills
-      title: SuperbillResponse
+      - address1
+      - city
+      - state
+      - zip_code
+      title: StreetAddressShortZip
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
     type_superbills_v1_Superbill:
       type: object
       properties:
@@ -136,39 +151,17 @@ components:
       - date_range_max
       - file_name
       title: Superbill
-    type_superbills_v1_SuperbillOutputFormat:
-      type: string
-      enum:
-      - DOCX
-      - PDF
-      description: Output format for the generated superbill.
-      title: SuperbillOutputFormat
-    type_commons_StreetAddressShortZip:
+    type_superbills_v1_SuperbillResponse:
       type: object
       properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+        superbills:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_superbills_v1_Superbill'
+          description: Each object represents a single Superbill for a single billing provider.
       required:
-      - address1
-      - city
-      - state
-      - zip_code
-      title: StreetAddressShortZip
-    type_commons_PatientExternalId:
-      type: string
-      title: PatientExternalId
+      - superbills
+      title: SuperbillResponse
     type_commons_State:
       type: string
       enum:
@@ -241,6 +234,13 @@ components:
         message:
           type: string
       title: UnprocessableEntityErrorMessage
+    type_superbills_v1_SuperbillOutputFormat:
+      type: string
+      enum:
+      - DOCX
+      - PDF
+      description: Output format for the generated superbill.
+      title: SuperbillOutputFormat
   securitySchemes:
     OAuthScheme:
       type: http

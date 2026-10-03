@@ -346,6 +346,351 @@ paths:
                 - content
 components:
   schemas:
+    type_organization-service-facilities_v2_OrganizationServiceFacility:
+      type: object
+      properties:
+        organization_service_facility_id:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+        name:
+          type: string
+          description: The name of the service facility.
+        aliases:
+          type: array
+          items:
+            type: string
+          description: A list of alternate names for the service facility.
+        description:
+          type: string
+          description: A description of the service facility.
+        external_id:
+          type: string
+          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: The Place of Service (POS) code for this service facility.
+        clia_number:
+          type: string
+          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+        status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
+          description: The status of the service facility.
+        operational_status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
+          description: The operational status of the service facility.
+        mode:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
+          description: The mode of the service facility.
+        type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
+          description: The type of the service facility.
+        physical_type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
+          description: The physical type of the service facility.
+        telecoms:
+          type: array
+          items:
+            type: string
+          description: A list of contact methods for the service facility.
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the service facility.
+      required:
+      - organization_service_facility_id
+      - name
+      - aliases
+      - telecoms
+      - address
+      title: OrganizationServiceFacility
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_organization-service-facilities_v2_ServiceFacilityOperationalStatus:
+      type: string
+      enum:
+      - C
+      - H
+      - I
+      - K
+      - O
+      - U
+      title: ServiceFacilityOperationalStatus
+    type_organization-service-facilities_v2_OrganizationServiceFacilityCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the service facility.
+        aliases:
+          type: array
+          items:
+            type: string
+          description: A list of alternate names for the service facility.
+        description:
+          type: string
+          description: A description of the service facility.
+        external_id:
+          type: string
+          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: The Place of Service (POS) code for this service facility.
+        clia_number:
+          type: string
+          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+        status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
+          description: The status of the service facility.
+        operational_status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
+          description: The operational status of the service facility.
+        mode:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
+          description: The mode of the service facility.
+        type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
+          description: The type of the service facility.
+        physical_type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
+          description: The physical type of the service facility.
+        telecoms:
+          type: array
+          items:
+            type: string
+          description: A list of contact methods for the service facility.
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the service facility.
+      required:
+      - name
+      - aliases
+      - telecoms
+      - address
+      title: OrganizationServiceFacilityCreate
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_commons_FacilityTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_organization-service-facilities_v2_OrganizationServiceFacilityUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the service facility.
+        aliases:
+          type: array
+          items:
+            type: string
+          description: A list of alternate names for the service facility.
+        description:
+          type: string
+          description: A description of the service facility.
+        external_id:
+          type: string
+          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+        npi:
+          type: string
+          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
+
+            Box 32 section (a) of the CMS-1500 claim form.'
+        place_of_service_code:
+          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
+          description: The Place of Service (POS) code for this service facility.
+        clia_number:
+          type: string
+          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+        mammography_certification_number:
+          type: string
+          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+        status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
+          description: The status of the service facility.
+        operational_status:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
+          description: The operational status of the service facility.
+        mode:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
+          description: The mode of the service facility.
+        type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
+          description: The type of the service facility.
+        physical_type:
+          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
+          description: The physical type of the service facility.
+        telecoms:
+          type: array
+          items:
+            type: string
+          description: A list of contact methods for the service facility.
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the service facility.
+      title: OrganizationServiceFacilityUpdate
+    type_organization-service-facilities_v2_OrganizationServiceFacilityPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+      required:
+      - items
+      title: OrganizationServiceFacilityPage
+    type_organization-service-facilities_v2_ServiceFacilityPhysicalType:
+      type: string
+      enum:
+      - si
+      - bu
+      - wi
+      - wa
+      - lvl
+      - co
+      - ro
+      - bd
+      - ve
+      - ho
+      - ca
+      - rd
+      - area
+      - jdn
+      title: ServiceFacilityPhysicalType
+    type_organization-service-facilities_v2_ServiceFacilityStatus:
+      type: string
+      enum:
+      - active
+      - inactive
+      - suspended
+      title: ServiceFacilityStatus
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_organization-service-facilities_v2_ServiceFacilityMode:
+      type: string
+      enum:
+      - instance
+      - kind
+      title: ServiceFacilityMode
     type_organization-service-facilities_v2_ServiceFacilityType:
       type: string
       enum:
@@ -473,331 +818,6 @@ components:
       - UPC
       - WORK
       title: ServiceFacilityType
-    type_organization-service-facilities_v2_ServiceFacilityMode:
-      type: string
-      enum:
-      - instance
-      - kind
-      title: ServiceFacilityMode
-    type_organization-service-facilities_v2_OrganizationServiceFacilityCreate:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the service facility.
-        aliases:
-          type: array
-          items:
-            type: string
-          description: A list of alternate names for the service facility.
-        description:
-          type: string
-          description: A description of the service facility.
-        external_id:
-          type: string
-          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
-        npi:
-          type: string
-          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
-
-            Box 32 section (a) of the CMS-1500 claim form.'
-        place_of_service_code:
-          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
-          description: The Place of Service (POS) code for this service facility.
-        clia_number:
-          type: string
-          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
-        mammography_certification_number:
-          type: string
-          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
-        status:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
-          description: The status of the service facility.
-        operational_status:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
-          description: The operational status of the service facility.
-        mode:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
-          description: The mode of the service facility.
-        type:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
-          description: The type of the service facility.
-        physical_type:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
-          description: The physical type of the service facility.
-        telecoms:
-          type: array
-          items:
-            type: string
-          description: A list of contact methods for the service facility.
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-          description: The address of the service facility.
-      required:
-      - name
-      - aliases
-      - telecoms
-      - address
-      title: OrganizationServiceFacilityCreate
-    type_organization-service-facilities_v2_ServiceFacilityStatus:
-      type: string
-      enum:
-      - active
-      - inactive
-      - suspended
-      title: ServiceFacilityStatus
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_commons_FacilityTypeCode:
-      type: string
-      enum:
-      - '01'
-      - '02'
-      - '03'
-      - '04'
-      - '05'
-      - '06'
-      - '07'
-      - 08
-      - 09
-      - '10'
-      - '11'
-      - '12'
-      - '13'
-      - '14'
-      - '15'
-      - '16'
-      - '17'
-      - '18'
-      - '19'
-      - '20'
-      - '21'
-      - '22'
-      - '23'
-      - '24'
-      - '25'
-      - '26'
-      - '31'
-      - '32'
-      - '33'
-      - '34'
-      - '41'
-      - '42'
-      - '49'
-      - '50'
-      - '51'
-      - '52'
-      - '53'
-      - '54'
-      - '55'
-      - '56'
-      - '57'
-      - '58'
-      - '60'
-      - '61'
-      - '62'
-      - '65'
-      - '71'
-      - '72'
-      - '81'
-      - '99'
-      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
-
-        02 for telemedicine, 11 for in-person. Full list here:
-
-        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
-      title: FacilityTypeCode
-    type_organization-service-facilities_v2_OrganizationServiceFacilityPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
-      required:
-      - items
-      title: OrganizationServiceFacilityPage
-    type_commons_EntityConflictErrorMessage:
-      type: object
-      properties:
-        entity_name:
-          type: string
-      required:
-      - entity_name
-      title: EntityConflictErrorMessage
-    type_organization-service-facilities_v2_OrganizationServiceFacilityUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the service facility.
-        aliases:
-          type: array
-          items:
-            type: string
-          description: A list of alternate names for the service facility.
-        description:
-          type: string
-          description: A description of the service facility.
-        external_id:
-          type: string
-          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
-        npi:
-          type: string
-          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
-
-            Box 32 section (a) of the CMS-1500 claim form.'
-        place_of_service_code:
-          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
-          description: The Place of Service (POS) code for this service facility.
-        clia_number:
-          type: string
-          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
-        mammography_certification_number:
-          type: string
-          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
-        status:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
-          description: The status of the service facility.
-        operational_status:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
-          description: The operational status of the service facility.
-        mode:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
-          description: The mode of the service facility.
-        type:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
-          description: The type of the service facility.
-        physical_type:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
-          description: The physical type of the service facility.
-        telecoms:
-          type: array
-          items:
-            type: string
-          description: A list of contact methods for the service facility.
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-          description: The address of the service facility.
-      title: OrganizationServiceFacilityUpdate
-    type_commons_RequestValidationError:
-      type: object
-      properties:
-        fieldName:
-          type: string
-        humanReadableMessage:
-          type: string
-      required:
-      - fieldName
-      title: RequestValidationError
-    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
-      type: string
-      format: uuid
-      title: OrganizationServiceFacilityId
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_commons_StreetAddressLongZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
-    type_organization-service-facilities_v2_OrganizationServiceFacility:
-      type: object
-      properties:
-        organization_service_facility_id:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
-        name:
-          type: string
-          description: The name of the service facility.
-        aliases:
-          type: array
-          items:
-            type: string
-          description: A list of alternate names for the service facility.
-        description:
-          type: string
-          description: A description of the service facility.
-        external_id:
-          type: string
-          description: An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
-        npi:
-          type: string
-          description: 'An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider''s NPI.
-
-            Box 32 section (a) of the CMS-1500 claim form.'
-        place_of_service_code:
-          $ref: '#/components/schemas/type_commons_FacilityTypeCode'
-          description: The Place of Service (POS) code for this service facility.
-        clia_number:
-          type: string
-          description: The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
-        mammography_certification_number:
-          type: string
-          description: The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
-        status:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityStatus'
-          description: The status of the service facility.
-        operational_status:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityOperationalStatus'
-          description: The operational status of the service facility.
-        mode:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityMode'
-          description: The mode of the service facility.
-        type:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityType'
-          description: The type of the service facility.
-        physical_type:
-          $ref: '#/components/schemas/type_organization-service-facilities_v2_ServiceFacilityPhysicalType'
-          description: The physical type of the service facility.
-        telecoms:
-          type: array
-          items:
-            type: string
-          description: A list of contact methods for the service facility.
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-          description: The address of the service facility.
-      required:
-      - organization_service_facility_id
-      - name
-      - aliases
-      - telecoms
-      - address
-      title: OrganizationServiceFacility
     type_commons_State:
       type: string
       enum:
@@ -864,34 +884,14 @@ components:
       - WI
       - WY
       title: State
-    type_organization-service-facilities_v2_ServiceFacilityOperationalStatus:
-      type: string
-      enum:
-      - C
-      - H
-      - I
-      - K
-      - O
-      - U
-      title: ServiceFacilityOperationalStatus
-    type_organization-service-facilities_v2_ServiceFacilityPhysicalType:
-      type: string
-      enum:
-      - si
-      - bu
-      - wi
-      - wa
-      - lvl
-      - co
-      - ro
-      - bd
-      - ve
-      - ho
-      - ca
-      - rd
-      - area
-      - jdn
-      title: ServiceFacilityPhysicalType
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

@@ -189,6 +189,10 @@ paths:
                 - content
 components:
   schemas:
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
     type_diagnoses_StandaloneDiagnosisCreate:
       type: object
       properties:
@@ -217,20 +221,28 @@ components:
       - code
       - encounter_id
       title: StandaloneDiagnosisCreate
-    type_diagnoses_DiagnosisTypeCode:
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_yes-no-indicator_YesNoIndicator:
       type: string
       enum:
-      - ABF
-      - ABJ
-      - ABK
-      - APR
-      - BF
-      - BJ
-      - BK
-      - PR
-      - DR
-      - LOI
-      title: DiagnosisTypeCode
+      - 'YES'
+      - 'NO'
+      - UNKNOWN
+      - NOT_APPLICABLE
+      title: YesNoIndicator
+    type_diagnoses_DiagnosisNotFoundError:
+      type: object
+      properties:
+        diagnosis_id:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        message:
+          type: string
+      required:
+      - message
+      title: DiagnosisNotFoundError
     type_diagnoses_DisallowMultiplePrimaryDiagnosisError:
       type: object
       properties:
@@ -245,10 +257,20 @@ components:
       - new_primary_diagnosis_id
       - message
       title: DisallowMultiplePrimaryDiagnosisError
-    type_commons_ServiceLineId:
+    type_diagnoses_DiagnosisTypeCode:
       type: string
-      format: uuid
-      title: ServiceLineId
+      enum:
+      - ABF
+      - ABJ
+      - ABK
+      - APR
+      - BF
+      - BJ
+      - BK
+      - PR
+      - DR
+      - LOI
+      title: DiagnosisTypeCode
     type_diagnoses_ServiceLinesMustHaveAtLeastOneDiagnosisError:
       type: object
       properties:
@@ -267,28 +289,6 @@ components:
       type: string
       format: uuid
       title: DiagnosisId
-    type_diagnoses_DiagnosisNotFoundError:
-      type: object
-      properties:
-        diagnosis_id:
-          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
-        message:
-          type: string
-      required:
-      - message
-      title: DiagnosisNotFoundError
-    type_yes-no-indicator_YesNoIndicator:
-      type: string
-      enum:
-      - 'YES'
-      - 'NO'
-      - UNKNOWN
-      - NOT_APPLICABLE
-      title: YesNoIndicator
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
     type_diagnoses_Diagnosis:
       type: object
       properties:

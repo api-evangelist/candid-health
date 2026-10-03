@@ -232,20 +232,14 @@ paths:
               - text
 components:
   schemas:
-    type_billing-notes_v2_BillingNoteId:
-      type: string
-      format: uuid
-      title: BillingNoteId
-    type_commons_RequestValidationError:
+    type_commons_EntityNotFoundErrorMessage:
       type: object
       properties:
-        fieldName:
-          type: string
-        humanReadableMessage:
+        id:
           type: string
       required:
-      - fieldName
-      title: RequestValidationError
+      - id
+      title: EntityNotFoundErrorMessage
     type_billing-notes_v2_BillingNote:
       type: object
       properties:
@@ -276,6 +270,39 @@ components:
       - encounter_id
       - created_at
       title: BillingNote
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_billing-notes_v2_BillingNoteId:
+      type: string
+      format: uuid
+      title: BillingNoteId
+    type_billing-notes_v2_BillingNoteType:
+      type: string
+      enum:
+      - manual
+      - system
+      - queue_added
+      - queue_moved
+      - task_created
+      title: BillingNoteType
     type_billing-notes_v2_BillingNoteMetadata:
       oneOf:
       - type: object
@@ -333,25 +360,6 @@ components:
       discriminator:
         propertyName: type
       title: BillingNoteMetadata
-    type_billing-notes_v2_BillingNoteType:
-      type: string
-      enum:
-      - manual
-      - system
-      - queue_added
-      - queue_moved
-      - task_created
-      title: BillingNoteType
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
     type_commons_OrganizationNotAuthorizedErrorMessage:
       type: object
       properties:
@@ -360,14 +368,6 @@ components:
       required:
       - message
       title: OrganizationNotAuthorizedErrorMessage
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

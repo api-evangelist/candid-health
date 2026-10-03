@@ -765,7 +765,29 @@ paths:
                 - content
 components:
   schemas:
-    type_encounter-providers_v2_OrderingProviderUpdate:
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_encounter-providers_v2_ProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+          description: Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+          description: Represents REF01 on the EDI 837 Loop 2010BB Provider Secondary Identification segment.
+      required:
+      - reference_identification
+      title: ProviderSecondaryIdentification
+    type_encounter-providers_v2_OrderingProvider:
       type: object
       properties:
         first_name:
@@ -786,15 +808,28 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-      title: OrderingProviderUpdate
-    type_commons_QualifierCode:
-      type: string
-      enum:
-      - DQ
-      - DN
-      - DK
-      - P3
-      title: QualifierCode
+      required:
+      - npi
+      title: OrderingProvider
+    type_encounter-providers_v2_SupervisingProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
+      required:
+      - reference_identification
+      - reference_identification_qualifier
+      title: SupervisingProviderSecondaryIdentification
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
     type_encounter-providers_v2_EncounterProvider:
       type: object
       properties:
@@ -836,6 +871,155 @@ components:
       - address
       - npi
       title: EncounterProvider
+    type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier:
+      type: string
+      enum:
+      - 0B
+      - 1G
+      - G2
+      - LU
+      title: ProviderSecondaryIdentificationQualifier
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_commons_QualifierCode:
+      type: string
+      enum:
+      - DQ
+      - DN
+      - DK
+      - P3
+      title: QualifierCode
+    type_encounter-providers_v2_ReferringProviderSecondaryIdentification:
+      type: object
+      properties:
+        reference_identification:
+          type: string
+        reference_identification_qualifier:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier'
+      required:
+      - reference_identification
+      - reference_identification_qualifier
+      title: ReferringProviderSecondaryIdentification
+    type_commons_BillingProviderCommercialLicenseType:
+      type: string
+      enum:
+      - '0'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - I
+      title: BillingProviderCommercialLicenseType
+    type_encounter-providers_v2_InitialReferringProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      title: InitialReferringProviderUpdate
+    type_encounter-providers_v2_SupervisingProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentification'
+      required:
+      - npi
+      title: SupervisingProvider
+    type_encounter-providers_v2_SupervisingProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentification'
+      title: SupervisingProviderUpdate
+    type_encounter-providers_v2_InitialReferringProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        qualifier:
+          $ref: '#/components/schemas/type_commons_QualifierCode'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      required:
+      - npi
+      title: InitialReferringProvider
     type_commons_State:
       type: string
       enum:
@@ -902,7 +1086,7 @@ components:
       - WI
       - WY
       title: State
-    type_encounter-providers_v2_OrderingProvider:
+    type_encounter-providers_v2_ReferringProviderUpdate:
       type: object
       properties:
         first_name:
@@ -923,27 +1107,78 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        secondary_identification:
+          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
+      title: ReferringProviderUpdate
+    type_encounter-providers_v2_ProviderId:
+      type: string
+      format: uuid
+      title: ProviderId
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
       required:
-      - npi
-      title: OrderingProvider
-    type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier:
+      - entity_name
+      title: EntityConflictErrorMessage
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier:
       type: string
       enum:
       - 0B
       - 1G
       - G2
-      - LU
-      title: ProviderSecondaryIdentificationQualifier
-    type_commons_RequestValidationError:
+      title: ReferringProviderSecondaryIdentificationQualifier
+    type_commons_StreetAddressLongZip:
       type: object
       properties:
-        fieldName:
+        address1:
           type: string
-        humanReadableMessage:
+        address2:
           type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
       required:
-      - fieldName
-      title: RequestValidationError
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_encounter-providers_v2_OrderingProviderUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        last_name:
+          type: string
+          description: If the provider is an individual, this should be set instead of organization name
+        organization_name:
+          type: string
+          description: If the provider is an organization, this should be set instead of first + last name
+        npi:
+          type: string
+          description: 'A National Provider Identifier is a unique 10-digit identification
+
+            number issued to health care providers in the United States'
+        taxonomy_code:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      title: OrderingProviderUpdate
     type_encounter-providers_v2_ReferringProvider:
       type: object
       properties:
@@ -970,241 +1205,6 @@ components:
       required:
       - npi
       title: ReferringProvider
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
-    type_encounter-providers_v2_ReferringProviderSecondaryIdentification:
-      type: object
-      properties:
-        reference_identification:
-          type: string
-        reference_identification_qualifier:
-          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier'
-      required:
-      - reference_identification
-      - reference_identification_qualifier
-      title: ReferringProviderSecondaryIdentification
-    type_encounter-providers_v2_ReferringProviderUpdate:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        last_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        organization_name:
-          type: string
-          description: If the provider is an organization, this should be set instead of first + last name
-        npi:
-          type: string
-          description: 'A National Provider Identifier is a unique 10-digit identification
-
-            number issued to health care providers in the United States'
-        taxonomy_code:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-        secondary_identification:
-          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
-      title: ReferringProviderUpdate
-    type_encounter-providers_v2_InitialReferringProviderUpdate:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        last_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        organization_name:
-          type: string
-          description: If the provider is an organization, this should be set instead of first + last name
-        npi:
-          type: string
-          description: 'A National Provider Identifier is a unique 10-digit identification
-
-            number issued to health care providers in the United States'
-        taxonomy_code:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-        qualifier:
-          $ref: '#/components/schemas/type_commons_QualifierCode'
-        secondary_identification:
-          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
-      title: InitialReferringProviderUpdate
-    type_encounter-providers_v2_SupervisingProviderSecondaryIdentification:
-      type: object
-      properties:
-        reference_identification:
-          type: string
-        reference_identification_qualifier:
-          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
-      required:
-      - reference_identification
-      - reference_identification_qualifier
-      title: SupervisingProviderSecondaryIdentification
-    type_encounter-providers_v2_InitialReferringProvider:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        last_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        organization_name:
-          type: string
-          description: If the provider is an organization, this should be set instead of first + last name
-        npi:
-          type: string
-          description: 'A National Provider Identifier is a unique 10-digit identification
-
-            number issued to health care providers in the United States'
-        taxonomy_code:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-        qualifier:
-          $ref: '#/components/schemas/type_commons_QualifierCode'
-        secondary_identification:
-          $ref: '#/components/schemas/type_encounter-providers_v2_ReferringProviderSecondaryIdentification'
-      required:
-      - npi
-      title: InitialReferringProvider
-    type_commons_BillingProviderCommercialLicenseType:
-      type: string
-      enum:
-      - '0'
-      - A
-      - B
-      - C
-      - D
-      - E
-      - F
-      - G
-      - H
-      - I
-      title: BillingProviderCommercialLicenseType
-    type_encounter-providers_v2_SupervisingProvider:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        last_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        organization_name:
-          type: string
-          description: If the provider is an organization, this should be set instead of first + last name
-        npi:
-          type: string
-          description: 'A National Provider Identifier is a unique 10-digit identification
-
-            number issued to health care providers in the United States'
-        taxonomy_code:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-        secondary_identification:
-          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentification'
-      required:
-      - npi
-      title: SupervisingProvider
-    type_encounter-providers_v2_ProviderId:
-      type: string
-      format: uuid
-      title: ProviderId
-    type_commons_EntityConflictErrorMessage:
-      type: object
-      properties:
-        entity_name:
-          type: string
-      required:
-      - entity_name
-      title: EntityConflictErrorMessage
-    type_encounter-providers_v2_SupervisingProviderUpdate:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        last_name:
-          type: string
-          description: If the provider is an individual, this should be set instead of organization name
-        organization_name:
-          type: string
-          description: If the provider is an organization, this should be set instead of first + last name
-        npi:
-          type: string
-          description: 'A National Provider Identifier is a unique 10-digit identification
-
-            number issued to health care providers in the United States'
-        taxonomy_code:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-        secondary_identification:
-          $ref: '#/components/schemas/type_encounter-providers_v2_SupervisingProviderSecondaryIdentification'
-      title: SupervisingProviderUpdate
-    type_encounter-providers_v2_ProviderSecondaryIdentification:
-      type: object
-      properties:
-        reference_identification:
-          type: string
-          description: Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
-        reference_identification_qualifier:
-          $ref: '#/components/schemas/type_encounter-providers_v2_ProviderSecondaryIdentificationQualifier'
-          description: Represents REF01 on the EDI 837 Loop 2010BB Provider Secondary Identification segment.
-      required:
-      - reference_identification
-      title: ProviderSecondaryIdentification
-    type_commons_StreetAddressLongZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
-    type_encounter-providers_v2_ReferringProviderSecondaryIdentificationQualifier:
-      type: string
-      enum:
-      - 0B
-      - 1G
-      - G2
-      title: ReferringProviderSecondaryIdentificationQualifier
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

@@ -254,187 +254,9 @@ paths:
               $ref: '#/components/schemas/type_import-invoice_v1_ImportInvoiceUpdateRequest'
 components:
   schemas:
-    type_commons_EncounterExternalId:
+    type_commons_PageToken:
       type: string
-      title: EncounterExternalId
-    type_commons_ClaimId:
-      type: string
-      format: uuid
-      title: ClaimId
-    type_invoices_v2_InvoiceStatus:
-      type: string
-      enum:
-      - DRAFT
-      - OPEN
-      - PAID
-      - VOID
-      - UNCOLLECTIBLE
-      - HELD
-      title: InvoiceStatus
-    type_payment-account-configs_PaymentAccountConfigId:
-      type: string
-      format: uuid
-      title: PaymentAccountConfigId
-    type_commons_InvoiceId:
-      type: string
-      format: uuid
-      title: InvoiceId
-    type_invoices_v2_UnattributedInvoiceItem:
-      type: object
-      properties:
-        amount_cents:
-          type: integer
-      required:
-      - amount_cents
-      title: UnattributedInvoiceItem
-    type_commons_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_invoices_v2_InvoiceItemInfo:
-      type: object
-      properties:
-        claim_invoice_items:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_invoices_v2_ClaimInvoiceItemInfo'
-        unattributed_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_invoices_v2_UnattributedInvoiceItem'
-      required:
-      - claim_invoice_items
-      - unattributed_items
-      title: InvoiceItemInfo
-    type_invoices_v2_InvoiceItemCreate:
-      type: object
-      properties:
-        attribution:
-          $ref: '#/components/schemas/type_invoices_v2_InvoiceItemAttributionCreate'
-        amount_cents:
-          type: integer
-      required:
-      - attribution
-      - amount_cents
-      title: InvoiceItemCreate
-    type_import-invoice_v1_ImportInvoiceUpdateRequest:
-      type: object
-      properties:
-        customer_invoice_url:
-          type: string
-          description: Link to the patient view of the invoice in the third-party service
-        status:
-          $ref: '#/components/schemas/type_invoices_v2_InvoiceStatus'
-        note:
-          type: string
-        due_date:
-          type: string
-          format: date
-        items:
-          $ref: '#/components/schemas/type_import-invoice_v1_InvoiceItemInfoUpdate'
-          description: None here represents there is no update to the invoice items
-      title: ImportInvoiceUpdateRequest
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
-    type_invoices_v2_ClaimInvoiceItem:
-      type: object
-      properties:
-        claim_id:
-          $ref: '#/components/schemas/type_commons_ClaimId'
-        amount_cents:
-          type: integer
-      required:
-      - claim_id
-      - amount_cents
-      title: ClaimInvoiceItem
-    type_import-invoice_v1_CreateImportInvoiceRequest:
-      type: object
-      properties:
-        external_payment_account_config_id:
-          $ref: '#/components/schemas/type_payment-account-configs_PaymentAccountConfigId'
-        patient_external_id:
-          $ref: '#/components/schemas/type_commons_PatientExternalId'
-        external_customer_identifier:
-          type: string
-          description: Id of the customer in the source system
-        note:
-          type: string
-        due_date:
-          type: string
-          format: date
-          description: If given as None, days_until_due in the payment config will be used to create a default date
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_invoices_v2_InvoiceItemCreate'
-        status:
-          $ref: '#/components/schemas/type_invoices_v2_InvoiceStatus'
-        external_identifier:
-          type: string
-          description: Id of the invoice being imported in the source system. Warning - This field CANNOT be updated.
-        customer_invoice_url:
-          type: string
-          description: Link to the patient view of the invoice in the third-party service
-      required:
-      - external_payment_account_config_id
-      - patient_external_id
-      - external_customer_identifier
-      - items
-      - status
-      - external_identifier
-      title: CreateImportInvoiceRequest
-    type_commons_UnprocessableEntityErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnprocessableEntityErrorMessage
-    type_commons_PatientExternalId:
-      type: string
-      title: PatientExternalId
-    type_invoices_v2_InvoiceItemAttributionCreate:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - service_line_id
-            description: 'Discriminator value: service_line_id'
-          value:
-            $ref: '#/components/schemas/type_commons_ServiceLineId'
-        required:
-        - type
-        - value
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - claim_id
-            description: 'Discriminator value: claim_id'
-          value:
-            $ref: '#/components/schemas/type_commons_ClaimId'
-        required:
-        - type
-        - value
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - unattributed
-            description: 'Discriminator value: unattributed'
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      description: Points to the claim or service line that this invoice is attributed to
-      title: InvoiceItemAttributionCreate
+      title: PageToken
     type_import-invoice_v1_ImportInvoice:
       type: object
       properties:
@@ -482,23 +304,136 @@ components:
       - due_date
       - amount_cents
       title: ImportInvoice
-    type_commons_PageToken:
+    type_commons_ClaimId:
       type: string
-      title: PageToken
-    type_commons_EntityConflictErrorMessage:
+      format: uuid
+      title: ClaimId
+    type_invoices_v2_InvoiceItemAttributionCreate:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - service_line_id
+            description: 'Discriminator value: service_line_id'
+          value:
+            $ref: '#/components/schemas/type_commons_ServiceLineId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - claim_id
+            description: 'Discriminator value: claim_id'
+          value:
+            $ref: '#/components/schemas/type_commons_ClaimId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - unattributed
+            description: 'Discriminator value: unattributed'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      description: Points to the claim or service line that this invoice is attributed to
+      title: InvoiceItemAttributionCreate
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_invoices_v2_InvoiceItemInfo:
       type: object
       properties:
-        entity_name:
-          type: string
+        claim_invoice_items:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_invoices_v2_ClaimInvoiceItemInfo'
+        unattributed_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_invoices_v2_UnattributedInvoiceItem'
       required:
-      - entity_name
-      title: EntityConflictErrorMessage
+      - claim_invoice_items
+      - unattributed_items
+      title: InvoiceItemInfo
     type_import-invoice_v1_InvoiceItemUpdateType:
       type: string
       enum:
       - APPEND
       - OVERWRITE
       title: InvoiceItemUpdateType
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_import-invoice_v1_CreateImportInvoiceRequest:
+      type: object
+      properties:
+        external_payment_account_config_id:
+          $ref: '#/components/schemas/type_payment-account-configs_PaymentAccountConfigId'
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+        external_customer_identifier:
+          type: string
+          description: Id of the customer in the source system
+        note:
+          type: string
+        due_date:
+          type: string
+          format: date
+          description: If given as None, days_until_due in the payment config will be used to create a default date
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_invoices_v2_InvoiceItemCreate'
+        status:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceStatus'
+        external_identifier:
+          type: string
+          description: Id of the invoice being imported in the source system. Warning - This field CANNOT be updated.
+        customer_invoice_url:
+          type: string
+          description: Link to the patient view of the invoice in the third-party service
+      required:
+      - external_payment_account_config_id
+      - patient_external_id
+      - external_customer_identifier
+      - items
+      - status
+      - external_identifier
+      title: CreateImportInvoiceRequest
+    type_commons_EncounterExternalId:
+      type: string
+      title: EncounterExternalId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_invoices_v2_InvoiceSortField:
+      type: string
+      enum:
+      - CREATED_AT
+      - UPDATED_AT
+      - PATIENT_EXTERNAL_ID
+      - NOTE
+      - DUE_DATE
+      - STATUS
+      title: InvoiceSortField
     type_import-invoice_v1_ImportInvoicesPage:
       type: object
       properties:
@@ -513,28 +448,56 @@ components:
       required:
       - items
       title: ImportInvoicesPage
-    type_invoices_v2_ClaimInvoiceItemInfo:
+    type_invoices_v2_InvoiceItemCreate:
       type: object
       properties:
-        claim_invoice_item:
-          $ref: '#/components/schemas/type_invoices_v2_ClaimInvoiceItem'
-        service_line_invoice_items:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_invoices_v2_ServiceLineInvoiceItem'
+        attribution:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceItemAttributionCreate'
+        amount_cents:
+          type: integer
       required:
-      - service_line_invoice_items
-      title: ClaimInvoiceItemInfo
-    type_invoices_v2_InvoiceSortField:
+      - attribution
+      - amount_cents
+      title: InvoiceItemCreate
+    type_commons_InvoiceId:
+      type: string
+      format: uuid
+      title: InvoiceId
+    type_invoices_v2_ServiceLineInvoiceItem:
+      type: object
+      properties:
+        service_line_id:
+          $ref: '#/components/schemas/type_commons_ServiceLineId'
+        amount_cents:
+          type: integer
+      required:
+      - service_line_id
+      - amount_cents
+      title: ServiceLineInvoiceItem
+    type_invoices_v2_InvoiceStatus:
       type: string
       enum:
-      - CREATED_AT
-      - UPDATED_AT
-      - PATIENT_EXTERNAL_ID
-      - NOTE
-      - DUE_DATE
-      - STATUS
-      title: InvoiceSortField
+      - DRAFT
+      - OPEN
+      - PAID
+      - VOID
+      - UNCOLLECTIBLE
+      - HELD
+      title: InvoiceStatus
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
     type_import-invoice_v1_InvoiceItemInfoUpdate:
       type: object
       properties:
@@ -551,25 +514,62 @@ components:
       - update_type
       - items
       title: InvoiceItemInfoUpdate
-    type_invoices_v2_ServiceLineInvoiceItem:
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_payment-account-configs_PaymentAccountConfigId:
+      type: string
+      format: uuid
+      title: PaymentAccountConfigId
+    type_invoices_v2_UnattributedInvoiceItem:
       type: object
       properties:
-        service_line_id:
-          $ref: '#/components/schemas/type_commons_ServiceLineId'
         amount_cents:
           type: integer
       required:
-      - service_line_id
       - amount_cents
-      title: ServiceLineInvoiceItem
-    type_commons_EntityNotFoundErrorMessage:
+      title: UnattributedInvoiceItem
+    type_import-invoice_v1_ImportInvoiceUpdateRequest:
       type: object
       properties:
-        id:
+        customer_invoice_url:
           type: string
+          description: Link to the patient view of the invoice in the third-party service
+        status:
+          $ref: '#/components/schemas/type_invoices_v2_InvoiceStatus'
+        note:
+          type: string
+        due_date:
+          type: string
+          format: date
+        items:
+          $ref: '#/components/schemas/type_import-invoice_v1_InvoiceItemInfoUpdate'
+          description: None here represents there is no update to the invoice items
+      title: ImportInvoiceUpdateRequest
+    type_invoices_v2_ClaimInvoiceItemInfo:
+      type: object
+      properties:
+        claim_invoice_item:
+          $ref: '#/components/schemas/type_invoices_v2_ClaimInvoiceItem'
+        service_line_invoice_items:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_invoices_v2_ServiceLineInvoiceItem'
       required:
-      - id
-      title: EntityNotFoundErrorMessage
+      - service_line_invoice_items
+      title: ClaimInvoiceItemInfo
+    type_invoices_v2_ClaimInvoiceItem:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        amount_cents:
+          type: integer
+      required:
+      - claim_id
+      - amount_cents
+      title: ClaimInvoiceItem
   securitySchemes:
     OAuthScheme:
       type: http

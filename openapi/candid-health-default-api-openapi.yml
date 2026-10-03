@@ -134,14 +134,14 @@ paths:
               - client_secret
 components:
   schemas:
-    type_auth_default_TooManyRequestsErrorType:
+    type_auth_default_InvalidContentTypeErrorType:
       type: object
       properties:
         message:
           type: string
       required:
       - message
-      title: TooManyRequestsErrorType
+      title: InvalidContentTypeErrorType
     type_auth_default_AuthGetTokenResponse:
       type: object
       properties:
@@ -157,14 +157,14 @@ components:
       - expires_in
       - token_type
       title: AuthGetTokenResponse
-    type_auth_default_InvalidContentTypeErrorType:
+    type_auth_default_TooManyRequestsErrorType:
       type: object
       properties:
         message:
           type: string
       required:
       - message
-      title: InvalidContentTypeErrorType
+      title: TooManyRequestsErrorType
   securitySchemes:
     OAuthScheme:
       type: http

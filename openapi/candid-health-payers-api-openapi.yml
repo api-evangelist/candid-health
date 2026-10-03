@@ -154,6 +154,124 @@ paths:
       x-operation-id-original: getAll
 components:
   schemas:
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_payers_v4_PrimaryPayerIds:
+      type: object
+      properties:
+        claims_payer_id:
+          type: string
+          description: The payer ID for claim submission
+        eligibility_payer_id:
+          type: string
+          description: The payer ID for eligibility
+        remittance_payer_id:
+          type: string
+          description: The payer ID for remittance
+      required:
+      - claims_payer_id
+      title: PrimaryPayerIds
+    type_payers_v4_PayerIds:
+      type: object
+      properties:
+        claims_payer_id:
+          type: string
+          description: The payer ID for claim submission
+        eligibility_payer_id:
+          type: string
+          description: The payer ID for eligibility
+        remittance_payer_id:
+          type: string
+          description: The payer ID for remittance
+      title: PayerIds
+    type_payers_v4_SupportState:
+      type: string
+      enum:
+      - NOT_SUPPORTED
+      - SUPPORTED_ENROLLMENT_NOT_REQUIRED
+      - SUPPORTED_ENROLLMENT_REQUIRED
+      title: SupportState
+    type_payers_v3_PayerPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payers_v3_Payer'
+      required:
+      - items
+      title: PayerPage
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_payers_v4_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v4_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_ids:
+          $ref: '#/components/schemas/type_payers_v4_PrimaryPayerIds'
+          description: The primary national payer IDs of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        payer_category:
+          $ref: '#/components/schemas/type_payers_v4_PayerCategory'
+          description: The category of the payer.
+        alternate_payer_names:
+          type: array
+          items:
+            type: string
+          description: The alternate display names of the payer.
+        clearinghouse_payer_info:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_payers_v4_ClearinghousePayerInfo'
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+        alternate_payer_addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_ids
+      - payer_name
+      - alternate_payer_names
+      - clearinghouse_payer_info
+      - alternate_payer_addresses
+      title: Payer
+    type_payers_v4_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
     type_payers_v3_Payer:
       type: object
       properties:
@@ -185,14 +303,7 @@ components:
       - payer_id
       - payer_name
       title: Payer
-    type_payers_v4_PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_payers_v3_PayerPage:
+    type_payers_v4_PayerPage:
       type: object
       properties:
         prev_page_token:
@@ -202,23 +313,14 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/type_payers_v3_Payer'
+            $ref: '#/components/schemas/type_payers_v4_Payer'
       required:
       - items
       title: PayerPage
-    type_payers_v4_PayerIds:
-      type: object
-      properties:
-        claims_payer_id:
-          type: string
-          description: The payer ID for claim submission
-        eligibility_payer_id:
-          type: string
-          description: The payer ID for eligibility
-        remittance_payer_id:
-          type: string
-          description: The payer ID for remittance
-      title: PayerIds
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
     type_commons_State:
       type: string
       enum:
@@ -285,108 +387,6 @@ components:
       - WI
       - WY
       title: State
-    type_payers_v4_PayerPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_payers_v4_Payer'
-      required:
-      - items
-      title: PayerPage
-    type_payers_v4_SupportState:
-      type: string
-      enum:
-      - NOT_SUPPORTED
-      - SUPPORTED_ENROLLMENT_NOT_REQUIRED
-      - SUPPORTED_ENROLLMENT_REQUIRED
-      title: SupportState
-    type_payers_v4_PrimaryPayerIds:
-      type: object
-      properties:
-        claims_payer_id:
-          type: string
-          description: The payer ID for claim submission
-        eligibility_payer_id:
-          type: string
-          description: The payer ID for eligibility
-        remittance_payer_id:
-          type: string
-          description: The payer ID for remittance
-      required:
-      - claims_payer_id
-      title: PrimaryPayerIds
-    type_payers_v4_Payer:
-      type: object
-      properties:
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v4_PayerUuid'
-          description: Auto-generated ID set on creation.
-        payer_ids:
-          $ref: '#/components/schemas/type_payers_v4_PrimaryPayerIds'
-          description: The primary national payer IDs of the payer.
-        payer_name:
-          type: string
-          description: The primary display name of the payer.
-        payer_category:
-          $ref: '#/components/schemas/type_payers_v4_PayerCategory'
-          description: The category of the payer.
-        alternate_payer_names:
-          type: array
-          items:
-            type: string
-          description: The alternate display names of the payer.
-        clearinghouse_payer_info:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_payers_v4_ClearinghousePayerInfo'
-        street_address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-        alternate_payer_addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-      required:
-      - payer_uuid
-      - payer_ids
-      - payer_name
-      - alternate_payer_names
-      - clearinghouse_payer_info
-      - alternate_payer_addresses
-      title: Payer
-    type_payers_v3_PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
-    type_commons_StreetAddressLongZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
     type_payers_v4_ClearinghousePayerInfo:
       type: object
       properties:

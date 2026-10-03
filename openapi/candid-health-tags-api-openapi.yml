@@ -176,48 +176,6 @@ components:
       type: string
       description: The unique identifier for a Tag.
       title: TagId
-    type_pre-encounter_tags_v1_TagPage:
-      type: object
-      properties:
-        next_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        prev_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        total:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_tags_v1_Tag'
-      required:
-      - total
-      - items
-      title: TagPage
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
-    type_pre-encounter_common_OrganizationId:
-      type: string
-      description: The unique identifier for an Organization in the database
-      title: OrganizationId
-    type_pre-encounter_tags_v1_MutableTag:
-      type: object
-      properties:
-        value:
-          type: string
-        description:
-          type: string
-        alert:
-          type: boolean
-      required:
-      - value
-      description: An object representing a Tag.
-      title: MutableTag
-    type_pre-encounter_common_PageToken:
-      type: string
-      description: A token that can be used to retrieve the next or previous page of results
-      title: PageToken
     type_pre-encounter_tags_v1_Tag:
       type: object
       properties:
@@ -254,6 +212,48 @@ components:
       - id
       description: A Tag object with immutable server-owned properties.
       title: Tag
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_tags_v1_MutableTag:
+      type: object
+      properties:
+        value:
+          type: string
+        description:
+          type: string
+        alert:
+          type: boolean
+      required:
+      - value
+      description: An object representing a Tag.
+      title: MutableTag
+    type_pre-encounter_tags_v1_TagPage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_tags_v1_Tag'
+      required:
+      - total
+      - items
+      title: TagPage
+    type_pre-encounter_common_PageToken:
+      type: string
+      description: A token that can be used to retrieve the next or previous page of results
+      title: PageToken
   securitySchemes:
     OAuthScheme:
       type: http

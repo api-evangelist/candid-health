@@ -241,214 +241,13 @@ paths:
                 $ref: '#/components/schemas/type_commons_AdjustmentId'
 components:
   schemas:
-    type_payers_v3_Payer:
-      type: object
-      properties:
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-          description: Auto-generated ID set on creation.
-        payer_id:
-          type: string
-          description: The primary national payer ID of the payer.
-        payer_name:
-          type: string
-          description: The primary display name of the payer.
-        availity_payer_name:
-          type: string
-          description: The name of the payer as it appears in Availity.
-        availity_claims_payer_id:
-          type: string
-          description: The ID of the payer as it appears in Availity.
-        availity_eligibility_id:
-          type: string
-          description: The eligibility ID of the payer as it appears in Availity.
-        availity_remittance_payer_id:
-          type: string
-          description: The remittance ID of the payer as it appears in Availity.
-        street_address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-      required:
-      - payer_uuid
-      - payer_id
-      - payer_name
-      title: Payer
-    type_commons_ClaimId:
+    type_commons_PageToken:
       type: string
-      format: uuid
-      title: ClaimId
-    type_commons_ProviderId:
-      type: string
-      format: uuid
-      title: ProviderId
-    type_non-insurance-payers_v1_NonInsurancePayerId:
-      type: string
-      format: uuid
-      title: NonInsurancePayerId
-    type_write-offs_v1_WriteOffsPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_write-offs_v1_WriteOff'
-      required:
-      - items
-      title: WriteOffsPage
-    type_commons_State:
-      type: string
-      enum:
-      - AA
-      - AE
-      - AP
-      - AL
-      - AK
-      - AS
-      - AZ
-      - AR
-      - CA
-      - CO
-      - CT
-      - DC
-      - DE
-      - FL
-      - FM
-      - GA
-      - GU
-      - HI
-      - ID
-      - IL
-      - IN
-      - IA
-      - KS
-      - KY
-      - LA
-      - ME
-      - MD
-      - MA
-      - MH
-      - MI
-      - MN
-      - MP
-      - MS
-      - MO
-      - MT
-      - NE
-      - NV
-      - NH
-      - NJ
-      - NM
-      - NY
-      - NC
-      - ND
-      - OH
-      - OK
-      - OR
-      - PA
-      - PR
-      - PW
-      - RI
-      - SC
-      - SD
-      - TN
-      - TX
-      - UT
-      - VI
-      - VT
-      - VA
-      - WA
-      - WV
-      - WI
-      - WY
-      title: State
-    type_payers_v3_PayerId:
-      type: string
-      title: PayerId
-    type_commons_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_payers_v3_PayerName:
-      type: string
-      title: PayerName
-    type_write-offs_v1_WriteOffSortField:
-      type: string
-      enum:
-      - amount_cents
-      - write_off_timestamp
-      - write_off_note
-      title: WriteOffSortField
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
-    type_payers_v3_PayerIdentifier:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - payer_info
-            description: 'Discriminator value: payer_info'
-          payer_id:
-            $ref: '#/components/schemas/type_payers_v3_PayerId'
-          payer_name:
-            $ref: '#/components/schemas/type_payers_v3_PayerName'
-        required:
-        - type
-        - payer_id
-        - payer_name
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - payer_uuid
-            description: 'Discriminator value: payer_uuid'
-          value:
-            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-        required:
-        - type
-        - value
-      discriminator:
-        propertyName: type
-      title: PayerIdentifier
+      title: PageToken
     type_commons_AdjustmentId:
       type: string
       format: uuid
       title: AdjustmentId
-    type_commons_PatientExternalId:
-      type: string
-      title: PatientExternalId
-    type_clinical-trials_v1_ClinicalTrial:
-      type: object
-      properties:
-        name:
-          type: string
-        clinical_trial_number:
-          type: string
-          description: Must be 8 characters long
-        clinical_trial_phase:
-          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
-        clinical_trial_id:
-          $ref: '#/components/schemas/type_commons_ClinicalTrialId'
-        non_insurance_payer_id:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
-        is_active:
-          type: boolean
-      required:
-      - name
-      - clinical_trial_number
-      - clinical_trial_id
-      - non_insurance_payer_id
-      - is_active
-      title: ClinicalTrial
     type_write-offs_v1_CreateWriteOffsResponse:
       type: object
       properties:
@@ -459,47 +258,10 @@ components:
       required:
       - write_offs
       title: CreateWriteOffsResponse
-    type_write-offs_v1_InsuranceWriteOffTarget:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - service_line_id
-            description: 'Discriminator value: service_line_id'
-          value:
-            $ref: '#/components/schemas/type_commons_ServiceLineId'
-        required:
-        - type
-        - value
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - claim_id
-            description: 'Discriminator value: claim_id'
-          value:
-            $ref: '#/components/schemas/type_commons_ClaimId'
-        required:
-        - type
-        - value
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - billing_provider_id
-            description: 'Discriminator value: billing_provider_id'
-          value:
-            $ref: '#/components/schemas/type_commons_ProviderId'
-        required:
-        - type
-        - value
-      discriminator:
-        propertyName: type
-      title: InsuranceWriteOffTarget
+    type_commons_ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
     type_write-offs_v1_PatientWriteOffReason:
       type: string
       enum:
@@ -516,17 +278,23 @@ components:
       - DECEASED
       - BANKRUPTCY
       title: PatientWriteOffReason
-    type_payers_v3_PayerUuid:
+    type_commons_PatientExternalId:
       type: string
-      format: uuid
-      title: PayerUuid
-    type_commons_ClinicalTrialId:
-      type: string
-      format: uuid
-      title: ClinicalTrialId
-    type_commons_PageToken:
-      type: string
-      title: PageToken
+      title: PatientExternalId
+    type_write-offs_v1_WriteOffsPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_write-offs_v1_WriteOff'
+      required:
+      - items
+      title: WriteOffsPage
     type_write-offs_v1_WriteOffCreate:
       oneOf:
       - type: object
@@ -610,17 +378,54 @@ components:
       discriminator:
         propertyName: type
       title: WriteOffCreate
-    type_clinical-trials_v1_ClinicalTrialPhase:
+    type_write-offs_v1_InsuranceWriteOffTarget:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - service_line_id
+            description: 'Discriminator value: service_line_id'
+          value:
+            $ref: '#/components/schemas/type_commons_ServiceLineId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - claim_id
+            description: 'Discriminator value: claim_id'
+          value:
+            $ref: '#/components/schemas/type_commons_ClaimId'
+        required:
+        - type
+        - value
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - billing_provider_id
+            description: 'Discriminator value: billing_provider_id'
+          value:
+            $ref: '#/components/schemas/type_commons_ProviderId'
+        required:
+        - type
+        - value
+      discriminator:
+        propertyName: type
+      title: InsuranceWriteOffTarget
+    type_payers_v3_PayerName:
       type: string
-      enum:
-      - Phase 1
-      - Phase 2
-      - Phase 3
-      title: ClinicalTrialPhase
-    type_write-offs_v1_WriteOffId:
+      title: PayerName
+    type_commons_ClinicalTrialId:
       type: string
       format: uuid
-      title: WriteOffId
+      title: ClinicalTrialId
     type_financials_AccountType:
       type: string
       enum:
@@ -628,6 +433,146 @@ components:
       - INSURANCE
       - THIRD_PARTY_PAYER
       title: AccountType
+    type_clinical-trials_v1_ClinicalTrialPhase:
+      type: string
+      enum:
+      - Phase 1
+      - Phase 2
+      - Phase 3
+      title: ClinicalTrialPhase
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_payers_v3_PayerId:
+      type: string
+      title: PayerId
+    type_payers_v3_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_id:
+          type: string
+          description: The primary national payer ID of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        availity_payer_name:
+          type: string
+          description: The name of the payer as it appears in Availity.
+        availity_claims_payer_id:
+          type: string
+          description: The ID of the payer as it appears in Availity.
+        availity_eligibility_id:
+          type: string
+          description: The eligibility ID of the payer as it appears in Availity.
+        availity_remittance_payer_id:
+          type: string
+          description: The remittance ID of the payer as it appears in Availity.
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_id
+      - payer_name
+      title: Payer
+    type_write-offs_v1_WriteOffId:
+      type: string
+      format: uuid
+      title: WriteOffId
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_clinical-trials_v1_ClinicalTrial:
+      type: object
+      properties:
+        name:
+          type: string
+        clinical_trial_number:
+          type: string
+          description: Must be 8 characters long
+        clinical_trial_phase:
+          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
+        clinical_trial_id:
+          $ref: '#/components/schemas/type_commons_ClinicalTrialId'
+        non_insurance_payer_id:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
+        is_active:
+          type: boolean
+      required:
+      - name
+      - clinical_trial_number
+      - clinical_trial_id
+      - non_insurance_payer_id
+      - is_active
+      title: ClinicalTrial
     type_non-insurance-payers_v1_NonInsurancePayer:
       type: object
       properties:
@@ -653,6 +598,39 @@ components:
       - enabled
       - clinical_trials
       title: NonInsurancePayer
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_write-offs_v1_InsuranceWriteOffReason:
+      type: string
+      enum:
+      - SMALL_BALANCE
+      - NO_AUTHORIZATION_REFERRAL
+      - TIMELY_FILING
+      - STALE_DATE
+      - TIMELY_FILING_LATE_ENCOUNTER
+      - CREDENTIALING_OR_CONTRACTING
+      - NON_COVERED_MAX_BENEFIT
+      - NOT_MEDICALLY_NECESSARY
+      - BUNDLED_OR_INCLUSIVE
+      - UNCOLLECTIBLE_OR_NON_BILLABLE
+      - EFFORTS_EXHAUSTED
+      - ADMINISTRATIVE_WRITE_OFF
+      - CASE_RATE_OR_CAPITATED
+      - OTHER
+      - UNKNOWN
+      - CONTRACTUAL_ADJUSTMENT
+      - PRIMARY_PAID_MAX_BENEFITS
+      - INTEREST
+      title: InsuranceWriteOffReason
+    type_write-offs_v1_WriteOffSortField:
+      type: string
+      enum:
+      - amount_cents
+      - write_off_timestamp
+      - write_off_note
+      title: WriteOffSortField
     type_commons_StreetAddressShortZip:
       type: object
       properties:
@@ -700,28 +678,10 @@ components:
       - zip_code
       - zip_plus_four_code
       title: StreetAddressLongZip
-    type_write-offs_v1_InsuranceWriteOffReason:
+    type_non-insurance-payers_v1_NonInsurancePayerId:
       type: string
-      enum:
-      - SMALL_BALANCE
-      - NO_AUTHORIZATION_REFERRAL
-      - TIMELY_FILING
-      - STALE_DATE
-      - TIMELY_FILING_LATE_ENCOUNTER
-      - CREDENTIALING_OR_CONTRACTING
-      - NON_COVERED_MAX_BENEFIT
-      - NOT_MEDICALLY_NECESSARY
-      - BUNDLED_OR_INCLUSIVE
-      - UNCOLLECTIBLE_OR_NON_BILLABLE
-      - EFFORTS_EXHAUSTED
-      - ADMINISTRATIVE_WRITE_OFF
-      - CASE_RATE_OR_CAPITATED
-      - OTHER
-      - UNKNOWN
-      - CONTRACTUAL_ADJUSTMENT
-      - PRIMARY_PAID_MAX_BENEFITS
-      - INTEREST
-      title: InsuranceWriteOffReason
+      format: uuid
+      title: NonInsurancePayerId
     type_write-offs_v1_WriteOff:
       oneOf:
       - type: object
@@ -832,6 +792,46 @@ components:
       discriminator:
         propertyName: type
       title: WriteOff
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_ProviderId:
+      type: string
+      format: uuid
+      title: ProviderId
+    type_payers_v3_PayerIdentifier:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_info
+            description: 'Discriminator value: payer_info'
+          payer_id:
+            $ref: '#/components/schemas/type_payers_v3_PayerId'
+          payer_name:
+            $ref: '#/components/schemas/type_payers_v3_PayerName'
+        required:
+        - type
+        - payer_id
+        - payer_name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - payer_uuid
+            description: 'Discriminator value: payer_uuid'
+          value:
+            $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        required:
+        - type
+        - value
+      discriminator:
+        propertyName: type
+      title: PayerIdentifier
   securitySchemes:
     OAuthScheme:
       type: http
