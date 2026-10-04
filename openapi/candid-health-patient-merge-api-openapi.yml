@@ -289,20 +289,6 @@ paths:
                   $ref: '#/components/schemas/type_pre-encounter_patientMerges_v1_PatientMerge'
 components:
   schemas:
-    type_pre-encounter_common_PatientMergeId:
-      type: string
-      description: The unique identifier for a PatientMerge record.
-      title: PatientMergeId
-    type_pre-encounter_common_ErrorBase4xx:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-      required:
-      - message
-      title: ErrorBase4xx
     type_pre-encounter_patientMerges_v1_PatientMerge:
       type: object
       properties:
@@ -340,50 +326,6 @@ components:
       - id
       description: A PatientMerge object with immutable server-owned properties.
       title: PatientMerge
-    type_pre-encounter_patientMerges_v1_MutablePatientMerge:
-      type: object
-      properties:
-        alternative_patient_mrn:
-          type: string
-          description: The MRN of the patient that was merged.
-        primary_patient_mrn:
-          type: string
-          description: The MRN of the patient that is getting a patient merged into them.
-      required:
-      - alternative_patient_mrn
-      - primary_patient_mrn
-      description: An object representing a patient merge mapping.
-      title: MutablePatientMerge
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
-    type_pre-encounter_common_VersionConflictErrorBody:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-        latest_version:
-          type: integer
-      required:
-      - message
-      title: VersionConflictErrorBody
-    type_pre-encounter_common_OrganizationId:
-      type: string
-      description: The unique identifier for an Organization in the database
-      title: OrganizationId
-    type_pre-encounter_common_ErrorBase5xx:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-      required:
-      - message
-      title: ErrorBase5xx
     type_pre-encounter_patientMerges_v1_PatientMergeStatus:
       oneOf:
       - type: object
@@ -425,6 +367,64 @@ components:
         propertyName: merge_status
       description: The merge status of a patient.
       title: PatientMergeStatus
+    type_pre-encounter_common_ErrorBase4xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase4xx
+    type_pre-encounter_common_PatientMergeId:
+      type: string
+      description: The unique identifier for a PatientMerge record.
+      title: PatientMergeId
+    type_pre-encounter_patientMerges_v1_MutablePatientMerge:
+      type: object
+      properties:
+        alternative_patient_mrn:
+          type: string
+          description: The MRN of the patient that was merged.
+        primary_patient_mrn:
+          type: string
+          description: The MRN of the patient that is getting a patient merged into them.
+      required:
+      - alternative_patient_mrn
+      - primary_patient_mrn
+      description: An object representing a patient merge mapping.
+      title: MutablePatientMerge
+    type_pre-encounter_common_VersionConflictErrorBody:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+        latest_version:
+          type: integer
+      required:
+      - message
+      title: VersionConflictErrorBody
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_common_ErrorBase5xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase5xx
   securitySchemes:
     OAuthScheme:
       type: http

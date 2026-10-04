@@ -142,6 +142,9 @@ paths:
                 - content
 components:
   schemas:
+    type_commons_ErrorMessage:
+      type: string
+      title: ErrorMessage
     type_exports_v3_GetExportsResponse:
       type: object
       properties:
@@ -164,9 +167,6 @@ components:
       - authenticated_download_url
       - authenticated_download_url_expiration
       title: GetExportsResponse
-    type_commons_ErrorMessage:
-      type: string
-      title: ErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

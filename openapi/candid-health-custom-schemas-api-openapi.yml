@@ -284,44 +284,6 @@ components:
       type: string
       format: uuid
       title: SchemaId
-    type_custom-schemas_v1_Schema:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_commons_SchemaId'
-        name:
-          type: string
-        description:
-          type: string
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
-      required:
-      - id
-      - name
-      - fields
-      title: Schema
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_custom-schemas_v1_SchemaGetMultiResponse:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
-      required:
-      - schemas
-      title: SchemaGetMultiResponse
     type_commons_Primitive:
       type: string
       enum:
@@ -333,6 +295,27 @@ components:
 
         The DOUBLE and INTEGER primitives must be written as a JSON `number` type.'
       title: Primitive
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_custom-schemas_v1_SchemaField:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          $ref: '#/components/schemas/type_commons_Primitive'
+      required:
+      - key
+      - type
+      title: SchemaField
     type_custom-schemas_v1_SchemaValidationFailure:
       type: object
       properties:
@@ -378,17 +361,34 @@ components:
       discriminator:
         propertyName: type
       title: SchemaValidationError
-    type_custom-schemas_v1_SchemaField:
+    type_custom-schemas_v1_Schema:
       type: object
       properties:
-        key:
+        id:
+          $ref: '#/components/schemas/type_commons_SchemaId'
+        name:
           type: string
-        type:
-          $ref: '#/components/schemas/type_commons_Primitive'
+        description:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_SchemaField'
       required:
-      - key
-      - type
-      title: SchemaField
+      - id
+      - name
+      - fields
+      title: Schema
+    type_custom-schemas_v1_SchemaGetMultiResponse:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_custom-schemas_v1_Schema'
+      required:
+      - schemas
+      title: SchemaGetMultiResponse
   securitySchemes:
     OAuthScheme:
       type: http

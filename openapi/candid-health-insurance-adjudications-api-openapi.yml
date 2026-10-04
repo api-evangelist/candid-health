@@ -70,6 +70,14 @@ paths:
                 - content
 components:
   schemas:
+    type_x12_v1_RemittanceAdviceRemarkCode:
+      type: object
+      properties:
+        reason_code:
+          $ref: '#/components/schemas/type_x12_v1_Rarc'
+      required:
+      - reason_code
+      title: RemittanceAdviceRemarkCode
     type_x12_v1_ClaimAdjustmentReasonCode:
       type: object
       properties:
@@ -88,6 +96,28 @@ components:
       type: string
       format: uuid
       title: ServiceLineAdjudicationId
+    type_commons_ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
+    type_commons_ClaimAdjustmentGroupCodes:
+      type: string
+      enum:
+      - CO
+      - CR
+      - DE
+      - MA
+      - OA
+      - PI
+      - PR
+      - RR
+      - NC
+      - UNKNOWN
+      title: ClaimAdjustmentGroupCodes
+    type_insurance-adjudications_v1_InsuranceAdjudicationId:
+      type: string
+      format: uuid
+      title: InsuranceAdjudicationId
     type_x12_v1_Carc:
       type: string
       enum:
@@ -496,79 +526,10 @@ components:
       - Y3
       - UNKNOWN
       title: Carc
-    type_insurance-adjudications_v1_InsuranceAdjudicationId:
+    type_payers_v3_PayerUuid:
       type: string
       format: uuid
-      title: InsuranceAdjudicationId
-    type_insurance-adjudications_v1_ClaimAdjudication:
-      type: object
-      properties:
-        claim_id:
-          $ref: '#/components/schemas/type_commons_ClaimId'
-        insurance_allowed_amount_cents:
-          type: integer
-        insurance_paid_amount_cents:
-          type: integer
-        charge_amount_cents:
-          type: integer
-        service_lines:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/type_insurance-adjudications_v1_ServiceLineAdjudication'
-        payer_claim_number:
-          type: string
-        carcs:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_x12_v1_ClaimAdjustmentReasonCode'
-      required:
-      - claim_id
-      - service_lines
-      - carcs
-      title: ClaimAdjudication
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_commons_ClaimId:
-      type: string
-      format: uuid
-      title: ClaimId
-    type_insurance-adjudications_v1_ServiceLineAdjudication:
-      type: object
-      properties:
-        service_line_adjudication_id:
-          $ref: '#/components/schemas/type_insurance-adjudications_v1_ServiceLineAdjudicationId'
-        denial_reason:
-          $ref: '#/components/schemas/type_service-lines_v2_DenialReasonContent'
-          description: Will be treated as a denial if present
-        insurance_allowed_amount_cents:
-          type: integer
-        insurance_paid_amount_cents:
-          type: integer
-        deductible_amount_cents:
-          type: integer
-        coinsurance_amount_cents:
-          type: integer
-        copay_amount_cents:
-          type: integer
-        carcs:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_x12_v1_ClaimAdjustmentReasonCode'
-        rarcs:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_x12_v1_RemittanceAdviceRemarkCode'
-      required:
-      - service_line_adjudication_id
-      - carcs
-      - rarcs
-      title: ServiceLineAdjudication
+      title: PayerUuid
     type_x12_v1_Rarc:
       type: string
       enum:
@@ -1761,6 +1722,71 @@ components:
       - N911
       - UNKNOWN
       title: Rarc
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_insurance-adjudications_v1_ServiceLineAdjudication:
+      type: object
+      properties:
+        service_line_adjudication_id:
+          $ref: '#/components/schemas/type_insurance-adjudications_v1_ServiceLineAdjudicationId'
+        denial_reason:
+          $ref: '#/components/schemas/type_service-lines_v2_DenialReasonContent'
+          description: Will be treated as a denial if present
+        insurance_allowed_amount_cents:
+          type: integer
+        insurance_paid_amount_cents:
+          type: integer
+        deductible_amount_cents:
+          type: integer
+        coinsurance_amount_cents:
+          type: integer
+        copay_amount_cents:
+          type: integer
+        carcs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_x12_v1_ClaimAdjustmentReasonCode'
+        rarcs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_x12_v1_RemittanceAdviceRemarkCode'
+      required:
+      - service_line_adjudication_id
+      - carcs
+      - rarcs
+      title: ServiceLineAdjudication
+    type_insurance-adjudications_v1_ClaimAdjudication:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        insurance_allowed_amount_cents:
+          type: integer
+        insurance_paid_amount_cents:
+          type: integer
+        charge_amount_cents:
+          type: integer
+        service_lines:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_insurance-adjudications_v1_ServiceLineAdjudication'
+        payer_claim_number:
+          type: string
+        carcs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_x12_v1_ClaimAdjustmentReasonCode'
+      required:
+      - claim_id
+      - service_lines
+      - carcs
+      title: ClaimAdjudication
     type_service-lines_v2_DenialReasonContent:
       type: string
       enum:
@@ -1797,18 +1823,6 @@ components:
       - Unknown
       - Max Benefit Reached
       title: DenialReasonContent
-    type_payers_v3_PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
-    type_x12_v1_RemittanceAdviceRemarkCode:
-      type: object
-      properties:
-        reason_code:
-          $ref: '#/components/schemas/type_x12_v1_Rarc'
-      required:
-      - reason_code
-      title: RemittanceAdviceRemarkCode
     type_insurance-adjudications_v1_InsuranceAdjudication:
       type: object
       properties:
@@ -1838,20 +1852,6 @@ components:
       - check_date
       - claims
       title: InsuranceAdjudication
-    type_commons_ClaimAdjustmentGroupCodes:
-      type: string
-      enum:
-      - CO
-      - CR
-      - DE
-      - MA
-      - OA
-      - PI
-      - PR
-      - RR
-      - NC
-      - UNKNOWN
-      title: ClaimAdjustmentGroupCodes
   securitySchemes:
     OAuthScheme:
       type: http

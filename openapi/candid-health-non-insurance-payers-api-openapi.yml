@@ -437,49 +437,32 @@ paths:
                 - content
 components:
   schemas:
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_non-insurance-payers_v1_NonInsurancePayerSortField:
-      type: string
-      enum:
-      - NAME
-      - CATEGORY
-      - ENABLED
-      - UPDATED_AT
-      title: NonInsurancePayerSortField
-    type_non-insurance-payers_v1_NonInsurancePayerUpdateRequest:
+    type_non-insurance-payers_v1_NonInsurancePayer:
       type: object
       properties:
+        non_insurance_payer_id:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
         name:
           type: string
-          description: Max 50 characters allowed
         description:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate'
+          type: string
         category:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate'
+          type: string
+        enabled:
+          type: boolean
         address:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate'
-      title: NonInsurancePayerUpdateRequest
-    type_clinical-trials_v1_MutableClinicalTrial:
-      type: object
-      properties:
-        name:
-          type: string
-        clinical_trial_number:
-          type: string
-          description: Must be 8 characters long
-        clinical_trial_phase:
-          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
+          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+        clinical_trials:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrial'
       required:
+      - non_insurance_payer_id
       - name
-      - clinical_trial_number
-      title: MutableClinicalTrial
-    type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate:
+      - enabled
+      - clinical_trials
+      title: NonInsurancePayer
+    type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate:
       oneOf:
       - type: object
         properties:
@@ -498,28 +481,12 @@ components:
             - set
             description: 'Discriminator value: set'
           value:
-            type: string
+            $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
         required:
         - type
-        - value
-        description: Max 255 characters allowed
       discriminator:
         propertyName: type
-      title: NonInsurancePayerDescriptionUpdate
-    type_commons_UnprocessableEntityErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnprocessableEntityErrorMessage
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
+      title: NonInsurancePayerAddressUpdate
     type_non-insurance-payers_v1_NonInsurancePayerCategoriesPage:
       type: object
       properties:
@@ -534,31 +501,51 @@ components:
       required:
       - items
       title: NonInsurancePayerCategoriesPage
-    type_commons_ClinicalTrialId:
-      type: string
-      format: uuid
-      title: ClinicalTrialId
-    type_clinical-trials_v1_ClinicalTrialPhase:
-      type: string
-      enum:
-      - Phase 1
-      - Phase 2
-      - Phase 3
-      title: ClinicalTrialPhase
-    type_non-insurance-payers_v1_ToggleNonInsurancePayerEnablementRequest:
+    type_clinical-trials_v1_ClinicalTrial:
       type: object
       properties:
-        enabled:
+        name:
+          type: string
+        clinical_trial_number:
+          type: string
+          description: Must be 8 characters long
+        clinical_trial_phase:
+          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
+        clinical_trial_id:
+          $ref: '#/components/schemas/type_commons_ClinicalTrialId'
+        non_insurance_payer_id:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
+        is_active:
           type: boolean
       required:
-      - enabled
-      title: ToggleNonInsurancePayerEnablementRequest
-    type_commons_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
+      - name
+      - clinical_trial_number
+      - clinical_trial_id
+      - non_insurance_payer_id
+      - is_active
+      title: ClinicalTrial
+    type_non-insurance-payers_v1_NonInsurancePayerPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayer'
+      required:
+      - items
+      title: NonInsurancePayerPage
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
     type_commons_State:
       type: string
       enum:
@@ -625,62 +612,6 @@ components:
       - WI
       - WY
       title: State
-    type_clinical-trials_v1_ClinicalTrial:
-      type: object
-      properties:
-        name:
-          type: string
-        clinical_trial_number:
-          type: string
-          description: Must be 8 characters long
-        clinical_trial_phase:
-          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
-        clinical_trial_id:
-          $ref: '#/components/schemas/type_commons_ClinicalTrialId'
-        non_insurance_payer_id:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
-        is_active:
-          type: boolean
-      required:
-      - name
-      - clinical_trial_number
-      - clinical_trial_id
-      - non_insurance_payer_id
-      - is_active
-      title: ClinicalTrial
-    type_non-insurance-payers_v1_NonInsurancePayer:
-      type: object
-      properties:
-        non_insurance_payer_id:
-          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerId'
-        name:
-          type: string
-        description:
-          type: string
-        category:
-          type: string
-        enabled:
-          type: boolean
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
-        clinical_trials:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrial'
-      required:
-      - non_insurance_payer_id
-      - name
-      - enabled
-      - clinical_trials
-      title: NonInsurancePayer
-    type_commons_EntityConflictErrorMessage:
-      type: object
-      properties:
-        entity_name:
-          type: string
-      required:
-      - entity_name
-      title: EntityConflictErrorMessage
     type_commons_StreetAddressShortZip:
       type: object
       properties:
@@ -704,30 +635,6 @@ components:
       - state
       - zip_code
       title: StreetAddressShortZip
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_non-insurance-payers_v1_NonInsurancePayerId:
-      type: string
-      format: uuid
-      title: NonInsurancePayerId
-    type_non-insurance-payers_v1_NonInsurancePayerPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayer'
-      required:
-      - items
-      title: NonInsurancePayerPage
     type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate:
       oneOf:
       - type: object
@@ -755,6 +662,26 @@ components:
       discriminator:
         propertyName: type
       title: NonInsurancePayerCategoryUpdate
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_clinical-trials_v1_MutableClinicalTrial:
+      type: object
+      properties:
+        name:
+          type: string
+        clinical_trial_number:
+          type: string
+          description: Must be 8 characters long
+        clinical_trial_phase:
+          $ref: '#/components/schemas/type_clinical-trials_v1_ClinicalTrialPhase'
+      required:
+      - name
+      - clinical_trial_number
+      title: MutableClinicalTrial
     type_non-insurance-payers_v1_CreateNonInsurancePayerRequest:
       type: object
       properties:
@@ -777,7 +704,34 @@ components:
       required:
       - name
       title: CreateNonInsurancePayerRequest
-    type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate:
+    type_non-insurance-payers_v1_NonInsurancePayerSortField:
+      type: string
+      enum:
+      - NAME
+      - CATEGORY
+      - ENABLED
+      - UPDATED_AT
+      title: NonInsurancePayerSortField
+    type_non-insurance-payers_v1_NonInsurancePayerId:
+      type: string
+      format: uuid
+      title: NonInsurancePayerId
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate:
       oneOf:
       - type: object
         properties:
@@ -796,12 +750,58 @@ components:
             - set
             description: 'Discriminator value: set'
           value:
-            $ref: '#/components/schemas/type_commons_StreetAddressShortZip'
+            type: string
         required:
         - type
+        - value
+        description: Max 255 characters allowed
       discriminator:
         propertyName: type
-      title: NonInsurancePayerAddressUpdate
+      title: NonInsurancePayerDescriptionUpdate
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
+    type_commons_ClinicalTrialId:
+      type: string
+      format: uuid
+      title: ClinicalTrialId
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_non-insurance-payers_v1_ToggleNonInsurancePayerEnablementRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
+      title: ToggleNonInsurancePayerEnablementRequest
+    type_non-insurance-payers_v1_NonInsurancePayerUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Max 50 characters allowed
+        description:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerDescriptionUpdate'
+        category:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerCategoryUpdate'
+        address:
+          $ref: '#/components/schemas/type_non-insurance-payers_v1_NonInsurancePayerAddressUpdate'
+      title: NonInsurancePayerUpdateRequest
+    type_clinical-trials_v1_ClinicalTrialPhase:
+      type: string
+      enum:
+      - Phase 1
+      - Phase 2
+      - Phase 3
+      title: ClinicalTrialPhase
   securitySchemes:
     OAuthScheme:
       type: http

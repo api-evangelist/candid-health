@@ -399,92 +399,6 @@ paths:
                 - content
 components:
   schemas:
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_commons_PayerPlanGroupId:
-      type: string
-      format: uuid
-      title: PayerPlanGroupId
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_commons_StreetAddressLongZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
-    type_payer-plan-groups_v1_PayerPlanGroupAlreadyExistsError:
-      type: object
-      properties:
-        message:
-          type: string
-        id:
-          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
-      required:
-      - message
-      - id
-      title: PayerPlanGroupAlreadyExistsError
-    type_payer-plan-groups_v1_PayerPlanGroup:
-      type: object
-      properties:
-        plan_group_name:
-          type: string
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-        plan_type:
-          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
-        payer_plan_group_id:
-          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
-        payer:
-          $ref: '#/components/schemas/type_payers_v3_Payer'
-        is_active:
-          type: boolean
-        organization_id:
-          $ref: '#/components/schemas/type_commons_OrganizationId'
-      required:
-      - plan_group_name
-      - payer_uuid
-      - plan_type
-      - payer_plan_group_id
-      - payer
-      - is_active
-      - organization_id
-      title: PayerPlanGroup
     type_commons_SourceOfPaymentCode:
       type: string
       enum:
@@ -513,62 +427,6 @@ components:
       - WC
       - ZZ
       title: SourceOfPaymentCode
-    type_payer-plan-groups_v1_PayerPlanGroupPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
-      required:
-      - items
-      title: PayerPlanGroupPage
-    type_payers_v3_Payer:
-      type: object
-      properties:
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-          description: Auto-generated ID set on creation.
-        payer_id:
-          type: string
-          description: The primary national payer ID of the payer.
-        payer_name:
-          type: string
-          description: The primary display name of the payer.
-        availity_payer_name:
-          type: string
-          description: The name of the payer as it appears in Availity.
-        availity_claims_payer_id:
-          type: string
-          description: The ID of the payer as it appears in Availity.
-        availity_eligibility_id:
-          type: string
-          description: The eligibility ID of the payer as it appears in Availity.
-        availity_remittance_payer_id:
-          type: string
-          description: The remittance ID of the payer as it appears in Availity.
-        street_address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-      required:
-      - payer_uuid
-      - payer_id
-      - payer_name
-      title: Payer
-    type_payers_v3_PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
-    type_payer-plan-groups_v1_PayerPlanGroupSortField:
-      type: string
-      enum:
-      - plan_group_name
-      - plan_type
-      - created_at
-      title: PayerPlanGroupSortField
     type_payer-plan-groups_v1_MutablePayerPlanGroup:
       type: object
       properties:
@@ -583,9 +441,28 @@ components:
       - payer_uuid
       - plan_type
       title: MutablePayerPlanGroup
-    type_payers_v3_PayerId:
-      type: string
-      title: PayerId
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_payer-plan-groups_v1_PayerPlanGroupPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
+      required:
+      - items
+      title: PayerPlanGroupPage
     type_commons_State:
       type: string
       enum:
@@ -652,18 +529,141 @@ components:
       - WI
       - WY
       title: State
-    type_commons_SortDirection:
+    type_payer-plan-groups_v1_PayerPlanGroup:
+      type: object
+      properties:
+        plan_group_name:
+          type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+        is_active:
+          type: boolean
+        organization_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      required:
+      - plan_group_name
+      - payer_uuid
+      - plan_type
+      - payer_plan_group_id
+      - payer
+      - is_active
+      - organization_id
+      title: PayerPlanGroup
+    type_commons_PageToken:
       type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
+      title: PageToken
+    type_payers_v3_Payer:
+      type: object
+      properties:
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+          description: Auto-generated ID set on creation.
+        payer_id:
+          type: string
+          description: The primary national payer ID of the payer.
+        payer_name:
+          type: string
+          description: The primary display name of the payer.
+        availity_payer_name:
+          type: string
+          description: The name of the payer as it appears in Availity.
+        availity_claims_payer_id:
+          type: string
+          description: The ID of the payer as it appears in Availity.
+        availity_eligibility_id:
+          type: string
+          description: The eligibility ID of the payer as it appears in Availity.
+        availity_remittance_payer_id:
+          type: string
+          description: The remittance ID of the payer as it appears in Availity.
+        street_address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+      required:
+      - payer_uuid
+      - payer_id
+      - payer_name
+      title: Payer
     type_commons_UnprocessableEntityErrorMessage:
       type: object
       properties:
         message:
           type: string
       title: UnprocessableEntityErrorMessage
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_payer-plan-groups_v1_PayerPlanGroupSortField:
+      type: string
+      enum:
+      - plan_group_name
+      - plan_type
+      - created_at
+      title: PayerPlanGroupSortField
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_payer-plan-groups_v1_PayerPlanGroupAlreadyExistsError:
+      type: object
+      properties:
+        message:
+          type: string
+        id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+      required:
+      - message
+      - id
+      title: PayerPlanGroupAlreadyExistsError
+    type_payers_v3_PayerId:
+      type: string
+      title: PayerId
   securitySchemes:
     OAuthScheme:
       type: http

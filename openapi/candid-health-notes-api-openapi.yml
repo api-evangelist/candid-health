@@ -185,6 +185,25 @@ components:
       - created_at
       description: A Note object with immutable server-owned properties.
       title: Note
+    type_pre-encounter_common_NoteId:
+      type: string
+      description: The unique identifier for a Note.
+      title: NoteId
+    type_pre-encounter_notes_v1_NoteType:
+      type: string
+      enum:
+      - GENERAL
+      - ELIGIBILITY
+      description: Distinguishes what a note is about. `GENERAL` = a plain patient note; `ELIGIBILITY` = a note regarding the patient's eligibility.
+      title: NoteType
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
     type_pre-encounter_notes_v1_MutableNote:
       type: object
       properties:
@@ -201,25 +220,6 @@ components:
       - value
       description: An object representing a Note.
       title: MutableNote
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
-    type_pre-encounter_common_OrganizationId:
-      type: string
-      description: The unique identifier for an Organization in the database
-      title: OrganizationId
-    type_pre-encounter_notes_v1_NoteType:
-      type: string
-      enum:
-      - GENERAL
-      - ELIGIBILITY
-      description: Distinguishes what a note is about. `GENERAL` = a plain patient note; `ELIGIBILITY` = a note regarding the patient's eligibility.
-      title: NoteType
-    type_pre-encounter_common_NoteId:
-      type: string
-      description: The unique identifier for a Note.
-      title: NoteId
   securitySchemes:
     OAuthScheme:
       type: http

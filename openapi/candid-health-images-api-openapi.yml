@@ -292,115 +292,6 @@ paths:
                 - content
 components:
   schemas:
-    type_pre-encounter_images_v1_PatientAssociation:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
-        notes:
-          type: string
-      required:
-      - id
-      description: An association to a Patient.
-      title: PatientAssociation
-    type_pre-encounter_images_v1_ImageId:
-      type: string
-      description: The unique identifier for an Image
-      title: ImageId
-    type_pre-encounter_common_ErrorBase4xx:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-      required:
-      - message
-      title: ErrorBase4xx
-    type_pre-encounter_images_v1_ImageSortField:
-      type: string
-      enum:
-      - updatedAt
-      - fileName
-      - displayName
-      - fileType
-      - status
-      title: ImageSortField
-    type_pre-encounter_images_v1_CoverageAssociation:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
-        side:
-          $ref: '#/components/schemas/type_pre-encounter_images_v1_CoverageImageSide'
-      required:
-      - id
-      - side
-      description: An association to a Coverage.
-      title: CoverageAssociation
-    type_pre-encounter_images_v1_MutableImage:
-      type: object
-      properties:
-        file_name:
-          type: string
-        display_name:
-          type: string
-        file_type:
-          type: string
-        status:
-          $ref: '#/components/schemas/type_pre-encounter_images_v1_ImageStatus'
-        coverage:
-          $ref: '#/components/schemas/type_pre-encounter_images_v1_CoverageAssociation'
-        patient:
-          $ref: '#/components/schemas/type_pre-encounter_images_v1_PatientAssociation'
-      required:
-      - file_name
-      - display_name
-      - file_type
-      - status
-      description: An object representing an Image.
-      title: MutableImage
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
-    type_pre-encounter_common_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_pre-encounter_images_v1_CoverageImageSide:
-      type: string
-      enum:
-      - FRONT
-      - BACK
-      title: CoverageImageSide
-    type_pre-encounter_common_OrganizationId:
-      type: string
-      description: The unique identifier for an Organization in the database
-      title: OrganizationId
-    type_pre-encounter_common_PatientId:
-      type: string
-      description: The unique identifier for a Patient
-      title: PatientId
-    type_pre-encounter_common_VersionConflictErrorBody:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-        latest_version:
-          type: integer
-      required:
-      - message
-      title: VersionConflictErrorBody
-    type_pre-encounter_common_CoverageId:
-      type: string
-      format: uuid
-      description: The unique identifier for a Coverage in the database
-      title: CoverageId
     type_pre-encounter_images_v1_ImageStatus:
       type: string
       enum:
@@ -408,6 +299,11 @@ components:
       - UPLOADED
       - FAILED
       title: ImageStatus
+    type_pre-encounter_common_CoverageId:
+      type: string
+      format: uuid
+      description: The unique identifier for a Coverage in the database
+      title: CoverageId
     type_pre-encounter_images_v1_Image:
       type: object
       properties:
@@ -457,6 +353,110 @@ components:
       - signed_url
       description: An Image object with immutable server-owned properties.
       title: Image
+    type_pre-encounter_images_v1_CoverageAssociation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_CoverageId'
+        side:
+          $ref: '#/components/schemas/type_pre-encounter_images_v1_CoverageImageSide'
+      required:
+      - id
+      - side
+      description: An association to a Coverage.
+      title: CoverageAssociation
+    type_pre-encounter_common_ErrorBase4xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase4xx
+    type_pre-encounter_common_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_pre-encounter_images_v1_ImageId:
+      type: string
+      description: The unique identifier for an Image
+      title: ImageId
+    type_pre-encounter_common_VersionConflictErrorBody:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+        latest_version:
+          type: integer
+      required:
+      - message
+      title: VersionConflictErrorBody
+    type_pre-encounter_images_v1_CoverageImageSide:
+      type: string
+      enum:
+      - FRONT
+      - BACK
+      title: CoverageImageSide
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_images_v1_MutableImage:
+      type: object
+      properties:
+        file_name:
+          type: string
+        display_name:
+          type: string
+        file_type:
+          type: string
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_images_v1_ImageStatus'
+        coverage:
+          $ref: '#/components/schemas/type_pre-encounter_images_v1_CoverageAssociation'
+        patient:
+          $ref: '#/components/schemas/type_pre-encounter_images_v1_PatientAssociation'
+      required:
+      - file_name
+      - display_name
+      - file_type
+      - status
+      description: An object representing an Image.
+      title: MutableImage
+    type_pre-encounter_common_PatientId:
+      type: string
+      description: The unique identifier for a Patient
+      title: PatientId
+    type_pre-encounter_images_v1_PatientAssociation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
+        notes:
+          type: string
+      required:
+      - id
+      description: An association to a Patient.
+      title: PatientAssociation
+    type_pre-encounter_images_v1_ImageSortField:
+      type: string
+      enum:
+      - updatedAt
+      - fileName
+      - displayName
+      - fileType
+      - status
+      title: ImageSortField
   securitySchemes:
     OAuthScheme:
       type: http

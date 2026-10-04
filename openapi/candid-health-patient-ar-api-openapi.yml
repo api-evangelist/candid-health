@@ -162,23 +162,27 @@ paths:
                 - content
 components:
   schemas:
-    type_patient-ar_v1_PatientPaymentAllocation:
+    type_patient-ar_v1_InsuranceAdjustmentInfo:
       type: object
       properties:
-        source_id:
-          type: string
-          description: 'Payment identifier from the source system (e.g., patient portal, manual entry). Note multiple allocations may exist for a single payment and
-
-            thus may share the same source_id.'
-        amount_cents:
+        total_adjustment_cents:
           type: integer
-          description: The amount of the patient payment in cents.
+          description: The total amount of insurance adjustments in cents for the service line.
       required:
-      - amount_cents
-      title: PatientPaymentAllocation
-    type_commons_PageToken:
+      - total_adjustment_cents
+      title: InsuranceAdjustmentInfo
+    type_patient-ar_v1_NonInsurancePaymentInfo:
+      type: object
+      properties:
+        total_payment_cents:
+          type: integer
+          description: The total amount of non-insurance payments in cents for the service line.
+      required:
+      - total_payment_cents
+      title: NonInsurancePaymentInfo
+    type_commons_PatientExternalId:
       type: string
-      title: PageToken
+      title: PatientExternalId
     type_patient-ar_v1_PatientAdjustmentInfo:
       type: object
       properties:
@@ -188,22 +192,10 @@ components:
       required:
       - total_adjustment_cents
       title: PatientAdjustmentInfo
-    type_patient-ar_v1_NonInsuranceAdjustmentInfo:
-      type: object
-      properties:
-        total_adjustment_cents:
-          type: integer
-          description: The total amount of non-insurance adjustments in cents for the service line.
-      required:
-      - total_adjustment_cents
-      title: NonInsuranceAdjustmentInfo
-    type_commons_ClaimId:
+    type_commons_EncounterId:
       type: string
       format: uuid
-      title: ClaimId
-    type_commons_PatientExternalId:
-      type: string
-      title: PatientExternalId
+      title: EncounterId
     type_patient-ar_v1_ServiceLineItemization:
       type: object
       properties:
@@ -260,41 +252,6 @@ components:
       - coinsurance_cents
       - deductible_cents
       title: ServiceLineItemization
-    type_patient-ar_v1_InsuranceAdjustmentInfo:
-      type: object
-      properties:
-        total_adjustment_cents:
-          type: integer
-          description: The total amount of insurance adjustments in cents for the service line.
-      required:
-      - total_adjustment_cents
-      title: InsuranceAdjustmentInfo
-    type_patient-ar_v1_InvalidFiltersErrorType:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-      title: InvalidFiltersErrorType
-    type_patient-ar_v1_PatientARStatus:
-      type: string
-      enum:
-      - invoiceable
-      - non_invoiceable
-      title: PatientARStatus
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
     type_patient-ar_v1_InsurancePaymentInfo:
       type: object
       properties:
@@ -319,6 +276,76 @@ components:
       - total_payment_cents
       - items
       title: PatientPaymentInfo
+    type_patient-ar_v1_NonInsuranceAdjustmentInfo:
+      type: object
+      properties:
+        total_adjustment_cents:
+          type: integer
+          description: The total amount of non-insurance adjustments in cents for the service line.
+      required:
+      - total_adjustment_cents
+      title: NonInsuranceAdjustmentInfo
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_patient-ar_v1_PatientARStatus:
+      type: string
+      enum:
+      - invoiceable
+      - non_invoiceable
+      title: PatientARStatus
+    type_patient-ar_v1_PatientPaymentAllocation:
+      type: object
+      properties:
+        source_id:
+          type: string
+          description: 'Payment identifier from the source system (e.g., patient portal, manual entry). Note multiple allocations may exist for a single payment and
+
+            thus may share the same source_id.'
+        amount_cents:
+          type: integer
+          description: The amount of the patient payment in cents.
+      required:
+      - amount_cents
+      title: PatientPaymentAllocation
+    type_patient-ar_v1_ListInventoryPagedResponse:
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_patient-ar_v1_InventoryRecord'
+          description: List of inventory records matching the filters
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+          description: Token for the next page of results, if available
+      required:
+      - records
+      title: ListInventoryPagedResponse
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_patient-ar_v1_InvalidFiltersErrorType:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      title: InvalidFiltersErrorType
     type_patient-ar_v1_InvoiceItemizationResponse:
       type: object
       properties:
@@ -344,29 +371,12 @@ components:
       - claim_level_patient_payments
       - service_line_itemization
       title: InvoiceItemizationResponse
-    type_patient-ar_v1_NonInsurancePaymentInfo:
-      type: object
-      properties:
-        total_payment_cents:
-          type: integer
-          description: The total amount of non-insurance payments in cents for the service line.
-      required:
-      - total_payment_cents
-      title: NonInsurancePaymentInfo
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
     type_commons_UnauthorizedErrorMessage:
       type: object
       properties:
         message:
           type: string
       title: UnauthorizedErrorMessage
-    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
-      type: string
-      format: uuid
-      title: OrganizationServiceFacilityId
     type_patient-ar_v1_InventoryRecord:
       type: object
       properties:
@@ -388,20 +398,10 @@ components:
       - patient_external_id
       - patient_ar_status
       title: InventoryRecord
-    type_patient-ar_v1_ListInventoryPagedResponse:
-      type: object
-      properties:
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_patient-ar_v1_InventoryRecord'
-          description: List of inventory records matching the filters
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-          description: Token for the next page of results, if available
-      required:
-      - records
-      title: ListInventoryPagedResponse
+    type_commons_ClaimId:
+      type: string
+      format: uuid
+      title: ClaimId
   securitySchemes:
     OAuthScheme:
       type: http

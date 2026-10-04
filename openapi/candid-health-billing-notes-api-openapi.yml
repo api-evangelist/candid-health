@@ -240,69 +240,18 @@ components:
       required:
       - id
       title: EntityNotFoundErrorMessage
-    type_billing-notes_v2_BillingNote:
-      type: object
-      properties:
-        text:
-          type: string
-          description: Empty string not allowed.
-        billing_note_id:
-          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteId'
-        encounter_id:
-          $ref: '#/components/schemas/type_commons_EncounterId'
-        created_at:
-          type: string
-          format: date-time
-          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
-
-            For example, 2017-07-21T17:32:28Z.'
-        author_auth0_id:
-          type: string
-        author_name:
-          type: string
-        billing_note_type:
-          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteType'
-        billing_note_metadata:
-          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteMetadata'
-      required:
-      - text
-      - billing_note_id
-      - encounter_id
-      - created_at
-      title: BillingNote
-    type_commons_UnauthorizedErrorMessage:
+    type_commons_OrganizationNotAuthorizedErrorMessage:
       type: object
       properties:
         message:
           type: string
-      title: UnauthorizedErrorMessage
+      required:
+      - message
+      title: OrganizationNotAuthorizedErrorMessage
     type_commons_EncounterId:
       type: string
       format: uuid
       title: EncounterId
-    type_commons_RequestValidationError:
-      type: object
-      properties:
-        fieldName:
-          type: string
-        humanReadableMessage:
-          type: string
-      required:
-      - fieldName
-      title: RequestValidationError
-    type_billing-notes_v2_BillingNoteId:
-      type: string
-      format: uuid
-      title: BillingNoteId
-    type_billing-notes_v2_BillingNoteType:
-      type: string
-      enum:
-      - manual
-      - system
-      - queue_added
-      - queue_moved
-      - task_created
-      title: BillingNoteType
     type_billing-notes_v2_BillingNoteMetadata:
       oneOf:
       - type: object
@@ -360,14 +309,65 @@ components:
       discriminator:
         propertyName: type
       title: BillingNoteMetadata
-    type_commons_OrganizationNotAuthorizedErrorMessage:
+    type_commons_UnauthorizedErrorMessage:
       type: object
       properties:
         message:
           type: string
+      title: UnauthorizedErrorMessage
+    type_billing-notes_v2_BillingNoteType:
+      type: string
+      enum:
+      - manual
+      - system
+      - queue_added
+      - queue_moved
+      - task_created
+      title: BillingNoteType
+    type_billing-notes_v2_BillingNoteId:
+      type: string
+      format: uuid
+      title: BillingNoteId
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
       required:
-      - message
-      title: OrganizationNotAuthorizedErrorMessage
+      - fieldName
+      title: RequestValidationError
+    type_billing-notes_v2_BillingNote:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Empty string not allowed.
+        billing_note_id:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteId'
+        encounter_id:
+          $ref: '#/components/schemas/type_commons_EncounterId'
+        created_at:
+          type: string
+          format: date-time
+          description: 'An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+
+            For example, 2017-07-21T17:32:28Z.'
+        author_auth0_id:
+          type: string
+        author_name:
+          type: string
+        billing_note_type:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteType'
+        billing_note_metadata:
+          $ref: '#/components/schemas/type_billing-notes_v2_BillingNoteMetadata'
+      required:
+      - text
+      - billing_note_id
+      - encounter_id
+      - created_at
+      title: BillingNote
   securitySchemes:
     OAuthScheme:
       type: http

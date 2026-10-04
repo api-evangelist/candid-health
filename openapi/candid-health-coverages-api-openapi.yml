@@ -479,37 +479,391 @@ paths:
                 $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageEligibilityCheckResponse'
 components:
   schemas:
-    type_pre-encounter_common_Period:
+    type_pre-encounter_coverages_v1_LatestEligibilityCheck:
       type: object
       properties:
-        start:
+        check_id:
           type: string
-          format: date
-        end:
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityStatus'
+        initiated_at:
           type: string
-          format: date
-      title: Period
-    type_pre-encounter_common_PayerId:
-      type: string
-      description: The unique identifier for a Payer in the database
-      title: PayerId
-    type_pre-encounter_coverages_v1_CoveragesPage:
-      type: object
-      properties:
-        next_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        prev_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        total:
-          type: integer
-        items:
+          format: date-time
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Coverage'
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
       required:
-      - total
-      - items
-      title: CoveragesPage
+      - check_id
+      - status
+      - initiated_at
+      description: A type to represent the latest eligibility check status of a coverage.
+      title: LatestEligibilityCheck
+    type_pre-encounter_coverages_v1_BenefitsRelatedEntity:
+      type: object
+      properties:
+        entityIdentifier:
+          type: string
+        entityType:
+          type: string
+        entityName:
+          type: string
+        contactInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_RelatedEntityContact'
+        serviceTypeCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
+      title: BenefitsRelatedEntity
+    type_pre-encounter_coverages_v1_PlanMetadata:
+      type: object
+      properties:
+        payer_name:
+          type: string
+        insurance_type:
+          type: string
+        insurance_type_code:
+          type: string
+        plan_name:
+          type: string
+        member_id:
+          type: string
+        group_number:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        plan_dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanDate'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ExpandedMemberInfo'
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ExpandedMemberInfo'
+      title: PlanMetadata
+    type_pre-encounter_coverages_v1_CoverageDetails:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitType'
+        coverageLevel:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageLevel'
+        unit:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValueUnit'
+        value:
+          type: number
+          format: double
+        additional_notes:
+          type: string
+      required:
+      - type
+      - coverageLevel
+      - unit
+      - value
+      title: CoverageDetails
+    type_pre-encounter_eligibilityChecks_v1_EligibilityRequest:
+      type: object
+      properties:
+        submitter_transaction_identifier:
+          type: string
+          description: 'A unique identifier for the eligibility check within the batch. Candid returns this identifier in the response for the
+
+            /batch/{batch_id} polling endpoint so you can correlate benefit responses with the original eligibility check.'
+        payer_id:
+          type: string
+          description: Supported payer ID values can be found [here](https://www.stedi.com/healthcare/network).
+        provider:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Provider'
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_MemberInfo'
+          description: The primary policyholder for the insurance plan or a dependent with a unique member ID. <Note>If a dependent has a unique member ID, include their information here and leave dependent undefined.</Note>
+        dependent:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_MemberInfo'
+          description: <Note>If a dependent has a unique member ID, include their information as subscriber and leave this field undefined.</Note>
+        encounter:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Encounter'
+        get_existing_check_initiated_after:
+          type: string
+          format: date-time
+          description: If not provided, this endpoint will run a fresh eligibility check. If provided, it will return an existing successful eligibility check if one exists that was initiated after provided date with the same parameters (Date of Service, Payer ID, Provider, Subscriber, Dependent, and Encounter).
+        source:
+          type: string
+        portal_password:
+          type: string
+          description: The password that the provider uses to log in to the payer's portal. This is not commonly used.
+        portal_username:
+          type: string
+          description: The username that the provider uses to log in to the payer's portal. This is not commonly used.
+      required:
+      - payer_id
+      - provider
+      - subscriber
+      description: An object representing the data for an eligibility request.
+      title: EligibilityRequest
+    type_pre-encounter_coverages_v1_Subscriber:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
+        date_of_birth:
+          type: string
+          format: date
+        biological_sex:
+          $ref: '#/components/schemas/type_pre-encounter_common_Sex'
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_common_Address'
+        employer_name:
+          type: string
+      required:
+      - name
+      - biological_sex
+      title: Subscriber
+    type_pre-encounter_eligibilityChecks_v1_ParsedResponse:
+      type: object
+      properties:
+        eligibility_status:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityStatus'
+        plan_metadata:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanMetadata'
+        benefits:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageBenefits'
+      required:
+      - eligibility_status
+      title: ParsedResponse
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckError:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorSource'
+        errorDetails:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
+      required:
+      - source
+      - errorDetails
+      title: EligibilityCheckError
+    type_pre-encounter_coverages_v1_CoverageBenefits:
+      type: object
+      properties:
+        plan_coverage:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverage'
+        service_specific_coverage:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverage'
+        benefits_related_entities:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitsRelatedEntity'
+        non_covered_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NonCoveredDetail'
+        notes:
+          type: string
+        autoUpdatedEligibilityCheckId:
+          type: string
+      title: CoverageBenefits
+    type_pre-encounter_coverages_v1_PlanDate:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        field_name:
+          type: string
+      required:
+      - start_date
+      - field_name
+      title: PlanDate
+    type_pre-encounter_common_PageToken:
+      type: string
+      description: A token that can be used to retrieve the next or previous page of results
+      title: PageToken
+    type_pre-encounter_coverages_v1_CarveOutType:
+      type: string
+      enum:
+      - BEHAVIORAL
+      - MEDICAL
+      - THERAPY
+      title: CarveOutType
+    type_pre-encounter_coverages_v1_MutableCoverage:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageStatus'
+          description: The status indiciating if the coverage is active or not.
+        subscriber:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Subscriber'
+          description: The party who has signed-up for or 'owns' the contractual relationship to the policy or to whom the benefit of the policy for services rendered to them or their family is due.
+        relationship:
+          $ref: '#/components/schemas/type_pre-encounter_common_Relationship'
+          description: The relationship of beneficiary (patient) to the subscriber. https://hl7.org/fhir/valueset-relationship.html
+        patient:
+          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
+          description: The canonical Candid patient UUID corresponding with the patient who benefits from the insurance coverage
+        insurance_plan:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_InsurancePlan'
+        verified:
+          type: boolean
+          description: A boolean indicating if the coverage has been verified by a user.
+        eligibility_checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckMetadata'
+          description: A list of eligibility check metadata that have been initiated on this coverage.
+        latest_eligibility_check:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_LatestEligibilityCheck'
+          description: The latest eligibility check metadata that has been initiated on this coverage.
+        benefits:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageBenefits'
+          description: The eligibility of the patient for the coverage, manually verified by users.
+        orcon:
+          type: boolean
+          description: ORCON (Originator Controlled) - When set to true, the Candid system will hide this coverage from downstream integrations. Updates made in the Candid UI will unset this flag. Defaults to false.
+        auto_update_enabled:
+          type: boolean
+          description: Default to true. When set to true, the Candid system will automatically update this coverage with the latest eligibility check benefits information. Auto update behavior is also set at the eligibilityConfig org level configuration.
+        previous_appointment_copays:
+          type: object
+          additionalProperties:
+            type: integer
+          description: A map of UniversalServiceIdentifier (MD_Visit, Treatment, Tests, Activity) to copay values in cents. This is used to track copay values for each service type to handle OOP max resets correctly.
+      required:
+      - status
+      - subscriber
+      - relationship
+      - patient
+      - insurance_plan
+      - verified
+      title: MutableCoverage
+    type_pre-encounter_coverages_v1_CoverageStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - CANCELLED
+      - DRAFT
+      - ENTERED_IN_ERROR
+      description: enum to represent the statuses defined at https://build.fhir.org/valueset-fm-status.html
+      title: CoverageStatus
+    type_pre-encounter_coverages_v1_PlanCoverageDetails:
+      type: object
+      properties:
+        deductible:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        deductible_contract:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        deductible_remaining:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        deductible_year_to_date:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max_contract:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max_remaining:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        oop_max_year_to_date:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        additional_notes:
+          type: string
+      title: PlanCoverageDetails
+    type_pre-encounter_eligibilityChecks_v1_IndividualProvider:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        npi:
+          type: string
+      required:
+      - npi
+      title: IndividualProvider
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckMetadata:
+      type: object
+      properties:
+        check_id:
+          type: string
+        service_code:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
+        status:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckStatus'
+        initiated_by:
+          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
+        initiated_at:
+          type: string
+          format: date-time
+      required:
+      - check_id
+      - service_code
+      - status
+      - initiated_by
+      - initiated_at
+      title: EligibilityCheckMetadata
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_coverages_v1_ServiceCoverageDetails:
+      type: object
+      properties:
+        copay:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        coinsurance:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        visits:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        visits_remaining:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
+        additional_notes:
+          type: string
+      title: ServiceCoverageDetails
+    type_pre-encounter_coverages_v1_InsurancePlan:
+      type: object
+      properties:
+        member_id:
+          type: string
+        payer_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
+        payer_name:
+          type: string
+        additional_payer_information:
+          $ref: '#/components/schemas/type_pre-encounter_common_AdditionalPayerInformation'
+        group_number:
+          type: string
+        name:
+          type: string
+        plan_type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NetworkType'
+        type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_InsuranceTypeCode'
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        insurance_card_image_locator:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_common_Address'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
+          description: The ID of the Candid configured payer plan group associated with this coverage
+        carve_outs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageCarveOut'
+      required:
+      - member_id
+      - payer_id
+      - payer_name
+      title: InsurancePlan
     type_pre-encounter_coverages_v1_Coverage:
       type: object
       properties:
@@ -584,386 +938,52 @@ components:
       - id
       description: A coverage object with immutable server-owned properties.
       title: Coverage
-    type_pre-encounter_coverages_v1_CoverageStatus:
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorSource:
       type: string
       enum:
-      - ACTIVE
-      - CANCELLED
-      - DRAFT
-      - ENTERED_IN_ERROR
-      description: enum to represent the statuses defined at https://build.fhir.org/valueset-fm-status.html
-      title: CoverageStatus
-    type_pre-encounter_coverages_v1_LatestEligibilityCheck:
+      - CANDID
+      - STEDI
+      description: enum to represent the source of an error in an eligibility check
+      title: EligibilityCheckErrorSource
+    type_pre-encounter_common_Period:
       type: object
       properties:
-        check_id:
-          type: string
-        status:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityStatus'
-        initiated_at:
-          type: string
-          format: date-time
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
-      required:
-      - check_id
-      - status
-      - initiated_at
-      description: A type to represent the latest eligibility check status of a coverage.
-      title: LatestEligibilityCheck
-    type_pre-encounter_coverages_v1_CoverageEligibilityCheckResponse:
-      type: object
-      properties:
-        metadata:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckMetadata'
-        check:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheck'
-      required:
-      - metadata
-      title: CoverageEligibilityCheckResponse
-    type_pre-encounter_common_Relationship:
-      type: string
-      enum:
-      - SELF
-      - SPOUSE
-      - CHILD
-      - COMMON_LAW_SPOUSE
-      - OTHER
-      title: Relationship
-    type_pre-encounter_coverages_v1_CoverageValueUnit:
-      type: string
-      enum:
-      - PERCENT
-      - CURRENCY
-      - COUNT
-      title: CoverageValueUnit
-    type_pre-encounter_common_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_pre-encounter_coverages_v1_RelatedEntityContact:
-      type: object
-      properties:
-        mode:
-          type: string
-        value:
-          type: string
-      title: RelatedEntityContact
-    type_pre-encounter_eligibilityChecks_v1_ParsedResponse:
-      type: object
-      properties:
-        eligibility_status:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityStatus'
-        plan_metadata:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanMetadata'
-        benefits:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageBenefits'
-      required:
-      - eligibility_status
-      title: ParsedResponse
-    type_pre-encounter_coverages_v1_CoverageBenefits:
-      type: object
-      properties:
-        plan_coverage:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverage'
-        service_specific_coverage:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverage'
-        benefits_related_entities:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitsRelatedEntity'
-        non_covered_details:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NonCoveredDetail'
-        notes:
-          type: string
-        autoUpdatedEligibilityCheckId:
-          type: string
-      title: CoverageBenefits
-    type_pre-encounter_common_HumanName:
-      type: object
-      properties:
-        family:
-          type: string
-        given:
-          type: array
-          items:
-            type: string
-        use:
-          $ref: '#/components/schemas/type_pre-encounter_common_NameUse'
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        suffix:
-          type: string
-      required:
-      - family
-      - given
-      - use
-      title: HumanName
-    type_pre-encounter_eligibilityChecks_v1_RequestCorrection:
-      type: object
-      properties:
-        property:
-          type: string
-        request_value:
-          type: string
-        corrected_value:
-          type: string
-      required:
-      - property
-      - request_value
-      - corrected_value
-      title: RequestCorrection
-    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails:
-      type: object
-      properties:
-        field?:
-          type: string
-        description?:
-          type: string
-        location?:
-          type: string
-        possibleResolutions?:
-          type: string
-        code?:
-          type: string
-        followupAction?:
-          type: string
-      description: This object is our fern representation of Stedi's EligbilityCheckError object from their API.
-      title: EligibilityCheckErrorDetails
-    type_pre-encounter_eligibilityChecks_v1_IndividualProvider:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-        npi:
-          type: string
-      required:
-      - npi
-      title: IndividualProvider
-    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckStatus:
-      type: string
-      enum:
-      - COMPLETED
-      - FAILED
-      - PENDING
-      description: enum to represent the status of an eligibility checks
-      title: EligibilityCheckStatus
-    type_pre-encounter_coverages_v1_CoverageValue:
-      type: object
-      properties:
-        family:
-          type: number
-          format: double
-        individual:
-          type: number
-          format: double
-        employeeAndSpouse:
-          type: number
-          format: double
-        employeeAndChildren:
-          type: number
-          format: double
-      title: CoverageValue
-    type_pre-encounter_common_AddressUse:
-      type: string
-      enum:
-      - HOME
-      - WORK
-      - TEMP
-      - OLD
-      - BILLING
-      title: AddressUse
-    type_pre-encounter_eligibilityChecks_v1_Encounter:
-      type: object
-      properties:
-        date_of_service:
+        start:
           type: string
           format: date
-          description: Defaults to the current date if not provided.
-        service_type_codes:
+        end:
+          type: string
+          format: date
+      title: Period
+    type_pre-encounter_common_Address:
+      type: object
+      properties:
+        use:
+          $ref: '#/components/schemas/type_pre-encounter_common_AddressUse'
+        line:
           type: array
           items:
             type: string
-          description: 'Defaults to HealthBenefitPlanCoverage (30) if not provided.
-
-            <Note>Not all payers support multiple service type codes, so it is recommended to only include a single code per request.</Note>'
-      title: Encounter
-    type_pre-encounter_coverages_v1_PlanCoverage:
-      type: object
-      properties:
-        in_network:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverageDetails'
-        in_network_flat:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
-        out_of_network:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverageDetails'
-        out_of_network_flat:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
-      title: PlanCoverage
-    type_pre-encounter_coverages_v1_ExpandedMemberInfo:
-      type: object
-      properties:
-        member_id:
+        city:
           type: string
-        group_number:
+        state:
           type: string
-        first_name:
+        postal_code:
           type: string
-        middle_name:
+        country:
           type: string
-        last_name:
+        county:
           type: string
-        date_of_birth:
-          type: string
-        gender:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Address'
-      title: ExpandedMemberInfo
-    type_pre-encounter_common_NameUse:
-      type: string
-      enum:
-      - USUAL
-      - OFFICIAL
-      - TEMP
-      - NICKNAME
-      - ANONYMOUS
-      - OLD
-      - MAIDEN
-      title: NameUse
-    type_pre-encounter_coverages_v1_InsurancePlan:
-      type: object
-      properties:
-        member_id:
-          type: string
-        payer_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
-        payer_name:
-          type: string
-        additional_payer_information:
-          $ref: '#/components/schemas/type_pre-encounter_common_AdditionalPayerInformation'
-        group_number:
-          type: string
-        name:
-          type: string
-        plan_type:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NetworkType'
-        type:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_InsuranceTypeCode'
         period:
           $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        insurance_card_image_locator:
-          type: string
-        address:
-          $ref: '#/components/schemas/type_pre-encounter_common_Address'
-        payer_plan_group_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
-          description: The ID of the Candid configured payer plan group associated with this coverage
-        carve_outs:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageCarveOut'
       required:
-      - member_id
-      - payer_id
-      - payer_name
-      title: InsurancePlan
-    type_pre-encounter_eligibilityChecks_v1_Provider:
-      oneOf:
-      - $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_IndividualProvider'
-      - $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_OrganizationProvider'
-      title: Provider
-    type_pre-encounter_coverages_v1_PlanCoverageDetails:
-      type: object
-      properties:
-        deductible:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        deductible_contract:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        deductible_remaining:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        deductible_year_to_date:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        oop_max:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        oop_max_contract:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        oop_max_remaining:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        oop_max_year_to_date:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        additional_notes:
-          type: string
-      title: PlanCoverageDetails
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
-    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckMetadata:
-      type: object
-      properties:
-        check_id:
-          type: string
-        service_code:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
-        status:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckStatus'
-        initiated_by:
-          $ref: '#/components/schemas/type_pre-encounter_common_UserId'
-        initiated_at:
-          type: string
-          format: date-time
-      required:
-      - check_id
-      - service_code
-      - status
-      - initiated_by
-      - initiated_at
-      title: EligibilityCheckMetadata
-    type_pre-encounter_coverages_v1_CoverageCarveOut:
-      type: object
-      properties:
-        carve_out:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CarveOutType'
-        member_id:
-          type: string
-        payer_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
-        payer_name:
-          type: string
-        group_number:
-          type: string
-        plan_type:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NetworkType'
-        type:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_InsuranceTypeCode'
-        payer_plan_group_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
-          description: The ID of the Candid configured payer plan group associated with this coverage
-      required:
-      - carve_out
-      - member_id
-      - payer_id
-      - payer_name
-      title: CoverageCarveOut
-    type_pre-encounter_common_PageToken:
-      type: string
-      description: A token that can be used to retrieve the next or previous page of results
-      title: PageToken
+      - use
+      - line
+      - city
+      - state
+      - postal_code
+      - country
+      title: Address
     type_pre-encounter_coverages_v1_NetworkType:
       type: string
       enum:
@@ -992,200 +1012,50 @@ components:
       - WC
       - ZZ
       title: NetworkType
-    type_pre-encounter_coverages_v1_PayerPlanGroupFields:
-      type: object
-      properties:
-        payer_plan_group_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
-        payer_id:
-          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
-        payer_name:
-          type: string
-        plan_type:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NetworkType'
-      required:
-      - payer_plan_group_id
-      - payer_id
-      - payer_name
-      - plan_type
-      title: PayerPlanGroupFields
-    type_pre-encounter_coverages_v1_NonCoveredDetail:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_BenefitType'
-        coverageLevel:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageLevel'
-        unit:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValueUnit'
-        value:
-          type: number
-          format: double
-        additional_notes:
-          type: string
-        service_type_codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
-      required:
-      - type
-      - coverageLevel
-      - unit
-      - value
-      title: NonCoveredDetail
-    type_pre-encounter_coverages_v1_InsuranceTypeCode:
+    type_pre-encounter_coverages_v1_CoverageLevel:
       type: string
       enum:
-      - '01'
-      - '12'
-      - '13'
-      - '14'
-      - '15'
-      - '16'
-      - '17'
-      - '18'
-      - '19'
-      - '41'
-      - '42'
-      - '43'
-      - '47'
-      - AP
-      - C1
-      - CO
-      - CP
-      - D
-      - DB
-      - E
-      - EP
-      - FF
-      - GP
-      - HA
-      - HB
-      - HD
-      - HG
-      - HM
-      - HN
-      - HP
-      - HS
-      - IN
-      - IP
-      - LC
-      - LD
-      - LI
-      - LT
-      - M
-      - MA
-      - MB
-      - MC
-      - MD
-      - ME
-      - MF
-      - MH
-      - MI
-      - MJ
-      - MK
-      - ML
-      - MM
-      - MN
-      - MO
-      - MP
-      - MR
-      - MT
-      - MV
-      - OA
-      - OT
-      - PE
-      - PL
-      - PP
-      - PR
-      - PS
-      - QM
-      - RP
-      - SP
-      - TF
-      - U
-      - WC
-      - WU
-      description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
-      title: InsuranceTypeCode
-    type_pre-encounter_coverages_v1_ServiceCoverage:
+      - EMPLOYEE_AND_CHILDREN
+      - EMPLOYEE_ONLY
+      - EMPLOYEE_AND_SPOUSE
+      - FAMILY
+      - INDIVIDUAL
+      title: CoverageLevel
+    type_pre-encounter_common_CoverageId:
+      type: string
+      format: uuid
+      description: The unique identifier for a Coverage in the database
+      title: CoverageId
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckStatus:
+      type: string
+      enum:
+      - COMPLETED
+      - FAILED
+      - PENDING
+      description: enum to represent the status of an eligibility checks
+      title: EligibilityCheckStatus
+    type_pre-encounter_eligibilityChecks_v1_EligibilityStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - INACTIVE
+      - UNKNOWN
+      description: enum to represent the status of a patient's coverage
+      title: EligibilityStatus
+    type_pre-encounter_common_ErrorBase4xx:
       type: object
       properties:
-        service_code:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
-        in_network:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverageDetails'
-        in_network_flat:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
-        out_of_network:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverageDetails'
-        out_of_network_flat:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
-      required:
-      - service_code
-      title: ServiceCoverage
-    type_pre-encounter_coverages_v1_BenefitsRelatedEntity:
-      type: object
-      properties:
-        entityIdentifier:
+        message:
           type: string
-        entityType:
-          type: string
-        entityName:
-          type: string
-        contactInformation:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_RelatedEntityContact'
-        serviceTypeCodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
-      title: BenefitsRelatedEntity
-    type_pre-encounter_coverages_v1_MemberInfo:
-      type: object
-      properties:
-        member_id:
-          type: string
-          description: "Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  \nHowever, each payer has different requirements, so you should supply as many of the fields necessary for each payer \nto identify the subscriber/dependent in their system."
-        first_name:
-          type: string
-        last_name:
-          type: string
-        date_of_birth:
-          type: string
-          format: date
-          description: "Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  \nHowever, each payer has different requirements, so you should supply as many of the fields necessary for each payer \nto identify the subscriber/dependent in their system."
-      required:
-      - first_name
-      - last_name
-      title: MemberInfo
-    type_pre-encounter_eligibilityChecks_v1_EligibilityCheck:
-      type: object
-      properties:
-        batch_id:
-          type: string
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckError'
-        request:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRequest'
-        response:
+        data:
           description: Any type
-        parsed_response:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_ParsedResponse'
-        request_corrections:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_RequestCorrection'
       required:
-      - response
-      title: EligibilityCheck
+      - message
+      title: ErrorBase4xx
+    type_pre-encounter_common_PayerId:
+      type: string
+      description: The unique identifier for a Payer in the database
+      title: PayerId
     type_pre-encounter_coverages_v1_Address:
       type: object
       properties:
@@ -1204,123 +1074,21 @@ components:
         country_sub_division_code:
           type: string
       title: Address
-    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckError:
-      type: object
-      properties:
-        source:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorSource'
-        errorDetails:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails'
-      required:
-      - source
-      - errorDetails
-      title: EligibilityCheckError
-    type_pre-encounter_coverages_v1_MutableCoverage:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageStatus'
-          description: The status indiciating if the coverage is active or not.
-        subscriber:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Subscriber'
-          description: The party who has signed-up for or 'owns' the contractual relationship to the policy or to whom the benefit of the policy for services rendered to them or their family is due.
-        relationship:
-          $ref: '#/components/schemas/type_pre-encounter_common_Relationship'
-          description: The relationship of beneficiary (patient) to the subscriber. https://hl7.org/fhir/valueset-relationship.html
-        patient:
-          $ref: '#/components/schemas/type_pre-encounter_common_PatientId'
-          description: The canonical Candid patient UUID corresponding with the patient who benefits from the insurance coverage
-        insurance_plan:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_InsurancePlan'
-        verified:
-          type: boolean
-          description: A boolean indicating if the coverage has been verified by a user.
-        eligibility_checks:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckMetadata'
-          description: A list of eligibility check metadata that have been initiated on this coverage.
-        latest_eligibility_check:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_LatestEligibilityCheck'
-          description: The latest eligibility check metadata that has been initiated on this coverage.
-        benefits:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageBenefits'
-          description: The eligibility of the patient for the coverage, manually verified by users.
-        orcon:
-          type: boolean
-          description: ORCON (Originator Controlled) - When set to true, the Candid system will hide this coverage from downstream integrations. Updates made in the Candid UI will unset this flag. Defaults to false.
-        auto_update_enabled:
-          type: boolean
-          description: Default to true. When set to true, the Candid system will automatically update this coverage with the latest eligibility check benefits information. Auto update behavior is also set at the eligibilityConfig org level configuration.
-        previous_appointment_copays:
-          type: object
-          additionalProperties:
-            type: integer
-          description: A map of UniversalServiceIdentifier (MD_Visit, Treatment, Tests, Activity) to copay values in cents. This is used to track copay values for each service type to handle OOP max resets correctly.
-      required:
-      - status
-      - subscriber
-      - relationship
-      - patient
-      - insurance_plan
-      - verified
-      title: MutableCoverage
-    type_pre-encounter_coverages_v1_PlanMetadata:
-      type: object
-      properties:
-        payer_name:
-          type: string
-        insurance_type:
-          type: string
-        insurance_type_code:
-          type: string
-        plan_name:
-          type: string
-        member_id:
-          type: string
-        group_number:
-          type: string
-        start_date:
-          type: string
-          format: date
-        end_date:
-          type: string
-          format: date
-        plan_dates:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanDate'
-        subscriber:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ExpandedMemberInfo'
-        dependent:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ExpandedMemberInfo'
-      title: PlanMetadata
-    type_pre-encounter_coverages_v1_BenefitType:
+    type_pre-encounter_common_PayerPlanGroupId:
       type: string
-      enum:
-      - DEDUCTIBLE
-      - DEDUCTIBLE_CONTRACT
-      - DEDUCTIBLE_REMAINING
-      - DEDUCTIBLE_YEAR_TO_DATE
-      - OOP_MAX
-      - OOP_MAX_CONTRACT
-      - OOP_MAX_REMAINING
-      - OOP_MAX_YEAR_TO_DATE
-      - COPAY
-      - COINSURANCE
-      - NON_COVERED
-      - LIMITATION
-      title: BenefitType
-    type_pre-encounter_eligibilityChecks_v1_OrganizationProvider:
+      format: uuid
+      description: The unique identifier for a PayerPlanGroup in the database
+      title: PayerPlanGroupId
+    type_pre-encounter_coverages_v1_CoverageEligibilityCheckResponse:
       type: object
       properties:
-        organization_name:
-          type: string
-        npi:
-          type: string
+        metadata:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckMetadata'
+        check:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheck'
       required:
-      - npi
-      title: OrganizationProvider
+      - metadata
+      title: CoverageEligibilityCheckResponse
     type_pre-encounter_coverages_v1_ServiceTypeCode:
       type: string
       enum:
@@ -1513,6 +1281,234 @@ components:
       - UC
       description: Code identifying the type of service or benefit within a specific insurance policy (X12 008010 Element 1365)
       title: ServiceTypeCode
+    type_pre-encounter_eligibilityChecks_v1_Provider:
+      oneOf:
+      - $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_IndividualProvider'
+      - $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_OrganizationProvider'
+      title: Provider
+    type_pre-encounter_coverages_v1_InsuranceTypeCode:
+      type: string
+      enum:
+      - '01'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '41'
+      - '42'
+      - '43'
+      - '47'
+      - AP
+      - C1
+      - CO
+      - CP
+      - D
+      - DB
+      - E
+      - EP
+      - FF
+      - GP
+      - HA
+      - HB
+      - HD
+      - HG
+      - HM
+      - HN
+      - HP
+      - HS
+      - IN
+      - IP
+      - LC
+      - LD
+      - LI
+      - LT
+      - M
+      - MA
+      - MB
+      - MC
+      - MD
+      - ME
+      - MF
+      - MH
+      - MI
+      - MJ
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MR
+      - MT
+      - MV
+      - OA
+      - OT
+      - PE
+      - PL
+      - PP
+      - PR
+      - PS
+      - QM
+      - RP
+      - SP
+      - TF
+      - U
+      - WC
+      - WU
+      description: Code identifying the type of insurance policy within a specific insurance program (X12 008020 Element 1336)
+      title: InsuranceTypeCode
+    type_pre-encounter_coverages_v1_CoverageCarveOut:
+      type: object
+      properties:
+        carve_out:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CarveOutType'
+        member_id:
+          type: string
+        payer_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
+        payer_name:
+          type: string
+        group_number:
+          type: string
+        plan_type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NetworkType'
+        type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_InsuranceTypeCode'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
+          description: The ID of the Candid configured payer plan group associated with this coverage
+      required:
+      - carve_out
+      - member_id
+      - payer_id
+      - payer_name
+      title: CoverageCarveOut
+    type_pre-encounter_coverages_v1_RelatedEntityContact:
+      type: object
+      properties:
+        mode:
+          type: string
+        value:
+          type: string
+      title: RelatedEntityContact
+    type_pre-encounter_coverages_v1_PayerPlanGroupFields:
+      type: object
+      properties:
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerPlanGroupId'
+        payer_id:
+          $ref: '#/components/schemas/type_pre-encounter_common_PayerId'
+        payer_name:
+          type: string
+        plan_type:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_NetworkType'
+      required:
+      - payer_plan_group_id
+      - payer_id
+      - payer_name
+      - plan_type
+      title: PayerPlanGroupFields
+    type_pre-encounter_coverages_v1_BenefitType:
+      type: string
+      enum:
+      - DEDUCTIBLE
+      - DEDUCTIBLE_CONTRACT
+      - DEDUCTIBLE_REMAINING
+      - DEDUCTIBLE_YEAR_TO_DATE
+      - OOP_MAX
+      - OOP_MAX_CONTRACT
+      - OOP_MAX_REMAINING
+      - OOP_MAX_YEAR_TO_DATE
+      - COPAY
+      - COINSURANCE
+      - NON_COVERED
+      - LIMITATION
+      title: BenefitType
+    type_pre-encounter_coverages_v1_ServiceCoverage:
+      type: object
+      properties:
+        service_code:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
+        in_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverageDetails'
+        in_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+        out_of_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceCoverageDetails'
+        out_of_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+      required:
+      - service_code
+      title: ServiceCoverage
+    type_pre-encounter_common_Sex:
+      type: string
+      enum:
+      - FEMALE
+      - MALE
+      - UNKNOWN
+      - REFUSED
+      title: Sex
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheck:
+      type: object
+      properties:
+        batch_id:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityCheckError'
+        request:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_EligibilityRequest'
+        response:
+          description: Any type
+        parsed_response:
+          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_ParsedResponse'
+        request_corrections:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_RequestCorrection'
+      required:
+      - response
+      title: EligibilityCheck
+    type_pre-encounter_common_HumanName:
+      type: object
+      properties:
+        family:
+          type: string
+        given:
+          type: array
+          items:
+            type: string
+        use:
+          $ref: '#/components/schemas/type_pre-encounter_common_NameUse'
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        suffix:
+          type: string
+      required:
+      - family
+      - given
+      - use
+      title: HumanName
+    type_pre-encounter_common_NameUse:
+      type: string
+      enum:
+      - USUAL
+      - OFFICIAL
+      - TEMP
+      - NICKNAME
+      - ANONYMOUS
+      - OLD
+      - MAIDEN
+      title: NameUse
     type_pre-encounter_common_AdditionalPayerInformation:
       type: object
       properties:
@@ -1525,13 +1521,6 @@ components:
         availity_remittance_payer_id:
           type: string
       title: AdditionalPayerInformation
-    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorSource:
-      type: string
-      enum:
-      - CANDID
-      - STEDI
-      description: enum to represent the source of an error in an eligibility check
-      title: EligibilityCheckErrorSource
     type_pre-encounter_common_VersionConflictErrorBody:
       type: object
       properties:
@@ -1544,71 +1533,150 @@ components:
       required:
       - message
       title: VersionConflictErrorBody
-    type_pre-encounter_common_PayerPlanGroupId:
-      type: string
-      format: uuid
-      description: The unique identifier for a PayerPlanGroup in the database
-      title: PayerPlanGroupId
-    type_pre-encounter_common_CoverageId:
-      type: string
-      format: uuid
-      description: The unique identifier for a Coverage in the database
-      title: CoverageId
-    type_pre-encounter_coverages_v1_PlanDate:
+    type_pre-encounter_eligibilityChecks_v1_RequestCorrection:
       type: object
       properties:
-        start_date:
+        property:
           type: string
-          format: date
-        end_date:
+        request_value:
           type: string
-          format: date
-        field_name:
+        corrected_value:
           type: string
       required:
-      - start_date
-      - field_name
-      title: PlanDate
-    type_pre-encounter_common_Address:
+      - property
+      - request_value
+      - corrected_value
+      title: RequestCorrection
+    type_pre-encounter_eligibilityChecks_v1_OrganizationProvider:
       type: object
       properties:
-        use:
-          $ref: '#/components/schemas/type_pre-encounter_common_AddressUse'
-        line:
+        organization_name:
+          type: string
+        npi:
+          type: string
+      required:
+      - npi
+      title: OrganizationProvider
+    type_pre-encounter_coverages_v1_PlanCoverage:
+      type: object
+      properties:
+        in_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverageDetails'
+        in_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+        out_of_network:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_PlanCoverageDetails'
+        out_of_network_flat:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageDetails'
+      title: PlanCoverage
+    type_pre-encounter_coverages_v1_CoverageValueUnit:
+      type: string
+      enum:
+      - PERCENT
+      - CURRENCY
+      - COUNT
+      title: CoverageValueUnit
+    type_pre-encounter_common_PatientId:
+      type: string
+      description: The unique identifier for a Patient
+      title: PatientId
+    type_pre-encounter_common_Relationship:
+      type: string
+      enum:
+      - SELF
+      - SPOUSE
+      - CHILD
+      - COMMON_LAW_SPOUSE
+      - OTHER
+      title: Relationship
+    type_pre-encounter_coverages_v1_CoverageValue:
+      type: object
+      properties:
+        family:
+          type: number
+          format: double
+        individual:
+          type: number
+          format: double
+        employeeAndSpouse:
+          type: number
+          format: double
+        employeeAndChildren:
+          type: number
+          format: double
+      title: CoverageValue
+    type_pre-encounter_coverages_v1_ExpandedMemberInfo:
+      type: object
+      properties:
+        member_id:
+          type: string
+        group_number:
+          type: string
+        first_name:
+          type: string
+        middle_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          type: string
+        gender:
+          type: string
+        address:
+          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Address'
+      title: ExpandedMemberInfo
+    type_pre-encounter_common_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_pre-encounter_common_AddressUse:
+      type: string
+      enum:
+      - HOME
+      - WORK
+      - TEMP
+      - OLD
+      - BILLING
+      title: AddressUse
+    type_pre-encounter_coverages_v1_CoveragesPage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_Coverage'
+      required:
+      - total
+      - items
+      title: CoveragesPage
+    type_pre-encounter_eligibilityChecks_v1_Encounter:
+      type: object
+      properties:
+        date_of_service:
+          type: string
+          format: date
+          description: Defaults to the current date if not provided.
+        service_type_codes:
           type: array
           items:
             type: string
-        city:
-          type: string
-        state:
-          type: string
-        postal_code:
-          type: string
-        country:
-          type: string
-        county:
-          type: string
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-      required:
-      - use
-      - line
-      - city
-      - state
-      - postal_code
-      - country
-      title: Address
-    type_pre-encounter_common_ErrorBase4xx:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-      required:
-      - message
-      title: ErrorBase4xx
-    type_pre-encounter_coverages_v1_CoverageDetails:
+          description: 'Defaults to HealthBenefitPlanCoverage (30) if not provided.
+
+            <Note>Not all payers support multiple service type codes, so it is recommended to only include a single code per request.</Note>'
+      title: Encounter
+    type_pre-encounter_coverages_v1_NonCoveredDetail:
       type: object
       properties:
         type:
@@ -1622,123 +1690,55 @@ components:
           format: double
         additional_notes:
           type: string
+        service_type_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_coverages_v1_ServiceTypeCode'
       required:
       - type
       - coverageLevel
       - unit
       - value
-      title: CoverageDetails
-    type_pre-encounter_eligibilityChecks_v1_EligibilityStatus:
-      type: string
-      enum:
-      - ACTIVE
-      - INACTIVE
-      - UNKNOWN
-      description: enum to represent the status of a patient's coverage
-      title: EligibilityStatus
-    type_pre-encounter_coverages_v1_Subscriber:
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
-        date_of_birth:
-          type: string
-          format: date
-        biological_sex:
-          $ref: '#/components/schemas/type_pre-encounter_common_Sex'
-        address:
-          $ref: '#/components/schemas/type_pre-encounter_common_Address'
-        employer_name:
-          type: string
-      required:
-      - name
-      - biological_sex
-      title: Subscriber
-    type_pre-encounter_common_Sex:
-      type: string
-      enum:
-      - FEMALE
-      - MALE
-      - UNKNOWN
-      - REFUSED
-      title: Sex
-    type_pre-encounter_common_PatientId:
-      type: string
-      description: The unique identifier for a Patient
-      title: PatientId
-    type_pre-encounter_coverages_v1_CarveOutType:
-      type: string
-      enum:
-      - BEHAVIORAL
-      - MEDICAL
-      - THERAPY
-      title: CarveOutType
+      title: NonCoveredDetail
     type_pre-encounter_common_OrganizationId:
       type: string
       description: The unique identifier for an Organization in the database
       title: OrganizationId
-    type_pre-encounter_eligibilityChecks_v1_EligibilityRequest:
+    type_pre-encounter_eligibilityChecks_v1_EligibilityCheckErrorDetails:
       type: object
       properties:
-        submitter_transaction_identifier:
+        field?:
           type: string
-          description: 'A unique identifier for the eligibility check within the batch. Candid returns this identifier in the response for the
-
-            /batch/{batch_id} polling endpoint so you can correlate benefit responses with the original eligibility check.'
-        payer_id:
+        description?:
           type: string
-          description: Supported payer ID values can be found [here](https://www.stedi.com/healthcare/network).
-        provider:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Provider'
-        subscriber:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_MemberInfo'
-          description: The primary policyholder for the insurance plan or a dependent with a unique member ID. <Note>If a dependent has a unique member ID, include their information here and leave dependent undefined.</Note>
-        dependent:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_MemberInfo'
-          description: <Note>If a dependent has a unique member ID, include their information as subscriber and leave this field undefined.</Note>
-        encounter:
-          $ref: '#/components/schemas/type_pre-encounter_eligibilityChecks_v1_Encounter'
-        get_existing_check_initiated_after:
+        location?:
           type: string
-          format: date-time
-          description: If not provided, this endpoint will run a fresh eligibility check. If provided, it will return an existing successful eligibility check if one exists that was initiated after provided date with the same parameters (Date of Service, Payer ID, Provider, Subscriber, Dependent, and Encounter).
-        source:
+        possibleResolutions?:
           type: string
-        portal_password:
+        code?:
           type: string
-          description: The password that the provider uses to log in to the payer's portal. This is not commonly used.
-        portal_username:
+        followupAction?:
           type: string
-          description: The username that the provider uses to log in to the payer's portal. This is not commonly used.
+      description: This object is our fern representation of Stedi's EligbilityCheckError object from their API.
+      title: EligibilityCheckErrorDetails
+    type_pre-encounter_coverages_v1_MemberInfo:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: "Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  \nHowever, each payer has different requirements, so you should supply as many of the fields necessary for each payer \nto identify the subscriber/dependent in their system."
+        first_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+          description: "Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  \nHowever, each payer has different requirements, so you should supply as many of the fields necessary for each payer \nto identify the subscriber/dependent in their system."
       required:
-      - payer_id
-      - provider
-      - subscriber
-      description: An object representing the data for an eligibility request.
-      title: EligibilityRequest
-    type_pre-encounter_coverages_v1_ServiceCoverageDetails:
-      type: object
-      properties:
-        copay:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        coinsurance:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        visits:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        visits_remaining:
-          $ref: '#/components/schemas/type_pre-encounter_coverages_v1_CoverageValue'
-        additional_notes:
-          type: string
-      title: ServiceCoverageDetails
-    type_pre-encounter_coverages_v1_CoverageLevel:
-      type: string
-      enum:
-      - EMPLOYEE_AND_CHILDREN
-      - EMPLOYEE_ONLY
-      - EMPLOYEE_AND_SPOUSE
-      - FAMILY
-      - INDIVIDUAL
-      title: CoverageLevel
+      - first_name
+      - last_name
+      title: MemberInfo
   securitySchemes:
     OAuthScheme:
       type: http

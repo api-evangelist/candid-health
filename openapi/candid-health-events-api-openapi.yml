@@ -218,19 +218,25 @@ components:
       required:
       - id
       title: EntityNotFoundErrorMessage
+    type_events_v1_EventId:
+      type: string
+      format: uuid
+      title: EventId
     type_commons_PageToken:
       type: string
       title: PageToken
+    type_commons_BadRequestErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: BadRequestErrorMessage
     type_commons_InternalErrorMessage:
       type: object
       properties:
         message:
           type: string
       title: InternalErrorMessage
-    type_events_v1_EventId:
-      type: string
-      format: uuid
-      title: EventId
     type_events_v1_EventScanPage:
       type: object
       properties:
@@ -243,12 +249,6 @@ components:
       required:
       - items
       title: EventScanPage
-    type_commons_BadRequestErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: BadRequestErrorMessage
     type_events_v1_Event:
       type: object
       properties:

@@ -359,27 +359,396 @@ paths:
           description: Successful response
 components:
   schemas:
-    type_commons_PageToken:
+    type_organization-providers_v3_OrganizationProviderV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          type: string
+          format: date
+          description: The employment start date for the provider.
+        employment_termination_date:
+          type: string
+          format: date
+          description: The employment termination date for the provider.
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+          description: Auto-generated ID set on creation.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_Identifier'
+          description: Qualification given to a provider (PTAN, Medicaid Provider Id etc.).
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - organization_provider_id
+      - qualifications
+      title: OrganizationProviderV2
+    type_organization-providers_v3_OrganizationProviderPageV2:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
+      required:
+      - items
+      title: OrganizationProviderPageV2
+    type_organization-providers_v3_ProviderAttachmentFileType:
       type: string
-      title: PageToken
+      enum:
+      - W9
+      - PECOS_RECORD
+      - BANK_LETTER_OR_VOIDED_CHECK
+      title: ProviderAttachmentFileType
+    type_commons_Date:
+      type: string
+      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+      title: Date
+    type_organization-providers_v3_OrganizationProviderUpdateV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider, if the provider is an individual.
+        last_name:
+          type: string
+          description: The last name of the provider, if the provider is an individual.
+        organization_name:
+          type: string
+          description: The name of the provider, if the provider is an organization.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment start date for the provider.
+        employment_termination_date:
+          $ref: '#/components/schemas/type_commons_Date'
+          description: The employment termination date for the provider.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_UpdatableIdentifier'
+          description: Provider's qualifications (medicare provider number, medicaid provider number, etc.)
+      title: OrganizationProviderUpdateV2
+    type_organization-providers_v2_OrganizationProviderId:
+      type: string
+      format: uuid
+      title: OrganizationProviderId
+    type_commons_State:
+      type: string
+      enum:
+      - AA
+      - AE
+      - AP
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DC
+      - DE
+      - FL
+      - FM
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MD
+      - MA
+      - MH
+      - MI
+      - MN
+      - MP
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - OH
+      - OK
+      - OR
+      - PA
+      - PR
+      - PW
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VI
+      - VT
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      title: State
+    type_commons_RemovableDateRangeOptionalEnd:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - date_range
+            description: 'Discriminator value: date_range'
+          start_date:
+            $ref: '#/components/schemas/type_commons_Date'
+          end_date:
+            $ref: '#/components/schemas/type_commons_Date'
+        required:
+        - type
+        - start_date
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - remove
+            description: 'Discriminator value: remove'
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: RemovableDateRangeOptionalEnd
+    type_identifiers_IdentifierId:
+      type: string
+      format: uuid
+      title: IdentifierId
     type_organization-providers_v2_ProviderType:
       type: string
       enum:
       - INDIVIDUAL
       - ORGANIZATION
       title: ProviderType
-    type_organization-providers_v2_OrganizationProviderSortOptions:
-      type: string
-      enum:
-      - provider_name:asc
-      - provider_name:desc
-      - npi:asc
-      - npi:desc
-      title: OrganizationProviderSortOptions
-    type_commons_OrganizationId:
+    type_identifiers_IdentifierValue:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - medicare_provider_identifier
+            description: 'Discriminator value: medicare_provider_identifier'
+          state:
+            $ref: '#/components/schemas/type_commons_State'
+          provider_number:
+            type: string
+          organization_service_facility_id:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+            description: When set, this identifier applies only to the given service facility.
+        required:
+        - type
+        - state
+        - provider_number
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - medicaid_provider_identifier
+            description: 'Discriminator value: medicaid_provider_identifier'
+          state:
+            $ref: '#/components/schemas/type_commons_State'
+          provider_number:
+            type: string
+          organization_service_facility_id:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
+            description: When set, this identifier applies only to the given service facility.
+        required:
+        - type
+        - state
+        - provider_number
+      discriminator:
+        propertyName: type
+      title: IdentifierValue
+    type_commons_StreetAddressLongZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
+    type_organization-providers_v2_OrganizationProviderAddress:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
+          description: The address of the provider
+        address_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_AddressType'
+          description: The address type of the provider
+      required:
+      - address
+      - address_type
+      title: OrganizationProviderAddress
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
       type: string
       format: uuid
-      title: OrganizationId
+      title: OrganizationServiceFacilityId
+    type_commons_PageToken:
+      type: string
+      title: PageToken
+    type_organization-providers_v3_OrganizationProviderCreateV2:
+      type: object
+      properties:
+        npi:
+          type: string
+          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+        is_rendering:
+          type: boolean
+          description: Whether the provider can be used to render services.
+        is_billing:
+          type: boolean
+          description: Whether the provider can be used to bill services.
+        first_name:
+          type: string
+          description: The first name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
+        last_name:
+          type: string
+          description: The last name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
+        organization_name:
+          type: string
+          description: The name of the provider. Required when provider_type is ORGANIZATION. Must not be set when provider_type is INDIVIDUAL.
+        provider_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
+          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+        tax_id:
+          type: string
+          description: Required when is_billing is true. If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+        taxonomy_code:
+          type: string
+          description: A code designating classification and specialization.
+        license_type:
+          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
+          description: The type of license that the provider holds.
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
+          description: The addresses associated with this provider.
+        employment_start_date:
+          type: string
+          format: date
+          description: The employment start date for the provider.
+        employment_termination_date:
+          type: string
+          format: date
+          description: The employment termination date for the provider.
+        qualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_identifiers_IdentifierCreate'
+          description: A provider's qualifications such as PTAN, Medicaid Provider Id, etc.
+      required:
+      - npi
+      - is_rendering
+      - is_billing
+      - provider_type
+      - license_type
+      - qualifications
+      title: OrganizationProviderCreateV2
     type_organization-providers_v2_LicenseType:
       type: string
       enum:
@@ -493,177 +862,6 @@ components:
       - LSSP
       - SLPA
       title: LicenseType
-    type_organization-providers_v3_OrganizationProviderCreateV2:
-      type: object
-      properties:
-        npi:
-          type: string
-          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
-        is_rendering:
-          type: boolean
-          description: Whether the provider can be used to render services.
-        is_billing:
-          type: boolean
-          description: Whether the provider can be used to bill services.
-        first_name:
-          type: string
-          description: The first name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
-        last_name:
-          type: string
-          description: The last name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
-        organization_name:
-          type: string
-          description: The name of the provider. Required when provider_type is ORGANIZATION. Must not be set when provider_type is INDIVIDUAL.
-        provider_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
-          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
-        tax_id:
-          type: string
-          description: Required when is_billing is true. If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
-        taxonomy_code:
-          type: string
-          description: A code designating classification and specialization.
-        license_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
-          description: The type of license that the provider holds.
-        addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
-          description: The addresses associated with this provider.
-        employment_start_date:
-          type: string
-          format: date
-          description: The employment start date for the provider.
-        employment_termination_date:
-          type: string
-          format: date
-          description: The employment termination date for the provider.
-        qualifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_identifiers_IdentifierCreate'
-          description: A provider's qualifications such as PTAN, Medicaid Provider Id, etc.
-      required:
-      - npi
-      - is_rendering
-      - is_billing
-      - provider_type
-      - license_type
-      - qualifications
-      title: OrganizationProviderCreateV2
-    type_organization-providers_v3_OrganizationProviderV2:
-      type: object
-      properties:
-        npi:
-          type: string
-          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
-        is_rendering:
-          type: boolean
-          description: Whether the provider can be used to render services.
-        is_billing:
-          type: boolean
-          description: Whether the provider can be used to bill services.
-        first_name:
-          type: string
-          description: The first name of the provider, if the provider is an individual.
-        last_name:
-          type: string
-          description: The last name of the provider, if the provider is an individual.
-        organization_name:
-          type: string
-          description: The name of the provider, if the provider is an organization.
-        provider_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
-          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
-        tax_id:
-          type: string
-          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
-        taxonomy_code:
-          type: string
-          description: A code designating classification and specialization.
-        license_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
-          description: The type of license that the provider holds.
-        addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
-          description: The addresses associated with this provider.
-        employment_start_date:
-          type: string
-          format: date
-          description: The employment start date for the provider.
-        employment_termination_date:
-          type: string
-          format: date
-          description: The employment termination date for the provider.
-        organization_provider_id:
-          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
-          description: Auto-generated ID set on creation.
-        qualifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_identifiers_Identifier'
-          description: Qualification given to a provider (PTAN, Medicaid Provider Id etc.).
-      required:
-      - npi
-      - is_rendering
-      - is_billing
-      - provider_type
-      - license_type
-      - organization_provider_id
-      - qualifications
-      title: OrganizationProviderV2
-    type_identifiers_IdentifierValue:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - medicare_provider_identifier
-            description: 'Discriminator value: medicare_provider_identifier'
-          state:
-            $ref: '#/components/schemas/type_commons_State'
-          provider_number:
-            type: string
-          organization_service_facility_id:
-            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
-            description: When set, this identifier applies only to the given service facility.
-        required:
-        - type
-        - state
-        - provider_number
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - medicaid_provider_identifier
-            description: 'Discriminator value: medicaid_provider_identifier'
-          state:
-            $ref: '#/components/schemas/type_commons_State'
-          provider_number:
-            type: string
-          organization_service_facility_id:
-            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacilityId'
-            description: When set, this identifier applies only to the given service facility.
-        required:
-        - type
-        - state
-        - provider_number
-      discriminator:
-        propertyName: type
-      title: IdentifierValue
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
     type_commons_DateRangeOptionalEnd:
       type: object
       properties:
@@ -674,6 +872,34 @@ components:
       required:
       - start_date
       title: DateRangeOptionalEnd
+    type_organization-providers_v2_AddressType:
+      type: string
+      enum:
+      - DEFAULT
+      title: AddressType
+    type_commons_UpdatesDisabledDueToExternalSystemIntegrationErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UpdatesDisabledDueToExternalSystemIntegrationErrorMessage
+    type_organization-providers_v3_ProviderAttachment:
+      type: object
+      properties:
+        provider_attachment_id:
+          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentId'
+        organization_provider_id:
+          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
+        file_name:
+          type: string
+        file_type:
+          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentFileType'
+      required:
+      - provider_attachment_id
+      - organization_provider_id
+      - file_name
+      - file_type
+      title: ProviderAttachment
     type_identifiers_UpdatableIdentifier:
       oneOf:
       - type: object
@@ -726,77 +952,6 @@ components:
       discriminator:
         propertyName: type
       title: UpdatableIdentifier
-    type_identifiers_IdentifierCode:
-      type: string
-      enum:
-      - MCR
-      - MCD
-      title: IdentifierCode
-    type_organization-providers_v3_ProviderAttachmentFileType:
-      type: string
-      enum:
-      - W9
-      - PECOS_RECORD
-      - BANK_LETTER_OR_VOIDED_CHECK
-      title: ProviderAttachmentFileType
-    type_organization-providers_v3_ProviderAttachmentId:
-      type: string
-      format: uuid
-      title: ProviderAttachmentId
-    type_identifiers_IdentifierId:
-      type: string
-      format: uuid
-      title: IdentifierId
-    type_organization-providers_v3_OrganizationProviderUpdateV2:
-      type: object
-      properties:
-        npi:
-          type: string
-          description: The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
-        is_rendering:
-          type: boolean
-          description: Whether the provider can be used to render services.
-        is_billing:
-          type: boolean
-          description: Whether the provider can be used to bill services.
-        first_name:
-          type: string
-          description: The first name of the provider, if the provider is an individual.
-        last_name:
-          type: string
-          description: The last name of the provider, if the provider is an individual.
-        organization_name:
-          type: string
-          description: The name of the provider, if the provider is an organization.
-        provider_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_ProviderType'
-          description: Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
-        tax_id:
-          type: string
-          description: If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
-        taxonomy_code:
-          type: string
-          description: A code designating classification and specialization.
-        license_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_LicenseType'
-          description: The type of license that the provider holds.
-        addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderAddress'
-          description: The addresses associated with this provider.
-        employment_start_date:
-          $ref: '#/components/schemas/type_commons_Date'
-          description: The employment start date for the provider.
-        employment_termination_date:
-          $ref: '#/components/schemas/type_commons_Date'
-          description: The employment termination date for the provider.
-        qualifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_identifiers_UpdatableIdentifier'
-          description: Provider's qualifications (medicare provider number, medicaid provider number, etc.)
-      title: OrganizationProviderUpdateV2
     type_identifiers_IdentifierCreate:
       type: object
       properties:
@@ -810,24 +965,22 @@ components:
       - identifier_code
       - identifier_value
       title: IdentifierCreate
-    type_organization-providers_v3_OrganizationProviderPageV2:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_organization-providers_v3_OrganizationProviderV2'
-      required:
-      - items
-      title: OrganizationProviderPageV2
-    type_organization-providers_v2_OrganizationProviderId:
+    type_organization-providers_v2_OrganizationProviderSortOptions:
+      type: string
+      enum:
+      - provider_name:asc
+      - provider_name:desc
+      - npi:asc
+      - npi:desc
+      title: OrganizationProviderSortOptions
+    type_organization-providers_v3_ProviderAttachmentId:
       type: string
       format: uuid
-      title: OrganizationProviderId
+      title: ProviderAttachmentId
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
     type_identifiers_Identifier:
       type: object
       properties:
@@ -844,156 +997,14 @@ components:
       - identifier_value
       - identifier_id
       title: Identifier
-    type_commons_State:
-      type: string
-      enum:
-      - AA
-      - AE
-      - AP
-      - AL
-      - AK
-      - AS
-      - AZ
-      - AR
-      - CA
-      - CO
-      - CT
-      - DC
-      - DE
-      - FL
-      - FM
-      - GA
-      - GU
-      - HI
-      - ID
-      - IL
-      - IN
-      - IA
-      - KS
-      - KY
-      - LA
-      - ME
-      - MD
-      - MA
-      - MH
-      - MI
-      - MN
-      - MP
-      - MS
-      - MO
-      - MT
-      - NE
-      - NV
-      - NH
-      - NJ
-      - NM
-      - NY
-      - NC
-      - ND
-      - OH
-      - OK
-      - OR
-      - PA
-      - PR
-      - PW
-      - RI
-      - SC
-      - SD
-      - TN
-      - TX
-      - UT
-      - VI
-      - VT
-      - VA
-      - WA
-      - WV
-      - WI
-      - WY
-      title: State
-    type_commons_RemovableDateRangeOptionalEnd:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - date_range
-            description: 'Discriminator value: date_range'
-          start_date:
-            $ref: '#/components/schemas/type_commons_Date'
-          end_date:
-            $ref: '#/components/schemas/type_commons_Date'
-        required:
-        - type
-        - start_date
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - remove
-            description: 'Discriminator value: remove'
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      title: RemovableDateRangeOptionalEnd
-    type_organization-providers_v2_AddressType:
-      type: string
-      enum:
-      - DEFAULT
-      title: AddressType
-    type_commons_StreetAddressLongZip:
+    type_commons_EntityNotFoundErrorMessage:
       type: object
       properties:
-        address1:
+        id:
           type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
       required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
-    type_commons_UpdatesDisabledDueToExternalSystemIntegrationErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UpdatesDisabledDueToExternalSystemIntegrationErrorMessage
-    type_commons_Date:
-      type: string
-      description: ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
-      title: Date
-    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
-      type: string
-      format: uuid
-      title: OrganizationServiceFacilityId
-    type_organization-providers_v2_OrganizationProviderAddress:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
-          description: The address of the provider
-        address_type:
-          $ref: '#/components/schemas/type_organization-providers_v2_AddressType'
-          description: The address type of the provider
-      required:
-      - address
-      - address_type
-      title: OrganizationProviderAddress
+      - id
+      title: EntityNotFoundErrorMessage
     type_organization-providers_v3_ProviderAttachmentResponse:
       type: object
       properties:
@@ -1002,23 +1013,12 @@ components:
       required:
       - signed_download_url
       title: ProviderAttachmentResponse
-    type_organization-providers_v3_ProviderAttachment:
-      type: object
-      properties:
-        provider_attachment_id:
-          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentId'
-        organization_provider_id:
-          $ref: '#/components/schemas/type_organization-providers_v2_OrganizationProviderId'
-        file_name:
-          type: string
-        file_type:
-          $ref: '#/components/schemas/type_organization-providers_v3_ProviderAttachmentFileType'
-      required:
-      - provider_attachment_id
-      - organization_provider_id
-      - file_name
-      - file_type
-      title: ProviderAttachment
+    type_identifiers_IdentifierCode:
+      type: string
+      enum:
+      - MCR
+      - MCD
+      title: IdentifierCode
   securitySchemes:
     OAuthScheme:
       type: http

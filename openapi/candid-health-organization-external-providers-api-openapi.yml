@@ -374,164 +374,26 @@ paths:
                   $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProvider'
 components:
   schemas:
-    type_pre-encounter_common_AddressUse:
-      type: string
-      enum:
-      - HOME
-      - WORK
-      - TEMP
-      - OLD
-      - BILLING
-      title: AddressUse
-    type_pre-encounter_common_Period:
+    type_pre-encounter_common_HumanName:
       type: object
       properties:
-        start:
+        family:
           type: string
-          format: date
-        end:
-          type: string
-          format: date
-      title: Period
-    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderId:
-      type: string
-      format: uuid
-      description: The unique identifier for an OrganizationExternalProvider in the database
-      title: OrganizationExternalProviderId
-    type_pre-encounter_common_NameUse:
-      type: string
-      enum:
-      - USUAL
-      - OFFICIAL
-      - TEMP
-      - NICKNAME
-      - ANONYMOUS
-      - OLD
-      - MAIDEN
-      title: NameUse
-    type_pre-encounter_common_Address:
-      type: object
-      properties:
-        use:
-          $ref: '#/components/schemas/type_pre-encounter_common_AddressUse'
-        line:
+        given:
           type: array
           items:
             type: string
-        city:
-          type: string
-        state:
-          type: string
-        postal_code:
-          type: string
-        country:
-          type: string
-        county:
-          type: string
+        use:
+          $ref: '#/components/schemas/type_pre-encounter_common_NameUse'
         period:
           $ref: '#/components/schemas/type_pre-encounter_common_Period'
+        suffix:
+          type: string
       required:
+      - family
+      - given
       - use
-      - line
-      - city
-      - state
-      - postal_code
-      - country
-      title: Address
-    type_pre-encounter_common_ErrorBase4xx:
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          description: Any type
-      required:
-      - message
-      title: ErrorBase4xx
-    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderSortField:
-      type: string
-      description: 'The field to order by. Valid values are keys on the provider object (e.g., name.family, npi, updatedAt, createdAt) or a special ordering "similar_name:<search_string>" (Ex: similar_name:John). Similar name ordering uses trigrams to fuzzy match provider name to the search criteria.'
-      title: OrganizationExternalProviderSortField
-    type_pre-encounter_organizationExternalProviders_v1_MutableOrganizationExternalProvider:
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
-        types:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderType'
-        npi:
-          type: string
-        tax_id:
-          type: string
-        taxonomy_code:
-          type: string
-        phone_number:
-          type: string
-        other_phone_numbers:
-          type: array
-          items:
-            type: string
-        fax_number:
-          type: string
-        other_fax_numbers:
-          type: array
-          items:
-            type: string
-        emails:
-          type: array
-          items:
-            type: string
-        license_type:
-          $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_LicenseType'
-        addresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_common_Address'
-      required:
-      - name
-      - types
-      description: An object representing an organization-level external provider.
-      title: MutableOrganizationExternalProvider
-    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderPage:
-      type: object
-      properties:
-        next_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        prev_page_token:
-          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
-        total:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProvider'
-      required:
-      - total
-      - items
-      title: OrganizationExternalProviderPage
-    type_pre-encounter_common_UserId:
-      type: string
-      description: The unique identifier for a User in the database
-      title: UserId
-    type_pre-encounter_common_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderType:
-      type: string
-      enum:
-      - REFERRING
-      - PRIMARY
-      - TREATING
-      title: OrganizationExternalProviderType
-    type_pre-encounter_common_OrganizationId:
-      type: string
-      description: The unique identifier for an Organization in the database
-      title: OrganizationId
+      title: HumanName
     type_pre-encounter_organizationExternalProviders_v1_LicenseType:
       type: string
       enum:
@@ -642,10 +504,71 @@ components:
       - ATC
       - LAT
       title: LicenseType
-    type_pre-encounter_common_PageToken:
+    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderId:
       type: string
-      description: A token that can be used to retrieve the next or previous page of results
-      title: PageToken
+      format: uuid
+      description: The unique identifier for an OrganizationExternalProvider in the database
+      title: OrganizationExternalProviderId
+    type_pre-encounter_common_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_pre-encounter_common_NameUse:
+      type: string
+      enum:
+      - USUAL
+      - OFFICIAL
+      - TEMP
+      - NICKNAME
+      - ANONYMOUS
+      - OLD
+      - MAIDEN
+      title: NameUse
+    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderType:
+      type: string
+      enum:
+      - REFERRING
+      - PRIMARY
+      - TREATING
+      title: OrganizationExternalProviderType
+    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderPage:
+      type: object
+      properties:
+        next_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        prev_page_token:
+          $ref: '#/components/schemas/type_pre-encounter_common_PageToken'
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProvider'
+      required:
+      - total
+      - items
+      title: OrganizationExternalProviderPage
+    type_pre-encounter_common_ErrorBase4xx:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          description: Any type
+      required:
+      - message
+      title: ErrorBase4xx
+    type_pre-encounter_common_AddressUse:
+      type: string
+      enum:
+      - HOME
+      - WORK
+      - TEMP
+      - OLD
+      - BILLING
+      title: AddressUse
     type_pre-encounter_common_VersionConflictErrorBody:
       type: object
       properties:
@@ -658,26 +581,56 @@ components:
       required:
       - message
       title: VersionConflictErrorBody
-    type_pre-encounter_common_HumanName:
+    type_pre-encounter_common_PageToken:
+      type: string
+      description: A token that can be used to retrieve the next or previous page of results
+      title: PageToken
+    type_pre-encounter_common_OrganizationId:
+      type: string
+      description: The unique identifier for an Organization in the database
+      title: OrganizationId
+    type_pre-encounter_organizationExternalProviders_v1_MutableOrganizationExternalProvider:
       type: object
       properties:
-        family:
+        name:
+          $ref: '#/components/schemas/type_pre-encounter_common_HumanName'
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderType'
+        npi:
           type: string
-        given:
+        tax_id:
+          type: string
+        taxonomy_code:
+          type: string
+        phone_number:
+          type: string
+        other_phone_numbers:
           type: array
           items:
             type: string
-        use:
-          $ref: '#/components/schemas/type_pre-encounter_common_NameUse'
-        period:
-          $ref: '#/components/schemas/type_pre-encounter_common_Period'
-        suffix:
+        fax_number:
           type: string
+        other_fax_numbers:
+          type: array
+          items:
+            type: string
+        emails:
+          type: array
+          items:
+            type: string
+        license_type:
+          $ref: '#/components/schemas/type_pre-encounter_organizationExternalProviders_v1_LicenseType'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_pre-encounter_common_Address'
       required:
-      - family
-      - given
-      - use
-      title: HumanName
+      - name
+      - types
+      description: An object representing an organization-level external provider.
+      title: MutableOrganizationExternalProvider
     type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProvider:
       type: object
       properties:
@@ -743,6 +696,53 @@ components:
       - id
       description: An OrganizationExternalProvider object with immutable server-owned properties.
       title: OrganizationExternalProvider
+    type_pre-encounter_common_UserId:
+      type: string
+      description: The unique identifier for a User in the database
+      title: UserId
+    type_pre-encounter_organizationExternalProviders_v1_OrganizationExternalProviderSortField:
+      type: string
+      description: 'The field to order by. Valid values are keys on the provider object (e.g., name.family, npi, updatedAt, createdAt) or a special ordering "similar_name:<search_string>" (Ex: similar_name:John). Similar name ordering uses trigrams to fuzzy match provider name to the search criteria.'
+      title: OrganizationExternalProviderSortField
+    type_pre-encounter_common_Period:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+      title: Period
+    type_pre-encounter_common_Address:
+      type: object
+      properties:
+        use:
+          $ref: '#/components/schemas/type_pre-encounter_common_AddressUse'
+        line:
+          type: array
+          items:
+            type: string
+        city:
+          type: string
+        state:
+          type: string
+        postal_code:
+          type: string
+        country:
+          type: string
+        county:
+          type: string
+        period:
+          $ref: '#/components/schemas/type_pre-encounter_common_Period'
+      required:
+      - use
+      - line
+      - city
+      - state
+      - postal_code
+      - country
+      title: Address
   securitySchemes:
     OAuthScheme:
       type: http
