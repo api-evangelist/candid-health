@@ -46,7 +46,6 @@ tags:
 - Claims
 - Eligibility
 - Prior Authorization
-- Remittances
 - Patient Collections
 - Credentialing
 - Insurance
@@ -57,7 +56,6 @@ tags_raw:
 - Claims
 - Eligibility
 - Prior Authorization
-- Remittance
 - Patient Collections
 - Credentialing
 - Insurance
@@ -726,6 +724,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -763,6 +763,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Export
+  tags_raw:
   - Exports
   properties:
   - type: OpenAPI
@@ -951,6 +953,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
@@ -1100,6 +1104,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - List
+  tags_raw:
   - Lists
   properties:
   - type: OpenAPI
@@ -1137,6 +1143,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - MedicationDispense
+  tags_raw:
   - Medication Dispense
   properties:
   - type: OpenAPI
@@ -1850,6 +1858,8 @@ apis:
   humanURL: https://docs.joincandidhealth.com/api-reference/patient-collections
   baseURL: https://api.joincandidhealth.com
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
@@ -2032,3 +2042,5 @@ x-enrichment:
   status: enriched
   artifacts_added: 11
   pass: local-v1
+x-tags-removed:
+- Remittances
