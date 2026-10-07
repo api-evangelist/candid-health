@@ -1929,6 +1929,8 @@ apis:
   - type: Documentation
     url: https://docs.joincandidhealth.com/api-reference/events/v-1/get
 common:
+- type: Pricing
+  url: https://candidhealth.com/request-a-demo
 - type: CapabilityMap
   url: capabilities/candid-health-capability-edges.yml
   name: Candid Health Business Capability Map
