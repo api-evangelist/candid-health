@@ -70,3 +70,16 @@ notes:
   - All commercial terms require contacting the Candid sales team.
   - Demo available at candidhealth.com.
   - contact: support@joincandidhealth.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  units: []
+  plans:
+  - name: Enterprise / Custom
+    access: enterprise
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
