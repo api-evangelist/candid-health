@@ -78,46 +78,10 @@ components:
       required:
       - reason_code
       title: RemittanceAdviceRemarkCode
-    type_x12_v1_ClaimAdjustmentReasonCode:
-      type: object
-      properties:
-        group_code:
-          $ref: '#/components/schemas/type_commons_ClaimAdjustmentGroupCodes'
-        reason_code:
-          $ref: '#/components/schemas/type_x12_v1_Carc'
-        amount_cents:
-          type: integer
-      required:
-      - group_code
-      - reason_code
-      - amount_cents
-      title: ClaimAdjustmentReasonCode
-    type_insurance-adjudications_v1_ServiceLineAdjudicationId:
-      type: string
-      format: uuid
-      title: ServiceLineAdjudicationId
     type_commons_ClaimId:
       type: string
       format: uuid
       title: ClaimId
-    type_commons_ClaimAdjustmentGroupCodes:
-      type: string
-      enum:
-      - CO
-      - CR
-      - DE
-      - MA
-      - OA
-      - PI
-      - PR
-      - RR
-      - NC
-      - UNKNOWN
-      title: ClaimAdjustmentGroupCodes
-    type_insurance-adjudications_v1_InsuranceAdjudicationId:
-      type: string
-      format: uuid
-      title: InsuranceAdjudicationId
     type_x12_v1_Carc:
       type: string
       enum:
@@ -526,10 +490,82 @@ components:
       - Y3
       - UNKNOWN
       title: Carc
+    type_insurance-adjudications_v1_InsuranceAdjudicationId:
+      type: string
+      format: uuid
+      title: InsuranceAdjudicationId
+    type_insurance-adjudications_v1_ServiceLineAdjudicationId:
+      type: string
+      format: uuid
+      title: ServiceLineAdjudicationId
+    type_service-lines_v2_DenialReasonContent:
+      type: string
+      enum:
+      - Authorization Required
+      - Referral Required
+      - Medical Records Requested
+      - Timely Filing
+      - Duplicate Claim
+      - Full Contractual Adjustment
+      - Incorrect Place of Service
+      - Incorrect Patient Gender
+      - Incorrect Patient Info
+      - Bundled
+      - Exceeded Billable Time
+      - Invalid Provider Information
+      - Invalid Diagnosis Code
+      - Incorrect Procedure Code
+      - Invalid Modifier
+      - Missing NDC Code
+      - Invalid Insurance Data
+      - No Active Coverage
+      - Coordination of Benefits
+      - Incorrect Payer
+      - Credentialing
+      - No Effective Contract
+      - Missing W-9
+      - Missing Contract Linkage
+      - Non-Covered Benefit
+      - Experimental Procedure
+      - Not Medically Necessary
+      - Info Requested from Provider
+      - Info Requested from Patient
+      - Billing Error
+      - Unknown
+      - Max Benefit Reached
+      title: DenialReasonContent
     type_payers_v3_PayerUuid:
       type: string
       format: uuid
       title: PayerUuid
+    type_insurance-adjudications_v1_ClaimAdjudication:
+      type: object
+      properties:
+        claim_id:
+          $ref: '#/components/schemas/type_commons_ClaimId'
+        insurance_allowed_amount_cents:
+          type: integer
+        insurance_paid_amount_cents:
+          type: integer
+        charge_amount_cents:
+          type: integer
+        service_lines:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/type_insurance-adjudications_v1_ServiceLineAdjudication'
+        payer_claim_number:
+          type: string
+        carcs:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_x12_v1_ClaimAdjustmentReasonCode'
+      required:
+      - claim_id
+      - service_lines
+      - carcs
+      title: ClaimAdjudication
     type_x12_v1_Rarc:
       type: string
       enum:
@@ -1722,6 +1758,34 @@ components:
       - N911
       - UNKNOWN
       title: Rarc
+    type_commons_ClaimAdjustmentGroupCodes:
+      type: string
+      enum:
+      - CO
+      - CR
+      - DE
+      - MA
+      - OA
+      - PI
+      - PR
+      - RR
+      - NC
+      - UNKNOWN
+      title: ClaimAdjustmentGroupCodes
+    type_x12_v1_ClaimAdjustmentReasonCode:
+      type: object
+      properties:
+        group_code:
+          $ref: '#/components/schemas/type_commons_ClaimAdjustmentGroupCodes'
+        reason_code:
+          $ref: '#/components/schemas/type_x12_v1_Carc'
+        amount_cents:
+          type: integer
+      required:
+      - group_code
+      - reason_code
+      - amount_cents
+      title: ClaimAdjustmentReasonCode
     type_commons_UnauthorizedErrorMessage:
       type: object
       properties:
@@ -1759,70 +1823,6 @@ components:
       - carcs
       - rarcs
       title: ServiceLineAdjudication
-    type_insurance-adjudications_v1_ClaimAdjudication:
-      type: object
-      properties:
-        claim_id:
-          $ref: '#/components/schemas/type_commons_ClaimId'
-        insurance_allowed_amount_cents:
-          type: integer
-        insurance_paid_amount_cents:
-          type: integer
-        charge_amount_cents:
-          type: integer
-        service_lines:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/type_insurance-adjudications_v1_ServiceLineAdjudication'
-        payer_claim_number:
-          type: string
-        carcs:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_x12_v1_ClaimAdjustmentReasonCode'
-      required:
-      - claim_id
-      - service_lines
-      - carcs
-      title: ClaimAdjudication
-    type_service-lines_v2_DenialReasonContent:
-      type: string
-      enum:
-      - Authorization Required
-      - Referral Required
-      - Medical Records Requested
-      - Timely Filing
-      - Duplicate Claim
-      - Full Contractual Adjustment
-      - Incorrect Place of Service
-      - Incorrect Patient Gender
-      - Incorrect Patient Info
-      - Bundled
-      - Exceeded Billable Time
-      - Invalid Provider Information
-      - Invalid Diagnosis Code
-      - Incorrect Procedure Code
-      - Invalid Modifier
-      - Missing NDC Code
-      - Invalid Insurance Data
-      - No Active Coverage
-      - Coordination of Benefits
-      - Incorrect Payer
-      - Credentialing
-      - No Effective Contract
-      - Missing W-9
-      - Missing Contract Linkage
-      - Non-Covered Benefit
-      - Experimental Procedure
-      - Not Medically Necessary
-      - Info Requested from Provider
-      - Info Requested from Patient
-      - Billing Error
-      - Unknown
-      - Max Benefit Reached
-      title: DenialReasonContent
     type_insurance-adjudications_v1_InsuranceAdjudication:
       type: object
       properties:

@@ -399,70 +399,13 @@ paths:
                 - content
 components:
   schemas:
-    type_commons_SourceOfPaymentCode:
+    type_payer-plan-groups_v1_PayerPlanGroupSortField:
       type: string
       enum:
-      - 09
-      - '11'
-      - '12'
-      - '13'
-      - '14'
-      - '15'
-      - '16'
-      - '17'
-      - AM
-      - BL
-      - CH
-      - CI
-      - DS
-      - FI
-      - HM
-      - LM
-      - MA
-      - MB
-      - MC
-      - OF
-      - TV
-      - VA
-      - WC
-      - ZZ
-      title: SourceOfPaymentCode
-    type_payer-plan-groups_v1_MutablePayerPlanGroup:
-      type: object
-      properties:
-        plan_group_name:
-          type: string
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-        plan_type:
-          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
-      required:
       - plan_group_name
-      - payer_uuid
       - plan_type
-      title: MutablePayerPlanGroup
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_payer-plan-groups_v1_PayerPlanGroupPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
-      required:
-      - items
-      title: PayerPlanGroupPage
+      - created_at
+      title: PayerPlanGroupSortField
     type_commons_State:
       type: string
       enum:
@@ -529,35 +472,28 @@ components:
       - WI
       - WY
       title: State
-    type_payer-plan-groups_v1_PayerPlanGroup:
+    type_commons_PayerPlanGroupId:
+      type: string
+      format: uuid
+      title: PayerPlanGroupId
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_payer-plan-groups_v1_PayerPlanGroupPage:
       type: object
       properties:
-        plan_group_name:
-          type: string
-        payer_uuid:
-          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
-        plan_type:
-          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
-        payer_plan_group_id:
-          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
-        payer:
-          $ref: '#/components/schemas/type_payers_v3_Payer'
-        is_active:
-          type: boolean
-        organization_id:
-          $ref: '#/components/schemas/type_commons_OrganizationId'
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_payer-plan-groups_v1_PayerPlanGroup'
       required:
-      - plan_group_name
-      - payer_uuid
-      - plan_type
-      - payer_plan_group_id
-      - payer
-      - is_active
-      - organization_id
-      title: PayerPlanGroup
-    type_commons_PageToken:
-      type: string
-      title: PageToken
+      - items
+      title: PayerPlanGroupPage
     type_payers_v3_Payer:
       type: object
       properties:
@@ -589,39 +525,6 @@ components:
       - payer_id
       - payer_name
       title: Payer
-    type_commons_UnprocessableEntityErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnprocessableEntityErrorMessage
-    type_commons_OrganizationId:
-      type: string
-      format: uuid
-      title: OrganizationId
-    type_commons_SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
-    type_payers_v3_PayerUuid:
-      type: string
-      format: uuid
-      title: PayerUuid
-    type_commons_UnauthorizedErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnauthorizedErrorMessage
-    type_payer-plan-groups_v1_PayerPlanGroupSortField:
-      type: string
-      enum:
-      - plan_group_name
-      - plan_type
-      - created_at
-      title: PayerPlanGroupSortField
     type_commons_StreetAddressLongZip:
       type: object
       properties:
@@ -646,10 +549,34 @@ components:
       - zip_code
       - zip_plus_four_code
       title: StreetAddressLongZip
-    type_commons_PayerPlanGroupId:
+    type_commons_SourceOfPaymentCode:
       type: string
-      format: uuid
-      title: PayerPlanGroupId
+      enum:
+      - 09
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - AM
+      - BL
+      - CH
+      - CI
+      - DS
+      - FI
+      - HM
+      - LM
+      - MA
+      - MB
+      - MC
+      - OF
+      - TV
+      - VA
+      - WC
+      - ZZ
+      title: SourceOfPaymentCode
     type_payer-plan-groups_v1_PayerPlanGroupAlreadyExistsError:
       type: object
       properties:
@@ -661,9 +588,82 @@ components:
       - message
       - id
       title: PayerPlanGroupAlreadyExistsError
+    type_payer-plan-groups_v1_MutablePayerPlanGroup:
+      type: object
+      properties:
+        plan_group_name:
+          type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+      required:
+      - plan_group_name
+      - payer_uuid
+      - plan_type
+      title: MutablePayerPlanGroup
+    type_commons_SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    type_commons_PageToken:
+      type: string
+      title: PageToken
     type_payers_v3_PayerId:
       type: string
       title: PayerId
+    type_payer-plan-groups_v1_PayerPlanGroup:
+      type: object
+      properties:
+        plan_group_name:
+          type: string
+        payer_uuid:
+          $ref: '#/components/schemas/type_payers_v3_PayerUuid'
+        plan_type:
+          $ref: '#/components/schemas/type_commons_SourceOfPaymentCode'
+        payer_plan_group_id:
+          $ref: '#/components/schemas/type_commons_PayerPlanGroupId'
+        payer:
+          $ref: '#/components/schemas/type_payers_v3_Payer'
+        is_active:
+          type: boolean
+        organization_id:
+          $ref: '#/components/schemas/type_commons_OrganizationId'
+      required:
+      - plan_group_name
+      - payer_uuid
+      - plan_type
+      - payer_plan_group_id
+      - payer
+      - is_active
+      - organization_id
+      title: PayerPlanGroup
+    type_commons_UnauthorizedErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnauthorizedErrorMessage
+    type_payers_v3_PayerUuid:
+      type: string
+      format: uuid
+      title: PayerUuid
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

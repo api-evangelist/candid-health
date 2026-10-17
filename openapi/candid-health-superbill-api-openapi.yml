@@ -94,87 +94,6 @@ paths:
               - date_range_max
 components:
   schemas:
-    type_superbills_v1_SuperbillResponse:
-      type: object
-      properties:
-        superbills:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_superbills_v1_Superbill'
-          description: Each object represents a single Superbill for a single billing provider.
-      required:
-      - superbills
-      title: SuperbillResponse
-    type_commons_StreetAddressShortZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      title: StreetAddressShortZip
-    type_commons_PatientExternalId:
-      type: string
-      title: PatientExternalId
-    type_superbills_v1_Superbill:
-      type: object
-      properties:
-        superbill_id:
-          type: string
-          description: Primary id of the superbill.
-        patient_external_id:
-          $ref: '#/components/schemas/type_commons_PatientExternalId'
-          description: external_id of the patient.
-        authed_url:
-          type: string
-          description: Authenticated URL for downloading the generated superbill file.
-        date_range_min:
-          type: string
-          format: date
-          description: Minimum (inclusive) date selected for this superbill.
-        date_range_max:
-          type: string
-          format: date
-          description: Maximum (inclusive) date selected for this superbill.
-        file_name:
-          type: string
-          description: Original filename of the superbill.
-      required:
-      - superbill_id
-      - patient_external_id
-      - authed_url
-      - date_range_min
-      - date_range_max
-      - file_name
-      title: Superbill
-    type_commons_UnprocessableEntityErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: UnprocessableEntityErrorMessage
-    type_superbills_v1_SuperbillOutputFormat:
-      type: string
-      enum:
-      - DOCX
-      - PDF
-      description: Output format for the generated superbill.
-      title: SuperbillOutputFormat
     type_commons_State:
       type: string
       enum:
@@ -241,6 +160,87 @@ components:
       - WI
       - WY
       title: State
+    type_superbills_v1_SuperbillResponse:
+      type: object
+      properties:
+        superbills:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_superbills_v1_Superbill'
+          description: Each object represents a single Superbill for a single billing provider.
+      required:
+      - superbills
+      title: SuperbillResponse
+    type_superbills_v1_SuperbillOutputFormat:
+      type: string
+      enum:
+      - DOCX
+      - PDF
+      description: Output format for the generated superbill.
+      title: SuperbillOutputFormat
+    type_commons_PatientExternalId:
+      type: string
+      title: PatientExternalId
+    type_commons_StreetAddressShortZip:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
+      required:
+      - address1
+      - city
+      - state
+      - zip_code
+      title: StreetAddressShortZip
+    type_superbills_v1_Superbill:
+      type: object
+      properties:
+        superbill_id:
+          type: string
+          description: Primary id of the superbill.
+        patient_external_id:
+          $ref: '#/components/schemas/type_commons_PatientExternalId'
+          description: external_id of the patient.
+        authed_url:
+          type: string
+          description: Authenticated URL for downloading the generated superbill file.
+        date_range_min:
+          type: string
+          format: date
+          description: Minimum (inclusive) date selected for this superbill.
+        date_range_max:
+          type: string
+          format: date
+          description: Maximum (inclusive) date selected for this superbill.
+        file_name:
+          type: string
+          description: Original filename of the superbill.
+      required:
+      - superbill_id
+      - patient_external_id
+      - authed_url
+      - date_range_min
+      - date_range_max
+      - file_name
+      title: Superbill
+    type_commons_UnprocessableEntityErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: UnprocessableEntityErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http

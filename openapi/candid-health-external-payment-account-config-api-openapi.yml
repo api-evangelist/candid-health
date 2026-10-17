@@ -59,20 +59,9 @@ paths:
                 $ref: '#/components/schemas/type_external-payment-account-config_v1_ExternalPaymentAccountConfigPage'
 components:
   schemas:
-    type_external-payment-account-config_v1_ExternalPaymentAccountConfigPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_external-payment-account-config_v1_ExternalPaymentAccountConfig'
-      required:
-      - items
-      title: ExternalPaymentAccountConfigPage
+    type_commons_PageToken:
+      type: string
+      title: PageToken
     type_payment-account-configs_PaymentAccountConfigId:
       type: string
       format: uuid
@@ -88,9 +77,20 @@ components:
       - id
       - account_name
       title: ExternalPaymentAccountConfig
-    type_commons_PageToken:
-      type: string
-      title: PageToken
+    type_external-payment-account-config_v1_ExternalPaymentAccountConfigPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_external-payment-account-config_v1_ExternalPaymentAccountConfig'
+      required:
+      - items
+      title: ExternalPaymentAccountConfigPage
   securitySchemes:
     OAuthScheme:
       type: http

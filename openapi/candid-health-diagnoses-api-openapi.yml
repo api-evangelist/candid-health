@@ -189,6 +189,10 @@ paths:
                 - content
 components:
   schemas:
+    type_commons_ServiceLineId:
+      type: string
+      format: uuid
+      title: ServiceLineId
     type_diagnoses_Diagnosis:
       type: object
       properties:
@@ -228,18 +232,6 @@ components:
       - created_at
       - updated_at
       title: Diagnosis
-    type_yes-no-indicator_YesNoIndicator:
-      type: string
-      enum:
-      - 'YES'
-      - 'NO'
-      - UNKNOWN
-      - NOT_APPLICABLE
-      title: YesNoIndicator
-    type_commons_ServiceLineId:
-      type: string
-      format: uuid
-      title: ServiceLineId
     type_diagnoses_DiagnosisTypeCode:
       type: string
       enum:
@@ -282,24 +274,6 @@ components:
       - code
       - encounter_id
       title: StandaloneDiagnosisCreate
-    type_commons_EncounterId:
-      type: string
-      format: uuid
-      title: EncounterId
-    type_diagnoses_DisallowMultiplePrimaryDiagnosisError:
-      type: object
-      properties:
-        existing_primary_diagnosis_id:
-          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
-        new_primary_diagnosis_id:
-          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
-        message:
-          type: string
-      required:
-      - existing_primary_diagnosis_id
-      - new_primary_diagnosis_id
-      - message
-      title: DisallowMultiplePrimaryDiagnosisError
     type_diagnoses_DiagnosisId:
       type: string
       format: uuid
@@ -314,6 +288,18 @@ components:
       required:
       - message
       title: DiagnosisNotFoundError
+    type_commons_EncounterId:
+      type: string
+      format: uuid
+      title: EncounterId
+    type_yes-no-indicator_YesNoIndicator:
+      type: string
+      enum:
+      - 'YES'
+      - 'NO'
+      - UNKNOWN
+      - NOT_APPLICABLE
+      title: YesNoIndicator
     type_diagnoses_ServiceLinesMustHaveAtLeastOneDiagnosisError:
       type: object
       properties:
@@ -328,6 +314,20 @@ components:
       - service_line_id
       - message
       title: ServiceLinesMustHaveAtLeastOneDiagnosisError
+    type_diagnoses_DisallowMultiplePrimaryDiagnosisError:
+      type: object
+      properties:
+        existing_primary_diagnosis_id:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        new_primary_diagnosis_id:
+          $ref: '#/components/schemas/type_diagnoses_DiagnosisId'
+        message:
+          type: string
+      required:
+      - existing_primary_diagnosis_id
+      - new_primary_diagnosis_id
+      - message
+      title: DisallowMultiplePrimaryDiagnosisError
   securitySchemes:
     OAuthScheme:
       type: http

@@ -210,27 +210,6 @@ paths:
                 - content
 components:
   schemas:
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
-    type_events_v1_EventId:
-      type: string
-      format: uuid
-      title: EventId
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_commons_BadRequestErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-      title: BadRequestErrorMessage
     type_commons_InternalErrorMessage:
       type: object
       properties:
@@ -274,6 +253,27 @@ components:
       - schema_version
       - payload
       title: Event
+    type_commons_BadRequestErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+      title: BadRequestErrorMessage
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
+    type_events_v1_EventId:
+      type: string
+      format: uuid
+      title: EventId
+    type_commons_PageToken:
+      type: string
+      title: PageToken
   securitySchemes:
     OAuthScheme:
       type: http

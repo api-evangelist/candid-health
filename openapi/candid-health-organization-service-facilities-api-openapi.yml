@@ -346,14 +346,6 @@ paths:
                 - content
 components:
   schemas:
-    type_commons_EntityNotFoundErrorMessage:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-      title: EntityNotFoundErrorMessage
     type_commons_State:
       type: string
       enum:
@@ -420,90 +412,14 @@ components:
       - WI
       - WY
       title: State
-    type_commons_FacilityTypeCode:
-      type: string
-      enum:
-      - '01'
-      - '02'
-      - '03'
-      - '04'
-      - '05'
-      - '06'
-      - '07'
-      - 08
-      - 09
-      - '10'
-      - '11'
-      - '12'
-      - '13'
-      - '14'
-      - '15'
-      - '16'
-      - '17'
-      - '18'
-      - '19'
-      - '20'
-      - '21'
-      - '22'
-      - '23'
-      - '24'
-      - '25'
-      - '26'
-      - '31'
-      - '32'
-      - '33'
-      - '34'
-      - '41'
-      - '42'
-      - '49'
-      - '50'
-      - '51'
-      - '52'
-      - '53'
-      - '54'
-      - '55'
-      - '56'
-      - '57'
-      - '58'
-      - '60'
-      - '61'
-      - '62'
-      - '65'
-      - '71'
-      - '72'
-      - '81'
-      - '99'
-      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
-
-        02 for telemedicine, 11 for in-person. Full list here:
-
-        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
-      title: FacilityTypeCode
-    type_commons_PageToken:
-      type: string
-      title: PageToken
-    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
-      type: string
-      format: uuid
-      title: OrganizationServiceFacilityId
-    type_organization-service-facilities_v2_ServiceFacilityPhysicalType:
-      type: string
-      enum:
-      - si
-      - bu
-      - wi
-      - wa
-      - lvl
-      - co
-      - ro
-      - bd
-      - ve
-      - ho
-      - ca
-      - rd
-      - area
-      - jdn
-      title: ServiceFacilityPhysicalType
+    type_commons_EntityConflictErrorMessage:
+      type: object
+      properties:
+        entity_name:
+          type: string
+      required:
+      - entity_name
+      title: EntityConflictErrorMessage
     type_organization-service-facilities_v2_OrganizationServiceFacilityCreate:
       type: object
       properties:
@@ -564,6 +480,36 @@ components:
       - telecoms
       - address
       title: OrganizationServiceFacilityCreate
+    type_organization-service-facilities_v2_ServiceFacilityOperationalStatus:
+      type: string
+      enum:
+      - C
+      - H
+      - I
+      - K
+      - O
+      - U
+      title: ServiceFacilityOperationalStatus
+    type_commons_RequestValidationError:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        humanReadableMessage:
+          type: string
+      required:
+      - fieldName
+      title: RequestValidationError
+    type_commons_OrganizationId:
+      type: string
+      format: uuid
+      title: OrganizationId
+    type_organization-service-facilities_v2_ServiceFacilityMode:
+      type: string
+      enum:
+      - instance
+      - kind
+      title: ServiceFacilityMode
     type_organization-service-facilities_v2_OrganizationServiceFacility:
       type: object
       properties:
@@ -627,20 +573,48 @@ components:
       - telecoms
       - address
       title: OrganizationServiceFacility
-    type_organization-service-facilities_v2_ServiceFacilityMode:
+    type_organization-service-facilities_v2_ServiceFacilityPhysicalType:
       type: string
       enum:
-      - instance
-      - kind
-      title: ServiceFacilityMode
-    type_commons_EntityConflictErrorMessage:
+      - si
+      - bu
+      - wi
+      - wa
+      - lvl
+      - co
+      - ro
+      - bd
+      - ve
+      - ho
+      - ca
+      - rd
+      - area
+      - jdn
+      title: ServiceFacilityPhysicalType
+    type_commons_StreetAddressLongZip:
       type: object
       properties:
-        entity_name:
+        address1:
           type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          $ref: '#/components/schemas/type_commons_State'
+        zip_code:
+          type: string
+          description: 5-digit zip code
+        zip_plus_four_code:
+          type: string
+          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
       required:
-      - entity_name
-      title: EntityConflictErrorMessage
+      - address1
+      - city
+      - state
+      - zip_code
+      - zip_plus_four_code
+      title: StreetAddressLongZip
     type_organization-service-facilities_v2_OrganizationServiceFacilityUpdate:
       type: object
       properties:
@@ -696,40 +670,6 @@ components:
           $ref: '#/components/schemas/type_commons_StreetAddressLongZip'
           description: The address of the service facility.
       title: OrganizationServiceFacilityUpdate
-    type_commons_StreetAddressLongZip:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state:
-          $ref: '#/components/schemas/type_commons_State'
-        zip_code:
-          type: string
-          description: 5-digit zip code
-        zip_plus_four_code:
-          type: string
-          description: 4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4
-      required:
-      - address1
-      - city
-      - state
-      - zip_code
-      - zip_plus_four_code
-      title: StreetAddressLongZip
-    type_organization-service-facilities_v2_ServiceFacilityOperationalStatus:
-      type: string
-      enum:
-      - C
-      - H
-      - I
-      - K
-      - O
-      - U
-      title: ServiceFacilityOperationalStatus
     type_organization-service-facilities_v2_ServiceFacilityStatus:
       type: string
       enum:
@@ -737,6 +677,27 @@ components:
       - inactive
       - suspended
       title: ServiceFacilityStatus
+    type_organization-service-facilities_v2_OrganizationServiceFacilityId:
+      type: string
+      format: uuid
+      title: OrganizationServiceFacilityId
+    type_organization-service-facilities_v2_OrganizationServiceFacilityPage:
+      type: object
+      properties:
+        prev_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        next_page_token:
+          $ref: '#/components/schemas/type_commons_PageToken'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
+      required:
+      - items
+      title: OrganizationServiceFacilityPage
+    type_commons_PageToken:
+      type: string
+      title: PageToken
     type_organization-service-facilities_v2_ServiceFacilityType:
       type: string
       enum:
@@ -864,34 +825,73 @@ components:
       - UPC
       - WORK
       title: ServiceFacilityType
-    type_commons_RequestValidationError:
-      type: object
-      properties:
-        fieldName:
-          type: string
-        humanReadableMessage:
-          type: string
-      required:
-      - fieldName
-      title: RequestValidationError
-    type_organization-service-facilities_v2_OrganizationServiceFacilityPage:
-      type: object
-      properties:
-        prev_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        next_page_token:
-          $ref: '#/components/schemas/type_commons_PageToken'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_organization-service-facilities_v2_OrganizationServiceFacility'
-      required:
-      - items
-      title: OrganizationServiceFacilityPage
-    type_commons_OrganizationId:
+    type_commons_FacilityTypeCode:
       type: string
-      format: uuid
-      title: OrganizationId
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+      - '06'
+      - '07'
+      - 08
+      - 09
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '41'
+      - '42'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '60'
+      - '61'
+      - '62'
+      - '65'
+      - '71'
+      - '72'
+      - '81'
+      - '99'
+      description: 'Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported.
+
+        02 for telemedicine, 11 for in-person. Full list here:
+
+        https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set'
+      title: FacilityTypeCode
+    type_commons_EntityNotFoundErrorMessage:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      title: EntityNotFoundErrorMessage
   securitySchemes:
     OAuthScheme:
       type: http
